@@ -20,20 +20,12 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Plus, LayoutGrid, List, Search, Filter } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 import { TeacherKanbanBoard } from "@/components/teachers/TeacherKanbanBoard";
-import { Badge } from "@/components/ui/badge";
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { ImportTeachersDialog } from "@/components/teachers/ImportTeachersDialog";
 import { DataTable } from "@/components/teachers/list/DataTable";
 import { columns } from "@/components/teachers/list/columns";
+import { ViewModeToggle } from "@/components/teachers/list/ViewModeToggle";
 
 export default function Teachers() {
     const [teachers, setTeachers] = useState<Teacher[]>([]);
@@ -52,11 +44,8 @@ export default function Teachers() {
         email: "",
     });
 
-    // Kanban-specific Filter States
+    // Kanban search
     const [searchQuery, setSearchQuery] = useState("");
-    const [selectedHiringStatus, setSelectedHiringStatus] = useState<string[]>([]);
-    const [selectedNationalities, setSelectedNationalities] = useState<string[]>([]);
-    const [selectedStages, setSelectedStages] = useState<string[]>([]);
 
     const loadTeachers = async () => {
         try {
@@ -79,7 +68,6 @@ export default function Teachers() {
     useEffect(() => {
         loadTeachers();
         loadStages();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -105,47 +93,18 @@ export default function Teachers() {
         }
     };
 
-    // Derived Data for Kanban Filters: Unique Nationalities
-    const uniqueNationalities = useMemo(() => {
-        const nationalities = new Set<string>();
-        teachers.forEach(t => {
-            if (t.personalInfo?.nationality?.english) {
-                nationalities.add(t.personalInfo.nationality.english);
-            }
-        });
-        return Array.from(nationalities).sort();
-    }, [teachers]);
-
-    // Derived Data for Kanban Board
+    // Filtered teachers for Kanban view (search only)
     const kanbanFilteredTeachers = useMemo(() => {
+        if (!searchQuery) return teachers;
+
         return teachers.filter(teacher => {
-            // Search
             const fullName = `${teacher.firstName} ${teacher.middleName || ''} ${teacher.lastName}`.toLowerCase();
             const school = teacher.personalInfo?.serviceSchool?.toLowerCase() || '';
             const query = searchQuery.toLowerCase();
-            const matchesSearch = fullName.includes(query) || school.includes(query);
-
-            // Hiring Status Filter
-            const matchesHiringStatus = selectedHiringStatus.length === 0 ||
-                (teacher.personalInfo?.hiringStatus && selectedHiringStatus.includes(teacher.personalInfo.hiringStatus));
-
-            // Nationality Filter
-            const matchesNationality = selectedNationalities.length === 0 ||
-                (teacher.personalInfo?.nationality?.english && selectedNationalities.includes(teacher.personalInfo.nationality.english));
-
-            // Stage Filter
-            const matchesStage = selectedStages.length === 0 ||
-                (teacher.pipelineStage && selectedStages.includes(teacher.pipelineStage)) ||
-                (!teacher.pipelineStage && selectedStages.includes('Uncategorized'));
-
-            return matchesSearch && matchesHiringStatus && matchesNationality && matchesStage;
+            return fullName.includes(query) || school.includes(query);
         });
-    }, [teachers, searchQuery, selectedHiringStatus, selectedNationalities, selectedStages]);
+    }, [teachers, searchQuery]);
 
-    const getStageName = (stageId: string) => {
-        const stage = stages.find(s => s._id === stageId);
-        return stage ? stage.title : stageId;
-    }
 
     return (
         <div className="space-y-8">
@@ -213,167 +172,6 @@ export default function Teachers() {
                 </div>
             </div>
 
-            {/* View Mode Toggle & Kanban Filters */}
-            <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
-
-                {/* View Mode Toggle */}
-                <div className="flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200 order-2 md:order-2">
-                    <Button
-                        variant={viewMode === 'list' ? 'secondary' : 'ghost'}
-                        size="sm"
-                        onClick={() => setViewMode('list')}
-                        className={viewMode === 'list' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'}
-                    >
-                        <List className="h-4 w-4 mr-2" /> List
-                    </Button>
-                    <Button
-                        variant={viewMode === 'kanban' ? 'secondary' : 'ghost'}
-                        size="sm"
-                        onClick={() => setViewMode('kanban')}
-                        className={viewMode === 'kanban' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'}
-                    >
-                        <LayoutGrid className="h-4 w-4 mr-2" /> Kanban
-                    </Button>
-                </div>
-
-                {/* Filters (Kanban Only) */}
-                {viewMode === 'kanban' && (
-                    <div className="flex flex-1 items-center gap-2 w-full md:w-auto order-1 md:order-1">
-                        <div className="relative flex-1 md:w-64">
-                            <Search className="absolute left-2 top-2.5 h-4 w-4 text-slate-500" />
-                            <Input
-                                placeholder="Search by name or school..."
-                                className="pl-8"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                            />
-                        </div>
-
-                        {/* Rest of the filters logic for Kanban... reused from before but only shown in Kanban */}
-                        {/* Hiring Status Filter */}
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="outline" size="sm" className="h-10 border-dashed">
-                                    <Filter className="mr-2 h-4 w-4" />
-                                    Status
-                                    {selectedHiringStatus.length > 0 && (
-                                        <>
-                                            <div className="mx-2 h-4 w-[1px] bg-slate-200" />
-                                            <Badge variant="secondary" className="rounded-sm px-1 font-normal lg:hidden">
-                                                {selectedHiringStatus.length}
-                                            </Badge>
-                                            <div className="hidden space-x-1 lg:flex">
-                                                <Badge
-                                                    variant="secondary"
-                                                    className="rounded-sm px-1 font-normal"
-                                                >
-                                                    {selectedHiringStatus.length} selected
-                                                </Badge>
-                                            </div>
-                                        </>
-                                    )}
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="start" className="w-[200px]">
-                                <DropdownMenuLabel>Filter by Status</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                {['Newly Hired', 'Re-Hired'].map((status) => (
-                                    <DropdownMenuCheckboxItem
-                                        key={status}
-                                        checked={selectedHiringStatus.includes(status)}
-                                        onSelect={(e) => e.preventDefault()}
-                                        onCheckedChange={(checked) => {
-                                            if (checked) setSelectedHiringStatus([...selectedHiringStatus, status]);
-                                            else setSelectedHiringStatus(selectedHiringStatus.filter(s => s !== status));
-                                        }}
-                                    >
-                                        {status}
-                                    </DropdownMenuCheckboxItem>
-                                ))}
-                                {selectedHiringStatus.length > 0 && (
-                                    <DropdownMenuCheckboxItem
-                                        checked={false}
-                                        onCheckedChange={() => setSelectedHiringStatus([])}
-                                        className="justify-center text-center font-medium"
-                                    >
-                                        Clear filters
-                                    </DropdownMenuCheckboxItem>
-                                )}
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-
-                        {/* Nationality Filter (Simplified for brevity, same logic as before) */}
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="outline" size="sm" className="h-10 border-dashed">
-                                    <Filter className="mr-2 h-4 w-4" />
-                                    Nationality
-                                    {selectedNationalities.length > 0 && (
-                                        <div className="ml-2 hidden lg:flex">
-                                            <Badge variant="secondary" className="rounded-sm px-1 font-normal">
-                                                {selectedNationalities.length}
-                                            </Badge>
-                                        </div>
-                                    )}
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="start" className="w-[200px] max-h-[300px] overflow-y-auto">
-                                <DropdownMenuLabel>Filter by Nationality</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                {uniqueNationalities.map((nat) => (
-                                    <DropdownMenuCheckboxItem
-                                        key={nat}
-                                        checked={selectedNationalities.includes(nat)}
-                                        onSelect={(e) => e.preventDefault()}
-                                        onCheckedChange={(checked) => {
-                                            if (checked) setSelectedNationalities([...selectedNationalities, nat]);
-                                            else setSelectedNationalities(selectedNationalities.filter(s => s !== nat));
-                                        }}
-                                    >
-                                        {nat}
-                                    </DropdownMenuCheckboxItem>
-                                ))}
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-
-                        {/* Stage Filter */}
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="outline" size="sm" className="h-10 border-dashed">
-                                    <Filter className="mr-2 h-4 w-4" />
-                                    Stage
-                                    {selectedStages.length > 0 && (
-                                        <div className="ml-2 hidden lg:flex">
-                                            <Badge variant="secondary" className="rounded-sm px-1 font-normal">
-                                                {selectedStages.length}
-                                            </Badge>
-                                        </div>
-                                    )}
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="start" className="w-[200px]">
-                                {stages.map((stage) => (
-                                    <DropdownMenuCheckboxItem
-                                        key={stage._id}
-                                        checked={selectedStages.includes(stage._id)}
-                                        onSelect={(e) => e.preventDefault()}
-                                        onCheckedChange={(checked) => {
-                                            if (checked) setSelectedStages([...selectedStages, stage._id]);
-                                            else setSelectedStages(selectedStages.filter(s => s !== stage._id));
-                                        }}
-                                    >
-                                        {stage.title}
-                                    </DropdownMenuCheckboxItem>
-                                ))}
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </div>
-                )}
-
-                {/* Placeholder for list view left align if needed */}
-                {viewMode === 'list' && <div className="flex-1 md:order-1"></div>}
-            </div>
-
             {viewMode === 'list' ? (
                 <DataTable
                     columns={columns}
@@ -387,11 +185,24 @@ export default function Teachers() {
                     }}
                 />
             ) : (
-                <TeacherKanbanBoard
-                    teachers={kanbanFilteredTeachers}
-                    onRefresh={loadTeachers}
-                    selectedStages={selectedStages}
-                />
+                <>
+                    <div className="flex items-center gap-2 mb-4">
+                        <div className="relative flex-1 max-w-sm">
+                            <Search className="absolute left-2 top-2.5 h-4 w-4 text-slate-500" />
+                            <Input
+                                placeholder="Search by name or school..."
+                                className="pl-8"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                        </div>
+                        <ViewModeToggle value={viewMode} onChange={setViewMode} />
+                    </div>
+                    <TeacherKanbanBoard
+                        teachers={kanbanFilteredTeachers}
+                        onRefresh={loadTeachers}
+                    />
+                </>
             )}
 
             <AlertDialog open={showDeleteAlert} onOpenChange={setShowDeleteAlert}>
