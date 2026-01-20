@@ -100,7 +100,7 @@ export function DataTable<TData, TValue>({
             />
             <div className="rounded-md border bg-white overflow-hidden">
                 <div className="overflow-x-auto overflow-y-auto" style={{ maxHeight: 'calc(100vh - 280px)' }}>
-                    <Table className="relative">
+                    <Table className="relative" style={{ tableLayout: 'fixed' }}>
                         <TableHeader className="bg-slate-50 sticky top-0 z-30">
                             {table.getHeaderGroups().map((headerGroup) => (
                                 <TableRow key={headerGroup.id}>
@@ -114,6 +114,7 @@ export function DataTable<TData, TValue>({
                                                 style={{
                                                     width: header.getSize(),
                                                     minWidth: header.getSize(),
+                                                    maxWidth: isPinned ? header.getSize() : undefined,
                                                     position: isPinned ? 'sticky' : undefined,
                                                     left: leftOffset,
                                                     zIndex: isPinned ? 40 : 30,
@@ -150,6 +151,7 @@ export function DataTable<TData, TValue>({
                                                     style={{
                                                         width: cell.column.getSize(),
                                                         minWidth: cell.column.getSize(),
+                                                        maxWidth: isPinned ? cell.column.getSize() : undefined,
                                                         position: isPinned ? 'sticky' : undefined,
                                                         left: leftOffset,
                                                         zIndex: isPinned ? 20 : 10,

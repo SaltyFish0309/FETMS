@@ -128,6 +128,7 @@ export const columns: ColumnDef<Teacher>[] = [
         cell: ({ row }) => <div className="font-medium whitespace-nowrap">{row.getValue("englishName")}</div>,
         size: 180,
         filterFn: textFilter,
+        enableHiding: false,
     },
     {
         id: "hiringStatus",
@@ -347,6 +348,7 @@ export const columns: ColumnDef<Teacher>[] = [
         header: ({ column }) => <DataTableColumnHeader column={column} title="Service School" />,
         size: 200,
         filterFn: 'arrIncludesSome',
+        enableHiding: false,
     },
     {
         id: "contractStart",

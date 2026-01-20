@@ -30,32 +30,41 @@ export function DataTableViewOptions<TData>({
         return colId;
     };
 
-    // Check if all columns in a group are visible
-    const isGroupFullyVisible = (groupId: string): boolean => {
+    // Get hideable column IDs for a group (excludes frozen columns)
+    const getHideableColumnIds = (groupId: string): string[] => {
         const group = GROUP_LABELS.find(g => g.id === groupId);
-        if (!group) return false;
-        return group.columnIds.every(colId => {
+        if (!group) return [];
+        return group.columnIds.filter(colId => {
             const col = getCol(colId);
-            return col ? col.getIsVisible() : true; // If column doesn't exist, treat as visible
+            return col?.getCanHide();
         });
     };
 
-    // Check if some columns in a group are visible (partial)
+    // Check if all hideable columns in a group are visible
+    const isGroupFullyVisible = (groupId: string): boolean => {
+        const hideableIds = getHideableColumnIds(groupId);
+        if (hideableIds.length === 0) return true;
+        return hideableIds.every(colId => {
+            const col = getCol(colId);
+            return col?.getIsVisible();
+        });
+    };
+
+    // Check if some hideable columns in a group are visible (partial)
     const isGroupPartiallyVisible = (groupId: string): boolean => {
-        const group = GROUP_LABELS.find(g => g.id === groupId);
-        if (!group) return false;
-        const visibleCount = group.columnIds.filter(colId => {
+        const hideableIds = getHideableColumnIds(groupId);
+        if (hideableIds.length === 0) return false;
+        const visibleCount = hideableIds.filter(colId => {
             const col = getCol(colId);
             return col?.getIsVisible();
         }).length;
-        return visibleCount > 0 && visibleCount < group.columnIds.length;
+        return visibleCount > 0 && visibleCount < hideableIds.length;
     };
 
-    // Toggle all columns in a group
+    // Toggle all hideable columns in a group
     const toggleGroup = (groupId: string, visible: boolean) => {
-        const group = GROUP_LABELS.find(g => g.id === groupId);
-        if (!group) return;
-        group.columnIds.forEach(colId => {
+        const hideableIds = getHideableColumnIds(groupId);
+        hideableIds.forEach(colId => {
             const col = getCol(colId);
             if (col) col.toggleVisibility(visible);
         });
@@ -81,10 +90,10 @@ export function DataTableViewOptions<TData>({
                 <Button
                     variant="outline"
                     size="sm"
-                    className="h-9 w-9 p-0"
+                    className="h-9"
                 >
-                    <Settings2 className="h-4 w-4" />
-                    <span className="sr-only">Toggle columns</span>
+                    <Settings2 className="mr-2 h-4 w-4" />
+                    Columns
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-[220px] max-h-[80vh] overflow-y-auto">
@@ -126,10 +135,11 @@ export function DataTableViewOptions<TData>({
                                 <span className="text-sm font-medium">{group.label}</span>
                             </div>
 
-                            {/* Individual columns */}
+                            {/* Individual columns (only hideable ones) */}
                             {group.columnIds.map(colId => {
                                 const column = getCol(colId);
-                                if (!column) return null;
+                                // Skip columns that don't exist or can't be hidden (frozen)
+                                if (!column || !column.getCanHide()) return null;
                                 return (
                                     <DropdownMenuCheckboxItem
                                         key={colId}
