@@ -24,9 +24,51 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import { toast } from "sonner"
 import { DataTableToolbar } from "./DataTableToolbar"
 import { PINNED_COLUMN_IDS } from "./columns"
 import type { ViewMode } from "./ViewModeToggle"
+
+// Columns that should NOT be copyable (interactive elements)
+const NON_COPYABLE_COLUMNS = ['select', 'actions', 'avatar'];
+
+// Default visible columns (user's most-used columns)
+// Frozen columns (select, actions, avatar, englishName, serviceSchool) are always visible
+const DEFAULT_VISIBLE_COLUMNS = [
+    'email',
+    'passportExpiry',
+    'teachingLicenseExpiry',
+    'workPermitExpiry',
+    'contractStart',
+    'contractEnd',
+    'payStart',
+    'payEnd',
+    'salaryIncreaseDate',
+    'arcExpiry',
+    'pipelineStage',
+];
+
+// All column IDs that should be hidden by default
+const ALL_HIDEABLE_COLUMNS = [
+    'hiringStatus', 'chineseName', 'phone', 'dob', 'gender',
+    'nationalityEn', 'nationalityCn', 'addressTaiwan', 'addressHome',
+    'emergencyName', 'emergencyRelationship', 'emergencyPhone', 'emergencyEmail',
+    'degree', 'major', 'school',
+    'passportNumber', 'passportIssueDate', 'passportCountry', 'passportAuthority',
+    'arcPurpose',
+    'workPermitNumber', 'workPermitIssueDate', 'workPermitStartDate',
+    'criminalRecordIssue',
+    'salary', 'senioritySalary', 'seniorityLeave', 'hasSalaryIncrease', 'estimatedPromotedSalary',
+];
+
+// Compute initial visibility state
+const getInitialColumnVisibility = (): VisibilityState => {
+    const visibility: VisibilityState = {};
+    ALL_HIDEABLE_COLUMNS.forEach(colId => {
+        visibility[colId] = DEFAULT_VISIBLE_COLUMNS.includes(colId);
+    });
+    return visibility;
+};
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -46,7 +88,7 @@ export function DataTable<TData, TValue>({
     onDeleteSelected,
 }: DataTableProps<TData, TValue>) {
     const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({})
-    const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
+    const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>(getInitialColumnVisibility)
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnPinning, setColumnPinning] = React.useState<ColumnPinningState>({
@@ -144,10 +186,21 @@ export function DataTable<TData, TValue>({
                                         {row.getVisibleCells().map((cell) => {
                                             const isPinned = cell.column.getIsPinned();
                                             const leftOffset = isPinned === 'left' ? getPinnedLeftOffset(cell.column.id) : undefined;
+                                            const isCopyable = !NON_COPYABLE_COLUMNS.includes(cell.column.id);
+
+                                            const handleCopy = () => {
+                                                if (!isCopyable) return;
+                                                const value = cell.getValue();
+                                                if (value == null || value === '') return;
+                                                const textValue = String(value);
+                                                navigator.clipboard.writeText(textValue);
+                                                toast.success(`Copied: ${textValue.length > 50 ? textValue.slice(0, 50) + '...' : textValue}`);
+                                            };
 
                                             return (
                                                 <TableCell
                                                     key={cell.id}
+                                                    onClick={handleCopy}
                                                     style={{
                                                         width: cell.column.getSize(),
                                                         minWidth: cell.column.getSize(),
@@ -156,7 +209,7 @@ export function DataTable<TData, TValue>({
                                                         left: leftOffset,
                                                         zIndex: isPinned ? 20 : 10,
                                                     }}
-                                                    className={isPinned ? 'bg-white' : ''}
+                                                    className={`${isPinned ? 'bg-white' : ''} ${isCopyable ? 'cursor-pointer hover:bg-slate-100' : ''}`}
                                                 >
                                                     {flexRender(
                                                         cell.column.columnDef.cell,

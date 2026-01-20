@@ -143,24 +143,28 @@ export const columns: ColumnDef<Teacher>[] = [
                 </Badge>
             );
         },
+        size: 110,
         filterFn: 'arrIncludesSome',
     },
     {
         id: "chineseName",
         accessorFn: (row) => row.personalInfo?.chineseName,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Chinese Name" />,
+        size: 120,
         filterFn: textFilter,
     },
     {
         id: "email",
         accessorKey: "email",
         header: ({ column }) => <DataTableColumnHeader column={column} title="Email" />,
+        size: 220,
         filterFn: textFilter,
     },
     {
         id: "phone",
         accessorFn: (row) => row.personalInfo?.phone,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Phone" />,
+        size: 120,
         filterFn: textFilter,
     },
     {
@@ -168,24 +172,28 @@ export const columns: ColumnDef<Teacher>[] = [
         accessorFn: (row) => row.personalInfo?.dob,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Date of Birth" />,
         cell: ({ row }) => formatDate(row.getValue("dob")),
+        size: 110,
         filterFn: dateRangeFilter,
     },
     {
         id: "gender",
         accessorFn: (row) => row.personalInfo?.gender,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Gender" />,
+        size: 80,
         filterFn: 'arrIncludesSome',
     },
     {
         id: "nationalityEn",
         accessorFn: (row) => row.personalInfo?.nationality?.english,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Nationality (EN)" />,
+        size: 130,
         filterFn: 'arrIncludesSome',
     },
     {
         id: "nationalityCn",
         accessorFn: (row) => row.personalInfo?.nationality?.chinese,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Nationality (CN)" />,
+        size: 130,
         filterFn: textFilter,
     },
     {
@@ -206,24 +214,28 @@ export const columns: ColumnDef<Teacher>[] = [
         id: "emergencyName",
         accessorFn: (row) => row.emergencyContact?.name,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Emergency Contact" />,
+        size: 150,
         filterFn: textFilter,
     },
     {
         id: "emergencyRelationship",
         accessorFn: (row) => row.emergencyContact?.relationship,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Emergency Relationship" />,
+        size: 160,
         filterFn: textFilter,
     },
     {
         id: "emergencyPhone",
         accessorFn: (row) => row.emergencyContact?.phone,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Emergency Phone" />,
+        size: 130,
         filterFn: textFilter,
     },
     {
         id: "emergencyEmail",
         accessorFn: (row) => row.emergencyContact?.email,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Emergency Email" />,
+        size: 180,
         filterFn: textFilter,
     },
 
@@ -232,18 +244,21 @@ export const columns: ColumnDef<Teacher>[] = [
         id: "degree",
         accessorFn: (row) => row.education?.degree,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Degree" />,
+        size: 100,
         filterFn: 'arrIncludesSome',
     },
     {
         id: "major",
         accessorFn: (row) => row.education?.major,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Major" />,
+        size: 120,
         filterFn: 'arrIncludesSome',
     },
     {
         id: "school",
         accessorFn: (row) => row.education?.school,
         header: ({ column }) => <DataTableColumnHeader column={column} title="School" />,
+        size: 150,
         filterFn: 'arrIncludesSome',
     },
 
@@ -252,6 +267,7 @@ export const columns: ColumnDef<Teacher>[] = [
         id: "passportNumber",
         accessorFn: (row) => row.passportDetails?.number,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Passport No." />,
+        size: 130,
         filterFn: textFilter,
     },
     {
@@ -259,6 +275,7 @@ export const columns: ColumnDef<Teacher>[] = [
         accessorFn: (row) => row.passportDetails?.expiryDate,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Passport Expiry" />,
         cell: ({ row }) => formatDate(row.getValue("passportExpiry")),
+        size: 120,
         filterFn: dateRangeFilter,
     },
     {
@@ -266,18 +283,21 @@ export const columns: ColumnDef<Teacher>[] = [
         accessorFn: (row) => row.passportDetails?.issueDate,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Passport Issue Date" />,
         cell: ({ row }) => formatDate(row.getValue("passportIssueDate")),
+        size: 140,
         filterFn: dateRangeFilter,
     },
     {
         id: "passportCountry",
         accessorFn: (row) => row.passportDetails?.issuingCountry,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Passport Country" />,
+        size: 130,
         filterFn: 'arrIncludesSome',
     },
     {
         id: "passportAuthority",
         accessorFn: (row) => row.passportDetails?.issuingAuthority,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Passport Authority" />,
+        size: 140,
         filterFn: textFilter,
     },
 
@@ -287,12 +307,14 @@ export const columns: ColumnDef<Teacher>[] = [
         accessorFn: (row) => row.arcDetails?.expiryDate,
         header: ({ column }) => <DataTableColumnHeader column={column} title="ARC Expiry" />,
         cell: ({ row }) => formatDate(row.getValue("arcExpiry")),
+        size: 110,
         filterFn: dateRangeFilter,
     },
     {
         id: "arcPurpose",
         accessorFn: (row) => row.arcDetails?.purpose,
         header: ({ column }) => <DataTableColumnHeader column={column} title="ARC Purpose" />,
+        size: 110,
         filterFn: 'arrIncludesSome',
     },
 
@@ -301,6 +323,7 @@ export const columns: ColumnDef<Teacher>[] = [
         id: "workPermitNumber",
         accessorFn: (row) => row.workPermitDetails?.permitNumber,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Work Permit No." />,
+        size: 140,
         filterFn: textFilter,
     },
     {
@@ -308,6 +331,7 @@ export const columns: ColumnDef<Teacher>[] = [
         accessorFn: (row) => row.workPermitDetails?.expiryDate,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Work Permit Expiry" />,
         cell: ({ row }) => formatDate(row.getValue("workPermitExpiry")),
+        size: 140,
         filterFn: dateRangeFilter,
     },
     {
@@ -315,6 +339,7 @@ export const columns: ColumnDef<Teacher>[] = [
         accessorFn: (row) => row.workPermitDetails?.issueDate,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Work Permit Issue" />,
         cell: ({ row }) => formatDate(row.getValue("workPermitIssueDate")),
+        size: 140,
         filterFn: dateRangeFilter,
     },
     {
@@ -322,6 +347,7 @@ export const columns: ColumnDef<Teacher>[] = [
         accessorFn: (row) => row.workPermitDetails?.startDate,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Work Permit Start" />,
         cell: ({ row }) => formatDate(row.getValue("workPermitStartDate")),
+        size: 140,
         filterFn: dateRangeFilter,
     },
 
@@ -331,6 +357,7 @@ export const columns: ColumnDef<Teacher>[] = [
         accessorFn: (row) => row.teachingLicense?.expiryDate,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Teaching License Expiry" />,
         cell: ({ row }) => formatDate(row.getValue("teachingLicenseExpiry")),
+        size: 160,
         filterFn: dateRangeFilter,
     },
     {
@@ -338,6 +365,7 @@ export const columns: ColumnDef<Teacher>[] = [
         accessorFn: (row) => row.criminalRecord?.issueDate,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Criminal Record Issue" />,
         cell: ({ row }) => formatDate(row.getValue("criminalRecordIssue")),
+        size: 150,
         filterFn: dateRangeFilter,
     },
 
@@ -346,7 +374,7 @@ export const columns: ColumnDef<Teacher>[] = [
         id: "serviceSchool",
         accessorFn: (row) => row.personalInfo?.serviceSchool,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Service School" />,
-        size: 200,
+        size: 180,
         filterFn: 'arrIncludesSome',
         enableHiding: false,
     },
@@ -355,6 +383,7 @@ export const columns: ColumnDef<Teacher>[] = [
         accessorFn: (row) => row.contractDetails?.contractStartDate,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Contract Start" />,
         cell: ({ row }) => formatDate(row.getValue("contractStart")),
+        size: 110,
         filterFn: dateRangeFilter,
     },
     {
@@ -362,6 +391,7 @@ export const columns: ColumnDef<Teacher>[] = [
         accessorFn: (row) => row.contractDetails?.contractEndDate,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Contract End" />,
         cell: ({ row }) => formatDate(row.getValue("contractEnd")),
+        size: 110,
         filterFn: dateRangeFilter,
     },
     {
@@ -369,6 +399,7 @@ export const columns: ColumnDef<Teacher>[] = [
         accessorFn: (row) => row.contractDetails?.payStartDate,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Pay Start" />,
         cell: ({ row }) => formatDate(row.getValue("payStart")),
+        size: 100,
         filterFn: dateRangeFilter,
     },
     {
@@ -376,6 +407,7 @@ export const columns: ColumnDef<Teacher>[] = [
         accessorFn: (row) => row.contractDetails?.payEndDate,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Pay End" />,
         cell: ({ row }) => formatDate(row.getValue("payEnd")),
+        size: 100,
         filterFn: dateRangeFilter,
     },
     {
@@ -386,18 +418,21 @@ export const columns: ColumnDef<Teacher>[] = [
             const salary = row.getValue("salary") as number;
             return salary ? `$${salary.toLocaleString()}` : null;
         },
+        size: 100,
         filterFn: numberRangeFilter,
     },
     {
         id: "senioritySalary",
         accessorFn: (row) => row.contractDetails?.senioritySalary,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Seniority (Salary)" />,
+        size: 130,
         filterFn: numberRangeFilter,
     },
     {
         id: "seniorityLeave",
         accessorFn: (row) => row.contractDetails?.seniorityLeave,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Seniority (Leave)" />,
+        size: 120,
         filterFn: numberRangeFilter,
     },
     {
@@ -410,6 +445,7 @@ export const columns: ColumnDef<Teacher>[] = [
             if (val === false) return <Badge variant="outline" className="bg-red-50">No</Badge>;
             return null;
         },
+        size: 140,
         filterFn: 'arrIncludesSome',
     },
     {
@@ -417,6 +453,7 @@ export const columns: ColumnDef<Teacher>[] = [
         accessorFn: (row) => row.contractDetails?.salaryIncreaseDate,
         header: ({ column }) => <DataTableColumnHeader column={column} title="Salary Increase Date" />,
         cell: ({ row }) => formatDate(row.getValue("salaryIncreaseDate")),
+        size: 140,
         filterFn: dateRangeFilter,
     },
     {
@@ -427,6 +464,7 @@ export const columns: ColumnDef<Teacher>[] = [
             const salary = row.getValue("estimatedPromotedSalary") as number;
             return salary ? `$${salary.toLocaleString()}` : null;
         },
+        size: 150,
         filterFn: numberRangeFilter,
     },
 
@@ -448,6 +486,7 @@ export const columns: ColumnDef<Teacher>[] = [
                 </Badge>
             );
         },
+        size: 140,
         filterFn: 'arrIncludesSome',
     }
 ];
