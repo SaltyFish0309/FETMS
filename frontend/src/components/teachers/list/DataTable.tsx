@@ -27,7 +27,6 @@ import {
 import { toast } from "sonner"
 import { DataTableToolbar } from "./DataTableToolbar"
 import { PINNED_COLUMN_IDS } from "./columns"
-import type { ViewMode } from "./ViewModeToggle"
 
 // Columns that should NOT be copyable (interactive elements)
 const NON_COPYABLE_COLUMNS = ['select', 'actions', 'avatar'];
@@ -74,18 +73,16 @@ interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
     meta?: any
-    viewMode: ViewMode
-    onViewModeChange: (mode: ViewMode) => void
     onDeleteSelected?: (selectedIds: string[]) => void
+    actionButtons?: React.ReactNode
 }
 
 export function DataTable<TData, TValue>({
     columns,
     data,
     meta,
-    viewMode,
-    onViewModeChange,
     onDeleteSelected,
+    actionButtons,
 }: DataTableProps<TData, TValue>) {
     const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({})
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>(getInitialColumnVisibility)
@@ -136,9 +133,8 @@ export function DataTable<TData, TValue>({
         <div className="space-y-4">
             <DataTableToolbar
                 table={table}
-                viewMode={viewMode}
-                onViewModeChange={onViewModeChange}
                 onDeleteSelected={onDeleteSelected}
+                actionButtons={actionButtons}
             />
             <div className="rounded-md border bg-white overflow-hidden">
                 <div className="overflow-x-auto overflow-y-auto" style={{ maxHeight: 'calc(100vh - 280px)' }}>

@@ -9,23 +9,20 @@ import { Download, Trash2, X, Filter } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { COLUMN_MAP } from "./columnConfig"
 import { FilterSheet } from "./filters/FilterSheet"
-import { ViewModeToggle, type ViewMode } from "./ViewModeToggle"
 
 interface DataTableToolbarProps<TData> {
     table: Table<TData>
-    viewMode: ViewMode
-    onViewModeChange: (mode: ViewMode) => void
     onDeleteSelected?: (selectedIds: string[]) => void
+    actionButtons?: React.ReactNode
 }
 
 // Quick filter IDs that appear inline
-const QUICK_FILTER_IDS = ['gender', 'pipelineStage', 'hiringStatus'];
+const QUICK_FILTER_IDS: string[] = [];
 
 export function DataTableToolbar<TData>({
     table,
-    viewMode,
-    onViewModeChange,
     onDeleteSelected,
+    actionButtons,
 }: DataTableToolbarProps<TData>) {
     const [filterSheetOpen, setFilterSheetOpen] = React.useState(false);
 
@@ -171,8 +168,8 @@ export function DataTableToolbar<TData>({
                     </Button>
                 )}
 
-                {/* View mode toggle */}
-                <ViewModeToggle value={viewMode} onChange={onViewModeChange} />
+                {/* Action buttons (Import CSV, Add Teacher) */}
+                {actionButtons}
 
                 {/* Column visibility options */}
                 <DataTableViewOptions table={table} />

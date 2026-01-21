@@ -113,63 +113,7 @@ export default function Teachers() {
                     <h1 className="text-3xl font-bold tracking-tight text-slate-900">Teachers</h1>
                     <p className="text-slate-500 mt-2">Manage your Foreign English Teachers.</p>
                 </div>
-                <div className="flex items-center gap-4">
-                    <ImportTeachersDialog onSuccess={() => {
-                        loadTeachers();
-                        loadStages();
-                    }} />
-                    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-                        <DialogTrigger asChild>
-                            <Button className="bg-blue-600 hover:bg-blue-700">
-                                <Plus className="mr-2 h-4 w-4" /> Add Teacher
-                            </Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                            <DialogHeader>
-                                <DialogTitle>Add New Teacher</DialogTitle>
-                            </DialogHeader>
-                            <form onSubmit={handleSubmit} className="space-y-4">
-                                <div className="grid gap-2">
-                                    <Label htmlFor="firstName">First Name</Label>
-                                    <Input
-                                        id="firstName"
-                                        value={formData.firstName}
-                                        onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                                        required
-                                    />
-                                </div>
-                                <div className="grid gap-2">
-                                    <Label htmlFor="middleName">Middle Name</Label>
-                                    <Input
-                                        id="middleName"
-                                        value={formData.middleName}
-                                        onChange={(e) => setFormData({ ...formData, middleName: e.target.value })}
-                                    />
-                                </div>
-                                <div className="grid gap-2">
-                                    <Label htmlFor="lastName">Last Name</Label>
-                                    <Input
-                                        id="lastName"
-                                        value={formData.lastName}
-                                        onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                                        required
-                                    />
-                                </div>
-                                <div className="grid gap-2">
-                                    <Label htmlFor="email">Email</Label>
-                                    <Input
-                                        id="email"
-                                        type="email"
-                                        value={formData.email}
-                                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                        required
-                                    />
-                                </div>
-                                <Button type="submit" className="w-full">Create Teacher</Button>
-                            </form>
-                        </DialogContent>
-                    </Dialog>
-                </div>
+                <ViewModeToggle value={viewMode} onChange={setViewMode} />
             </div>
 
             {viewMode === 'list' ? (
@@ -177,12 +121,69 @@ export default function Teachers() {
                     columns={columns}
                     data={teachers}
                     meta={{ stages }}
-                    viewMode={viewMode}
-                    onViewModeChange={setViewMode}
                     onDeleteSelected={(ids) => {
                         setSelectedIds(new Set(ids));
                         setShowDeleteAlert(true);
                     }}
+                    actionButtons={
+                        <>
+                            <ImportTeachersDialog onSuccess={() => {
+                                loadTeachers();
+                                loadStages();
+                            }} />
+                            <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                                <DialogTrigger asChild>
+                                    <Button size="sm" className="h-9 bg-blue-600 hover:bg-blue-700">
+                                        <Plus className="mr-2 h-4 w-4" /> Add Teacher
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent>
+                                    <DialogHeader>
+                                        <DialogTitle>Add New Teacher</DialogTitle>
+                                    </DialogHeader>
+                                    <form onSubmit={handleSubmit} className="space-y-4">
+                                        <div className="grid gap-2">
+                                            <Label htmlFor="firstName">First Name</Label>
+                                            <Input
+                                                id="firstName"
+                                                value={formData.firstName}
+                                                onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="grid gap-2">
+                                            <Label htmlFor="middleName">Middle Name</Label>
+                                            <Input
+                                                id="middleName"
+                                                value={formData.middleName}
+                                                onChange={(e) => setFormData({ ...formData, middleName: e.target.value })}
+                                            />
+                                        </div>
+                                        <div className="grid gap-2">
+                                            <Label htmlFor="lastName">Last Name</Label>
+                                            <Input
+                                                id="lastName"
+                                                value={formData.lastName}
+                                                onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="grid gap-2">
+                                            <Label htmlFor="email">Email</Label>
+                                            <Input
+                                                id="email"
+                                                type="email"
+                                                value={formData.email}
+                                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                                required
+                                            />
+                                        </div>
+                                        <Button type="submit" className="w-full">Create Teacher</Button>
+                                    </form>
+                                </DialogContent>
+                            </Dialog>
+                        </>
+                    }
                 />
             ) : (
                 <>
@@ -196,7 +197,6 @@ export default function Teachers() {
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
                         </div>
-                        <ViewModeToggle value={viewMode} onChange={setViewMode} />
                     </div>
                     <TeacherKanbanBoard
                         teachers={kanbanFilteredTeachers}

@@ -1,4 +1,4 @@
-import { Settings2, Check, Square, CheckSquare } from "lucide-react"
+import { Settings2, Square, CheckSquare, RotateCcw } from "lucide-react"
 import type { Table } from "@tanstack/react-table"
 
 import { Button } from "@/components/ui/button"
@@ -11,6 +11,21 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { GROUP_LABELS, COLUMN_MAP } from "./columnConfig"
+
+// Default visible columns (same as DataTable.tsx)
+const DEFAULT_VISIBLE_COLUMNS = [
+    'email',
+    'passportExpiry',
+    'teachingLicenseExpiry',
+    'workPermitExpiry',
+    'contractStart',
+    'contractEnd',
+    'payStart',
+    'payEnd',
+    'salaryIncreaseDate',
+    'arcExpiry',
+    'pipelineStage',
+];
 
 interface DataTableViewOptionsProps<TData> {
     table: Table<TData>
@@ -84,6 +99,15 @@ export function DataTableViewOptions<TData>({
         });
     };
 
+    // Reset to default visibility
+    const resetToDefault = () => {
+        table.getAllColumns().forEach(col => {
+            if (col.getCanHide()) {
+                col.toggleVisibility(DEFAULT_VISIBLE_COLUMNS.includes(col.id));
+            }
+        });
+    };
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -100,13 +124,16 @@ export function DataTableViewOptions<TData>({
                 <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
                 <DropdownMenuSeparator />
 
-                {/* Select All / Deselect All buttons */}
+                {/* Select All / Deselect All / Default buttons */}
                 <div className="flex gap-1 px-2 py-1">
                     <Button variant="ghost" size="sm" className="h-7 flex-1 text-xs" onClick={selectAll}>
                         <CheckSquare className="mr-1 h-3 w-3" /> All
                     </Button>
                     <Button variant="ghost" size="sm" className="h-7 flex-1 text-xs" onClick={deselectAll}>
                         <Square className="mr-1 h-3 w-3" /> None
+                    </Button>
+                    <Button variant="ghost" size="sm" className="h-7 flex-1 text-xs" onClick={resetToDefault}>
+                        <RotateCcw className="mr-1 h-3 w-3" /> Default
                     </Button>
                 </div>
                 <DropdownMenuSeparator />
