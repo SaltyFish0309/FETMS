@@ -1,3 +1,29 @@
+/*
+ * FETMS Design System - Dashboard Color Palette
+ *
+ * Primary: #2563EB (blue-600) - Brand, primary actions
+ * Secondary: #3B82F6 (blue-500) - Secondary elements
+ * Accent: #F97316 (orange-500) - Warnings, CTAs
+ * Success: #10B981 (emerald-500) - Positive indicators
+ *
+ * Background: #F8FAFC (slate-50) - Page background
+ * Card: #FFFFFF - Card surfaces
+ *
+ * Text Primary: #1E293B (slate-800)
+ * Text Secondary: #64748B (slate-500)
+ * Text Muted: #94A3B8 (slate-400)
+ *
+ * Border: #E2E8F0 (slate-200)
+ *
+ * Chart Colors (sequential):
+ * 1: #2563EB (primary blue)
+ * 2: #3B82F6 (light blue)
+ * 3: #10B981 (emerald)
+ * 4: #F59E0B (amber)
+ * 5: #8B5CF6 (violet)
+ * 6: #EC4899 (pink)
+ */
+
 @import "tailwindcss";
 
 @plugin "tailwindcss-animate";
@@ -32,6 +58,7 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+  --color-chart-6: var(--chart-6);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -52,8 +79,8 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.546 0.245 262.881); /* #2563EB */
+  --primary-foreground: oklch(0.985 0.002 247.858); /* white text on primary */
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
@@ -64,11 +91,12 @@
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  --chart-1: oklch(0.546 0.245 262.881); /* #2563EB - primary blue */
+  --chart-2: oklch(0.623 0.214 259.815); /* #3B82F6 - light blue */
+  --chart-3: oklch(0.696 0.17 162.48);   /* #10B981 - emerald */
+  --chart-4: oklch(0.769 0.188 70.08);   /* #F59E0B - amber */
+  --chart-5: oklch(0.606 0.25 292.717);  /* #8B5CF6 - violet */
+  --chart-6: oklch(0.656 0.241 354.308); /* #EC4899 - pink */
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
