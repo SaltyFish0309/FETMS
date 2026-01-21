@@ -63,11 +63,13 @@ export default function Dashboard() {
 
     return (
         <div className="space-y-8">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-slate-900">Dashboard</h1>
-                    <p className="text-slate-500 mt-2">Overview of school management operations.</p>
-                </div>
+            <div className="space-y-1">
+                <h1 className="text-2xl font-semibold tracking-tight text-slate-800 font-heading">
+                    Dashboard
+                </h1>
+                <p className="text-sm text-slate-500 font-body">
+                    Overview of teachers, schools, and recruitment metrics
+                </p>
             </div>
 
             {/* Top Section: KPI Matrix (Left) & Action Center (Right) */}
