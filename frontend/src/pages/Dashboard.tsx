@@ -14,6 +14,7 @@ import { Users, School, AlertTriangle, X, Briefcase } from "lucide-react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function Dashboard() {
     const [stats, setStats] = useState<DashboardStats | null>(null);
@@ -116,59 +117,56 @@ export default function Dashboard() {
                 </div>
             </div>
 
-            {/* Analysis Section (Unified Container) */}
-            <div className={`border rounded-xl shadow-sm overflow-hidden transition-colors ${hasFilters ? 'border-blue-200 ring-1 ring-blue-100' : 'bg-white'}`}>
-                <div className={`px-6 py-4 border-b flex flex-col md:flex-row md:items-center justify-between gap-4 transition-colors ${hasFilters ? 'bg-blue-50/80' : 'bg-slate-50/50'}`}>
-                    <div>
-                        <h2 className={`text-lg font-semibold ${hasFilters ? 'text-blue-900' : 'text-slate-800'}`}>Recruitment & Demographics Analysis</h2>
-                        <p className={`text-sm ${hasFilters ? 'text-blue-600' : 'text-slate-500'}`}>Interactive pipeline and distribution metrics</p>
-                    </div>
-
-                    {/* Active Filters in Header */}
-                    {hasFilters && (
-                        <div className="flex flex-wrap gap-2 items-center">
-                            <span className="text-xs font-medium text-blue-700 uppercase tracking-wider mr-1">Active Filters:</span>
-                            {Object.entries(filters).map(([key, value]) => {
-                                if (!value) return null;
-                                const displayValue = key === 'pipelineStage' ? getPipelineStageName(value) : value;
-                                return (
-                                    <Badge
-                                        key={key}
-                                        variant="secondary"
-                                        className="bg-white text-blue-700 border border-blue-200 shadow-sm hover:bg-blue-50 cursor-pointer flex items-center gap-1 group"
-                                        onClick={() => handleFilterChange(key as keyof DashboardFilters, null)}
-                                    >
-                                        <span className="capitalize">{key === 'salaryRange' ? 'Salary' : key}:</span>
-                                        <span className="font-bold">{displayValue}</span>
-                                        <X className="h-3 w-3 opacity-50 group-hover:opacity-100 ml-1" />
-                                    </Badge>
-                                );
-                            })}
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={clearFilters}
-                                className="text-blue-600 hover:text-blue-800 hover:bg-blue-50 ml-2"
-                            >
-                                Clear All
-                            </Button>
-                        </div>
-                    )}
-                </div>
-
-                <div className="p-6 bg-slate-50/30">
-                    <div className="relative flex flex-col xl:block">
-                        {/* Charts Area (66% Width on Desktop, standard flow to determine height) */}
-                        <div className="w-full xl:w-[66%] space-y-6 min-w-0">
-                            {/* Row 1: Pipeline Chart */}
-                            <div className="bg-white p-4 rounded-lg border shadow-sm">
-                                <PipelineChart
-                                    data={stats.charts.pipeline}
-                                    onClick={(data) => handleFilterChange('pipelineStage', data.id!)}
-                                />
+            {/* Analysis Section */}
+            <Card className="border shadow-sm">
+                <CardHeader className="border-b bg-slate-50/50">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <CardTitle className="text-lg font-semibold text-slate-800 font-heading">
+                            Analytics Overview
+                        </CardTitle>
+                        {/* Active Filters */}
+                        {hasFilters && (
+                            <div className="flex flex-wrap gap-2 items-center">
+                                <span className="text-xs font-medium text-blue-700 uppercase tracking-wider mr-1">Filters:</span>
+                                {Object.entries(filters).map(([key, value]) => {
+                                    if (!value) return null;
+                                    const displayValue = key === 'pipelineStage' ? getPipelineStageName(value) : value;
+                                    return (
+                                        <Badge
+                                            key={key}
+                                            variant="secondary"
+                                            className="bg-white text-blue-700 border border-blue-200 shadow-sm hover:bg-blue-50 cursor-pointer flex items-center gap-1 group"
+                                            onClick={() => handleFilterChange(key as keyof DashboardFilters, null)}
+                                        >
+                                            <span className="capitalize">{key === 'salaryRange' ? 'Salary' : key}:</span>
+                                            <span className="font-bold">{displayValue}</span>
+                                            <X className="h-3 w-3 opacity-50 group-hover:opacity-100 ml-1" />
+                                        </Badge>
+                                    );
+                                })}
+                                <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={clearFilters}
+                                    className="text-blue-600 hover:text-blue-800 hover:bg-blue-50 ml-2"
+                                >
+                                    Clear All
+                                </Button>
                             </div>
+                        )}
+                    </div>
+                </CardHeader>
+                <CardContent className="p-6">
+                    <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                        {/* Main Charts Column - spans 2 columns on xl */}
+                        <div className="xl:col-span-2 space-y-6">
+                            {/* Pipeline Chart */}
+                            <PipelineChart
+                                data={stats.charts.pipeline}
+                                onClick={(data) => handleFilterChange('pipelineStage', data.id!)}
+                            />
 
-                            {/* Row 2: Demographics (Nationality, Gender, Hiring Status) */}
+                            {/* Demographics Row */}
                             <DemographicsChart
                                 nationalityData={stats.charts.nationality}
                                 genderData={stats.charts.gender}
@@ -176,8 +174,8 @@ export default function Dashboard() {
                                 onClick={(category: string, name: string) => handleFilterChange(category as keyof DashboardFilters, name)}
                             />
 
-                            {/* Row 3: Professional (Education, Salary, Seniority) */}
-                            <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                            {/* Professional Charts Row */}
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <EducationChart
                                     data={stats.charts.education}
                                     onClick={(data) => handleFilterChange('degree', data.name)}
@@ -193,8 +191,8 @@ export default function Dashboard() {
                             </div>
                         </div>
 
-                        {/* Candidate List (33% Width, Absolute on Desktop to match neighbor height) */}
-                        <div className="w-full xl:w-[32%] mt-6 xl:mt-0 xl:absolute xl:top-0 xl:right-0 xl:bottom-0">
+                        {/* Candidate List Sidebar */}
+                        <div className="xl:col-span-1">
                             <CandidateList
                                 candidates={stats.candidates || []}
                                 isLoading={loading}
@@ -202,8 +200,8 @@ export default function Dashboard() {
                             />
                         </div>
                     </div>
-                </div>
-            </div>
+                </CardContent>
+            </Card>
 
 
         </div>
