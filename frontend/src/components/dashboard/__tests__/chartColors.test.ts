@@ -1,7 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import {
   CHART_COLORS,
-  GENDER_COLORS,
   getChartColor,
   getGenderColor
 } from '../chartColors'
