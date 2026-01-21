@@ -188,7 +188,22 @@ export function DataTable<TData, TValue>({
                                                 if (!isCopyable) return;
                                                 const value = cell.getValue();
                                                 if (value == null || value === '') return;
-                                                const textValue = String(value);
+
+                                                let textValue = String(value);
+
+                                                // Check if value is an ISO date string and format it for UTC+8
+                                                const isoDateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z$/;
+                                                if (isoDateRegex.test(textValue)) {
+                                                    const date = new Date(textValue);
+                                                    // Format as YYYY/M/D in UTC+8 timezone
+                                                    textValue = date.toLocaleDateString('zh-TW', {
+                                                        year: 'numeric',
+                                                        month: 'numeric',
+                                                        day: 'numeric',
+                                                        timeZone: 'Asia/Taipei'
+                                                    });
+                                                }
+
                                                 navigator.clipboard.writeText(textValue);
                                                 toast.success(`Copied: ${textValue.length > 50 ? textValue.slice(0, 50) + '...' : textValue}`);
                                             };

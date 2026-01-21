@@ -156,42 +156,15 @@ export default function Dashboard() {
                         )}
                     </div>
                 </CardHeader>
-                <CardContent className="p-6">
-                    <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                        {/* Main Charts Column - spans 2 columns on xl */}
-                        <div className="xl:col-span-2 space-y-6">
-                            {/* Pipeline Chart */}
+                <CardContent className="p-6 space-y-6">
+                    {/* Row 1: Pipeline Chart + Candidate List (heights match) */}
+                    <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-stretch">
+                        <div className="xl:col-span-2">
                             <PipelineChart
                                 data={stats.charts.pipeline}
                                 onClick={(data) => handleFilterChange('pipelineStage', data.id!)}
                             />
-
-                            {/* Demographics Row */}
-                            <DemographicsChart
-                                nationalityData={stats.charts.nationality}
-                                genderData={stats.charts.gender}
-                                hiringStatusData={stats.charts.hiringStatus}
-                                onClick={(category: string, name: string) => handleFilterChange(category as keyof DashboardFilters, name)}
-                            />
-
-                            {/* Professional Charts Row */}
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <EducationChart
-                                    data={stats.charts.education}
-                                    onClick={(data) => handleFilterChange('degree', data.name)}
-                                />
-                                <SalaryChart
-                                    data={stats.charts.salary}
-                                    onClick={(data) => handleFilterChange('salaryRange', data.name)}
-                                />
-                                <SeniorityChart
-                                    data={stats.charts.seniority}
-                                    onClick={(data) => handleFilterChange('seniority', data.name)}
-                                />
-                            </div>
                         </div>
-
-                        {/* Candidate List Sidebar */}
                         <div className="xl:col-span-1">
                             <CandidateList
                                 candidates={stats.candidates || []}
@@ -199,6 +172,30 @@ export default function Dashboard() {
                                 hasFilters={hasFilters}
                             />
                         </div>
+                    </div>
+
+                    {/* Row 2: Demographics */}
+                    <DemographicsChart
+                        nationalityData={stats.charts.nationality}
+                        genderData={stats.charts.gender}
+                        hiringStatusData={stats.charts.hiringStatus}
+                        onClick={(category: string, name: string) => handleFilterChange(category as keyof DashboardFilters, name)}
+                    />
+
+                    {/* Row 3: Professional Charts */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <EducationChart
+                            data={stats.charts.education}
+                            onClick={(data) => handleFilterChange('degree', data.name)}
+                        />
+                        <SalaryChart
+                            data={stats.charts.salary}
+                            onClick={(data) => handleFilterChange('salaryRange', data.name)}
+                        />
+                        <SeniorityChart
+                            data={stats.charts.seniority}
+                            onClick={(data) => handleFilterChange('seniority', data.name)}
+                        />
                     </div>
                 </CardContent>
             </Card>
