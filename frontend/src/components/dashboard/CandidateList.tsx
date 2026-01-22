@@ -26,8 +26,8 @@ export function CandidateList({ candidates, hasFilters }: CandidateListProps) {
     const navigate = useNavigate();
 
     return (
-        <Card className="h-full flex flex-col bg-white border-none shadow-sm">
-            <CardHeader className="pb-3 border-b flex-shrink-0">
+        <Card className="h-[600px] xl:h-full flex flex-col bg-white border-none shadow-sm">
+            <CardHeader className="pb-3 border-b">
                 <CardTitle className="text-base font-semibold text-slate-800 font-heading flex items-center justify-between">
                     <span>Qualified Candidates</span>
                     {hasFilters && (
@@ -41,7 +41,7 @@ export function CandidateList({ candidates, hasFilters }: CandidateListProps) {
             <CardContent className="p-0 flex-1 overflow-hidden min-h-0">
                 <ScrollArea className="h-full">
                     {!hasFilters ? (
-                        <div className="flex flex-col items-center justify-center h-full min-h-[200px] text-slate-400 p-6 text-center space-y-4">
+                        <div className="flex flex-col items-center justify-center h-full text-slate-400 p-6 text-center space-y-4">
                             <div className="h-16 w-16 rounded-full bg-slate-50 flex items-center justify-center">
                                 <User className="h-8 w-8 opacity-30" />
                             </div>
@@ -51,7 +51,7 @@ export function CandidateList({ candidates, hasFilters }: CandidateListProps) {
                             </div>
                         </div>
                     ) : candidates.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center h-full min-h-[200px] text-slate-400 p-6 text-center">
+                        <div className="flex flex-col items-center justify-center h-full text-slate-400 p-6 text-center">
                             <User className="h-8 w-8 mb-2 opacity-50" />
                             <p className="text-sm">No candidates match these filters.</p>
                         </div>

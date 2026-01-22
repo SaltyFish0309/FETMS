@@ -18,9 +18,41 @@ describe('CandidateList', () => {
       <CandidateList candidates={mockCandidates} hasFilters={true} />
     );
 
-    // The ScrollArea should have max-height to constrain vertical expansion
+    // The ScrollArea should be present for scrolling
     const scrollArea = document.querySelector('[data-radix-scroll-area-viewport]');
     expect(scrollArea).toBeInTheDocument();
+  });
+
+  describe('scroll constraint CSS classes', () => {
+    it('has min-h-0 on CardContent to enable flex shrinking for scroll', () => {
+      const { container } = renderWithRouter(
+        <CandidateList candidates={mockCandidates} hasFilters={true} />
+      );
+
+      // CardContent should have min-h-0 to allow flex item to shrink below content size
+      const cardContent = container.querySelector('.min-h-0.flex-1.overflow-hidden');
+      expect(cardContent).toBeInTheDocument();
+    });
+
+    it('has h-full on empty state container when no filters applied', () => {
+      const { container } = renderWithRouter(
+        <CandidateList candidates={[]} hasFilters={false} />
+      );
+
+      // Empty state should use h-full to fill available space
+      const emptyState = container.querySelector('.h-full.flex.flex-col.items-center.justify-center');
+      expect(emptyState).toBeInTheDocument();
+    });
+
+    it('has h-full on empty state container when no candidates match', () => {
+      const { container } = renderWithRouter(
+        <CandidateList candidates={[]} hasFilters={true} />
+      );
+
+      // No matches state should use h-full to fill available space
+      const noMatchesState = container.querySelector('.h-full.flex.flex-col.items-center.justify-center');
+      expect(noMatchesState).toBeInTheDocument();
+    });
   });
 
   it('shows "Ready to Search" when no filters applied', () => {
