@@ -8,16 +8,12 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import type { AdHocDocument } from '@/types/document';
 
 interface DocumentCardProps {
-    doc: {
-        _id: string;
-        name: string;
-        filePath: string;
-        uploadDate?: string;
-    };
+    doc: AdHocDocument;
     onDelete: (id: string) => void;
-    onUpdate: (doc: any) => void;
+    onUpdate: (doc: AdHocDocument) => void;
 }
 
 export const DocumentCard: React.FC<DocumentCardProps> = ({ doc, onDelete, onUpdate }) => {

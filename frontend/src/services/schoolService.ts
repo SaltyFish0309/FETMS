@@ -22,7 +22,16 @@ export interface School {
         email?: string;
         phone?: string;
     };
-    employedTeachers?: any[]; // Populated in profile
+    employedTeachers?: Array<{
+        _id: string;
+        firstName: string;
+        lastName: string;
+        email: string;
+        personalInfo?: {
+            nationality?: { english?: string };
+            hiringStatus?: string;
+        };
+    }>; // Populated from Teacher model in profile view
     createdAt?: string;
     updatedAt?: string;
 }

@@ -21,6 +21,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const phoneSchema = z.string().refine((value) => {
     try {
         return isValidPhoneNumber(value);
@@ -66,13 +67,20 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
         },
         ref
     ) => {
-        const [countryData, setCountryData] = useState<CountryData | undefined>();
+        const [countryData, setCountryData] = useState<CountryData | undefined>(() => {
+            if (defaultCountry) {
+                return lookup.countries({
+                    alpha2: defaultCountry.toLowerCase(),
+                })[0];
+            }
+            return undefined;
+        });
         const [hasInitialized, setHasInitialized] = useState(false);
         const [open, setOpen] = useState(false);
+        const [prevValue, setPrevValue] = useState(value);
 
         // Get all countries for the dropdown
         // We use the same data source as the lookup function to ensure consistency
-        // @ts-ignore
         const allCountries = countries.all.filter(
             (c: CountryData) => c.countryCallingCodes && c.countryCallingCodes.length > 0
         );
@@ -82,7 +90,6 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
                 const newCountryData = lookup.countries({
                     alpha2: defaultCountry.toLowerCase(),
                 })[0];
-                setCountryData(newCountryData);
 
                 if (
                     newCountryData?.countryCallingCodes?.[0] &&
@@ -97,10 +104,11 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
                     setHasInitialized(true);
                 }
             }
-        }, [defaultCountry, hasInitialized]);
+        }, [defaultCountry, hasInitialized, value, onChange]);
 
-        // Sync country data with value change
-        useEffect(() => {
+        // Sync country data with value change (State from Props pattern)
+        if (value !== prevValue) {
+            setPrevValue(value);
             if (value) {
                 try {
                     const parsed = parsePhoneNumber(value);
@@ -112,11 +120,11 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
                             onCountryChange?.(countryInfo);
                         }
                     }
-                } catch (error) {
+                } catch {
                     // Ignore parsing errors
                 }
             }
-        }, [value]);
+        }
 
         const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             let newValue = e.target.value;
@@ -154,7 +162,7 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
                     setCountryData(undefined);
                     onCountryChange?.(undefined);
                 }
-            } catch (error) {
+            } catch {
                 onChange?.(e);
                 setCountryData(undefined);
                 onCountryChange?.(undefined);

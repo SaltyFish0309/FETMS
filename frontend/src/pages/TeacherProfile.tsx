@@ -147,7 +147,7 @@ export default function TeacherProfile() {
             const updatedTeacher = await teacherService.uploadAvatar(id, file);
             setTeacher(updatedTeacher);
             toast.success("Profile picture updated");
-        } catch (error) {
+        } catch {
             toast.error("Failed to update profile picture");
         }
     };
@@ -160,36 +160,36 @@ export default function TeacherProfile() {
                 const updatedTeacher = await teacherService.deleteAvatar(id);
                 setTeacher(updatedTeacher);
                 toast.success("Profile picture removed");
-            } catch (error) {
+            } catch {
                 toast.error("Failed to remove profile picture");
             }
         }
     };
 
-    const handleInputChange = (section: keyof Teacher, field: string, value: any) => {
+    const handleInputChange = (section: keyof Teacher, field: string, value: unknown) => {
         setFormData(prev => ({
             ...prev,
             [section]: {
-                ...((prev[section] as any) || {}),
+                ...((prev[section] as Record<string, unknown>) || {}),
                 [field]: value
             }
         }));
     };
 
-    const handleNestedInputChange = (section: keyof Teacher, subSection: string, field: string, value: any) => {
+    const handleNestedInputChange = (section: keyof Teacher, subSection: string, field: string, value: unknown) => {
         setFormData(prev => ({
             ...prev,
             [section]: {
-                ...((prev[section] as any) || {}),
+                ...((prev[section] as Record<string, unknown>) || {}),
                 [subSection]: {
-                    ...((prev[section] as any)?.[subSection] || {}),
+                    ...((prev[section] as Record<string, Record<string, unknown>>)?.[subSection] || {}),
                     [field]: value
                 }
             }
         }));
     };
 
-    const handleRootInputChange = (field: string, value: any) => {
+    const handleRootInputChange = (field: string, value: unknown) => {
         setFormData(prev => ({
             ...prev,
             [field]: value
@@ -221,7 +221,7 @@ export default function TeacherProfile() {
             const updatedTeacher = await teacherService.uploadDocument(id, type, file);
             setTeacher(updatedTeacher);
             toast.success("Document uploaded");
-        } catch (error) {
+        } catch {
             toast.error("Upload failed");
         }
     };
@@ -235,7 +235,7 @@ export default function TeacherProfile() {
             setTeacher(updatedTeacher);
             setUploadDialogOpen(false);
             toast.success("Document uploaded");
-        } catch (error) {
+        } catch {
             toast.error("Upload failed");
         }
     };
@@ -257,7 +257,7 @@ export default function TeacherProfile() {
             setTeacher(updatedTeacher);
             setDeleteConfirmOpen(false);
             toast.success("Document deleted");
-        } catch (error) {
+        } catch {
             toast.error("Delete failed");
         }
     };
@@ -277,7 +277,7 @@ export default function TeacherProfile() {
             setTeacher(updatedTeacher);
             setEditDialogOpen(false);
             toast.success("Document updated");
-        } catch (error) {
+        } catch {
             toast.error("Update failed");
         }
     };
@@ -431,7 +431,7 @@ export default function TeacherProfile() {
                                         setTeacher(updated);
                                         setFormData(prev => ({ ...prev, remarks: updated.remarks }));
                                         toast.success("Remarks saved");
-                                    } catch (e) { toast.error("Failed to save remarks"); }
+                                    } catch { toast.error("Failed to save remarks"); }
                                 }}
                             >
                                 <Save className="w-4 h-4 mr-1" /> Save

@@ -37,6 +37,7 @@ describe('DataTableToolbar', () => {
 
   it('renders search input', () => {
     const table = createMockTable();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     render(<DataTableToolbar table={table as any} />);
 
     expect(screen.getByPlaceholderText('Search by name...')).toBeInTheDocument();
@@ -44,6 +45,7 @@ describe('DataTableToolbar', () => {
 
   it('renders Filters button', () => {
     const table = createMockTable();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     render(<DataTableToolbar table={table as any} />);
 
     expect(screen.getByText('Filters')).toBeInTheDocument();
@@ -51,6 +53,7 @@ describe('DataTableToolbar', () => {
 
   it('does not render inline quick filters', () => {
     const table = createMockTable();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     render(<DataTableToolbar table={table as any} />);
 
     // Quick filters for gender, pipelineStage, and hiringStatus should not be rendered inline
@@ -69,7 +72,7 @@ describe('DataTableToolbar', () => {
         <button>Add Teacher</button>
       </>
     );
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     render(<DataTableToolbar table={table as any} actionButtons={actionButtons} />);
 
     expect(screen.getByText('Import CSV')).toBeInTheDocument();
@@ -78,6 +81,7 @@ describe('DataTableToolbar', () => {
 
   it('renders Export button', () => {
     const table = createMockTable();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     render(<DataTableToolbar table={table as any} />);
 
     expect(screen.getByText('Export')).toBeInTheDocument();
@@ -85,6 +89,7 @@ describe('DataTableToolbar', () => {
 
   it('renders View Options', () => {
     const table = createMockTable();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     render(<DataTableToolbar table={table as any} />);
 
     expect(screen.getByTestId('view-options')).toBeInTheDocument();
@@ -94,6 +99,7 @@ describe('DataTableToolbar', () => {
     const table = createMockTable({ '1': true, '2': true });
 
     const onDeleteSelected = vi.fn();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     render(<DataTableToolbar table={table as any} onDeleteSelected={onDeleteSelected} />);
 
     expect(screen.getByText(/Delete \(2\)/)).toBeInTheDocument();
@@ -102,6 +108,7 @@ describe('DataTableToolbar', () => {
   it('does not render Delete button when no rows are selected', () => {
     const table = createMockTable();
     const onDeleteSelected = vi.fn();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     render(<DataTableToolbar table={table as any} onDeleteSelected={onDeleteSelected} />);
 
     expect(screen.queryByText(/Delete/)).not.toBeInTheDocument();

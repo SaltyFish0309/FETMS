@@ -27,7 +27,8 @@ describe('FilterSheet', () => {
     render(
       <FilterSheet
         open={true}
-        onOpenChange={() => {}}
+        onOpenChange={() => { }}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         table={table as any}
       />
     );
@@ -44,7 +45,8 @@ describe('FilterSheet', () => {
     render(
       <FilterSheet
         open={true}
-        onOpenChange={() => {}}
+        onOpenChange={() => { }}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         table={table as any}
       />
     );
@@ -61,7 +63,8 @@ describe('FilterSheet', () => {
     render(
       <FilterSheet
         open={true}
-        onOpenChange={() => {}}
+        onOpenChange={() => { }}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         table={table as any}
       />
     );

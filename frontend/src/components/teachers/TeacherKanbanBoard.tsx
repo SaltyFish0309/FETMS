@@ -118,7 +118,7 @@ export const TeacherKanbanBoard: React.FC<TeacherKanbanBoardProps> = ({ teachers
                                         </div>
                                         <div className="mt-3 flex items-center gap-2">
                                             <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-5">
-                                                {Object.keys(teacher.documents || {}).filter(k => (teacher.documents as any)[k]?.status === 'valid').length} Docs
+                                                {Object.keys(teacher.documents || {}).filter(k => (teacher.documents as Record<string, { status?: string }>)[k]?.status === 'valid').length} Docs
                                             </Badge>
                                         </div>
                                     </div>
@@ -175,7 +175,7 @@ export const TeacherKanbanBoard: React.FC<TeacherKanbanBoardProps> = ({ teachers
                                                 </div>
                                                 <div className="mt-3 flex items-center gap-2">
                                                     <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-5">
-                                                        {Object.keys(teacher.documents || {}).filter(k => (teacher.documents as any)[k]?.status === 'valid').length} Docs
+                                                        {Object.keys(teacher.documents || {}).filter(k => (teacher.documents as Record<string, { status?: string }>)[k]?.status === 'valid').length} Docs
                                                     </Badge>
                                                 </div>
                                             </div>

@@ -45,7 +45,7 @@ export function AlertRulesManager({ onUpdated }: AlertRulesManagerProps) {
             const res = await fetch("http://localhost:5000/api/alerts");
             const data = await res.json();
             setRules(data);
-        } catch (error) {
+        } catch {
             toast.error("Failed to fetch alert rules");
         }
     };
@@ -89,7 +89,7 @@ export function AlertRulesManager({ onUpdated }: AlertRulesManagerProps) {
             } else {
                 toast.error("Failed to add rule");
             }
-        } catch (error) {
+        } catch {
             toast.error("Error creating rule");
         } finally {
             setLoading(false);
@@ -102,7 +102,7 @@ export function AlertRulesManager({ onUpdated }: AlertRulesManagerProps) {
             toast.success("Rule deleted");
             setRules(rules.filter(r => r._id !== id));
             if (onUpdated) onUpdated();
-        } catch (error) {
+        } catch {
             toast.error("Failed to delete rule");
         }
     };
@@ -136,7 +136,7 @@ export function AlertRulesManager({ onUpdated }: AlertRulesManagerProps) {
                 </div>
                 <div className="flex-1 space-y-2">
                     <label className="text-sm font-medium">Condition</label>
-                    <Select value={newCondition} onValueChange={(val: any) => setNewCondition(val)}>
+                    <Select value={newCondition} onValueChange={(val: 'DAYS_REMAINING' | 'DATE_THRESHOLD') => setNewCondition(val)}>
                         <SelectTrigger>
                             <SelectValue />
                         </SelectTrigger>

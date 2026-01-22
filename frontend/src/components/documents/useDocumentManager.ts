@@ -3,18 +3,19 @@ import type { DragEndEvent, DragStartEvent } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
 import { teacherService } from '../../services/teacherService';
 import { toast } from 'sonner';
+import type { DocumentBox, AdHocDocument } from '@/types/document';
 
 export const useDocumentManager = (
     teacherId: string,
-    initialBoxes: any[],
-    documents: any[],
+    initialBoxes: DocumentBox[],
+    documents: AdHocDocument[],
     onRefresh: () => void
 ) => {
     // Local State Mapped from Props (for Optimistic Updates)
-    const [columns, setColumns] = useState<Record<string, any[]>>({});
-    const [boxes, setBoxes] = useState<any[]>([]);
+    const [columns, setColumns] = useState<Record<string, AdHocDocument[]>>({});
+    const [boxes, setBoxes] = useState<DocumentBox[]>([]);
 
-    const [activeItem, setActiveItem] = useState<any>(null);
+    const [activeItem, setActiveItem] = useState<(AdHocDocument & { type: 'Doc' }) | (DocumentBox & { type: 'Box' }) | null>(null);
 
     // Box Management State
     const [isCreatingBox, setIsCreatingBox] = useState(false);
@@ -29,7 +30,7 @@ export const useDocumentManager = (
         ];
         setBoxes(sortedBoxes);
 
-        const newColumns: Record<string, any[]> = {};
+        const newColumns: Record<string, AdHocDocument[]> = {};
         sortedBoxes.forEach(box => {
             const docsInBox = documents.filter(d => {
                 if (box._id === 'uncategorized-box') return !d.boxId;
@@ -48,12 +49,12 @@ export const useDocumentManager = (
             const box = boxes.find(b => b._id === active.id);
             if (box) setActiveItem({ type: 'Box', ...box });
         } else {
-            let foundDoc = null;
+            let foundDoc: AdHocDocument | null = null;
             Object.values(columns).forEach(col => {
                 const d = col.find(item => item._id === active.id);
                 if (d) foundDoc = d;
             });
-            if (foundDoc) setActiveItem({ type: 'Doc', ...foundDoc as object });
+            if (foundDoc) setActiveItem({ type: 'Doc' as const, ...foundDoc });
         }
     };
 
@@ -82,7 +83,7 @@ export const useDocumentManager = (
                             .filter(b => b._id !== 'uncategorized-box')
                             .map(b => b._id);
                         await teacherService.reorderBoxes(teacherId, boxIds);
-                    } catch (error) {
+                    } catch {
                         toast.error('Failed to reorder boxes');
                         onRefresh();
                     }
@@ -123,7 +124,7 @@ export const useDocumentManager = (
                         boxId: sourceBoxId === 'uncategorized-box' ? undefined : sourceBoxId
                     }));
                     await teacherService.reorderAdHocDocuments(teacherId, payload);
-                } catch (error) {
+                } catch {
                     toast.error('Refreshed');
                     onRefresh();
                 }
@@ -150,7 +151,7 @@ export const useDocumentManager = (
 
                 await teacherService.reorderAdHocDocuments(teacherId, payload);
                 toast.success('Moved');
-            } catch (error) {
+            } catch {
                 toast.error('Failed to move');
                 onRefresh();
             }
@@ -163,7 +164,7 @@ export const useDocumentManager = (
             setIsCreatingBox(false);
             toast.success('Box created');
             onRefresh();
-        } catch (error) { toast.error('Error creating box'); }
+        } catch { toast.error('Error creating box'); }
     };
 
     const updateBox = async (name: string) => {
@@ -173,7 +174,7 @@ export const useDocumentManager = (
             setEditingBox(null);
             toast.success('Box updated');
             onRefresh();
-        } catch (error) { toast.error('Error updating box'); }
+        } catch { toast.error('Error updating box'); }
     };
 
     const deleteBox = async () => {
@@ -182,7 +183,7 @@ export const useDocumentManager = (
             await teacherService.deleteBox(teacherId, boxToDelete.id);
             toast.success('Box deleted');
             onRefresh();
-        } catch (error) { toast.error('Error deleting box'); }
+        } catch { toast.error('Error deleting box'); }
         finally { setBoxToDelete(null); }
     };
 
@@ -193,7 +194,7 @@ export const useDocumentManager = (
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a'); a.href = url; a.download = `box-${boxId}.zip`;
             document.body.appendChild(a); a.click(); document.body.removeChild(a);
-        } catch (e) { toast.error('Download failed'); }
+        } catch { toast.error('Download failed'); }
     };
 
     const downloadBoxFiles = (boxId: string) => {

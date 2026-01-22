@@ -20,7 +20,7 @@ const REQUIRED_HEADERS = [
 export const useImportTeacher = (onSuccess: () => void) => {
     const [file, setFile] = useState<File | null>(null);
     const [isUploading, setIsUploading] = useState(false);
-    const [uploadResult, setUploadResult] = useState<{ success: boolean; message: string; details?: any } | null>(null);
+    const [uploadResult, setUploadResult] = useState<{ success: boolean; message: string; details?: unknown } | null>(null);
     const [validationError, setValidationError] = useState<string | null>(null);
 
     const handleDownloadTemplate = () => {
@@ -89,8 +89,8 @@ export const useImportTeacher = (onSuccess: () => void) => {
             try {
                 await validateFile(selectedFile);
                 setFile(selectedFile);
-            } catch (error: any) {
-                setValidationError(error);
+            } catch (error: unknown) {
+                setValidationError(error instanceof Error ? error.message : String(error));
                 e.target.value = '';
             }
         }
@@ -126,7 +126,7 @@ export const useImportTeacher = (onSuccess: () => void) => {
                     details: data.writeErrors || data.error
                 });
             }
-        } catch (error) {
+        } catch {
             setUploadResult({
                 success: false,
                 message: 'Network error or server is down.',

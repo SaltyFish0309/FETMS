@@ -72,7 +72,7 @@ const getInitialColumnVisibility = (): VisibilityState => {
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
-    meta?: any
+    meta?: Record<string, unknown>
     onDeleteSelected?: (selectedIds: string[]) => void
     actionButtons?: React.ReactNode
 }

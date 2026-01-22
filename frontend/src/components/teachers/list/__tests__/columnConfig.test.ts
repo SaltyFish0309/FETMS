@@ -7,7 +7,6 @@ import {
     getGroupColumnIds,
     getDefaultVisibleColumnIds,
     getFrozenColumnIds,
-    type FilterType,
 } from '../columnConfig';
 
 describe('columnConfig', () => {

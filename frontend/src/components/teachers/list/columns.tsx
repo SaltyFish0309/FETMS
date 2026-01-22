@@ -23,7 +23,7 @@ const formatDate = (dateStr?: string) => {
 // ============ CUSTOM FILTER FUNCTIONS ============
 
 // Custom filter for date ranges
-const dateRangeFilter: FilterFn<any> = (row, columnId, filterValue: DateRangeValue) => {
+const dateRangeFilter: FilterFn<Teacher> = (row, columnId, filterValue: DateRangeValue) => {
     if (!filterValue?.from && !filterValue?.to) return true;
 
     const cellValue = row.getValue(columnId) as string | undefined;
@@ -46,7 +46,7 @@ const dateRangeFilter: FilterFn<any> = (row, columnId, filterValue: DateRangeVal
 };
 
 // Custom filter for number ranges
-const numberRangeFilter: FilterFn<any> = (row, columnId, filterValue: NumberRangeValue) => {
+const numberRangeFilter: FilterFn<Teacher> = (row, columnId, filterValue: NumberRangeValue) => {
     if (filterValue?.min === undefined && filterValue?.max === undefined) return true;
 
     const cellValue = row.getValue(columnId) as number | undefined;
@@ -59,7 +59,7 @@ const numberRangeFilter: FilterFn<any> = (row, columnId, filterValue: NumberRang
 };
 
 // Text contains filter
-const textFilter: FilterFn<any> = (row, columnId, filterValue: string) => {
+const textFilter: FilterFn<Teacher> = (row, columnId, filterValue: string) => {
     if (!filterValue) return true;
     const cellValue = row.getValue(columnId) as string | undefined;
     if (!cellValue) return false;
@@ -475,7 +475,7 @@ export const columns: ColumnDef<Teacher>[] = [
         header: ({ column }) => <DataTableColumnHeader column={column} title="Current Stage" />,
         cell: ({ row, table }) => {
             const stageId = row.getValue("pipelineStage") as string;
-            // @ts-ignore
+            // @ts-expect-error - accessing meta.stages which may not have type definition
             const stages = table.options.meta?.stages as { _id: string; title: string }[] || [];
             const stage = stages.find(s => s._id === stageId);
             const title = stage ? stage.title : stageId || 'Uncategorized';

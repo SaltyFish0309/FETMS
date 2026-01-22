@@ -29,6 +29,7 @@ vi.mock('sonner', () => ({
 }));
 
 describe('DataTable', () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mockColumns: ColumnDef<any>[] = [
     {
       accessorKey: 'name',
@@ -115,6 +116,7 @@ describe('DataTable', () => {
   });
 
   describe('date copy formatting', () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const dateColumns: ColumnDef<any>[] = [
       {
         accessorKey: 'expiryDate',

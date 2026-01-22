@@ -35,7 +35,7 @@ export function ImportSchoolsDialog({ onSuccess }: ImportSchoolsDialogProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [file, setFile] = useState<File | null>(null);
     const [isUploading, setIsUploading] = useState(false);
-    const [uploadResult, setUploadResult] = useState<{ success: boolean; message: string; details?: any } | null>(null);
+    const [uploadResult, setUploadResult] = useState<{ success: boolean; message: string; details?: unknown } | null>(null);
     const [validationError, setValidationError] = useState<string | null>(null);
 
     const handleDownloadTemplate = () => {
@@ -105,8 +105,8 @@ export function ImportSchoolsDialog({ onSuccess }: ImportSchoolsDialogProps) {
             try {
                 await validateFile(selectedFile);
                 setFile(selectedFile);
-            } catch (error: any) {
-                setValidationError(error);
+            } catch (error: unknown) {
+                setValidationError(error instanceof Error ? error.message : String(error));
                 // Reset input
                 e.target.value = '';
             }
@@ -143,7 +143,7 @@ export function ImportSchoolsDialog({ onSuccess }: ImportSchoolsDialogProps) {
                     details: data.writeErrors || data.error
                 });
             }
-        } catch (error) {
+        } catch {
             setUploadResult({
                 success: false,
                 message: 'Network error or server is down.',
@@ -206,7 +206,7 @@ export function ImportSchoolsDialog({ onSuccess }: ImportSchoolsDialogProps) {
                                 {uploadResult.message}
                                 {uploadResult.details && (
                                     <div className="mt-2 text-xs max-h-32 overflow-y-auto bg-white/50 p-2 rounded">
-                                        <pre>{JSON.stringify(uploadResult.details, null, 2)}</pre>
+                                        <pre>{JSON.stringify(uploadResult.details as object, null, 2)}</pre>
                                     </div>
                                 )}
                             </AlertDescription>

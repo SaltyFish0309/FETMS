@@ -40,6 +40,9 @@ export function FilterSheet<TData>({
 }: FilterSheetProps<TData>) {
   const [searchQuery, setSearchQuery] = React.useState("");
 
+  // Get column visibility state for the memo dependency
+  const columnVisibilityState = table.getState().columnVisibility;
+
   // Get visible and filterable columns
   const visibleFilterableColumns = React.useMemo(() => {
     return ALL_COLUMNS.filter(col => {
@@ -47,7 +50,8 @@ export function FilterSheet<TData>({
       const column = table.getColumn(col.id);
       return column?.getIsVisible() ?? false;
     });
-  }, [table, table.getState().columnVisibility]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [table, columnVisibilityState]);
 
   // Filter columns by search query
   const filteredColumns = React.useMemo(() => {

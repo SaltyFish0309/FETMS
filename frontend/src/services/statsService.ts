@@ -1,5 +1,14 @@
 import api from './api';
 
+export interface ExpiryAlert {
+    teacherId: string;
+    firstName: string;
+    lastName: string;
+    profilePicture?: string;
+    expiryDate: string;
+    ruleName: string;
+}
+
 export interface DashboardStats {
     kpi: {
         totalTeachers: number;
@@ -8,10 +17,10 @@ export interface DashboardStats {
         actionsNeeded: number;
     };
     expiry: {
-        arc: any[];
-        workPermit: any[];
-        passport: any[];
-        other: any[];
+        arc: ExpiryAlert[];
+        workPermit: ExpiryAlert[];
+        passport: ExpiryAlert[];
+        other: ExpiryAlert[];
     };
     charts: {
         pipeline: Array<{ name: string; value: number; color?: string; id?: string }>;
