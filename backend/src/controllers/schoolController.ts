@@ -16,7 +16,9 @@ export class SchoolController {
 
     static async getSchoolById(req: Request, res: Response) {
         try {
-            const school = await SchoolService.getSchoolById(req.params.id);
+            const { id } = req.params;
+            if (!id) return res.status(400).json({ message: 'School ID is required' });
+            const school = await SchoolService.getSchoolById(id);
             if (!school) {
                 return res.status(404).json({ message: 'School not found' });
             }
@@ -37,7 +39,9 @@ export class SchoolController {
 
     static async updateSchool(req: Request, res: Response) {
         try {
-            const updatedSchool = await SchoolService.updateSchool(req.params.id, req.body);
+            const { id } = req.params;
+            if (!id) return res.status(400).json({ message: 'School ID is required' });
+            const updatedSchool = await SchoolService.updateSchool(id, req.body);
             if (!updatedSchool) {
                 return res.status(404).json({ message: 'School not found' });
             }
@@ -49,7 +53,9 @@ export class SchoolController {
 
     static async deleteSchool(req: Request, res: Response) {
         try {
-            const success = await SchoolService.deleteSchool(req.params.id);
+            const { id } = req.params;
+            if (!id) return res.status(400).json({ message: 'School ID is required' });
+            const success = await SchoolService.deleteSchool(id);
             if (!success) {
                 return res.status(404).json({ message: 'School not found' });
             }

@@ -54,7 +54,7 @@ export const useDocumentManager = (
                 const d = col.find(item => item._id === active.id);
                 if (d) foundDoc = d;
             });
-            if (foundDoc) setActiveItem({ type: 'Doc' as const, ...foundDoc });
+            if (foundDoc) setActiveItem({ type: 'Doc' as const, ...(foundDoc as AdHocDocument) });
         }
     };
 

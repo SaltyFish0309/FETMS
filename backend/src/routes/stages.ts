@@ -1,6 +1,6 @@
 import express from 'express';
-import Stage from '../models/Stage';
-import Teacher from '../models/Teacher';
+import Stage from '../models/Stage.js';
+import Teacher from '../models/Teacher.js';
 
 const router = express.Router();
 

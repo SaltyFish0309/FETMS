@@ -78,7 +78,7 @@ export class TeacherService {
 
         if (teacher.profilePicture) {
             deleteFile(teacher.profilePicture);
-            teacher.profilePicture = undefined;
+            teacher.profilePicture = '' as any;
             return await teacher.save();
         }
         return teacher;
@@ -191,6 +191,7 @@ export class TeacherService {
         if (docIndex === -1) return null;
 
         const doc = teacher.otherDocuments[docIndex];
+        if (!doc) return null;
         if (name) doc.name = name;
         if (file) {
             if (doc.filePath) deleteFile(doc.filePath);

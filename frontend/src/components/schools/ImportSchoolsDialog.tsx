@@ -204,11 +204,11 @@ export function ImportSchoolsDialog({ onSuccess }: ImportSchoolsDialogProps) {
                             <AlertTitle>{uploadResult.success ? "Success" : "Error"}</AlertTitle>
                             <AlertDescription>
                                 {uploadResult.message}
-                                {uploadResult.details && (
+                                {uploadResult.details ? (
                                     <div className="mt-2 text-xs max-h-32 overflow-y-auto bg-white/50 p-2 rounded">
                                         <pre>{JSON.stringify(uploadResult.details as object, null, 2)}</pre>
                                     </div>
-                                )}
+                                ) : null}
                             </AlertDescription>
                         </Alert>
                     )}

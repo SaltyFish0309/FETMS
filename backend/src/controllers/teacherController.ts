@@ -24,7 +24,9 @@ export class TeacherController {
 
     static async getTeacherById(req: Request, res: Response) {
         try {
-            const teacher = await TeacherService.getTeacherById(req.params.id);
+            const { id } = req.params;
+            if (!id) return res.status(400).json({ message: 'Teacher ID is required' });
+            const teacher = await TeacherService.getTeacherById(id);
             if (!teacher) return res.status(404).json({ message: 'Teacher not found' });
             res.json(teacher);
         } catch (error) {
@@ -35,6 +37,7 @@ export class TeacherController {
     static async updateTeacher(req: Request, res: Response) {
         try {
             const { id } = req.params;
+            if (!id) return res.status(400).json({ message: 'Teacher ID is required' });
             const teacher = await TeacherService.updateTeacher(id, req.body);
             if (!teacher) return res.status(404).json({ message: 'Teacher not found' });
             res.json(teacher);
@@ -46,7 +49,9 @@ export class TeacherController {
 
     static async deleteTeacher(req: Request, res: Response) {
         try {
-            const success = await TeacherService.deleteTeacher(req.params.id);
+            const { id } = req.params;
+            if (!id) return res.status(400).json({ message: 'Teacher ID is required' });
+            const success = await TeacherService.deleteTeacher(id);
             if (!success) return res.status(404).json({ message: 'Teacher not found' });
             res.json({ message: 'Teacher deleted successfully' });
         } catch (error) {
@@ -57,10 +62,12 @@ export class TeacherController {
 
     static async uploadAvatar(req: Request, res: Response) {
         try {
+            const { id } = req.params;
+            if (!id) return res.status(400).json({ message: 'Teacher ID is required' });
             const file = req.file;
             if (!file) return res.status(400).json({ message: 'No file uploaded' });
 
-            const teacher = await TeacherService.uploadAvatar(req.params.id, file);
+            const teacher = await TeacherService.uploadAvatar(id, file);
             if (!teacher) return res.status(404).json({ message: 'Teacher not found' });
             res.json(teacher);
         } catch (error) {
@@ -71,7 +78,9 @@ export class TeacherController {
 
     static async deleteAvatar(req: Request, res: Response) {
         try {
-            const teacher = await TeacherService.deleteAvatar(req.params.id);
+            const { id } = req.params;
+            if (!id) return res.status(400).json({ message: 'Teacher ID is required' });
+            const teacher = await TeacherService.deleteAvatar(id);
             if (!teacher) return res.status(404).json({ message: 'Teacher not found' });
             res.json(teacher);
         } catch (error) {
@@ -82,11 +91,13 @@ export class TeacherController {
 
     static async uploadAdHocDocument(req: Request, res: Response) {
         try {
+            const { id } = req.params;
+            if (!id) return res.status(400).json({ message: 'Teacher ID is required' });
             const { name } = req.body;
             const file = req.file;
             if (!file || !name) return res.status(400).json({ message: 'Name and File are required' });
 
-            const teacher = await TeacherService.uploadAdHocDocument(req.params.id, name, file);
+            const teacher = await TeacherService.uploadAdHocDocument(id, name, file);
             if (!teacher) return res.status(404).json({ message: 'Teacher not found' });
             res.json(teacher);
         } catch (error) {
@@ -96,12 +107,13 @@ export class TeacherController {
 
     static async uploadCoreDocument(req: Request, res: Response) {
         try {
-            const { type } = req.params;
-            if (!['passport', 'arc', 'contract', 'workPermit'].includes(type)) {
+            const { id, type } = req.params;
+            if (!id) return res.status(400).json({ message: 'Teacher ID is required' });
+            if (!type || !['passport', 'arc', 'contract', 'workPermit'].includes(type)) {
                 return res.status(400).json({ message: 'Invalid document type' });
             }
 
-            const teacher = await TeacherService.uploadCoreDocument(req.params.id, type, req.file, req.body);
+            const teacher = await TeacherService.uploadCoreDocument(id, type, req.file, req.body);
             if (!teacher) return res.status(404).json({ message: 'Teacher not found' });
             res.json(teacher);
         } catch (error) {
@@ -111,12 +123,13 @@ export class TeacherController {
 
     static async deleteCoreDocument(req: Request, res: Response) {
         try {
-            const { type } = req.params;
-            if (!['passport', 'arc', 'contract', 'workPermit'].includes(type)) {
+            const { id, type } = req.params;
+            if (!id) return res.status(400).json({ message: 'Teacher ID is required' });
+            if (!type || !['passport', 'arc', 'contract', 'workPermit'].includes(type)) {
                 return res.status(400).json({ message: 'Invalid document type' });
             }
 
-            const teacher = await TeacherService.deleteCoreDocument(req.params.id, type);
+            const teacher = await TeacherService.deleteCoreDocument(id, type);
             if (!teacher) return res.status(404).json({ message: 'Teacher not found' });
             res.json(teacher);
         } catch (error) {
@@ -126,7 +139,9 @@ export class TeacherController {
 
     static async deleteAdHocDocument(req: Request, res: Response) {
         try {
-            const teacher = await TeacherService.deleteAdHocDocument(req.params.id, req.params.docId);
+            const { id, docId } = req.params;
+            if (!id || !docId) return res.status(400).json({ message: 'Teacher ID and Document ID are required' });
+            const teacher = await TeacherService.deleteAdHocDocument(id, docId);
             if (!teacher) return res.status(404).json({ message: 'Document or Teacher not found' });
             res.json(teacher);
         } catch (error) {
@@ -137,10 +152,12 @@ export class TeacherController {
 
     static async reorderAdHocDocuments(req: Request, res: Response) {
         try {
+            const { id } = req.params;
+            if (!id) return res.status(400).json({ message: 'Teacher ID is required' });
             const { documents } = req.body;
             if (!Array.isArray(documents)) return res.status(400).json({ message: 'Invalid data format' });
 
-            const teacher = await TeacherService.reorderAdHocDocuments(req.params.id, documents);
+            const teacher = await TeacherService.reorderAdHocDocuments(id, documents);
             if (!teacher) return res.status(404).json({ message: 'Teacher not found' });
             res.json(teacher);
         } catch (error) {
@@ -150,7 +167,9 @@ export class TeacherController {
 
     static async updateAdHocDocument(req: Request, res: Response) {
         try {
-            const teacher = await TeacherService.updateAdHocDocument(req.params.id, req.params.docId, req.body.name, req.file);
+            const { id, docId } = req.params;
+            if (!id || !docId) return res.status(400).json({ message: 'Teacher ID and Document ID are required' });
+            const teacher = await TeacherService.updateAdHocDocument(id, docId, req.body.name, req.file);
             if (!teacher) return res.status(404).json({ message: 'Document or Teacher not found' });
             res.json(teacher);
         } catch (error) {
@@ -161,10 +180,12 @@ export class TeacherController {
 
     static async createBox(req: Request, res: Response) {
         try {
+            const { id } = req.params;
+            if (!id) return res.status(400).json({ message: 'Teacher ID is required' });
             const { name } = req.body;
             if (!name) return res.status(400).json({ message: 'Box name is required' });
 
-            const teacher = await TeacherService.createBox(req.params.id, name);
+            const teacher = await TeacherService.createBox(id, name);
             if (!teacher) return res.status(404).json({ message: 'Teacher not found' });
             res.status(201).json(teacher);
         } catch (error) {
@@ -174,10 +195,12 @@ export class TeacherController {
 
     static async reorderBoxes(req: Request, res: Response) {
         try {
+            const { id } = req.params;
+            if (!id) return res.status(400).json({ message: 'Teacher ID is required' });
             const { boxes } = req.body;
             if (!Array.isArray(boxes)) return res.status(400).json({ message: 'Invalid data format' });
 
-            const teacher = await TeacherService.reorderBoxes(req.params.id, boxes);
+            const teacher = await TeacherService.reorderBoxes(id, boxes);
             if (!teacher) return res.status(404).json({ message: 'Teacher not found' });
             res.json(teacher);
         } catch (error) {
@@ -187,8 +210,10 @@ export class TeacherController {
 
     static async updateBox(req: Request, res: Response) {
         try {
+            const { id, boxId } = req.params;
+            if (!id || !boxId) return res.status(400).json({ message: 'Teacher ID and Box ID are required' });
             const { name, order } = req.body;
-            const teacher = await TeacherService.updateBox(req.params.id, req.params.boxId, name, order);
+            const teacher = await TeacherService.updateBox(id, boxId, name, order);
             if (!teacher) return res.status(404).json({ message: 'Box or Teacher not found' });
             res.json(teacher);
         } catch (error) {
@@ -198,7 +223,9 @@ export class TeacherController {
 
     static async deleteBox(req: Request, res: Response) {
         try {
-            const teacher = await TeacherService.deleteBox(req.params.id, req.params.boxId);
+            const { id, boxId } = req.params;
+            if (!id || !boxId) return res.status(400).json({ message: 'Teacher ID and Box ID are required' });
+            const teacher = await TeacherService.deleteBox(id, boxId);
             if (!teacher) return res.status(404).json({ message: 'Box or Teacher not found' });
             res.json(teacher);
         } catch (error) {
@@ -209,7 +236,9 @@ export class TeacherController {
 
     static async downloadBox(req: Request, res: Response) {
         try {
-            const result = await TeacherService.getBoxDownload(req.params.id, req.params.boxId);
+            const { id, boxId } = req.params;
+            if (!id || !boxId) return res.status(400).json({ message: 'Teacher ID and Box ID are required' });
+            const result = await TeacherService.getBoxDownload(id, boxId);
             if (!result) return res.status(404).json({ message: 'Box not found or empty' });
 
             const { archive, filename } = result;
