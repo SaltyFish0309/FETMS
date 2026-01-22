@@ -30,7 +30,7 @@ export interface ITeacher extends Document {
     lastName: string;
     school?: Schema.Types.ObjectId;
     email: string;
-    profilePicture?: string;
+    profilePicture?: string | undefined;
     remarks?: string;
 
     // Personal Info
