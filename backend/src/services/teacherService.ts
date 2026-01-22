@@ -78,7 +78,7 @@ export class TeacherService {
 
         if (teacher.profilePicture) {
             deleteFile(teacher.profilePicture);
-            teacher.profilePicture = '' as any;
+            teacher.profilePicture = undefined;
             return await teacher.save();
         }
         return teacher;
