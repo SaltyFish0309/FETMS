@@ -1,0 +1,19 @@
+
+
+const Documents = () => {
+    return (
+        <div className="space-y-6">
+            <div className="flex items-center justify-between">
+                <div>
+                    <h1 className="text-3xl font-bold tracking-tight text-slate-900">Documents</h1>
+                    <p className="text-slate-500 mt-2">Manage all system-wide documents.</p>
+                </div>
+            </div>
+            <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                <p className="text-slate-500">Document management features coming soon.</p>
+            </div>
+        </div>
+    );
+};
+
+export default Documents;
