@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import Cropper from 'react-easy-crop';
+import Cropper, { type Area } from 'react-easy-crop';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
@@ -16,10 +16,10 @@ interface AvatarEditorProps {
 export function AvatarEditor({ isOpen, imageSrc, onClose, onSave }: AvatarEditorProps) {
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
-    const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
+    const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
 
-    const onCropComplete = useCallback((_croppedArea: any, croppedAreaPixels: any) => {
-        setCroppedAreaPixels(croppedAreaPixels);
+    const onCropComplete = useCallback((_croppedArea: Area, croppedAreaPixelsValue: Area) => {
+        setCroppedAreaPixels(croppedAreaPixelsValue);
     }, []);
 
     const handleSave = async () => {

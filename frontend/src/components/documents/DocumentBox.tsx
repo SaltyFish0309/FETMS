@@ -9,6 +9,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DocumentCard } from './DocumentCard';
+import type { AdHocDocument } from '@/types/document';
 
 interface DocumentBoxProps {
     box: {
@@ -16,13 +17,13 @@ interface DocumentBoxProps {
         name: string;
         order: number;
     };
-    documents: any[];
+    documents: AdHocDocument[];
     onDeleteBox: (id: string) => void;
     onUpdateBox: (id: string) => void;
     onDownloadBoxZip: (id: string) => void;
     onDownloadBoxFiles: (id: string) => void;
     onDeleteDoc: (id: string) => void;
-    onUpdateDoc: (doc: any) => void;
+    onUpdateDoc: (doc: AdHocDocument) => void;
     isUncategorized?: boolean;
 }
 

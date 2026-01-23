@@ -140,7 +140,7 @@ export const teacherService = {
         return response.data;
     },
 
-    uploadDocument: async (id: string, type: string, file: File, data?: any) => {
+    uploadDocument: async (id: string, type: string, file: File, data?: Record<string, string>) => {
         const formData = new FormData();
         formData.append('file', file);
         if (data) {

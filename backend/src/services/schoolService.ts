@@ -24,7 +24,7 @@ export class SchoolService {
 
         const teachers = await Teacher.find({
             isDeleted: false,
-            school: id
+            school: id as unknown as typeof Teacher.prototype.school
         });
 
         return { ...school.toObject(), employedTeachers: teachers };

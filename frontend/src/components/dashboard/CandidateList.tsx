@@ -38,10 +38,10 @@ export function CandidateList({ candidates, hasFilters }: CandidateListProps) {
                 </CardTitle>
                 <p className="text-xs text-slate-500">Teachers matching current filters</p>
             </CardHeader>
-            <CardContent className="p-0 flex-1 overflow-hidden">
+            <CardContent className="p-0 flex-1 overflow-hidden min-h-0">
                 <ScrollArea className="h-full">
                     {!hasFilters ? (
-                        <div className="flex flex-col items-center justify-center h-[500px] text-slate-400 p-6 text-center space-y-4">
+                        <div className="flex flex-col items-center justify-center h-full text-slate-400 p-6 text-center space-y-4">
                             <div className="h-16 w-16 rounded-full bg-slate-50 flex items-center justify-center">
                                 <User className="h-8 w-8 opacity-30" />
                             </div>
@@ -51,7 +51,7 @@ export function CandidateList({ candidates, hasFilters }: CandidateListProps) {
                             </div>
                         </div>
                     ) : candidates.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center h-[400px] text-slate-400 p-6 text-center">
+                        <div className="flex flex-col items-center justify-center h-full text-slate-400 p-6 text-center">
                             <User className="h-8 w-8 mb-2 opacity-50" />
                             <p className="text-sm">No candidates match these filters.</p>
                         </div>

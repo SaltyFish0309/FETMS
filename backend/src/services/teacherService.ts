@@ -191,6 +191,7 @@ export class TeacherService {
         if (docIndex === -1) return null;
 
         const doc = teacher.otherDocuments[docIndex];
+        if (!doc) return null;
         if (name) doc.name = name;
         if (file) {
             if (doc.filePath) deleteFile(doc.filePath);

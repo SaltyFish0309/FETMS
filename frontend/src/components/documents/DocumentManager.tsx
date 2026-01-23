@@ -8,11 +8,12 @@ import { SortableColumn } from '../kanban/SortableColumn';
 import { DocumentCard } from './DocumentCard';
 import { useDocumentManager } from './useDocumentManager';
 import { CreateBoxDialog, RenameBoxDialog, DeleteBoxDialog } from './BoxManagementDialogs';
+import type { DocumentBox as DocumentBoxType, AdHocDocument } from '@/types/document';
 
 interface DocumentManagerProps {
     teacherId: string;
-    boxes: any[];
-    documents: any[];
+    boxes: DocumentBoxType[];
+    documents: AdHocDocument[];
     onRefresh: () => void;
     onEditDoc: (docId: string, currentName: string) => void;
     onDeleteDoc: (docId: string) => void;

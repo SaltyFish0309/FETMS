@@ -47,8 +47,8 @@ export function DataTableFacetedFilter<TData, TValue>({
         if (!facets) return [];
 
         // Convert Map entries to options array
-        const derivedOptions: { label: string; value: string }[] = [];
-        facets.forEach((count, value) => {
+        const derivedOptions: { label: string; value: string; icon?: React.ComponentType<{ className?: string }> }[] = [];
+        facets.forEach((_count, value) => {
             if (value !== undefined && value !== null && value !== '') {
                 // If stageMap provided, look up the display name
                 const displayLabel = stageMap?.get(String(value)) ?? String(value);
@@ -135,7 +135,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                                         >
                                             <Check className={cn("h-4 w-4")} />
                                         </div>
-                                        {"icon" in option && option.icon && (
+                                        {option.icon && (
                                             <option.icon className="mr-2 h-4 w-4 text-muted-foreground" />
                                         )}
                                         <span>{option.label}</span>

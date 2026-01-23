@@ -286,9 +286,9 @@ export class StatsService {
 
         teachers.forEach(t => {
             const match = (t.contractDetails?.senioritySalary || '').match(/(\d+)\s*year/i);
-            const years = match && match[1] ? parseInt(match[1], 10) : 0;
-            if (years >= 10) counts['10+ Years']++;
-            else counts[`${years} Year${years !== 1 ? 's' : ''}`]++;
+            const years = match?.[1] ? parseInt(match[1], 10) : 0;
+            const key = years >= 10 ? '10+ Years' : `${years} Year${years !== 1 ? 's' : ''}`;
+            counts[key] = (counts[key] || 0) + 1;
         });
         return Object.entries(counts).map(([name, value]) => ({ name, value }));
     }

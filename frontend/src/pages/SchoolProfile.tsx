@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { schoolService, type School } from "@/services/schoolService";
 import { Button } from "@/components/ui/button";
@@ -23,13 +23,7 @@ export default function SchoolProfile() {
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState<Partial<School>>({});
 
-    useEffect(() => {
-        if (id) {
-            loadSchool(id);
-        }
-    }, [id]);
-
-    const loadSchool = async (schoolId: string) => {
+    const loadSchool = useCallback(async (schoolId: string) => {
         try {
             const data = await schoolService.getById(schoolId);
             setSchool(data);
@@ -38,13 +32,22 @@ export default function SchoolProfile() {
             console.error("Failed to load school", error);
             toast.error("Failed to load school details");
         }
-    };
+    }, []);
+
+    // Data loading when route parameter changes - standard React pattern
+    /* eslint-disable react-hooks/set-state-in-effect */
+    useEffect(() => {
+        if (id) {
+            loadSchool(id);
+        }
+    }, [id, loadSchool]);
+    /* eslint-enable react-hooks/set-state-in-effect */
 
     const handleInputChange = (section: keyof School, field: string, value: string) => {
         setFormData((prev) => ({
             ...prev,
             [section]: {
-                ...(prev[section] as any),
+                ...(prev[section] as Record<string, unknown>),
                 [field]: value,
             },
         }));

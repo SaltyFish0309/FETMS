@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { teacherService, type Teacher } from "@/services/teacherService";
 import { Button } from "@/components/ui/button";
 import {
@@ -47,28 +47,31 @@ export default function Teachers() {
     // Kanban search
     const [searchQuery, setSearchQuery] = useState("");
 
-    const loadTeachers = async () => {
+    const loadTeachers = useCallback(async () => {
         try {
             const data = await teacherService.getAll();
             setTeachers(data);
         } catch (error) {
             console.error("Failed to load teachers", error);
         }
-    };
+    }, []);
 
-    const loadStages = async () => {
+    const loadStages = useCallback(async () => {
         try {
             const data = await teacherService.getStages();
             setStages(data);
         } catch (error) {
             console.error("Failed to load stages", error);
         }
-    };
+    }, []);
 
+    // Initial data loading on mount - standard React pattern
+    /* eslint-disable react-hooks/set-state-in-effect */
     useEffect(() => {
         loadTeachers();
         loadStages();
-    }, []);
+    }, [loadTeachers, loadStages]);
+    /* eslint-enable react-hooks/set-state-in-effect */
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

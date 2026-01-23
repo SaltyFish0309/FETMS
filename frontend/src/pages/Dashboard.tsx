@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { statsService } from "@/services/statsService";
 import type { DashboardFilters } from "@/services/statsService";
 import type { DashboardStats } from "@/services/statsService";
@@ -21,7 +21,7 @@ export default function Dashboard() {
     const [loading, setLoading] = useState(true);
     const [filters, setFilters] = useState<DashboardFilters>({});
 
-    const loadStats = async () => {
+    const loadStats = useCallback(async () => {
         try {
             setLoading(true);
             const data = await statsService.getDashboardStats(filters);
@@ -33,11 +33,12 @@ export default function Dashboard() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [filters]);
 
+    // Reload stats when filters change
     useEffect(() => {
         loadStats();
-    }, [filters]);
+    }, [loadStats]);
 
     const handleFilterChange = (key: keyof DashboardFilters, value: string | null) => {
         setFilters(prev => ({
@@ -192,12 +193,14 @@ export default function Dashboard() {
                         </div>
 
                         {/* Candidate List Sidebar */}
-                        <div className="xl:col-span-1">
-                            <CandidateList
-                                candidates={stats.candidates || []}
-                                isLoading={loading}
-                                hasFilters={hasFilters}
-                            />
+                        <div className="xl:col-span-1 xl:relative">
+                            <div className="xl:absolute xl:inset-0">
+                                <CandidateList
+                                    candidates={stats.candidates || []}
+                                    isLoading={loading}
+                                    hasFilters={hasFilters}
+                                />
+                            </div>
                         </div>
                     </div>
                 </CardContent>
