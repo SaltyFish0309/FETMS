@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "server": "tsx watch src/index.ts",
-    "test": "vitest"
+    "test": "vitest",
+    "migrate:projects": "tsx src/scripts/migrateProjects.ts"
   },
   "keywords": [],
   "author": "",

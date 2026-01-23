@@ -19,7 +19,7 @@ const ProjectSchema = new Schema<IProject>(
   { timestamps: true }
 );
 
-ProjectSchema.index({ code: 1 });
+// code field already has unique index from schema definition
 ProjectSchema.index({ isActive: 1 });
 
 export default mongoose.model<IProject>('Project', ProjectSchema);
