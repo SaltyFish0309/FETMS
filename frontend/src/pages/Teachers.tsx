@@ -26,11 +26,13 @@ import { ImportTeachersDialog } from "@/components/teachers/ImportTeachersDialog
 import { DataTable } from "@/components/teachers/list/DataTable";
 import { columns } from "@/components/teachers/list/columns";
 import { ViewModeToggle } from "@/components/teachers/list/ViewModeToggle";
+import { ProjectToggle } from "@/components/teachers/list/ProjectToggle";
 
 export default function Teachers() {
     const [teachers, setTeachers] = useState<Teacher[]>([]);
     const [stages, setStages] = useState<{ _id: string; title: string }[]>([]);
     const [viewMode, setViewMode] = useState<'list' | 'kanban'>('list');
+    const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
     const [isOpen, setIsOpen] = useState(false);
 
     // Deletion State
@@ -75,8 +77,16 @@ export default function Teachers() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!selectedProjectId) {
+            console.error("No project selected");
+            return;
+        }
+
         try {
-            const newTeacher = await teacherService.create(formData);
+            const newTeacher = await teacherService.create({
+                ...formData,
+                project: selectedProjectId
+            });
             setTeachers([...teachers, newTeacher]);
             setIsOpen(false);
             setFormData({ firstName: "", middleName: "", lastName: "", email: "" });
@@ -96,17 +106,23 @@ export default function Teachers() {
         }
     };
 
-    // Filtered teachers for Kanban view (search only)
-    const kanbanFilteredTeachers = useMemo(() => {
-        if (!searchQuery) return teachers;
+    // 依選中的專案過濾教師
+    const projectFilteredTeachers = useMemo(() => {
+        if (!selectedProjectId) return teachers;
+        return teachers.filter(teacher => teacher.project === selectedProjectId);
+    }, [teachers, selectedProjectId]);
 
-        return teachers.filter(teacher => {
+    // Kanban 搜尋過濾
+    const kanbanFilteredTeachers = useMemo(() => {
+        if (!searchQuery) return projectFilteredTeachers;
+
+        return projectFilteredTeachers.filter(teacher => {
             const fullName = `${teacher.firstName} ${teacher.middleName || ''} ${teacher.lastName}`.toLowerCase();
             const school = teacher.personalInfo?.serviceSchool?.toLowerCase() || '';
             const query = searchQuery.toLowerCase();
             return fullName.includes(query) || school.includes(query);
         });
-    }, [teachers, searchQuery]);
+    }, [projectFilteredTeachers, searchQuery]);
 
 
     return (
@@ -118,11 +134,13 @@ export default function Teachers() {
                 </div>
                 <ViewModeToggle value={viewMode} onChange={setViewMode} />
             </div>
+            {/* 新增專案切換器 */}
+            <ProjectToggle value={selectedProjectId} onChange={setSelectedProjectId} />
 
             {viewMode === 'list' ? (
                 <DataTable
                     columns={columns}
-                    data={teachers}
+                    data={projectFilteredTeachers}
                     meta={{ stages }}
                     onDeleteSelected={(ids) => {
                         setSelectedIds(new Set(ids));
