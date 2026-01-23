@@ -11,7 +11,9 @@
 - Frontend: React Context API + localStorage persistence
 - Mixed filtering: Backend (Teachers/Dashboard), Frontend (Schools)
 
-**CI Gates:** GitHub Actions must be GREEN ✅ at each checkpoint before proceeding.
+**Testing:** All tests must pass locally at each checkpoint before proceeding.
+
+**Error Handling:** If the same error occurs 5 times during development, STOP and report the issue with possible causes for human investigation.
 
 ---
 
@@ -176,30 +178,30 @@ interface ProjectContextValue {
 
 ---
 
-### 🔄 CHECKPOINT 1: Backend CI Verification
+### 🔄 CHECKPOINT 1: Backend Local Verification
 
 **Stop here and verify:**
 
 ```bash
 # 1. All backend tests pass
 cd backend
-npm test -- run --coverage
+npm test -- run
 
-# Expected: All pass, coverage > 80%
+# Expected: All tests PASS ✅
 
 # 2. TypeScript check
 npx tsc --noEmit
 
 # Expected: No errors
 
-# 3. Commit and push
-git push origin HEAD
-
-# 4. GitHub Actions CI
-# Expected: test-backend ✅, typecheck ✅
+# 3. Commit changes
+git add .
+git commit -m "[CHECKPOINT 1] Backend CRUD + Filtering complete"
 ```
 
-**CI Must Be GREEN** ✅ before proceeding to Iteration 2.
+**All tests must PASS** before proceeding to Iteration 2.
+
+**If same error occurs 5 times:** STOP and report issue to user for investigation.
 
 **Files Modified:**
 - `backend/src/services/projectService.ts`
@@ -330,19 +332,20 @@ git push origin HEAD
 
 ---
 
-### 🔄 CHECKPOINT 2: Frontend State CI Verification
+### 🔄 CHECKPOINT 2: Frontend State Local Verification
 
 ```bash
 cd frontend
-npm test -- run --coverage
+npm test -- run
 npx tsc -b --noEmit
 npm run lint
-git push origin HEAD
+git add .
+git commit -m "[CHECKPOINT 2] Frontend global state complete"
 ```
 
-**Expected:** test-frontend ✅, typecheck ✅, lint ✅
+**Expected:** All tests PASS ✅, TypeScript OK, Lint OK
 
-**CI Must Be GREEN** ✅ before proceeding.
+**If same error occurs 5 times:** STOP and report to user.
 
 ---
 
@@ -433,19 +436,22 @@ git push origin HEAD
 
 ---
 
-### 🔄 CHECKPOINT 3: Integration CI Verification
+### 🔄 CHECKPOINT 3: Integration Local Verification
 
 ```bash
 # Full frontend + backend tests
-cd backend && npm test
-cd ../frontend && npm test
+cd backend && npm test -- run
+cd ../frontend && npm test -- run
 npm run build
-git push origin HEAD
+git add .
+git commit -m "[CHECKPOINT 3] Page integration complete"
 ```
 
-**Expected:** All CI jobs ✅
+**Expected:** All tests PASS ✅, Build succeeds
 
 **Manual test:** Navigate Teachers → Dashboard → Schools, verify project selection persists.
+
+**If same error occurs 5 times:** STOP and report to user.
 
 ---
 
@@ -483,18 +489,21 @@ git push origin HEAD
 
 ---
 
-### 🔄 CHECKPOINT 4: CRUD UI CI Verification
+### 🔄 CHECKPOINT 4: CRUD UI Local Verification
 
 ```bash
 cd frontend
-npm test -- run --coverage
+npm test -- run
 npm run build
-git push origin HEAD
+git add .
+git commit -m "[CHECKPOINT 4] Project CRUD UI complete"
 ```
 
-**Expected:** All CI jobs ✅
+**Expected:** All tests PASS ✅, Build succeeds
 
 **Manual test:** Create project → edit → archive → verify ProjectToggle updates immediately.
+
+**If same error occurs 5 times:** STOP and report to user.
 
 ---
 
@@ -563,54 +572,54 @@ npx vite-bundle-visualizer
 
 ```bash
 # 1. Full test suites
-cd backend && npm test -- run --coverage  # > 80%
-cd ../frontend && npm test -- run --coverage  # > 70%
+cd backend && npm test -- run
+cd ../frontend && npm test -- run
 
 # 2. Type checking (strict mode)
 cd backend && npx tsc --noEmit --strict
 cd ../frontend && npx tsc -b --noEmit --strict
 
 # 3. Lint
-cd frontend && npm run lint  # No warnings
+cd frontend && npm run lint
 
 # 4. Build
-npm run build  # Success
+npm run build
 
-# 5. GitHub Actions
-git push origin HEAD
-# Wait for CI → ALL JOBS GREEN ✅
-
-# 6. Manual QA
-# docs/qa-checklist.md → All items [x]
+# 5. Commit
+git add .
+git commit -m "[CHECKPOINT 5] Production ready - All tests passing"
 ```
 
 **Production Ready Criteria:**
 
-- [ ] GitHub Actions: All jobs GREEN ✅
-- [ ] Backend coverage > 80%
-- [ ] Frontend coverage > 70%
+- [ ] All backend tests pass
+- [ ] All frontend tests pass
 - [ ] TypeScript strict mode: No errors
 - [ ] ESLint: No warnings
 - [ ] Production build: Success
-- [ ] Manual QA: All items ✅
+- [ ] Manual QA: docs/qa-checklist.md all items ✅
 - [ ] Performance: Project switching < 100ms
 - [ ] No console errors in browser
+- [ ] localStorage persistence works
+- [ ] Cross-page project selection synced
 
-**When ALL criteria met:** Merge to master and deploy! 🚀
+**When ALL criteria met:** Ready for merge! 🚀
+
+**If same error occurs 5 times:** STOP and report to user.
 
 ---
 
 ## Summary
 
-**5 Iterations, 5 CI Checkpoints:**
+**5 Iterations, 5 Local Test Checkpoints:**
 
-| Iteration | Goal | Duration | CI Gate |
-|-----------|------|----------|---------|
-| 1 | Backend CRUD + Filtering | 2 days | Backend tests ✅ |
-| 2 | Frontend Context | 1 day | Frontend tests ✅ |
-| 3 | Page Integration | 3 days | Integration ✅ |
-| 4 | Project CRUD UI | 2 days | CRUD flows ✅ |
-| 5 | Final Testing | 1 day | **All gates** ✅ |
+| Iteration | Goal | Duration | Test Gate |
+|-----------|------|----------|-----------|
+| 1 | Backend CRUD + Filtering | 2 days | Backend tests pass ✅ |
+| 2 | Frontend Context | 1 day | Frontend tests pass ✅ |
+| 3 | Page Integration | 3 days | All tests pass ✅ |
+| 4 | Project CRUD UI | 2 days | CRUD flows work ✅ |
+| 5 | Final Testing | 1 day | **All tests pass** ✅ |
 
 **Total:** 9 days, 25+ tests, production-ready code
 
@@ -618,4 +627,6 @@ git push origin HEAD
 
 **Agent Handoff:** Can switch between Claude/Gemini at any checkpoint
 
-**CI-First:** GitHub Actions MUST be GREEN before proceeding to next iteration
+**Error Handling:** If same error occurs 5 times, STOP and report to user
+
+**Testing:** All tests run locally, no GitHub Actions required

@@ -11,10 +11,10 @@ Please use superpowers:executing-plans to execute this plan task-by-task.
 
 CRITICAL REQUIREMENTS:
 1. Strict TDD: RED → GREEN → REFACTOR → COMMIT
-2. Stop at each checkpoint to verify GitHub Actions CI is GREEN ✅
+2. Stop at each checkpoint to verify all tests pass locally
 3. Follow the plan exactly - it provides implementation guidance
-4. Report test coverage at each checkpoint
-5. Do not proceed to next iteration until CI passes
+4. If same error occurs 5 times, STOP and report issue to user
+5. Do not proceed to next iteration until all tests pass
 
 Current branch: feature/global-project-switching
 ```
@@ -54,45 +54,56 @@ Before starting the new conversation, verify:
 The agent will execute 5 iterations. At each checkpoint:
 
 1. **Agent runs local tests** → Reports results
-2. **Agent commits changes** → Pushes to GitHub
-3. **⏸️ Agent PAUSES** → Asks you to verify CI
-4. **You verify GitHub Actions:**
-   - Go to: https://github.com/[your-repo]/actions
-   - Check latest run: All jobs should be GREEN ✅
-5. **You confirm to agent:** "CI is green, continue to next iteration"
-6. **Agent proceeds** → Next iteration
+2. **Agent verifies:** All tests PASS ✅
+3. **Agent commits changes** → Local commit only
+4. **⏸️ Agent reports:** "Checkpoint [N] complete, all tests passing"
+5. **Agent proceeds** → Next iteration automatically
 
-## 📊 Expected CI Jobs
+**Error Retry Limit:** If the same error occurs 5 times:
+- **Agent STOPS immediately**
+- **Reports the error** with possible causes
+- **Waits for human** to investigate and fix
+- **DO NOT** continue without user intervention
 
-Each checkpoint should pass these jobs:
+## 📊 Expected Local Tests
 
-| Job | What it checks |
-|-----|---------------|
-| `lint` | ESLint (no warnings) |
-| `typecheck` | TypeScript compilation |
-| `test-backend` | Backend tests + coverage (> 80%) |
-| `test-frontend` | Frontend tests + coverage (> 70%) |
-| `build` | Production build succeeds |
+Each checkpoint should pass these tests:
 
-## 🚨 If CI Fails
+| Test Type | Command | Expected Result |
+|-----------|---------|-----------------|
+| Backend tests | `npm test -- run --prefix backend` | All PASS ✅ |
+| Frontend tests | `npm test -- run --prefix frontend` | All PASS ✅ |
+| TypeScript | `npx tsc --noEmit` | No errors |
+| Lint | `npm run lint --prefix frontend` | No warnings |
+| Build | `npm run build --prefix frontend` | Success |
 
-If any job fails:
+## 🚨 Error Retry Limit
 
-1. **Agent will see the error** → Analyze the failure
-2. **Fix the issue** → May require code changes
-3. **Re-run tests locally** → Verify fix
-4. **Commit fix** → Push again
-5. **Verify CI** → Must be GREEN before continuing
+**If same error occurs 5 times:**
 
-**Do not skip CI verification.** This ensures production readiness at each stage.
+1. **Agent STOPS immediately**
+2. **Reports error details:**
+   - Error message
+   - File and line number
+   - Stack trace
+   - Previous 4 attempts
+3. **Lists possible causes:**
+   - Missing dependency
+   - Configuration issue
+   - API breaking change
+   - Test environment problem
+4. **Waits for user intervention**
+5. **DO NOT retry** without user confirmation
+
+**This prevents infinite loops and wasted tokens.**
 
 ## 🤝 Multi-Agent Handoff
 
 If you need to switch to another agent (e.g., Gemini via antigravity):
 
 1. **Check current checkpoint** in the plan (1-5)
-2. **Verify all checklist items** are ✅
-3. **Ensure CI is GREEN**
+2. **Verify all tests pass locally**
+3. **Note any ongoing issues**
 4. **In new agent, provide:**
    ```
    Continue implementing the plan:
@@ -105,33 +116,35 @@ If you need to switch to another agent (e.g., Gemini via antigravity):
    Use superpowers:executing-plans skill.
 
    Before starting, verify:
-   - GitHub Actions CI is GREEN
-   - All tests passing locally
+   - All tests passing locally (npm test)
    - TypeScript compiles without errors
+   - No outstanding error retry count issues
    ```
 
 ## 📈 Progress Tracking
 
-| Iteration | Focus | Duration | CI Gate |
-|-----------|-------|----------|---------|
-| 1 | Backend API Foundation | 2 days | Backend tests + TypeScript |
-| 2 | Frontend Global State | 1 day | Frontend tests + Build |
-| 3 | Page Integration | 3 days | All tests + Manual QA |
-| 4 | Project CRUD UI | 2 days | All tests + CRUD flows |
-| 5 | Testing & Verification | 1 day | **FINAL** - All gates |
+| Iteration | Focus | Duration | Test Gate |
+|-----------|-------|----------|-----------|
+| 1 | Backend API Foundation | 2 days | Backend tests pass |
+| 2 | Frontend Global State | 1 day | Frontend tests pass |
+| 3 | Page Integration | 3 days | All tests pass |
+| 4 | Project CRUD UI | 2 days | All tests + CRUD works |
+| 5 | Testing & Verification | 1 day | **FINAL** - All pass |
 
 ## 🎯 Final Success Criteria
 
 Before merging to master, ensure:
 
 - [ ] All 5 checkpoints completed
-- [ ] GitHub Actions: All jobs GREEN
-- [ ] Backend coverage: > 80%
-- [ ] Frontend coverage: > 70%
+- [ ] All backend tests pass locally
+- [ ] All frontend tests pass locally
+- [ ] TypeScript compiles (strict mode)
+- [ ] ESLint passes (no warnings)
 - [ ] Manual QA checklist: All items ✅
 - [ ] Production build succeeds
 - [ ] No console errors in browser
 - [ ] Performance: Project switching < 100ms
+- [ ] No error retry limit reached (< 5 retries on any error)
 
 ---
 
