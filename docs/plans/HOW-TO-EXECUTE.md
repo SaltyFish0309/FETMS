@@ -5,17 +5,16 @@
 ```
 I want to implement the global project switching feature.
 
-The implementation plan is located at:
-docs/plans/2026-01-23-global-project-switching.md
+Plan location: docs/plans/2026-01-23-global-project-switching.md
 
-Please use the superpowers:executing-plans skill to execute this plan task-by-task.
+Please use superpowers:executing-plans to execute this plan task-by-task.
 
-Requirements:
-1. Strict TDD workflow (RED → GREEN → REFACTOR → COMMIT)
-2. Stop at each checkpoint to verify GitHub Actions CI passes
-3. Follow the plan exactly - it includes complete code examples
+CRITICAL REQUIREMENTS:
+1. Strict TDD: RED → GREEN → REFACTOR → COMMIT
+2. Stop at each checkpoint to verify GitHub Actions CI is GREEN ✅
+3. Follow the plan exactly - it provides implementation guidance
 4. Report test coverage at each checkpoint
-5. Do not proceed to next iteration until CI is GREEN
+5. Do not proceed to next iteration until CI passes
 
 Current branch: feature/global-project-switching
 ```
