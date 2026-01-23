@@ -32,6 +32,7 @@ export interface ITeacher extends Document {
     email: string;
     profilePicture?: string | undefined;
     remarks?: string;
+    project: mongoose.Types.ObjectId;
 
     // Personal Info
     personalInfo?: {
@@ -166,6 +167,12 @@ const TeacherSchema = new Schema<ITeacher>({
     email: { type: String, required: true, unique: true },
     profilePicture: { type: String },
     remarks: { type: String, default: '' },
+    project: {
+        type: Schema.Types.ObjectId,
+        ref: 'Project',
+        required: true,
+        index: true
+    },
 
     // Personal Info
     personalInfo: {

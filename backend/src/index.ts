@@ -10,6 +10,7 @@ import importRoutes from './routes/importRoutes.js';
 import schoolRoutes from './routes/schoolRoutes.js';
 import statsRoutes from './routes/statsRoutes.js';
 import alertRoutes from './routes/alertRoutes.js';
+import projectRoutes from './routes/projects.js';
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use('/api/teachers', importRoutes);
 app.use('/api/schools', schoolRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/alerts', alertRoutes);
+app.use('/api/projects', projectRoutes);
 app.use('/uploads', express.static('uploads'));
 
 // Global Error Handler
