@@ -170,7 +170,7 @@ const TeacherSchema = new Schema<ITeacher>({
     project: {
         type: Schema.Types.ObjectId,
         ref: 'Project',
-        required: true,
+        required: false,
         index: true
     },
 
