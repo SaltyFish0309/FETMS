@@ -96,6 +96,7 @@ export interface Teacher {
         expiryDate?: string;
         purpose?: string;
     };
+    project?: string; // Project ObjectId
 }
 
 export const teacherService = {
@@ -104,7 +105,7 @@ export const teacherService = {
         return response.data;
     },
 
-    create: async (data: { firstName: string; lastName: string; email: string }) => {
+    create: async (data: { firstName: string; lastName: string; email: string; project?: string }) => {
         const response = await api.post<Teacher>('/teachers', data);
         return response.data;
     },
