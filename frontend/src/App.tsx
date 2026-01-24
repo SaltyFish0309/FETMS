@@ -10,6 +10,7 @@ import TeacherProfile from "@/pages/TeacherProfile";
 import SchoolProfile from "@/pages/SchoolProfile";
 import Documents from "@/pages/Documents";
 import Settings from "@/pages/Settings";
+import ProjectSettings from "@/pages/ProjectSettings";
 import { Toaster } from "@/components/ui/sonner";
 
 import Dashboard from "@/pages/Dashboard";
@@ -20,6 +21,7 @@ const ROUTE_TITLES: Record<string, string> = {
   '/schools': 'Schools',
   '/documents': 'Documents',
   '/settings': 'Settings',
+  '/settings/projects': 'Project Settings',
 };
 
 function getPageTitle(pathname: string): string {
@@ -51,6 +53,7 @@ function AppContent() {
             <Route path="/teachers/:id" element={<TeacherProfile />} />
             <Route path="/documents" element={<Documents />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/settings/projects" element={<ProjectSettings />} />
           </Routes>
         </main>
       </div>
