@@ -100,8 +100,9 @@ export interface Teacher {
 }
 
 export const teacherService = {
-    getAll: async () => {
-        const response = await api.get<Teacher[]>('/teachers');
+    getAll: async (projectId?: string) => {
+        const params = projectId ? { projectId } : {};
+        const response = await api.get<Teacher[]>('/teachers', { params });
         return response.data;
     },
 
