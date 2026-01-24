@@ -2,6 +2,8 @@ import { useEffect, useState, useCallback } from "react";
 import { statsService } from "@/services/statsService";
 import type { DashboardFilters } from "@/services/statsService";
 import type { DashboardStats } from "@/services/statsService";
+import { useProjectContext } from "@/contexts/ProjectContext";
+import { ProjectToggle } from "@/components/teachers/list/ProjectToggle";
 import { ExpiryWidget } from "@/components/dashboard/ExpiryWidget";
 import { PipelineChart } from "@/components/dashboard/PipelineChart";
 import { DemographicsChart } from "@/components/dashboard/DemographicsChart";
@@ -17,14 +19,19 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function Dashboard() {
+    const { selectedProjectId, setSelectedProjectId } = useProjectContext();
     const [stats, setStats] = useState<DashboardStats | null>(null);
     const [loading, setLoading] = useState(true);
     const [filters, setFilters] = useState<DashboardFilters>({});
 
     const loadStats = useCallback(async () => {
+        if (!selectedProjectId) return;
         try {
             setLoading(true);
-            const data = await statsService.getDashboardStats(filters);
+            const data = await statsService.getDashboardStats({
+                ...filters,
+                projectId: selectedProjectId
+            });
 
             setStats(data);
         } catch (error) {
@@ -33,7 +40,7 @@ export default function Dashboard() {
         } finally {
             setLoading(false);
         }
-    }, [filters]);
+    }, [filters, selectedProjectId]);
 
     // Reload stats when filters change
     useEffect(() => {
@@ -73,6 +80,9 @@ export default function Dashboard() {
                     Overview of teachers, schools, and recruitment metrics
                 </p>
             </div>
+
+            {/* Project Toggle */}
+            <ProjectToggle value={selectedProjectId} onChange={setSelectedProjectId} />
 
             {/* Top Section: KPI Matrix (Left) & Action Center (Right) */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
