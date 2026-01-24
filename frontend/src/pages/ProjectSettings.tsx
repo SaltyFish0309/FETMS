@@ -34,9 +34,12 @@ export default function ProjectSettings() {
     }
   }, []);
 
+  // Initial data loading on mount - standard React pattern
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     loadProjects();
   }, [loadProjects]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const handleSuccess = async () => {
     await loadProjects();
