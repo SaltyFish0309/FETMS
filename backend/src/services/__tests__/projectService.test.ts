@@ -9,6 +9,7 @@ vi.mock('../../models/Project.js', () => {
       find: vi.fn(),
       findOne: vi.fn(),
       findById: vi.fn(),
+      findByIdAndUpdate: vi.fn(),
       create: vi.fn(),
     }
   };
@@ -88,4 +89,84 @@ describe('ProjectService', () => {
 
   // Note: createProject uses 'new Project()' which is hard to mock in unit tests
   // The method is simple and will be tested in integration/E2E tests
+
+  describe('updateProject', () => {
+    it('should update project name and description', async () => {
+      const mockUpdatedProject = {
+        _id: '1',
+        name: 'Updated Name',
+        description: 'Updated Description',
+        code: 'TFETP',
+        isActive: true
+      };
+      vi.mocked(Project.findByIdAndUpdate).mockResolvedValue(mockUpdatedProject as any);
+
+      const result = await ProjectService.updateProject('1', {
+        name: 'Updated Name',
+        description: 'Updated Description'
+      });
+
+      expect(Project.findByIdAndUpdate).toHaveBeenCalledWith(
+        '1',
+        { name: 'Updated Name', description: 'Updated Description' },
+        { new: true }
+      );
+      expect(result).toEqual(mockUpdatedProject);
+    });
+
+    it('should ignore code field (code is immutable)', async () => {
+      const mockUpdatedProject = {
+        _id: '1',
+        name: 'Updated Name',
+        code: 'TFETP',  // Original code unchanged
+        isActive: true
+      };
+      vi.mocked(Project.findByIdAndUpdate).mockResolvedValue(mockUpdatedProject as any);
+
+      const result = await ProjectService.updateProject('1', {
+        name: 'Updated Name',
+        code: 'NEWCODE'  // Attempt to change code
+      });
+
+      expect(Project.findByIdAndUpdate).toHaveBeenCalledWith(
+        '1',
+        { name: 'Updated Name' },  // code not included
+        { new: true }
+      );
+      expect(result).toEqual(mockUpdatedProject);
+    });
+
+    it('should return null for non-existent project', async () => {
+      vi.mocked(Project.findByIdAndUpdate).mockResolvedValue(null);
+
+      const result = await ProjectService.updateProject('999', { name: 'Test' });
+
+      expect(result).toBeNull();
+    });
+  });
+
+  describe('deleteProject', () => {
+    it('should soft delete project by setting isActive to false', async () => {
+      const mockDeletedProject = {
+        _id: '1',
+        name: 'TFETP',
+        code: 'TFETP',
+        isActive: false
+      };
+      vi.mocked(Project.findByIdAndUpdate).mockResolvedValue(mockDeletedProject as any);
+
+      const result = await ProjectService.deleteProject('1');
+
+      expect(Project.findByIdAndUpdate).toHaveBeenCalledWith('1', { isActive: false });
+      expect(result).toBe(true);
+    });
+
+    it('should return false when project not found', async () => {
+      vi.mocked(Project.findByIdAndUpdate).mockResolvedValue(null);
+
+      const result = await ProjectService.deleteProject('999');
+
+      expect(result).toBe(false);
+    });
+  });
 });

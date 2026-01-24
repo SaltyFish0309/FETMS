@@ -20,4 +20,14 @@ export class ProjectService {
     });
     return await project.save();
   }
+
+  static async updateProject(id: string, data: Partial<IProject>): Promise<IProject | null> {
+    const { code, ...updateData } = data;  // code is immutable
+    return await Project.findByIdAndUpdate(id, updateData, { new: true });
+  }
+
+  static async deleteProject(id: string): Promise<boolean> {
+    const result = await Project.findByIdAndUpdate(id, { isActive: false });
+    return result !== null;
+  }
 }
