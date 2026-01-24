@@ -42,6 +42,7 @@ export function ProjectProvider({ children }: { children: ReactNode }) {
   // Load projects on mount
   useEffect(() => {
     loadProjects();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Persist to localStorage when selection changes
@@ -70,6 +71,7 @@ export function ProjectProvider({ children }: { children: ReactNode }) {
   return <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useProjectContext(): ProjectContextValue {
   const context = useContext(ProjectContext);
   if (context === undefined) {

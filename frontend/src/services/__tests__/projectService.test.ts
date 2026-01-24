@@ -21,7 +21,7 @@ describe('projectService', () => {
         updatedAt: '2024-01-01',
       };
 
-      vi.mocked(api.get).mockResolvedValue({ data: mockProject } as any);
+      vi.mocked(api.get).mockResolvedValue({ data: mockProject });
 
       const result = await projectService.getById('1');
 
@@ -41,7 +41,7 @@ describe('projectService', () => {
         updatedAt: '2024-01-02',
       };
 
-      vi.mocked(api.put).mockResolvedValue({ data: mockProject } as any);
+      vi.mocked(api.put).mockResolvedValue({ data: mockProject });
 
       const result = await projectService.update('1', { name: 'Updated Name' });
 
@@ -52,7 +52,7 @@ describe('projectService', () => {
 
   describe('delete', () => {
     it('should delete project', async () => {
-      vi.mocked(api.delete).mockResolvedValue({} as any);
+      vi.mocked(api.delete).mockResolvedValue({});
 
       await projectService.delete('1');
 
