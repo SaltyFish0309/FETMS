@@ -96,6 +96,7 @@ export interface Teacher {
         expiryDate?: string;
         purpose?: string;
     };
+    school?: string | { _id: string }; // School ObjectId or populated object
     project?: string; // Project ObjectId
 }
 
