@@ -22,7 +22,11 @@ export class ProjectController {
 
   static async getProjectById(req: Request, res: Response) {
     try {
-      const project = await ProjectService.getProjectById(req.params.id);
+      const { id } = req.params;
+      if (!id) {
+        return res.status(400).json({ message: 'Project ID is required' });
+      }
+      const project = await ProjectService.getProjectById(id);
       if (!project) {
         return res.status(404).json({ message: 'Not found' });
       }
@@ -34,7 +38,11 @@ export class ProjectController {
 
   static async updateProject(req: Request, res: Response) {
     try {
-      const project = await ProjectService.updateProject(req.params.id, req.body);
+      const { id } = req.params;
+      if (!id) {
+        return res.status(400).json({ message: 'Project ID is required' });
+      }
+      const project = await ProjectService.updateProject(id, req.body);
       if (!project) {
         return res.status(404).json({ message: 'Not found' });
       }
@@ -46,7 +54,11 @@ export class ProjectController {
 
   static async deleteProject(req: Request, res: Response) {
     try {
-      const success = await ProjectService.deleteProject(req.params.id);
+      const { id } = req.params;
+      if (!id) {
+        return res.status(400).json({ message: 'Project ID is required' });
+      }
+      const success = await ProjectService.deleteProject(id);
       if (!success) {
         return res.status(404).json({ message: 'Not found' });
       }
