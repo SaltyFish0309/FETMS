@@ -1,5 +1,7 @@
-import { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
-import { projectService, Project } from '../services/projectService';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import type { ReactNode } from 'react';
+import { projectService } from '../services/projectService';
+import type { Project } from '../services/projectService';
 
 interface ProjectContextValue {
   selectedProjectId: string | null;

@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from "react-route
 
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Header } from "@/components/layout/Header";
+import { ProjectProvider } from "@/contexts/ProjectContext";
 
 import Teachers from "@/pages/Teachers";
 import Schools from "@/pages/Schools";
@@ -61,7 +62,9 @@ function AppContent() {
 function App() {
   return (
     <Router>
-      <AppContent />
+      <ProjectProvider>
+        <AppContent />
+      </ProjectProvider>
     </Router>
   );
 }
