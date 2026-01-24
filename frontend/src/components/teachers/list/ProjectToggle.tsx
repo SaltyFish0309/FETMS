@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
 import { Building2, Users, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { projectService, type Project } from "@/services/projectService";
+import { useProjectContext } from "@/contexts/ProjectContext";
 
 interface ProjectToggleProps {
     value: string | null;
@@ -15,26 +14,7 @@ const getIcon = (code: string) => {
 };
 
 export function ProjectToggle({ value, onChange }: ProjectToggleProps) {
-    const [projects, setProjects] = useState<Project[]>([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchProjects = async () => {
-            try {
-                const data = await projectService.getAll();
-                setProjects(data);
-                if (!value && data.length > 0) {
-                    onChange(data[0]._id);
-                }
-            } catch (error) {
-                console.error('Failed to fetch projects:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchProjects();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    const { projects, loading } = useProjectContext();
 
     if (loading) {
         return (
