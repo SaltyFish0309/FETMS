@@ -31,9 +31,14 @@ export class TeacherService {
         return await teacher.save();
     }
 
-    static async getAllTeachers(): Promise<ITeacher[]> {
-        return await Teacher.find({ isDeleted: false })
+    static async getAllTeachers(projectId?: string): Promise<ITeacher[]> {
+        const query: any = { isDeleted: false };
+        if (projectId) {
+            query.project = projectId;
+        }
+        return await Teacher.find(query)
             .populate('school')
+            .populate('project')
             .sort({ createdAt: -1 });
     }
 

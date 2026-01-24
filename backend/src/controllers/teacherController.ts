@@ -15,7 +15,8 @@ export class TeacherController {
 
     static async getAllTeachers(req: Request, res: Response) {
         try {
-            const teachers = await TeacherService.getAllTeachers();
+            const projectId = req.query.projectId as string | undefined;
+            const teachers = await TeacherService.getAllTeachers(projectId);
             res.json(teachers);
         } catch (error) {
             res.status(500).json({ message: 'Error fetching teachers', error });
