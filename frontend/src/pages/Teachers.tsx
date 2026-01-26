@@ -27,6 +27,8 @@ import { ImportTeachersDialog } from "@/components/teachers/ImportTeachersDialog
 import { DataTable } from "@/components/teachers/list/DataTable";
 import { columns } from "@/components/teachers/list/columns";
 import { ViewModeToggle } from "@/components/teachers/list/ViewModeToggle";
+import { ExportButton } from "@/components/common/ExportButton";
+import { exportService } from "@/services/exportService";
 
 export default function Teachers() {
     const { selectedProjectId } = useProjectContext();
@@ -141,6 +143,14 @@ export default function Teachers() {
                     }}
                     actionButtons={
                         <>
+                            <ExportButton
+                                onExportCSV={() => {
+                                    const columns = exportService.getTeacherExportColumns();
+                                    const csv = exportService.generateCSV(teachers as unknown as Record<string, unknown>[], columns);
+                                    exportService.downloadCSV(csv, `teachers-export-${new Date().toISOString().split('T')[0]}`);
+                                }}
+                                label="Export"
+                            />
                             <ImportTeachersDialog onSuccess={() => {
                                 loadTeachers();
                                 loadStages();
