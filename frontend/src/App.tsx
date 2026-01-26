@@ -58,6 +58,8 @@ function AppContent() {
             <Route path="/documents" element={<Documents />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/settings/projects" element={<ProjectSettings />} />
+            <Route path="/settings/alerts" element={<AlertSettings />} />
+            <Route path="/settings/stages" element={<StageSettings />} />
           </Routes>
         </main>
       </div>

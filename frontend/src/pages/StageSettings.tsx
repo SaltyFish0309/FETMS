@@ -21,7 +21,7 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-  DragEndEvent,
+  type DragEndEvent,
 } from '@dnd-kit/core';
 import {
   arrayMove,
@@ -105,6 +105,7 @@ export default function StageSettings() {
 
   useEffect(() => {
     loadStages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadStages]);
 
   const handleDragEnd = (event: DragEndEvent) => {

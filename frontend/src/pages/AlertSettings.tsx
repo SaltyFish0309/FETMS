@@ -63,6 +63,7 @@ export default function AlertSettings() {
 
   useEffect(() => {
     loadRules();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadRules]);
 
   const handleOpenDialog = (rule?: AlertRule) => {
@@ -92,7 +93,7 @@ export default function AlertSettings() {
     try {
       const payload = {
         ...formData,
-        value: formData.conditionType === 'DAYS_REMAINING' ? Number(formData.value) : formData.value,
+        value: formData.conditionType === 'DAYS_REMAINING' ? Number(formData.value) : new Date(formData.value),
       };
 
       if (editingRule) {
@@ -287,7 +288,7 @@ export default function AlertSettings() {
               <Switch
                 id="isActive"
                 checked={formData.isActive}
-                onCheckedChange={(checked) =>
+                onCheckedChange={(checked: boolean) =>
                   setFormData({ ...formData, isActive: checked })
                 }
               />
