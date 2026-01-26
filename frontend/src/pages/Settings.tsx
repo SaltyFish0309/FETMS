@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FolderKanban, ChevronRight, Bell, Layers } from "lucide-react";
+import { FolderKanban, ChevronRight, Bell, Layers, Settings2, Database } from "lucide-react";
 
 const Settings = () => {
     const navigate = useNavigate();
@@ -29,6 +29,22 @@ const Settings = () => {
             path: "/settings/stages",
             iconColor: "text-purple-600",
             bgColor: "bg-purple-100"
+        },
+        {
+            title: "User Preferences",
+            description: "Customize application theme and appearance",
+            icon: Settings2,
+            path: "/settings/preferences",
+            iconColor: "text-slate-600",
+            bgColor: "bg-slate-100"
+        },
+        {
+            title: "Data Import",
+            description: "Import teachers and schools from external sources",
+            icon: Database,
+            path: "/settings/import",
+            iconColor: "text-slate-600",
+            bgColor: "bg-slate-100"
         }
     ];
 
@@ -72,5 +88,6 @@ const Settings = () => {
         </div>
     );
 };
+
 
 export default Settings;
