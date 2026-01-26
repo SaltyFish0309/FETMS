@@ -11,8 +11,9 @@ export interface Project {
 }
 
 export const projectService = {
-    async getAll(): Promise<Project[]> {
-        const response = await api.get<Project[]>('/projects');
+    async getAll(includeArchived: boolean = false): Promise<Project[]> {
+        const params = includeArchived ? { includeArchived: 'true' } : {};
+        const response = await api.get<Project[]>('/projects', { params });
         return response.data;
     },
 

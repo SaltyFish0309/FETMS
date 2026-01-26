@@ -1,15 +1,20 @@
 import { Bell, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ProjectToggle } from "@/components/teachers/list/ProjectToggle";
+import { useProjectContext } from "@/contexts/ProjectContext";
 
 interface HeaderProps {
     title?: string;
 }
 
 export function Header({ title = "Dashboard" }: HeaderProps) {
+    const { selectedProjectId, setSelectedProjectId } = useProjectContext();
+
     return (
         <header className="flex h-16 items-center justify-between border-b bg-white px-8 shadow-sm">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-6">
                 <h2 className="text-2xl font-bold tracking-tight text-slate-900">{title}</h2>
+                <ProjectToggle value={selectedProjectId} onChange={setSelectedProjectId} />
             </div>
             <div className="flex items-center space-x-4">
                 <div className="relative">

@@ -26,7 +26,7 @@ export default function ProjectSettings() {
 
   const loadProjects = useCallback(async () => {
     try {
-      const data = await projectService.getAll();
+      const data = await projectService.getAll(true); // Include archived projects
       setProjects(data);
     } catch (error) {
       console.error('Failed to load projects', error);

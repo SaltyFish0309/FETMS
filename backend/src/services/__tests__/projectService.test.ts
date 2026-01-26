@@ -21,7 +21,7 @@ describe('ProjectService', () => {
   });
 
   describe('getAllProjects', () => {
-    it('should return all active projects sorted by createdAt', async () => {
+    it('should return all active projects sorted by createdAt (default)', async () => {
       const mockProjects = [
         { _id: '1', name: 'TFETP 專案', code: 'TFETP', isActive: true },
         { _id: '2', name: '獨立委任專案', code: 'INDEPENDENT', isActive: true }
@@ -33,6 +33,23 @@ describe('ProjectService', () => {
       const result = await ProjectService.getAllProjects();
 
       expect(Project.find).toHaveBeenCalledWith({ isActive: true });
+      expect(sortMock).toHaveBeenCalledWith({ createdAt: 1 });
+      expect(result).toEqual(mockProjects);
+    });
+
+    it('should return all projects including archived when includeArchived is true', async () => {
+      const mockProjects = [
+        { _id: '1', name: 'TFETP 專案', code: 'TFETP', isActive: true },
+        { _id: '2', name: '獨立委任專案', code: 'INDEPENDENT', isActive: true },
+        { _id: '3', name: 'Archived Project', code: 'ARCHIVED', isActive: false }
+      ];
+
+      const sortMock = vi.fn().mockResolvedValue(mockProjects);
+      vi.mocked(Project.find).mockReturnValue({ sort: sortMock } as any);
+
+      const result = await ProjectService.getAllProjects(true);
+
+      expect(Project.find).toHaveBeenCalledWith({});
       expect(sortMock).toHaveBeenCalledWith({ createdAt: 1 });
       expect(result).toEqual(mockProjects);
     });

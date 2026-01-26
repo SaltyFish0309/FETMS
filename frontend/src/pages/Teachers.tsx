@@ -27,10 +27,9 @@ import { ImportTeachersDialog } from "@/components/teachers/ImportTeachersDialog
 import { DataTable } from "@/components/teachers/list/DataTable";
 import { columns } from "@/components/teachers/list/columns";
 import { ViewModeToggle } from "@/components/teachers/list/ViewModeToggle";
-import { ProjectToggle } from "@/components/teachers/list/ProjectToggle";
 
 export default function Teachers() {
-    const { selectedProjectId, setSelectedProjectId } = useProjectContext();
+    const { selectedProjectId } = useProjectContext();
     const [teachers, setTeachers] = useState<Teacher[]>([]);
     const [stages, setStages] = useState<{ _id: string; title: string }[]>([]);
     const [viewMode, setViewMode] = useState<'list' | 'kanban'>('list');
@@ -130,8 +129,6 @@ export default function Teachers() {
                 </div>
                 <ViewModeToggle value={viewMode} onChange={setViewMode} />
             </div>
-            {/* 新增專案切換器 */}
-            <ProjectToggle value={selectedProjectId} onChange={setSelectedProjectId} />
 
             {viewMode === 'list' ? (
                 <DataTable

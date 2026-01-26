@@ -2,7 +2,6 @@ import { useEffect, useState, useMemo } from "react";
 import { schoolService, type School } from "@/services/schoolService";
 import { teacherService, type Teacher } from "@/services/teacherService";
 import { useProjectContext } from "@/contexts/ProjectContext";
-import { ProjectToggle } from "@/components/teachers/list/ProjectToggle";
 import { Button } from "@/components/ui/button";
 import {
     Table,
@@ -38,7 +37,7 @@ import { ImportSchoolsDialog } from "@/components/schools/ImportSchoolsDialog";
 
 export default function Schools() {
     const navigate = useNavigate();
-    const { selectedProjectId, setSelectedProjectId } = useProjectContext();
+    const { selectedProjectId } = useProjectContext();
     const [schools, setSchools] = useState<School[]>([]);
     const [teachers, setTeachers] = useState<Teacher[]>([]);
     const [isOpen, setIsOpen] = useState(false);
@@ -171,9 +170,6 @@ export default function Schools() {
                     </Dialog>
                 </div>
             </div>
-
-            {/* Project Toggle */}
-            <ProjectToggle value={selectedProjectId} onChange={setSelectedProjectId} />
 
             {/* Filter Bar */}
             <div className="flex items-center gap-4 bg-white p-4 rounded-lg border border-slate-200 shadow-sm">

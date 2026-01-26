@@ -4,7 +4,8 @@ import { ProjectService } from '../services/projectService.js';
 export class ProjectController {
   static async getAllProjects(req: Request, res: Response) {
     try {
-      const projects = await ProjectService.getAllProjects();
+      const includeArchived = req.query.includeArchived === 'true';
+      const projects = await ProjectService.getAllProjects(includeArchived);
       res.json(projects);
     } catch (error) {
       res.status(500).json({ message: 'Error fetching projects', error });

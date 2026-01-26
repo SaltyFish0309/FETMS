@@ -1,8 +1,9 @@
 import Project, { IProject } from '../models/Project.js';
 
 export class ProjectService {
-  static async getAllProjects(): Promise<IProject[]> {
-    return await Project.find({ isActive: true }).sort({ createdAt: 1 });
+  static async getAllProjects(includeArchived: boolean = false): Promise<IProject[]> {
+    const query = includeArchived ? {} : { isActive: true };
+    return await Project.find(query).sort({ createdAt: 1 });
   }
 
   static async getProjectById(id: string): Promise<IProject | null> {

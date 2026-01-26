@@ -26,6 +26,8 @@ export function EditProjectDialog({ project, open, onOpenChange, onSuccess }: Ed
     description: '',
   });
 
+  // Initial form data loading from props - standard React pattern
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     if (project) {
       setFormData({
@@ -35,6 +37,7 @@ export function EditProjectDialog({ project, open, onOpenChange, onSuccess }: Ed
       });
     }
   }, [project]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
