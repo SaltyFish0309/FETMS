@@ -5,10 +5,11 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DataTableViewOptions } from "./DataTableViewOptions"
 import { DataTableFacetedFilter } from "./DataTableFacetedFilter"
-import { Download, Trash2, X, Filter } from "lucide-react"
+import { Trash2, X, Filter } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { COLUMN_MAP } from "./columnConfig"
 import { FilterSheet } from "./filters/FilterSheet"
+import { ExportButton } from "@/components/common/ExportButton"
 
 interface DataTableToolbarProps<TData> {
     table: Table<TData>
@@ -50,9 +51,11 @@ export function DataTableToolbar<TData>({
         });
     }, [table]);
 
-    const handleExport = () => {
+    const handleExportCSV = React.useCallback(() => {
         const rows = table.getFilteredRowModel().rows;
-        const visibleColumns = table.getVisibleLeafColumns().filter(col => col.id !== 'select' && col.id !== 'actions' && col.id !== 'avatar');
+        const visibleColumns = table.getVisibleLeafColumns().filter(
+            col => col.id !== 'select' && col.id !== 'actions' && col.id !== 'avatar'
+        );
 
         // Headers - use COLUMN_MAP for human-readable labels
         const headers = visibleColumns.map(col => {
@@ -60,7 +63,7 @@ export function DataTableToolbar<TData>({
             return colDef ? colDef.label : col.id;
         });
 
-        // Data
+        // Data rows
         const csvRows = rows.map(row => {
             return visibleColumns.map(col => {
                 let value = row.getValue(col.id);
@@ -74,7 +77,7 @@ export function DataTableToolbar<TData>({
                     value = JSON.stringify(value);
                 }
 
-                // Escape CSV
+                // Escape CSV special characters
                 const strValue = value === undefined || value === null ? '' : String(value);
                 if (strValue.includes(',') || strValue.includes('"') || strValue.includes('\n')) {
                     return `"${strValue.replace(/"/g, '""')}"`;
@@ -83,6 +86,7 @@ export function DataTableToolbar<TData>({
             }).join(',');
         });
 
+        // Generate and download CSV
         const csvContent = [headers.join(','), ...csvRows].join('\n');
         const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
@@ -94,7 +98,7 @@ export function DataTableToolbar<TData>({
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
-    };
+    }, [table, stageMap]);
 
     const activeFilterCount = table.getState().columnFilters.length;
 
@@ -174,17 +178,12 @@ export function DataTableToolbar<TData>({
                 {/* Column visibility options */}
                 <DataTableViewOptions table={table} />
 
-                {/* Export button */}
-                <Button
-                    variant="outline"
-                    size="sm"
-                    className="h-9"
-                    onClick={handleExport}
-                    disabled={table.getFilteredRowModel().rows.length === 0}
-                >
-                    <Download className="mr-2 h-4 w-4" />
-                    Export
-                </Button>
+                {/* Export button with dropdown */}
+                <ExportButton
+                    onExportCSV={handleExportCSV}
+                    label="Export"
+                    isLoading={table.getFilteredRowModel().rows.length === 0}
+                />
             </div>
 
             {/* Active filters row (conditional) */}
