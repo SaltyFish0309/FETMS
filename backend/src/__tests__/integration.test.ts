@@ -6,7 +6,7 @@ import Teacher from '../models/Teacher.js';
 
 // Mock the models
 vi.mock('../models/Project.js', () => {
-  const mockProject = vi.fn();
+  const mockProject: any = vi.fn();
   mockProject.find = vi.fn();
   mockProject.findById = vi.fn();
   mockProject.findByIdAndUpdate = vi.fn();
@@ -14,7 +14,7 @@ vi.mock('../models/Project.js', () => {
 });
 
 vi.mock('../models/Teacher.js', () => {
-  const mockTeacher = vi.fn();
+  const mockTeacher: any = vi.fn();
   mockTeacher.find = vi.fn();
   return { default: mockTeacher };
 });
