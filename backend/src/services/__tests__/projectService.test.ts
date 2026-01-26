@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { ProjectService } from '../projectService.js';
 import Project from '../../models/Project.js';
+import Teacher from '../../models/Teacher.js';
 
 // Mock the Project model
 vi.mock('../../models/Project.js', () => {
@@ -10,7 +11,17 @@ vi.mock('../../models/Project.js', () => {
       findOne: vi.fn(),
       findById: vi.fn(),
       findByIdAndUpdate: vi.fn(),
+      findByIdAndDelete: vi.fn(),
       create: vi.fn(),
+    }
+  };
+});
+
+// Mock the Teacher model
+vi.mock('../../models/Teacher.js', () => {
+  return {
+    default: {
+      countDocuments: vi.fn(),
     }
   };
 });
@@ -184,6 +195,91 @@ describe('ProjectService', () => {
       const result = await ProjectService.deleteProject('999');
 
       expect(result).toBe(false);
+    });
+  });
+
+  describe('restoreProject', () => {
+    it('should restore archived project by setting isActive to true', async () => {
+      const mockRestoredProject = {
+        _id: '1',
+        name: 'Archived Project',
+        code: 'ARCH',
+        isActive: true
+      };
+      vi.mocked(Project.findByIdAndUpdate).mockResolvedValue(mockRestoredProject as any);
+
+      const result = await ProjectService.restoreProject('1');
+
+      expect(Project.findByIdAndUpdate).toHaveBeenCalledWith('1', { isActive: true }, { new: true });
+      expect(result).toEqual(mockRestoredProject);
+    });
+
+    it('should return null when project not found', async () => {
+      vi.mocked(Project.findByIdAndUpdate).mockResolvedValue(null);
+
+      const result = await ProjectService.restoreProject('999');
+
+      expect(result).toBeNull();
+    });
+  });
+
+  describe('hardDeleteProject', () => {
+    it('should permanently delete project when no teachers associated', async () => {
+      const mockProject = {
+        _id: '1',
+        name: 'Archived Project',
+        code: 'ARCH',
+        isActive: false
+      };
+
+      vi.mocked(Project.findById).mockResolvedValue(mockProject as any);
+      vi.mocked(Teacher.countDocuments).mockResolvedValue(0);
+      vi.mocked(Project.findByIdAndDelete).mockResolvedValue(mockProject as any);
+
+      const result = await ProjectService.hardDeleteProject('1');
+
+      expect(Teacher.countDocuments).toHaveBeenCalledWith({ project: '1' });
+      expect(Project.findByIdAndDelete).toHaveBeenCalledWith('1');
+      expect(result).toBe(true);
+    });
+
+    it('should throw error when project has associated teachers', async () => {
+      const mockProject = {
+        _id: '1',
+        name: 'Archived Project',
+        code: 'ARCH',
+        isActive: false
+      };
+
+      vi.mocked(Project.findById).mockResolvedValue(mockProject as any);
+      vi.mocked(Teacher.countDocuments).mockResolvedValue(5);
+
+      await expect(ProjectService.hardDeleteProject('1')).rejects.toThrow(
+        'Cannot delete project with associated teachers'
+      );
+    });
+
+    it('should throw error when trying to delete active project', async () => {
+      const mockProject = {
+        _id: '1',
+        name: 'Active Project',
+        code: 'ACTIVE',
+        isActive: true
+      };
+
+      vi.mocked(Project.findById).mockResolvedValue(mockProject as any);
+
+      await expect(ProjectService.hardDeleteProject('1')).rejects.toThrow(
+        'Cannot hard delete active project. Archive it first.'
+      );
+    });
+
+    it('should throw error when project not found', async () => {
+      vi.mocked(Project.findById).mockResolvedValue(null);
+
+      await expect(ProjectService.hardDeleteProject('999')).rejects.toThrow(
+        'Project not found'
+      );
     });
   });
 });
