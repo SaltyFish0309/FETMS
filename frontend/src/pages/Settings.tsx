@@ -1,8 +1,21 @@
-
-
-
+import { useNavigate } from "react-router-dom";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { FolderKanban, ChevronRight } from "lucide-react";
 
 const Settings = () => {
+    const navigate = useNavigate();
+
+    const settingsSections = [
+        {
+            title: "Project Management",
+            description: "Create, edit, and archive projects",
+            icon: FolderKanban,
+            path: "/settings/projects",
+            iconColor: "text-blue-600",
+            bgColor: "bg-blue-100"
+        }
+    ];
+
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
@@ -11,8 +24,34 @@ const Settings = () => {
                     <p className="text-slate-500 mt-2">Manage application settings and preferences.</p>
                 </div>
             </div>
-            <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                <p className="text-slate-500">Settings configuration coming soon.</p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {settingsSections.map((section) => {
+                    const Icon = section.icon;
+                    return (
+                        <Card
+                            key={section.path}
+                            className="cursor-pointer hover:shadow-lg transition-all duration-200 hover:border-blue-300 group"
+                            onClick={() => navigate(section.path)}
+                        >
+                            <CardHeader>
+                                <div className="flex items-center justify-between">
+                                    <div className={`h-12 w-12 rounded-lg ${section.bgColor} flex items-center justify-center`}>
+                                        <Icon className={`h-6 w-6 ${section.iconColor}`} />
+                                    </div>
+                                    <ChevronRight className="h-5 w-5 text-slate-400 group-hover:text-blue-600 transition-colors" />
+                                </div>
+                                <CardTitle className="text-xl mt-4">{section.title}</CardTitle>
+                                <CardDescription>{section.description}</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <p className="text-sm text-blue-600 font-medium group-hover:underline">
+                                    Manage settings →
+                                </p>
+                            </CardContent>
+                        </Card>
+                    );
+                })}
             </div>
         </div>
     );

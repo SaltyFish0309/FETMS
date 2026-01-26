@@ -1,8 +1,9 @@
 import Project, { IProject } from '../models/Project.js';
 
 export class ProjectService {
-  static async getAllProjects(): Promise<IProject[]> {
-    return await Project.find({ isActive: true }).sort({ createdAt: 1 });
+  static async getAllProjects(includeArchived: boolean = false): Promise<IProject[]> {
+    const query = includeArchived ? {} : { isActive: true };
+    return await Project.find(query).sort({ createdAt: 1 });
   }
 
   static async getProjectById(id: string): Promise<IProject | null> {
@@ -19,5 +20,15 @@ export class ProjectService {
       code: data.code?.toUpperCase()
     });
     return await project.save();
+  }
+
+  static async updateProject(id: string, data: Partial<IProject>): Promise<IProject | null> {
+    const { code, ...updateData } = data;  // code is immutable
+    return await Project.findByIdAndUpdate(id, updateData, { new: true });
+  }
+
+  static async deleteProject(id: string): Promise<boolean> {
+    const result = await Project.findByIdAndUpdate(id, { isActive: false });
+    return result !== null;
   }
 }

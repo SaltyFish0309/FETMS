@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { schoolService, type School } from "@/services/schoolService";
+import { teacherService, type Teacher } from "@/services/teacherService";
+import { useProjectContext } from "@/contexts/ProjectContext";
 import { Button } from "@/components/ui/button";
 import {
     Table,
@@ -35,7 +37,9 @@ import { ImportSchoolsDialog } from "@/components/schools/ImportSchoolsDialog";
 
 export default function Schools() {
     const navigate = useNavigate();
+    const { selectedProjectId } = useProjectContext();
     const [schools, setSchools] = useState<School[]>([]);
+    const [teachers, setTeachers] = useState<Teacher[]>([]);
     const [isOpen, setIsOpen] = useState(false);
     const [isSelectionMode, setIsSelectionMode] = useState(false);
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
@@ -43,19 +47,40 @@ export default function Schools() {
     const [newSchoolName, setNewSchoolName] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
 
-    const loadSchools = async () => {
+    const loadData = async () => {
         try {
-            const data = await schoolService.getAll(searchQuery);
-            setSchools(data);
+            const schoolsData = await schoolService.getAll(searchQuery);
+            setSchools(schoolsData);
+
+            if (selectedProjectId) {
+                const teachersData = await teacherService.getAll(selectedProjectId);
+                setTeachers(teachersData);
+            }
         } catch (error) {
-            console.error("Failed to load schools", error);
+            console.error("Failed to load data", error);
         }
     };
 
     useEffect(() => {
-        loadSchools();
+        loadData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchQuery]);
+    }, [searchQuery, selectedProjectId]);
+
+    // Frontend filtering: show only schools with teachers in the selected project
+    const filteredSchools = useMemo(() => {
+        if (!selectedProjectId) return schools;
+
+        const schoolIdsInProject = new Set(
+            teachers
+                .map(t => {
+                    if (!t.school) return null;
+                    return typeof t.school === 'string' ? t.school : t.school._id;
+                })
+                .filter(Boolean) as string[]
+        );
+
+        return schools.filter(s => schoolIdsInProject.has(s._id));
+    }, [schools, teachers, selectedProjectId]);
 
     const handleCreate = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -63,7 +88,7 @@ export default function Schools() {
             await schoolService.create({ name: { chinese: newSchoolName } });
             setIsOpen(false);
             setNewSchoolName("");
-            loadSchools();
+            loadData();
         } catch (error) {
             console.error("Failed to create school", error);
         }
@@ -80,17 +105,17 @@ export default function Schools() {
     };
 
     const toggleSelectAll = () => {
-        if (selectedIds.size === schools.length) {
+        if (selectedIds.size === filteredSchools.length) {
             setSelectedIds(new Set());
         } else {
-            setSelectedIds(new Set(schools.map(s => s._id)));
+            setSelectedIds(new Set(filteredSchools.map(s => s._id)));
         }
     };
 
     const handleDeleteSelected = async () => {
         try {
             await Promise.all(Array.from(selectedIds).map(id => schoolService.delete(id)));
-            await loadSchools();
+            await loadData();
             setSelectedIds(new Set());
             setShowDeleteAlert(false);
             setIsSelectionMode(false);
@@ -115,7 +140,7 @@ export default function Schools() {
                     <p className="text-slate-500 mt-2">Manage partner schools and their profiles.</p>
                 </div>
                 <div className="flex items-center gap-4">
-                    <ImportSchoolsDialog onSuccess={loadSchools} />
+                    <ImportSchoolsDialog onSuccess={loadData} />
                     <Dialog open={isOpen} onOpenChange={setIsOpen}>
                         <DialogTrigger asChild>
                             <Button className="bg-blue-600 hover:bg-blue-700">
@@ -187,7 +212,7 @@ export default function Schools() {
                             <TableHead className="w-[50px]">
                                 {isSelectionMode && (
                                     <Checkbox
-                                        checked={selectedIds.size === schools.length && schools.length > 0}
+                                        checked={selectedIds.size === filteredSchools.length && filteredSchools.length > 0}
                                         onCheckedChange={toggleSelectAll}
                                     />
                                 )}
@@ -200,14 +225,14 @@ export default function Schools() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {schools.length === 0 ? (
+                        {filteredSchools.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={6} className="h-24 text-center text-slate-500">
                                     No schools found.
                                 </TableCell>
                             </TableRow>
                         ) : (
-                            schools.map((school) => (
+                            filteredSchools.map((school) => (
                                 <TableRow
                                     key={school._id}
                                     className="cursor-pointer hover:bg-slate-50"

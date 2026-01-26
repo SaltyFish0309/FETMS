@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { teacherService, type Teacher } from "@/services/teacherService";
+import { useProjectContext } from "@/contexts/ProjectContext";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -26,13 +27,12 @@ import { ImportTeachersDialog } from "@/components/teachers/ImportTeachersDialog
 import { DataTable } from "@/components/teachers/list/DataTable";
 import { columns } from "@/components/teachers/list/columns";
 import { ViewModeToggle } from "@/components/teachers/list/ViewModeToggle";
-import { ProjectToggle } from "@/components/teachers/list/ProjectToggle";
 
 export default function Teachers() {
+    const { selectedProjectId } = useProjectContext();
     const [teachers, setTeachers] = useState<Teacher[]>([]);
     const [stages, setStages] = useState<{ _id: string; title: string }[]>([]);
     const [viewMode, setViewMode] = useState<'list' | 'kanban'>('list');
-    const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
     const [isOpen, setIsOpen] = useState(false);
 
     // Deletion State
@@ -50,13 +50,14 @@ export default function Teachers() {
     const [searchQuery, setSearchQuery] = useState("");
 
     const loadTeachers = useCallback(async () => {
+        if (!selectedProjectId) return;
         try {
-            const data = await teacherService.getAll();
+            const data = await teacherService.getAll(selectedProjectId);
             setTeachers(data);
         } catch (error) {
             console.error("Failed to load teachers", error);
         }
-    }, []);
+    }, [selectedProjectId]);
 
     const loadStages = useCallback(async () => {
         try {
@@ -106,23 +107,17 @@ export default function Teachers() {
         }
     };
 
-    // 依選中的專案過濾教師
-    const projectFilteredTeachers = useMemo(() => {
-        if (!selectedProjectId) return teachers;
-        return teachers.filter(teacher => teacher.project === selectedProjectId);
-    }, [teachers, selectedProjectId]);
-
-    // Kanban 搜尋過濾
+    // Kanban 搜尋過濾（後端已根據專案過濾）
     const kanbanFilteredTeachers = useMemo(() => {
-        if (!searchQuery) return projectFilteredTeachers;
+        if (!searchQuery) return teachers;
 
-        return projectFilteredTeachers.filter(teacher => {
+        return teachers.filter(teacher => {
             const fullName = `${teacher.firstName} ${teacher.middleName || ''} ${teacher.lastName}`.toLowerCase();
             const school = teacher.personalInfo?.serviceSchool?.toLowerCase() || '';
             const query = searchQuery.toLowerCase();
             return fullName.includes(query) || school.includes(query);
         });
-    }, [projectFilteredTeachers, searchQuery]);
+    }, [teachers, searchQuery]);
 
 
     return (
@@ -134,13 +129,11 @@ export default function Teachers() {
                 </div>
                 <ViewModeToggle value={viewMode} onChange={setViewMode} />
             </div>
-            {/* 新增專案切換器 */}
-            <ProjectToggle value={selectedProjectId} onChange={setSelectedProjectId} />
 
             {viewMode === 'list' ? (
                 <DataTable
                     columns={columns}
-                    data={projectFilteredTeachers}
+                    data={teachers}
                     meta={{ stages }}
                     onDeleteSelected={(ids) => {
                         setSelectedIds(new Set(ids));

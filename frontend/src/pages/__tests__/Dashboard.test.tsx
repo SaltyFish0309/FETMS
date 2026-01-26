@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import Dashboard from '../Dashboard';
+import { ProjectProvider } from '@/contexts/ProjectContext';
 
 // Mock the statsService
 vi.mock('@/services/statsService', () => ({
@@ -33,6 +34,15 @@ vi.mock('@/services/statsService', () => ({
   },
 }));
 
+// Mock projectService
+vi.mock('@/services/projectService', () => ({
+  projectService: {
+    getAll: vi.fn().mockResolvedValue([
+      { _id: '1', name: 'TFETP', code: 'TFETP', isActive: true, createdAt: '', updatedAt: '' },
+    ]),
+  },
+}));
+
 // Mock sonner toast
 vi.mock('sonner', () => ({
   toast: {
@@ -44,7 +54,9 @@ vi.mock('sonner', () => ({
 const renderDashboard = () => {
   return render(
     <BrowserRouter>
-      <Dashboard />
+      <ProjectProvider>
+        <Dashboard />
+      </ProjectProvider>
     </BrowserRouter>
   );
 };

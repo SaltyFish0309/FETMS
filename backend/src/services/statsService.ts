@@ -3,8 +3,10 @@ import School from '../models/School.js';
 import Stage from '../models/Stage.js';
 import AlertRule from '../models/AlertRule.js';
 import { startOfDay, addDays } from 'date-fns';
+import mongoose from 'mongoose';
 
 interface StatsFilter {
+    projectId?: string;
     gender?: string;
     nationality?: string;
     degree?: string;
@@ -100,7 +102,11 @@ export class StatsService {
 
     private static buildMatchQuery(filters: StatsFilter) {
         const query: any = {};
-        const { gender, nationality, degree, salaryRange, hiringStatus, pipelineStage, seniority } = filters;
+        const { projectId, gender, nationality, degree, salaryRange, hiringStatus, pipelineStage, seniority } = filters;
+
+        if (projectId) {
+            query.project = new mongoose.Types.ObjectId(projectId);
+        }
 
         if (seniority) {
             if (seniority === '10+ Years') {

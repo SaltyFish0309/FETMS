@@ -26,15 +26,47 @@ describe('TeacherService', () => {
         it('should return all non-deleted teachers', async () => {
             const mockTeachers = [{ name: 'John' }, { name: 'Jane' }];
             const sortMock = vi.fn().mockReturnValue(mockTeachers);
-            const populateMock = vi.fn().mockReturnValue({ sort: sortMock });
+            const populate2Mock = vi.fn().mockReturnValue({ sort: sortMock });
+            const populate1Mock = vi.fn().mockReturnValue({ populate: populate2Mock });
             // @ts-ignore
-            Teacher.find.mockReturnValue({ populate: populateMock });
+            Teacher.find.mockReturnValue({ populate: populate1Mock });
 
             const result = await TeacherService.getAllTeachers();
 
             expect(Teacher.find).toHaveBeenCalledWith({ isDeleted: false });
-            expect(populateMock).toHaveBeenCalledWith('school');
+            expect(populate1Mock).toHaveBeenCalledWith('school');
             expect(sortMock).toHaveBeenCalledWith({ createdAt: -1 });
+            expect(result).toEqual(mockTeachers);
+        });
+
+        it('should filter by projectId when provided', async () => {
+            const mockTeachers = [{ name: 'John', project: 'proj1' }];
+            const sortMock = vi.fn().mockReturnValue(mockTeachers);
+            const populate2Mock = vi.fn().mockReturnValue({ sort: sortMock });
+            const populate1Mock = vi.fn().mockReturnValue({ populate: populate2Mock });
+            // @ts-ignore
+            Teacher.find.mockReturnValue({ populate: populate1Mock });
+
+            const result = await TeacherService.getAllTeachers('proj1');
+
+            expect(Teacher.find).toHaveBeenCalledWith({ isDeleted: false, project: 'proj1' });
+            expect(populate1Mock).toHaveBeenCalledWith('school');
+            expect(populate2Mock).toHaveBeenCalledWith('project');
+            expect(sortMock).toHaveBeenCalledWith({ createdAt: -1 });
+            expect(result).toEqual(mockTeachers);
+        });
+
+        it('should return all teachers when projectId is undefined (backward compatible)', async () => {
+            const mockTeachers = [{ name: 'John' }, { name: 'Jane' }];
+            const sortMock = vi.fn().mockReturnValue(mockTeachers);
+            const populate2Mock = vi.fn().mockReturnValue({ sort: sortMock });
+            const populate1Mock = vi.fn().mockReturnValue({ populate: populate2Mock });
+            // @ts-ignore
+            Teacher.find.mockReturnValue({ populate: populate1Mock });
+
+            const result = await TeacherService.getAllTeachers(undefined);
+
+            expect(Teacher.find).toHaveBeenCalledWith({ isDeleted: false });
             expect(result).toEqual(mockTeachers);
         });
     });
