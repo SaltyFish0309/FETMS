@@ -34,5 +34,14 @@ export const projectService = {
 
     async delete(id: string): Promise<void> {
         await api.delete(`/projects/${id}`);
+    },
+
+    async restore(id: string): Promise<Project> {
+        const response = await api.put<Project>(`/projects/${id}/restore`);
+        return response.data;
+    },
+
+    async hardDelete(id: string): Promise<void> {
+        await api.delete(`/projects/${id}/permanent`);
     }
 };
