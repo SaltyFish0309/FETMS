@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FolderKanban, ChevronRight } from "lucide-react";
+import { FolderKanban, ChevronRight, Bell, Layers } from "lucide-react";
 
 const Settings = () => {
     const navigate = useNavigate();
@@ -13,6 +13,22 @@ const Settings = () => {
             path: "/settings/projects",
             iconColor: "text-blue-600",
             bgColor: "bg-blue-100"
+        },
+        {
+            title: "Alert Rules",
+            description: "Configure document expiry alerts",
+            icon: Bell,
+            path: "/settings/alerts",
+            iconColor: "text-amber-600",
+            bgColor: "bg-amber-100"
+        },
+        {
+            title: "Pipeline Stages",
+            description: "Manage recruitment pipeline stages",
+            icon: Layers,
+            path: "/settings/stages",
+            iconColor: "text-purple-600",
+            bgColor: "bg-purple-100"
         }
     ];
 

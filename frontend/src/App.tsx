@@ -11,6 +11,8 @@ import SchoolProfile from "@/pages/SchoolProfile";
 import Documents from "@/pages/Documents";
 import Settings from "@/pages/Settings";
 import ProjectSettings from "@/pages/ProjectSettings";
+import AlertSettings from "@/pages/AlertSettings";
+import StageSettings from "@/pages/StageSettings";
 import { Toaster } from "@/components/ui/sonner";
 
 import Dashboard from "@/pages/Dashboard";
@@ -22,6 +24,8 @@ const ROUTE_TITLES: Record<string, string> = {
   '/documents': 'Documents',
   '/settings': 'Settings',
   '/settings/projects': 'Project Settings',
+  '/settings/alerts': 'Alert Rules',
+  '/settings/stages': 'Pipeline Stages',
 };
 
 function getPageTitle(pathname: string): string {
