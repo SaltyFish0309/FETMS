@@ -33,11 +33,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Theme preference persists across browser sessions
   4. All Shadcn/UI components can reference semantic color tokens (--background, --foreground, --primary)
 
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 01-01: Configure Tailwind dark mode and prevent FOUC
-- [ ] 01-02: Verify ThemeProvider configuration
+- [ ] 01-01-PLAN.md — Configure Tailwind dark mode and add FOUC prevention
 
 ### Phase 2: Component Dark Mode Coverage
 **Goal**: Every component in the application renders correctly in dark mode with WCAG AA contrast compliance
@@ -134,11 +133,11 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
+Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Theme Infrastructure | 0/TBD | Not started | - |
+| 1. Theme Infrastructure | 0/1 | Ready to execute | - |
 | 2. Component Dark Mode Coverage | 0/TBD | Not started | - |
 | 3. i18n Infrastructure | 0/TBD | Not started | - |
 | 4. Content Translation | 0/TBD | Not started | - |
