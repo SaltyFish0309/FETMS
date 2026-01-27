@@ -141,13 +141,68 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (To be filled by roadmapper) | | |
+| DARK-01 | Phase 1 | Pending |
+| DARK-02 | Phase 1 | Pending |
+| DARK-03 | Phase 1 | Pending |
+| DARK-04 | Phase 1 | Pending |
+| DARK-05 | Phase 2 | Pending |
+| DARK-06 | Phase 2 | Pending |
+| DARK-07 | Phase 2 | Pending |
+| DARK-08 | Phase 2 | Pending |
+| DARK-09 | Phase 2 | Pending |
+| DARK-10 | Phase 2 | Pending |
+| DARK-11 | Phase 2 | Pending |
+| DARK-12 | Phase 2 | Pending |
+| DARK-13 | Phase 2 | Pending |
+| DARK-14 | Phase 2 | Pending |
+| DARK-15 | Phase 2 | Pending |
+| DARK-16 | Phase 2 | Pending |
+| DARK-17 | Phase 2 | Pending |
+| DARK-18 | Phase 2 | Pending |
+| DARK-19 | Phase 2 | Pending |
+| I18N-01 | Phase 3 | Pending |
+| I18N-02 | Phase 3 | Pending |
+| I18N-03 | Phase 3 | Pending |
+| I18N-04 | Phase 3 | Pending |
+| I18N-05 | Phase 3 | Pending |
+| I18N-06 | Phase 3 | Pending |
+| I18N-07 | Phase 3 | Pending |
+| I18N-08 | Phase 3 | Pending |
+| I18N-09 | Phase 4 | Pending |
+| I18N-10 | Phase 4 | Pending |
+| I18N-11 | Phase 4 | Pending |
+| I18N-12 | Phase 4 | Pending |
+| I18N-13 | Phase 4 | Pending |
+| I18N-14 | Phase 4 | Pending |
+| I18N-15 | Phase 4 | Pending |
+| I18N-16 | Phase 4 | Pending |
+| I18N-17 | Phase 4 | Pending |
+| I18N-18 | Phase 4 | Pending |
+| I18N-19 | Phase 4 | Pending |
+| ACC-01 | Phase 5 | Pending |
+| ACC-02 | Phase 5 | Pending |
+| ACC-03 | Phase 5 | Pending |
+| ACC-04 | Phase 5 | Pending |
+| ACC-05 | Phase 5 | Pending |
+| ACC-06 | Phase 5 | Pending |
+| ACC-07 | Phase 5 | Pending |
+| ACC-08 | Phase 5 | Pending |
+| ACC-09 | Phase 5 | Pending |
+| ACC-10 | Phase 5 | Pending |
+| ACC-11 | Phase 5 | Pending |
+| ACC-12 | Phase 5 | Pending |
+| ACC-13 | Phase 5 | Pending |
+| ACC-14 | Phase 5 | Pending |
+| PREF-01 | Phase 5 | Pending |
+| PREF-02 | Phase 5 | Pending |
+| PREF-03 | Phase 5 | Pending |
+| PREF-04 | Phase 5 | Pending |
 
 **Coverage:**
 - v1 requirements: 55 total
-- Mapped to phases: 0 (pending roadmap)
-- Unmapped: 55 ⚠️
+- Mapped to phases: 55
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-01-27*
-*Last updated: 2026-01-27 after initial definition*
+*Last updated: 2026-01-27 after roadmap creation*
