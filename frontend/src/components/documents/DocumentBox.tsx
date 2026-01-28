@@ -43,8 +43,8 @@ export const DocumentBox: React.FC<DocumentBoxProps> = ({
         <div className="flex items-center justify-between mb-2 group">
             <div className="flex items-center gap-2 overflow-hidden">
 
-                <h3 className="font-semibold text-slate-700 truncate px-1" title={box.name}>{box.name}</h3>
-                <span className="text-xs text-slate-500 bg-slate-200 px-2 py-0.5 rounded-full">
+                <h3 className="font-semibold text-foreground truncate px-1" title={box.name}>{box.name}</h3>
+                <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
                     {documents.length}
                 </span>
             </div>
@@ -52,7 +52,7 @@ export const DocumentBox: React.FC<DocumentBoxProps> = ({
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="icon" className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <MoreVertical size={14} className="text-slate-400" />
+                        <MoreVertical size={14} className="text-muted-foreground" />
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
@@ -82,10 +82,10 @@ export const DocumentBox: React.FC<DocumentBoxProps> = ({
             id={box._id}
             items={documents.map(d => d._id)}
             title={Header}
-            className="w-80 shrink-0 bg-slate-100/50 p-3 rounded-xl border border-slate-200/60 h-full max-h-full flex flex-col"
+            className="w-80 shrink-0 bg-muted/50 p-3 rounded-xl border border-border/60 h-full max-h-full flex flex-col"
         >
             {documents.length === 0 && (
-                <div className="h-24 border-2 border-dashed border-slate-200 rounded-lg flex items-center justify-center text-slate-400 text-sm">
+                <div className="h-24 border-2 border-dashed border-border rounded-lg flex items-center justify-center text-muted-foreground text-sm">
                     Empty Box
                 </div>
             )}
