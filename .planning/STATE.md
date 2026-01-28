@@ -12,8 +12,8 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 
 Phase: 2 of 5 (Component Dark Mode Coverage)
 Plan: 8 of 8 in current phase
-Status: Phase complete
-Last activity: 2026-01-28 — Completed 02-06-PLAN.md
+Status: Gaps Found (Verification Failed)
+Last activity: 2026-01-28 — Phase 2 Verification complete (gaps found)
 
 Progress: [████████░░░░░░░░░░░░] 39%
 
@@ -59,9 +59,13 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
+- Plan gap closure for Phase 2 (fix missing semantic tokens)
 - Start Phase 3: i18n Infrastructure (03-01-PLAN.md)
 
 ### Blockers/Concerns
+
+**Phase 2 (Dark Mode):**
+- Gaps found in semantic token usage: `DocumentCard.tsx`, `DocumentBox.tsx`, `AlertRuleTable.tsx`, etc. still use hardcoded colors.
 
 **Phase 4 (Content Translation):**
 - Traditional Chinese translation quality needs native speaker verification for translations, punctuation, and typography
@@ -69,5 +73,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-01-28
-Stopped at: Completed 02-06-PLAN.md
+Stopped at: Phase 2 Verification
 Resume file: None
