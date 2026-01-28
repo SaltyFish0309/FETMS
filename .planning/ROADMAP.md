@@ -60,7 +60,7 @@ Plans:
 - [x] 02-03-PLAN.md — Fix CandidateList, ExpiryWidget, and Dashboard page
 - [x] 02-04-PLAN.md — Update Teachers, Schools, Settings pages for dark mode
 - [x] 02-05-PLAN.md — Fix ViewModeToggle, DataTable, and Kanban components
-- [ ] 02-06-PLAN.md — Add theme transitions and verify WCAG compliance
+- [x] 02-06-PLAN.md — Add theme transitions and verify WCAG compliance
 - [x] 02-07-PLAN.md — Forms & Filters Dark Mode Coverage
 - [x] 02-08-PLAN.md — Profile Pages and Remaining Dialogs
 
@@ -141,7 +141,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Theme Infrastructure | 1/1 | ✓ Complete | 2026-01-28 |
-| 2. Component Dark Mode Coverage | 7/8 | In progress | - |
+| 2. Component Dark Mode Coverage | 8/8 | ✓ Complete | 2026-01-28 |
 | 3. i18n Infrastructure | 0/TBD | Not started | - |
 | 4. Content Translation | 0/TBD | Not started | - |
 | 5. Preferences System | 0/TBD | Not started | - |
