@@ -77,11 +77,11 @@ export default function SchoolProfile() {
                         <ArrowLeft className="h-4 w-4" />
                     </Button>
                     <div>
-                        <h1 className="text-3xl font-bold tracking-tight text-slate-900 flex items-center gap-2">
+                        <h1 className="text-3xl font-bold tracking-tight text-foreground flex items-center gap-2">
                             <SchoolIcon className="h-8 w-8 text-blue-600" />
                             {school.name.chinese}
                         </h1>
-                        <p className="text-slate-500">{school.name.english || "No English Name"}</p>
+                        <p className="text-muted-foreground">{school.name.english || "No English Name"}</p>
                     </div>
                 </div>
                 <div className="flex gap-2">
@@ -168,7 +168,7 @@ export default function SchoolProfile() {
                             </div>
                         </div>
                         <div className="space-y-2">
-                            <Label className="font-semibold text-slate-900">Contact Window</Label>
+                            <Label className="font-semibold text-foreground">Contact Window</Label>
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
                                     <Label>Name</Label>
@@ -228,7 +228,7 @@ export default function SchoolProfile() {
                                 school.employedTeachers.map((teacher) => (
                                     <TableRow
                                         key={teacher._id}
-                                        className="cursor-pointer hover:bg-slate-50"
+                                        className="cursor-pointer hover:bg-muted/50"
                                         onClick={() => navigate(`/teachers/${teacher._id}`)}
                                     >
                                         <TableCell className="font-medium">
@@ -241,7 +241,7 @@ export default function SchoolProfile() {
                                 ))
                             ) : (
                                 <TableRow>
-                                    <TableCell colSpan={4} className="h-24 text-center text-slate-500">
+                                    <TableCell colSpan={4} className="h-24 text-center text-muted-foreground">
                                         No teachers currently employed at this school.
                                     </TableCell>
                                 </TableRow>
