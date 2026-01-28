@@ -25,7 +25,7 @@ export function DemographicsChart({
       {/* Nationality Chart - Horizontal Bars */}
       <Card className="col-span-1">
         <CardHeader className="pb-2">
-          <CardTitle className="text-base font-semibold text-slate-800 font-heading">
+          <CardTitle className="text-base font-semibold text-foreground font-heading">
             Nationality
           </CardTitle>
         </CardHeader>
@@ -41,15 +41,18 @@ export function DemographicsChart({
                 <YAxis
                   type="category"
                   dataKey="name"
-                  tick={{ fontSize: 12, fill: '#64748b' }}
+                  tick={{ fontSize: 12, fill: 'var(--color-muted-foreground)' }}
                   width={55}
                 />
                 <Tooltip
                   contentStyle={{
+                    backgroundColor: 'var(--color-popover)',
+                    border: '1px solid var(--color-border)',
                     borderRadius: '8px',
-                    border: 'none',
-                    boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
+                    color: 'var(--color-popover-foreground)',
                   }}
+                  itemStyle={{ color: 'var(--color-popover-foreground)' }}
+                  labelStyle={{ color: 'var(--color-popover-foreground)' }}
                 />
                 <Bar
                   dataKey="value"
@@ -75,7 +78,7 @@ export function DemographicsChart({
       {/* Gender Chart - Simple Stats */}
       <Card className="col-span-1">
         <CardHeader className="pb-2">
-          <CardTitle className="text-base font-semibold text-slate-800 font-heading">
+          <CardTitle className="text-base font-semibold text-foreground font-heading">
             Gender Distribution
           </CardTitle>
         </CardHeader>
@@ -88,14 +91,14 @@ export function DemographicsChart({
               return (
                 <div
                   key={item.name}
-                  className="cursor-pointer hover:bg-slate-50 p-3 rounded-lg transition-colors"
+                  className="cursor-pointer hover:bg-muted/50 p-3 rounded-lg transition-colors"
                   onClick={() => onClick?.('gender', item.name)}
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-slate-700">{item.name}</span>
-                    <span className="text-sm font-semibold text-slate-800">{item.value}</span>
+                    <span className="text-sm font-medium text-foreground">{item.name}</span>
+                    <span className="text-sm font-semibold text-foreground">{item.value}</span>
                   </div>
-                  <div className="w-full bg-slate-100 rounded-full h-2.5">
+                  <div className="w-full bg-muted rounded-full h-2.5">
                     <div
                       className="h-2.5 rounded-full transition-all duration-300"
                       style={{
@@ -104,7 +107,7 @@ export function DemographicsChart({
                       }}
                     />
                   </div>
-                  <p className="text-xs text-slate-500 mt-1">{percentage}%</p>
+                  <p className="text-xs text-muted-foreground mt-1">{percentage}%</p>
                 </div>
               );
             })}
@@ -115,7 +118,7 @@ export function DemographicsChart({
       {/* Hiring Status Chart - Horizontal Bars */}
       <Card className="col-span-1">
         <CardHeader className="pb-2">
-          <CardTitle className="text-base font-semibold text-slate-800 font-heading">
+          <CardTitle className="text-base font-semibold text-foreground font-heading">
             Hiring Status
           </CardTitle>
         </CardHeader>
@@ -131,15 +134,18 @@ export function DemographicsChart({
                 <YAxis
                   type="category"
                   dataKey="name"
-                  tick={{ fontSize: 12, fill: '#64748b' }}
+                  tick={{ fontSize: 12, fill: 'var(--color-muted-foreground)' }}
                   width={75}
                 />
                 <Tooltip
                   contentStyle={{
+                    backgroundColor: 'var(--color-popover)',
+                    border: '1px solid var(--color-border)',
                     borderRadius: '8px',
-                    border: 'none',
-                    boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
+                    color: 'var(--color-popover-foreground)',
                   }}
+                  itemStyle={{ color: 'var(--color-popover-foreground)' }}
+                  labelStyle={{ color: 'var(--color-popover-foreground)' }}
                 />
                 <Bar
                   dataKey="value"
