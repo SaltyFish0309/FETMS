@@ -18,7 +18,7 @@ export function ProjectToggle({ value, onChange }: ProjectToggleProps) {
 
     if (loading) {
         return (
-            <div className="flex items-center gap-2 text-slate-500">
+            <div className="flex items-center gap-2 text-muted-foreground">
                 <Loader2 className="h-4 w-4 animate-spin" />
                 <span className="text-sm">載入專案中...</span>
             </div>
@@ -26,7 +26,7 @@ export function ProjectToggle({ value, onChange }: ProjectToggleProps) {
     }
 
     return (
-        <div className="flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200">
+        <div className="flex items-center bg-muted p-1 rounded-lg border border-border">
             {projects.map((project) => {
                 const Icon = getIcon(project.code);
                 const isActive = value === project._id;
@@ -39,8 +39,8 @@ export function ProjectToggle({ value, onChange }: ProjectToggleProps) {
                         onClick={() => onChange(project._id)}
                         className={
                             isActive
-                                ? 'bg-white text-slate-900 shadow-sm hover:bg-white'
-                                : 'text-slate-500 hover:text-slate-900 hover:bg-transparent'
+                                ? 'bg-background text-foreground shadow-sm hover:bg-background'
+                                : 'text-muted-foreground hover:text-foreground hover:bg-transparent'
                         }
                     >
                         <Icon className="h-4 w-4 mr-2" />

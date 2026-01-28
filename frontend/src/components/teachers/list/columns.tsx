@@ -95,7 +95,7 @@ export const columns: ColumnDef<Teacher>[] = [
         header: "",
         cell: ({ row }) => (
             <Link to={`/teachers/${row.original._id}`}>
-                <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-500 hover:text-blue-600">
+                <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-blue-600">
                     <Eye className="h-4 w-4" />
                 </Button>
             </Link>
@@ -138,7 +138,7 @@ export const columns: ColumnDef<Teacher>[] = [
             const status = row.getValue("hiringStatus") as string;
             if (!status) return null;
             return (
-                <Badge variant="secondary" className="bg-green-50 text-green-700 border-green-100 whitespace-nowrap">
+                <Badge variant="outline" className="text-emerald-600 border-emerald-200 dark:text-emerald-400 dark:border-emerald-800 whitespace-nowrap">
                     {status}
                 </Badge>
             );
@@ -441,8 +441,8 @@ export const columns: ColumnDef<Teacher>[] = [
         header: ({ column }) => <DataTableColumnHeader column={column} title="Has Salary Increase" />,
         cell: ({ row }) => {
             const val = row.getValue("hasSalaryIncrease");
-            if (val === true) return <Badge variant="outline" className="bg-green-50">Yes</Badge>;
-            if (val === false) return <Badge variant="outline" className="bg-red-50">No</Badge>;
+            if (val === true) return <Badge variant="outline" className="text-emerald-600 border-emerald-200 dark:text-emerald-400 dark:border-emerald-800">Yes</Badge>;
+            if (val === false) return <Badge variant="outline" className="text-destructive border-destructive/50">No</Badge>;
             return null;
         },
         size: 140,
@@ -481,7 +481,7 @@ export const columns: ColumnDef<Teacher>[] = [
             const title = stage ? stage.title : stageId || 'Uncategorized';
 
             return (
-                <Badge variant="outline" className="border-slate-200 whitespace-nowrap">
+                <Badge variant="outline" className="border-border whitespace-nowrap">
                     {title}
                 </Badge>
             );
