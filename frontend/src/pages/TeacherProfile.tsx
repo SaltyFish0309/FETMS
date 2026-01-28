@@ -291,8 +291,8 @@ export default function TeacherProfile() {
 
     const renderSectionHeader = (title: string, icon: React.ReactNode, sectionKey: string) => (
         <div className="flex items-center justify-between w-full pr-4">
-            <div className="flex items-center gap-2 text-lg font-semibold text-slate-800">
-                <div className="p-2 bg-slate-100 rounded-md text-slate-600">{icon}</div>
+            <div className="flex items-center gap-2 text-lg font-semibold text-foreground">
+                <div className="p-2 bg-muted rounded-md text-muted-foreground">{icon}</div>
                 {title}
             </div>
             {editingSection === sectionKey ? (
@@ -318,7 +318,7 @@ export default function TeacherProfile() {
                     className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "cursor-pointer")}
                     onClick={(e) => { e.stopPropagation(); setEditingSection(sectionKey); }}
                 >
-                    <Pencil className="w-4 h-4 text-slate-400 hover:text-slate-700" />
+                    <Pencil className="w-4 h-4 text-muted-foreground hover:text-foreground" />
                 </div>
             )}
         </div>
@@ -326,7 +326,7 @@ export default function TeacherProfile() {
 
     const isEditing = (section: string) => editingSection === section;
 
-    if (loading) return <div className="p-8 text-center text-slate-500">Loading teacher profile...</div>;
+    if (loading) return <div className="p-8 text-center text-muted-foreground">Loading teacher profile...</div>;
     if (!teacher) return <div className="p-8 text-center text-red-500">Teacher not found</div>;
 
     return (
@@ -334,10 +334,10 @@ export default function TeacherProfile() {
             {/* Header & Remarks Split */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
                 {/* Left: Profile Header */}
-                <div className="flex items-start justify-between bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <div className="flex items-start justify-between bg-card p-6 rounded-xl shadow-sm border border-border">
                     <div className="flex items-center gap-6">
                         <Button variant="ghost" size="icon" onClick={() => navigate(-1)} className="mr-2">
-                            <ArrowLeft className="h-6 w-6 text-slate-500" />
+                            <ArrowLeft className="h-6 w-6 text-muted-foreground" />
                         </Button>
                         <div
                             className="relative group cursor-pointer"
@@ -345,9 +345,9 @@ export default function TeacherProfile() {
                             onMouseLeave={() => setAvatarHover(false)}
                             onClick={handleAvatarClick}
                         >
-                            <Avatar className="h-24 w-24 border-4 border-slate-50 transition-opacity group-hover:opacity-75">
+                            <Avatar className="h-24 w-24 border-4 border-border transition-opacity group-hover:opacity-75">
                                 <AvatarImage src={teacher.profilePicture ? `http://localhost:5000/${teacher.profilePicture}` : undefined} />
-                                <AvatarFallback className="text-2xl bg-slate-100 text-slate-500">{teacher.firstName[0]}{teacher.lastName[0]}</AvatarFallback>
+                                <AvatarFallback className="text-2xl bg-muted text-muted-foreground">{teacher.firstName[0]}{teacher.lastName[0]}</AvatarFallback>
                             </Avatar>
 
                             {/* Hover Overlay */}
@@ -383,10 +383,10 @@ export default function TeacherProfile() {
                         />
                         <div className="space-y-2">
                             <div>
-                                <h1 className="text-3xl font-bold tracking-tight text-slate-900">
+                                <h1 className="text-3xl font-bold tracking-tight text-foreground">
                                     {teacher.firstName} {teacher.middleName ? teacher.middleName + " " : ""}{teacher.lastName}
                                 </h1>
-                                <div className="flex items-center gap-2 text-slate-500 mt-1">
+                                <div className="flex items-center gap-2 text-muted-foreground mt-1">
                                     <Mail className="h-4 w-4" />
                                     <span>{teacher.email}</span>
                                 </div>
@@ -408,7 +408,7 @@ export default function TeacherProfile() {
                                         {teacher.personalInfo.serviceSchool}
                                     </Badge>
                                 )}
-                                <Badge variant="outline" className="border-slate-200">
+                                <Badge variant="outline" className="border-border">
                                     {getStageName(teacher.pipelineStage)}
                                 </Badge>
                             </div>
@@ -417,9 +417,9 @@ export default function TeacherProfile() {
                 </div>
 
                 {/* Right: Remarks Section */}
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col relative group">
+                <div className="bg-card p-6 rounded-xl shadow-sm border border-border flex flex-col relative group">
                     <div className="flex items-center justify-between mb-4">
-                        <Label className="text-lg font-semibold text-slate-800">Remarks</Label>
+                        <Label className="text-lg font-semibold text-foreground">Remarks</Label>
                         {/* Save Button for Remarks */}
                         {formData.remarks !== teacher.remarks && (
                             <Button
@@ -439,7 +439,7 @@ export default function TeacherProfile() {
                         )}
                     </div>
                     <textarea
-                        className="flex-1 w-full p-3 text-sm rounded-md border border-slate-200 resize-none focus:outline-none focus:ring-2 focus:ring-slate-400 min-h-[120px]"
+                        className="flex-1 w-full p-3 text-sm rounded-md border border-border resize-none focus:outline-none focus:ring-2 focus:ring-ring min-h-[120px] bg-background"
                         placeholder="Add notes about this teacher..."
                         value={formData.remarks || ''}
                         onChange={(e) => handleRootInputChange('remarks', e.target.value)}
@@ -458,7 +458,7 @@ export default function TeacherProfile() {
                     <Accordion type="multiple" className="w-full space-y-4" defaultValue={[]}>
 
                         {/* 1. Personal Info */}
-                        <AccordionItem value="personal" className="bg-white border rounded-lg px-4">
+                        <AccordionItem value="personal" className="bg-card border border-border rounded-lg px-4">
                             <AccordionTrigger className="hover:no-underline py-4">
                                 {renderSectionHeader("Personal Information", <MapPin className="w-4 h-4 text-blue-600" />, "personal")}
                             </AccordionTrigger>
@@ -482,23 +482,23 @@ export default function TeacherProfile() {
                                     </div>
                                     <div className="space-y-2">
                                         <Label>Chinese Name</Label>
-                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.personalInfo?.chineseName || ''} onChange={e => handleInputChange('personalInfo', 'chineseName', e.target.value)} />
+                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.personalInfo?.chineseName || ''} onChange={e => handleInputChange('personalInfo', 'chineseName', e.target.value)} />
                                     </div>
                                     <div className="space-y-2">
                                         <Label>First Name</Label>
-                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.firstName || ''} onChange={e => handleRootInputChange('firstName', e.target.value)} />
+                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.firstName || ''} onChange={e => handleRootInputChange('firstName', e.target.value)} />
                                     </div>
                                     <div className="space-y-2">
                                         <Label>Middle Name</Label>
-                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.middleName || ''} onChange={e => handleRootInputChange('middleName', e.target.value)} />
+                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.middleName || ''} onChange={e => handleRootInputChange('middleName', e.target.value)} />
                                     </div>
                                     <div className="space-y-2">
                                         <Label>Last Name</Label>
-                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.lastName || ''} onChange={e => handleRootInputChange('lastName', e.target.value)} />
+                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.lastName || ''} onChange={e => handleRootInputChange('lastName', e.target.value)} />
                                     </div>
                                     <div className="space-y-2">
                                         <Label>Email</Label>
-                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.email || ''} onChange={e => handleRootInputChange('email', e.target.value)} />
+                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.email || ''} onChange={e => handleRootInputChange('email', e.target.value)} />
                                     </div>
                                     <div className="space-y-2 flex flex-col">
                                         <Label>Service School</Label>
@@ -554,7 +554,7 @@ export default function TeacherProfile() {
                                     </div>
                                     <div className="space-y-2">
                                         <Label>Nationality (Chinese)</Label>
-                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.personalInfo?.nationality?.chinese || ''} onChange={e => handleNestedInputChange('personalInfo', 'nationality', 'chinese', e.target.value)} />
+                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.personalInfo?.nationality?.chinese || ''} onChange={e => handleNestedInputChange('personalInfo', 'nationality', 'chinese', e.target.value)} />
                                     </div>
                                     <div className="space-y-2">
                                         <Label>Nationality (English)</Label>
@@ -612,18 +612,18 @@ export default function TeacherProfile() {
                                     </div>
                                     <div className="space-y-2 md:col-span-2">
                                         <Label>Address (Taiwan)</Label>
-                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.personalInfo?.address?.taiwan || ''} onChange={e => handleNestedInputChange('personalInfo', 'address', 'taiwan', e.target.value)} />
+                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.personalInfo?.address?.taiwan || ''} onChange={e => handleNestedInputChange('personalInfo', 'address', 'taiwan', e.target.value)} />
                                     </div>
                                     <div className="space-y-2 md:col-span-2">
                                         <Label>Address (Home Country)</Label>
-                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.personalInfo?.address?.home || ''} onChange={e => handleNestedInputChange('personalInfo', 'address', 'home', e.target.value)} />
+                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.personalInfo?.address?.home || ''} onChange={e => handleNestedInputChange('personalInfo', 'address', 'home', e.target.value)} />
                                     </div>
                                 </div>
                             </AccordionContent>
                         </AccordionItem>
 
                         {/* 2. Emergency Contact */}
-                        <AccordionItem value="emergency" className="bg-white border rounded-lg px-4">
+                        <AccordionItem value="emergency" className="bg-card border border-border rounded-lg px-4">
                             <AccordionTrigger className="hover:no-underline py-4">
                                 {renderSectionHeader("Emergency Contact", <Phone className="w-4 h-4 text-red-600" />, "emergency")}
                             </AccordionTrigger>
@@ -631,11 +631,11 @@ export default function TeacherProfile() {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
                                         <Label>Name</Label>
-                                        <Input readOnly={!isEditing('emergency')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.emergencyContact?.name || ''} onChange={e => handleInputChange('emergencyContact', 'name', e.target.value)} />
+                                        <Input readOnly={!isEditing('emergency')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.emergencyContact?.name || ''} onChange={e => handleInputChange('emergencyContact', 'name', e.target.value)} />
                                     </div>
                                     <div className="space-y-2">
                                         <Label>Relationship</Label>
-                                        <Input readOnly={!isEditing('emergency')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.emergencyContact?.relationship || ''} onChange={e => handleInputChange('emergencyContact', 'relationship', e.target.value)} />
+                                        <Input readOnly={!isEditing('emergency')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.emergencyContact?.relationship || ''} onChange={e => handleInputChange('emergencyContact', 'relationship', e.target.value)} />
                                     </div>
                                     <div className="space-y-2">
                                         <Label>Phone</Label>
@@ -648,32 +648,32 @@ export default function TeacherProfile() {
                                     </div>
                                     <div className="space-y-2">
                                         <Label>Email</Label>
-                                        <Input readOnly={!isEditing('emergency')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.emergencyContact?.email || ''} onChange={e => handleInputChange('emergencyContact', 'email', e.target.value)} />
+                                        <Input readOnly={!isEditing('emergency')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.emergencyContact?.email || ''} onChange={e => handleInputChange('emergencyContact', 'email', e.target.value)} />
                                     </div>
                                 </div>
                             </AccordionContent>
                         </AccordionItem>
 
                         {/* 3. Passport & ARC */}
-                        <AccordionItem value="passport" className="bg-white border rounded-lg px-4">
+                        <AccordionItem value="passport" className="bg-card border border-border rounded-lg px-4">
                             <AccordionTrigger className="hover:no-underline py-4">
                                 {renderSectionHeader("Passport & ARC", <Briefcase className="w-4 h-4 text-amber-600" />, "passport")}
                             </AccordionTrigger>
                             <AccordionContent className="pt-2 pb-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="space-y-4 border p-4 rounded-md bg-slate-50/50">
-                                        <h4 className="font-medium text-slate-700">Passport</h4>
+                                    <div className="space-y-4 border border-border p-4 rounded-md bg-muted/50">
+                                        <h4 className="font-medium text-foreground">Passport</h4>
                                         <div className="space-y-2">
                                             <Label>Passport Number</Label>
-                                            <Input readOnly={!isEditing('passport')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.passportDetails?.number || ''} onChange={e => handleInputChange('passportDetails', 'number', e.target.value)} />
+                                            <Input readOnly={!isEditing('passport')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.passportDetails?.number || ''} onChange={e => handleInputChange('passportDetails', 'number', e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
                                             <Label>Issuing Country</Label>
-                                            <Input readOnly={!isEditing('passport')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.passportDetails?.issuingCountry || ''} onChange={e => handleInputChange('passportDetails', 'issuingCountry', e.target.value)} />
+                                            <Input readOnly={!isEditing('passport')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.passportDetails?.issuingCountry || ''} onChange={e => handleInputChange('passportDetails', 'issuingCountry', e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
                                             <Label>Issuing Authority</Label>
-                                            <Input readOnly={!isEditing('passport')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.passportDetails?.issuingAuthority || ''} onChange={e => handleInputChange('passportDetails', 'issuingAuthority', e.target.value)} />
+                                            <Input readOnly={!isEditing('passport')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.passportDetails?.issuingAuthority || ''} onChange={e => handleInputChange('passportDetails', 'issuingAuthority', e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
                                             <Label>Issue Date</Label>
@@ -719,8 +719,8 @@ export default function TeacherProfile() {
                                         </div>
                                     </div>
 
-                                    <div className="space-y-4 border p-4 rounded-md bg-slate-50/50">
-                                        <h4 className="font-medium text-slate-700">ARC</h4>
+                                    <div className="space-y-4 border border-border p-4 rounded-md bg-muted/50">
+                                        <h4 className="font-medium text-foreground">ARC</h4>
                                         <div className="space-y-2">
                                             <Label>Expiry Date</Label>
                                             <DatePicker
@@ -765,15 +765,15 @@ export default function TeacherProfile() {
                         </AccordionItem>
 
                         {/* 4. Education & Licenses */}
-                        <AccordionItem value="education" className="bg-white border rounded-lg px-4">
+                        <AccordionItem value="education" className="bg-card border border-border rounded-lg px-4">
                             <AccordionTrigger className="hover:no-underline py-4">
                                 {renderSectionHeader("Education & Licenses", <GraduationCap className="w-4 h-4 text-green-600" />, "education")}
                             </AccordionTrigger>
                             <AccordionContent className="pt-2 pb-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     {/* Education Block */}
-                                    <div className="space-y-4 border p-4 rounded-md bg-slate-50/50">
-                                        <h4 className="font-medium text-slate-700">Education</h4>
+                                    <div className="space-y-4 border border-border p-4 rounded-md bg-muted/50">
+                                        <h4 className="font-medium text-foreground">Education</h4>
                                         <div className="space-y-2">
                                             <Label>Degree</Label>
                                             <Select
@@ -793,17 +793,17 @@ export default function TeacherProfile() {
                                         </div>
                                         <div className="space-y-2">
                                             <Label>Major</Label>
-                                            <Input readOnly={!isEditing('education')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.education?.major || ''} onChange={e => handleInputChange('education', 'major', e.target.value)} />
+                                            <Input readOnly={!isEditing('education')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.education?.major || ''} onChange={e => handleInputChange('education', 'major', e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
                                             <Label>School</Label>
-                                            <Input readOnly={!isEditing('education')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.education?.school || ''} onChange={e => handleInputChange('education', 'school', e.target.value)} />
+                                            <Input readOnly={!isEditing('education')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.education?.school || ''} onChange={e => handleInputChange('education', 'school', e.target.value)} />
                                         </div>
                                     </div>
 
                                     {/* Licenses Block */}
-                                    <div className="space-y-4 border p-4 rounded-md bg-slate-50/50">
-                                        <h4 className="font-medium text-slate-700">Teaching License</h4>
+                                    <div className="space-y-4 border border-border p-4 rounded-md bg-muted/50">
+                                        <h4 className="font-medium text-foreground">Teaching License</h4>
                                         <div className="space-y-2">
                                             <Label>Expiry Date</Label>
                                             <DatePicker
@@ -831,7 +831,7 @@ export default function TeacherProfile() {
                         </AccordionItem>
 
                         {/* 5. Work Permit */}
-                        <AccordionItem value="workPermit" className="bg-white border rounded-lg px-4">
+                        <AccordionItem value="workPermit" className="bg-card border border-border rounded-lg px-4">
                             <AccordionTrigger className="hover:no-underline py-4">
                                 {renderSectionHeader("Work Permit", <FileText className="w-4 h-4 text-indigo-600" />, "workPermit")}
                             </AccordionTrigger>
@@ -839,7 +839,7 @@ export default function TeacherProfile() {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
                                         <Label>Permit Number</Label>
-                                        <Input readOnly={!isEditing('workPermit')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.workPermitDetails?.permitNumber || ''} onChange={e => handleInputChange('workPermitDetails', 'permitNumber', e.target.value)} />
+                                        <Input readOnly={!isEditing('workPermit')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.workPermitDetails?.permitNumber || ''} onChange={e => handleInputChange('workPermitDetails', 'permitNumber', e.target.value)} />
                                     </div>
                                     <div className="space-y-2">
                                         <Label>Start Date</Label>
@@ -906,7 +906,7 @@ export default function TeacherProfile() {
                         </AccordionItem>
 
                         {/* 6. Contract Details */}
-                        <AccordionItem value="contract" className="bg-white border rounded-lg px-4">
+                        <AccordionItem value="contract" className="bg-card border border-border rounded-lg px-4">
                             <AccordionTrigger className="hover:no-underline py-4">
                                 {renderSectionHeader("Contract Details", <Briefcase className="w-4 h-4 text-emerald-600" />, "contract")}
                             </AccordionTrigger>
@@ -954,12 +954,12 @@ export default function TeacherProfile() {
                                     </div>
                                     <div className="space-y-2">
                                         <Label>Salary</Label>
-                                        <Input type="number" readOnly={!isEditing('contract')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.contractDetails?.salary || ''} onChange={e => handleInputChange('contractDetails', 'salary', Number(e.target.value))} />
+                                        <Input type="number" readOnly={!isEditing('contract')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.contractDetails?.salary || ''} onChange={e => handleInputChange('contractDetails', 'salary', Number(e.target.value))} />
                                     </div>
                                     <div className="space-y-2">
                                         <Label>Seniority (Salary)</Label>
                                         {!isEditing('contract') ? (
-                                            <Input readOnly className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.contractDetails?.senioritySalary || ''} />
+                                            <Input readOnly className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.contractDetails?.senioritySalary || ''} />
                                         ) : (
                                             <div className="flex gap-2">
                                                 <div className="flex-1 flex items-center gap-1">
@@ -974,7 +974,7 @@ export default function TeacherProfile() {
                                                             handleInputChange('contractDetails', 'senioritySalary', `${y} year(s)/${m} month(s)/${d} day(s)`);
                                                         }}
                                                     />
-                                                    <span className="text-xs text-slate-500">Yr</span>
+                                                    <span className="text-xs text-muted-foreground">Yr</span>
                                                 </div>
                                                 <div className="flex-1 flex items-center gap-1">
                                                     <Input
@@ -988,7 +988,7 @@ export default function TeacherProfile() {
                                                             handleInputChange('contractDetails', 'senioritySalary', `${y} year(s)/${m} month(s)/${d} day(s)`);
                                                         }}
                                                     />
-                                                    <span className="text-xs text-slate-500">Mo</span>
+                                                    <span className="text-xs text-muted-foreground">Mo</span>
                                                 </div>
                                                 <div className="flex-1 flex items-center gap-1">
                                                     <Input
@@ -1002,7 +1002,7 @@ export default function TeacherProfile() {
                                                             handleInputChange('contractDetails', 'senioritySalary', `${y} year(s)/${m} month(s)/${d} day(s)`);
                                                         }}
                                                     />
-                                                    <span className="text-xs text-slate-500">Day</span>
+                                                    <span className="text-xs text-muted-foreground">Day</span>
                                                 </div>
                                             </div>
                                         )}
@@ -1011,7 +1011,7 @@ export default function TeacherProfile() {
 
                                     <div className="space-y-2">
                                         <Label>Seniority (Leave)</Label>
-                                        <Input readOnly={!isEditing('contract')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.contractDetails?.seniorityLeave || ''} onChange={e => handleInputChange('contractDetails', 'seniorityLeave', e.target.value)} />
+                                        <Input readOnly={!isEditing('contract')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.contractDetails?.seniorityLeave || ''} onChange={e => handleInputChange('contractDetails', 'seniorityLeave', e.target.value)} />
                                     </div>
                                     <div className="space-y-2">
                                         <Label>Pay Start Date</Label>
@@ -1067,7 +1067,7 @@ export default function TeacherProfile() {
                                         </div>
 
                                         {formData.contractDetails?.hasSalaryIncrease && (
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pl-6 border-l-2 border-slate-200">
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pl-6 border-l-2 border-border">
                                                 <div className="space-y-2">
                                                     <Label>Salary Increase Date</Label>
                                                     <DatePicker
@@ -1091,7 +1091,7 @@ export default function TeacherProfile() {
                                                 </div>
                                                 <div className="space-y-2">
                                                     <Label>Est. Promoted Salary</Label>
-                                                    <Input type="number" readOnly={!isEditing('contract')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.contractDetails?.estimatedPromotedSalary || ''} onChange={e => handleInputChange('contractDetails', 'estimatedPromotedSalary', Number(e.target.value))} />
+                                                    <Input type="number" readOnly={!isEditing('contract')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.contractDetails?.estimatedPromotedSalary || ''} onChange={e => handleInputChange('contractDetails', 'estimatedPromotedSalary', Number(e.target.value))} />
                                                 </div>
                                             </div>
                                         )}
@@ -1101,9 +1101,9 @@ export default function TeacherProfile() {
                         </AccordionItem>
 
                         {/* 7. Criminal Record */}
-                        <AccordionItem value="criminal" className="bg-white border rounded-lg px-4">
+                        <AccordionItem value="criminal" className="bg-card border border-border rounded-lg px-4">
                             <AccordionTrigger className="hover:no-underline py-4">
-                                {renderSectionHeader("Criminal Record", <AlertCircle className="w-4 h-4 text-slate-600" />, "criminal")}
+                                {renderSectionHeader("Criminal Record", <AlertCircle className="w-4 h-4 text-muted-foreground" />, "criminal")}
                             </AccordionTrigger>
                             <AccordionContent className="pt-2 pb-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1152,7 +1152,7 @@ export default function TeacherProfile() {
                                                 {isUploaded ? (
                                                     <CheckCircle className="h-4 w-4 text-green-600" />
                                                 ) : (
-                                                    <AlertCircle className="h-4 w-4 text-slate-400" />
+                                                    <AlertCircle className="h-4 w-4 text-muted-foreground/50" />
                                                 )}
                                             </CardTitle>
                                         </CardHeader>
