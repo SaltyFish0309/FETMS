@@ -136,8 +136,8 @@ export default function Schools() {
         <div className="space-y-8">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-slate-900">Schools</h1>
-                    <p className="text-slate-500 mt-2">Manage partner schools and their profiles.</p>
+                    <h1 className="text-3xl font-bold tracking-tight text-foreground">Schools</h1>
+                    <p className="text-muted-foreground mt-2">Manage partner schools and their profiles.</p>
                 </div>
                 <div className="flex items-center gap-4">
                     <ImportSchoolsDialog onSuccess={loadData} />
@@ -172,9 +172,9 @@ export default function Schools() {
             </div>
 
             {/* Filter Bar */}
-            <div className="flex items-center gap-4 bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
+            <div className="flex items-center gap-4 bg-card p-4 rounded-lg border border-border shadow-sm">
                 <div className="relative flex-1 max-w-md">
-                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500" />
+                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                     <Input
                         placeholder="Search schools..."
                         className="pl-9"
@@ -205,7 +205,7 @@ export default function Schools() {
                 </div>
             </div>
 
-            <div className="rounded-md border bg-white shadow-sm">
+            <div className="rounded-md border bg-card shadow-sm">
                 <Table>
                     <TableHeader>
                         <TableRow>
@@ -227,7 +227,7 @@ export default function Schools() {
                     <TableBody>
                         {filteredSchools.length === 0 ? (
                             <TableRow>
-                                <TableCell colSpan={6} className="h-24 text-center text-slate-500">
+                                <TableCell colSpan={6} className="h-24 text-center text-muted-foreground">
                                     No schools found.
                                 </TableCell>
                             </TableRow>
@@ -235,7 +235,7 @@ export default function Schools() {
                             filteredSchools.map((school) => (
                                 <TableRow
                                     key={school._id}
-                                    className="cursor-pointer hover:bg-slate-50"
+                                    className="cursor-pointer hover:bg-muted/50"
                                     onClick={() => handleRowClick(school._id)}
                                 >
                                     <TableCell onClick={(e) => e.stopPropagation()}>
@@ -260,7 +260,7 @@ export default function Schools() {
                                         {school.contact?.name ? (
                                             <div className="flex flex-col">
                                                 <span>{school.contact.name}</span>
-                                                <span className="text-xs text-slate-500">{school.contact.position}</span>
+                                                <span className="text-xs text-muted-foreground">{school.contact.position}</span>
                                             </div>
                                         ) : '-'}
                                     </TableCell>

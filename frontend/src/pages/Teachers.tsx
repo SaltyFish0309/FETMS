@@ -124,8 +124,8 @@ export default function Teachers() {
         <div className="space-y-8">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-slate-900">Teachers</h1>
-                    <p className="text-slate-500 mt-2">Manage your Foreign English Teachers.</p>
+                    <h1 className="text-3xl font-bold tracking-tight text-foreground">Teachers</h1>
+                    <p className="text-muted-foreground mt-2">Manage your Foreign English Teachers.</p>
                 </div>
                 <ViewModeToggle value={viewMode} onChange={setViewMode} />
             </div>
@@ -203,7 +203,7 @@ export default function Teachers() {
                 <>
                     <div className="flex items-center gap-2 mb-4">
                         <div className="relative flex-1 max-w-sm">
-                            <Search className="absolute left-2 top-2.5 h-4 w-4 text-slate-500" />
+                            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                             <Input
                                 placeholder="Search by name or school..."
                                 className="pl-8"
