@@ -84,7 +84,7 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Install and configure i18next ecosystem
+- [x] 03-01-PLAN.md — Install and configure i18next ecosystem
 - [ ] 03-02-PLAN.md — Implement language toggle UI and Traditional Chinese fonts
 
 ### Phase 4: Content Translation
@@ -144,6 +144,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 |-------|----------------|--------|-----------|
 | 1. Theme Infrastructure | 1/1 | ✓ Complete | 2026-01-28 |
 | 2. Component Dark Mode Coverage | 11/11 | ✓ Complete | 2026-01-29 |
-| 3. i18n Infrastructure | 0/TBD | Not started | - |
+| 3. i18n Infrastructure | 1/2 | In progress | - |
 | 4. Content Translation | 0/TBD | Not started | - |
 | 5. Preferences System | 0/TBD | Not started | - |
