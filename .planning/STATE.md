@@ -11,28 +11,28 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 2 of 5 (Component Dark Mode Coverage)
-Plan: 4 of 8 in current phase
+Plan: 7 of 8 in current phase
 Status: In progress
-Last activity: 2026-01-28 — Completed 02-05-PLAN.md
+Last activity: 2026-01-28 — Completed 02-04-PLAN.md
 
-Progress: [█████░░░░░] 56%
+Progress: [████████░░] 87%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 5
-- Average duration: 3m 26s
-- Total execution time: 0.29 hours
+- Total plans completed: 8
+- Average duration: ~4m
+- Total execution time: ~0.6 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01 | 1 | 3m 3s | 3m 3s |
-| 02 | 4 | 14m 10s | 3m 32s |
+| 02 | 7 | ~30m | ~4m |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (3m), 02-01 (3m), 02-03 (4m), 02-05 (4m), 02-07 (3m)
+- Last 5 plans: 02-03, 02-05, 02-07, 02-08, 02-04
 - Trend: Consistent execution velocity
 
 *Updated after each plan completion*
@@ -44,6 +44,11 @@ Progress: [█████░░░░░] 56%
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
+- **Preserved Brand Colors (02-04):** Kept `bg-blue-600` etc. for actions/alerts as they work in both modes
+- **Table Hover State (02-04):** Adopted `hover:bg-muted/50` for subtle feedback
+- **Preserve Brand Colors (02-03):** Keep blue-* brand colors for badges/accents
+- **Preserve Alert Colors (02-03):** Keep red-* semantic colors for alerts
+- **Use Muted Opacity (02-03):** Use `bg-muted/50` for hover states
 - Dark theme fixes before language support: User prioritized fixing existing flawed feature before adding new functionality
 - Browser language detection for default: Better UX than forcing English or Chinese
 - localStorage for preferences: Simpler than DB sync, sufficient for v1
@@ -54,7 +59,7 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-None yet.
+- Execute 02-06-PLAN.md (Transitions & WCAG verification)
 
 ### Blockers/Concerns
 
@@ -63,6 +68,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-28T08:30:34Z
-Stopped at: Completed 02-05-PLAN.md
+Last session: 2026-01-28
+Stopped at: Completed 02-04-PLAN.md
 Resume file: None
