@@ -9,10 +9,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Dark Mode Infrastructure
 
-- [ ] **DARK-01**: Configure Tailwind CSS with `darkMode: 'class'` strategy
-- [ ] **DARK-02**: Prevent FOUC (Flash of Unstyled Content) on page load in dark mode
-- [ ] **DARK-03**: Implement CSS custom properties for semantic theme colors
-- [ ] **DARK-04**: Verify ThemeProvider correctly applies dark class to root element
+- [x] **DARK-01**: Configure Tailwind CSS with `darkMode: 'class'` strategy
+- [x] **DARK-02**: Prevent FOUC (Flash of Unstyled Content) on page load in dark mode
+- [x] **DARK-03**: Implement CSS custom properties for semantic theme colors
+- [x] **DARK-04**: Verify ThemeProvider correctly applies dark class to root element
 
 ### Dark Mode Component Coverage
 
@@ -141,10 +141,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DARK-01 | Phase 1 | Pending |
-| DARK-02 | Phase 1 | Pending |
-| DARK-03 | Phase 1 | Pending |
-| DARK-04 | Phase 1 | Pending |
+| DARK-01 | Phase 1 | Complete |
+| DARK-02 | Phase 1 | Complete |
+| DARK-03 | Phase 1 | Complete |
+| DARK-04 | Phase 1 | Complete |
 | DARK-05 | Phase 2 | Pending |
 | DARK-06 | Phase 2 | Pending |
 | DARK-07 | Phase 2 | Pending |

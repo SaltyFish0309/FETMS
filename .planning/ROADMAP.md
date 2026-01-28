@@ -12,7 +12,7 @@ This roadmap transforms the FETMS User Preferences feature from a flawed basic i
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Theme Infrastructure** - Fix broken dark mode configuration and prevent FOUC
+- [x] **Phase 1: Theme Infrastructure** - Fix broken dark mode configuration and prevent FOUC
 - [ ] **Phase 2: Component Dark Mode Coverage** - Apply dark styling systematically across all components
 - [ ] **Phase 3: i18n Infrastructure** - Build internationalization foundation for bilingual support
 - [ ] **Phase 4: Content Translation** - Translate all UI elements to Traditional Chinese
@@ -36,7 +36,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 1 plan
 
 Plans:
-- [ ] 01-01-PLAN.md — Configure Tailwind dark mode and add FOUC prevention
+- [x] 01-01-PLAN.md — Configure Tailwind dark mode and add FOUC prevention
 
 ### Phase 2: Component Dark Mode Coverage
 **Goal**: Every component in the application renders correctly in dark mode with WCAG AA contrast compliance
@@ -137,7 +137,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Theme Infrastructure | 0/1 | Ready to execute | - |
+| 1. Theme Infrastructure | 1/1 | ✓ Complete | 2026-01-28 |
 | 2. Component Dark Mode Coverage | 0/TBD | Not started | - |
 | 3. i18n Infrastructure | 0/TBD | Not started | - |
 | 4. Content Translation | 0/TBD | Not started | - |
