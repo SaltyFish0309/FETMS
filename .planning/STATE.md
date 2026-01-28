@@ -6,33 +6,33 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 
 **Core value:** Users can customize the application experience to match their preferences (theme, language, and display settings), making the FETMS app more accessible and comfortable to use for different users and contexts.
 
-**Current focus:** Phase 2 - Component Dark Mode Coverage
+**Current focus:** Phase 3 - i18n Infrastructure
 
 ## Current Position
 
 Phase: 2 of 5 (Component Dark Mode Coverage)
-Plan: 10 of 10 in current phase
-Status: Gaps Found (Verification Failed)
-Last activity: 2026-01-28 — Phase 2 Gap Closure (Plans 09-10) executed, Verification failed (1 gap remains)
+Plan: 11 of 11 in current phase
+Status: Phase Complete
+Last activity: 2026-01-29 — Completed 02-11-PLAN.md (Dark Mode Gap Closure)
 
-Progress: [████████░░░░░░░░░░░░] 39%
+Progress: [█████████░░░░░░░░░░░] 46%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 11
+- Total plans completed: 12
 - Average duration: ~5m
-- Total execution time: ~1.2 hours
+- Total execution time: ~1.3 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01 | 1 | 3m 3s | 3m 3s |
-| 02 | 10 | ~65m | ~6.5m |
+| 02 | 11 | ~70m | ~6.4m |
 
 **Recent Trend:**
-- Last 5 plans: 02-08, 02-04, 02-06, 02-09, 02-10
+- Last 5 plans: 02-09, 02-10, 02-11
 - Trend: Consistent execution velocity
 
 *Updated after each plan completion*
@@ -44,6 +44,8 @@ Progress: [████████░░░░░░░░░░░░] 39%
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
+- **SortableColumn Dark Mode (02-11):** Use `bg-muted/50` and `border-border` for drag placeholders.
+- **Cleanup (02-11):** Removed unused `Layout.tsx` component.
 - **Status Badges (02-10):** Switched from hardcoded bg colors to `variant="outline"` with semantic text colors for dark mode compatibility.
 - **Toggle Backgrounds (02-10):** Standardized on `bg-muted` for container backgrounds.
 - **Component Backgrounds (02-09):** Used `bg-card` instead of `bg-white` for proper contrast.
@@ -62,19 +64,15 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-- Plan gap closure for Phase 2 (SortableColumn.tsx)
 - Start Phase 3: i18n Infrastructure (03-01-PLAN.md)
 
 ### Blockers/Concerns
-
-**Phase 2 (Dark Mode):**
-- One gap remains: `SortableColumn.tsx` uses hardcoded slate colors.
 
 **Phase 4 (Content Translation):**
 - Traditional Chinese translation quality needs native speaker verification for translations, punctuation, and typography
 
 ## Session Continuity
 
-Last session: 2026-01-28
-Stopped at: Phase 2 Gap Verification
-Resume file: .planning/phases/02-component-dark-mode-coverage/02-VERIFICATION.md
+Last session: 2026-01-29
+Stopped at: Completed 02-11-PLAN.md
+Resume file: .planning/phases/02-component-dark-mode-coverage/02-11-SUMMARY.md
