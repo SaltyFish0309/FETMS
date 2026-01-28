@@ -64,7 +64,7 @@ export default function Dashboard() {
     };
 
     if (loading && !stats) {
-        return <div className="p-8 text-center text-slate-500">Loading dashboard...</div>;
+        return <div className="p-8 text-center text-muted-foreground">Loading dashboard...</div>;
     }
 
     if (!stats) return null;
@@ -72,10 +72,10 @@ export default function Dashboard() {
     return (
         <div className="space-y-8">
             <div className="space-y-1">
-                <h1 className="text-2xl font-semibold tracking-tight text-slate-800 font-heading">
+                <h1 className="text-2xl font-semibold tracking-tight text-foreground font-heading">
                     Dashboard
                 </h1>
-                <p className="text-sm text-slate-500 font-body">
+                <p className="text-sm text-muted-foreground font-body">
                     Overview of teachers, schools, and recruitment metrics
                 </p>
             </div>
@@ -126,9 +126,9 @@ export default function Dashboard() {
 
             {/* Analysis Section */}
             <Card className="border shadow-sm">
-                <CardHeader className="border-b bg-slate-50/50">
+                <CardHeader className="border-b bg-muted/50">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                        <CardTitle className="text-lg font-semibold text-slate-800 font-heading">
+                        <CardTitle className="text-lg font-semibold text-foreground font-heading">
                             Analytics Overview
                         </CardTitle>
                         {/* Active Filters */}

@@ -30,7 +30,7 @@ const ExpiryList = ({ items }: ExpiryListProps) => {
 
     if (!items || items.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center p-8 text-slate-400">
+            <div className="flex flex-col items-center justify-center p-8 text-muted-foreground">
                 <AlertCircle className="w-8 h-8 mb-2 opacity-20" />
                 <p>No active alerts</p>
             </div>
@@ -42,7 +42,7 @@ const ExpiryList = ({ items }: ExpiryListProps) => {
             {items.map((item, index) => (
                 <div
                     key={`${item.teacherId}-${index}`}
-                    className="flex items-center justify-between p-3 border rounded-lg hover:bg-slate-50 cursor-pointer transition-colors"
+                    className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50 cursor-pointer transition-colors"
                     onClick={() => navigate(`/teachers/${item.teacherId}`)}
                 >
                     <div className="flex items-center gap-3">
@@ -51,9 +51,9 @@ const ExpiryList = ({ items }: ExpiryListProps) => {
                             <AvatarFallback>{item.firstName[0]}{item.lastName[0]}</AvatarFallback>
                         </Avatar>
                         <div>
-                            <p className="font-medium text-sm text-slate-900">{item.firstName} {item.lastName}</p>
+                            <p className="font-medium text-sm text-foreground">{item.firstName} {item.lastName}</p>
                             <div className="flex flex-col">
-                                <p className="text-xs text-slate-500">
+                                <p className="text-xs text-muted-foreground">
                                     Expires: {format(new Date(item.expiryDate), 'yyyy/MM/dd')}
                                 </p>
                                 <p className="text-[10px] text-blue-600 font-medium">
@@ -82,13 +82,13 @@ export function ExpiryWidget({ data, onRefresh, className }: ExpiryWidgetProps) 
         <Card className={`col-span-1 md:col-span-2 lg:col-span-1 h-full min-w-0 ${className || ''}`}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <div>
-                    <CardTitle className="text-base font-semibold text-slate-800 font-heading">Action Center</CardTitle>
+                    <CardTitle className="text-base font-semibold text-foreground font-heading">Action Center</CardTitle>
                     <CardDescription>Active Compliance Alerts</CardDescription>
                 </div>
                 <Dialog>
                     <DialogTrigger asChild>
                         <Button variant="ghost" size="icon">
-                            <Settings className="w-4 h-4 text-slate-400" />
+                            <Settings className="w-4 h-4 text-muted-foreground" />
                         </Button>
                     </DialogTrigger>
                     <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
