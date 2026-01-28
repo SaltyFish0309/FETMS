@@ -29,7 +29,7 @@ export const SortableColumn: React.FC<SortableColumnProps> = ({ id, children }) 
                 style={style}
                 {...attributes}
                 {...listeners}
-                className="h-full min-h-[500px] w-80 shrink-0 rounded-xl border-2 border-dashed border-slate-300 bg-slate-200/50"
+                className="h-full min-h-[500px] w-80 shrink-0 rounded-xl border-2 border-dashed border-border bg-muted/50"
             />
         );
     }
