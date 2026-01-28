@@ -149,4 +149,20 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
   }
+
+  /* Smooth theme transitions */
+  *,
+  *::before,
+  *::after {
+    @apply transition-colors duration-200;
+  }
+
+  /* Respect reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
