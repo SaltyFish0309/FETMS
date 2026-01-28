@@ -52,7 +52,7 @@ Plans:
   4. Dashboard charts (Recharts) use dark-compatible colors
   5. All text meets WCAG AA contrast ratio (4.5:1 minimum) in dark mode
 
-**Plans**: 8 plans
+**Plans**: 10 plans
 
 Plans:
 - [x] 02-01-PLAN.md — Fix header and sidebar dark mode styling
@@ -63,6 +63,8 @@ Plans:
 - [x] 02-06-PLAN.md — Add theme transitions and verify WCAG compliance
 - [x] 02-07-PLAN.md — Forms & Filters Dark Mode Coverage
 - [x] 02-08-PLAN.md — Profile Pages and Remaining Dialogs
+- [x] 02-09-PLAN.md — Component Dark Mode Coverage (Gap Closure)
+- [ ] 02-10-PLAN.md — Final Verification
 
 ### Phase 3: i18n Infrastructure
 **Goal**: Application has full internationalization infrastructure with language toggle working between Traditional Chinese and English
@@ -141,7 +143,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Theme Infrastructure | 1/1 | ✓ Complete | 2026-01-28 |
-| 2. Component Dark Mode Coverage | 8/8 | ⚠ Gaps Found | - |
+| 2. Component Dark Mode Coverage | 9/10 | In Progress | - |
 | 3. i18n Infrastructure | 0/TBD | Not started | - |
 | 4. Content Translation | 0/TBD | Not started | - |
 | 5. Preferences System | 0/TBD | Not started | - |
