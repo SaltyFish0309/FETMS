@@ -81,12 +81,11 @@ Plans:
   4. Language switches instantly without page reload
   5. Traditional Chinese text renders with proper font stack (no Simplified Chinese fallback)
 
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 03-01: Install and configure i18next ecosystem
-- [ ] 03-02: Create translation file structure and LanguageProvider
-- [ ] 03-03: Implement language selector UI and Traditional Chinese fonts
+- [ ] 03-01-PLAN.md — Install and configure i18next ecosystem
+- [ ] 03-02-PLAN.md — Implement language toggle UI and Traditional Chinese fonts
 
 ### Phase 4: Content Translation
 **Goal**: All user-facing content is available in both Traditional Chinese and English with proper formatting
