@@ -63,22 +63,22 @@ export const TeacherKanbanBoard: React.FC<TeacherKanbanBoardProps> = ({ teachers
                 onDragEnd={handleDragEnd}
                 dragOverlay={
                     activeTeacher ? (
-                        <div className="bg-white p-3 rounded-lg shadow-xl border border-blue-200 w-[280px] cursor-grabbing">
+                        <div className="bg-card p-3 rounded-lg shadow-xl border border-primary/50 w-[280px] cursor-grabbing">
                             <div className="flex items-center gap-3">
                                 <Avatar className="h-8 w-8">
                                     <AvatarImage src={`http://localhost:5000/uploads/${activeTeacher._id}/profile.jpg`} />
                                     <AvatarFallback>{activeTeacher.firstName[0]}{activeTeacher.lastName[0]}</AvatarFallback>
                                 </Avatar>
                                 <div>
-                                    <h4 className="font-semibold text-sm text-slate-900">{activeTeacher.firstName} {activeTeacher.lastName}</h4>
-                                    <p className="text-xs text-slate-500">{activeTeacher.email}</p>
+                                    <h4 className="font-semibold text-sm text-foreground">{activeTeacher.firstName} {activeTeacher.lastName}</h4>
+                                    <p className="text-xs text-muted-foreground">{activeTeacher.email}</p>
                                 </div>
                             </div>
                         </div>
                     ) : activeColumn ? (
-                        <div className="w-80 h-[500px] bg-slate-100/80 p-3 rounded-xl border border-slate-200/60 opacity-80 cursor-grabbing">
+                        <div className="w-80 h-[500px] bg-muted/80 p-3 rounded-xl border border-border/60 opacity-80 cursor-grabbing">
                             <div className="flex items-center justify-between mb-2">
-                                <h3 className="font-semibold text-slate-700">{activeColumn.title}</h3>
+                                <h3 className="font-semibold text-foreground">{activeColumn.title}</h3>
                             </div>
                         </div>
                     ) : null
@@ -93,27 +93,27 @@ export const TeacherKanbanBoard: React.FC<TeacherKanbanBoardProps> = ({ teachers
                         title={
                             <div className="flex items-center justify-between mb-2">
                                 <div className="flex items-center gap-2">
-                                    <h3 className="font-semibold text-slate-700">{stage.title}</h3>
-                                    <Badge variant="secondary" className="bg-slate-200 text-slate-600">
+                                    <h3 className="font-semibold text-foreground">{stage.title}</h3>
+                                    <Badge variant="secondary" className="bg-secondary text-secondary-foreground">
                                         {columns[stage._id]?.length || 0}
                                     </Badge>
                                 </div>
                             </div>
                         }
-                        className="w-80 min-w-[320px] bg-slate-100/50 p-3 rounded-xl border border-slate-200/60"
+                        className="w-80 min-w-[320px] bg-muted/50 p-3 rounded-xl border border-border/60"
                     >
                         {columns[stage._id]?.map(teacher => (
                             <div key={teacher._id} onClick={() => handleCardClick(teacher._id)}>
                                 <KanbanCard id={teacher._id}>
-                                    <div className="bg-white p-3 rounded-lg shadow-sm border border-slate-200 hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing hover:border-blue-300">
+                                    <div className="bg-card p-3 rounded-lg shadow-sm border border-border hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing hover:border-primary/50">
                                         <div className="flex items-center gap-3">
                                             <Avatar className="h-8 w-8">
                                                 <AvatarImage src={`http://localhost:5000/uploads/${teacher._id}/profile.jpg`} />
                                                 <AvatarFallback>{teacher.firstName[0]}{teacher.lastName[0]}</AvatarFallback>
                                             </Avatar>
                                             <div className="flex-1 min-w-0">
-                                                <h4 className="font-semibold text-sm text-slate-900 truncate">{teacher.firstName} {teacher.lastName}</h4>
-                                                <p className="text-xs text-slate-500 truncate">{teacher.email}</p>
+                                                <h4 className="font-semibold text-sm text-foreground truncate">{teacher.firstName} {teacher.lastName}</h4>
+                                                <p className="text-xs text-muted-foreground truncate">{teacher.email}</p>
                                             </div>
                                         </div>
                                         <div className="mt-3 flex items-center gap-2">
@@ -138,15 +138,15 @@ export const TeacherKanbanBoard: React.FC<TeacherKanbanBoardProps> = ({ teachers
                                 title={
                                     <div className="flex items-center justify-between mb-2 group cursor-grab active:cursor-grabbing">
                                         <div className="flex items-center gap-2">
-                                            <h3 className="font-semibold text-slate-700">{stage.title}</h3>
-                                            <Badge variant="secondary" className="bg-slate-200 text-slate-600">
+                                            <h3 className="font-semibold text-foreground">{stage.title}</h3>
+                                            <Badge variant="secondary" className="bg-secondary text-secondary-foreground">
                                                 {columns[stage._id]?.length || 0}
                                             </Badge>
                                         </div>
                                         <Button
                                             variant="ghost"
                                             size="icon"
-                                            className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity text-slate-400 hover:text-red-500"
+                                            className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-destructive"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 handleDeleteStageWrapper(stage._id);
@@ -157,20 +157,20 @@ export const TeacherKanbanBoard: React.FC<TeacherKanbanBoardProps> = ({ teachers
                                         </Button>
                                     </div>
                                 }
-                                className="w-80 min-w-[320px] bg-slate-100/50 p-3 rounded-xl border border-slate-200/60 h-full"
+                                className="w-80 min-w-[320px] bg-muted/50 p-3 rounded-xl border border-border/60 h-full"
                             >
                                 {columns[stage._id]?.map(teacher => (
                                     <div key={teacher._id} onClick={() => handleCardClick(teacher._id)}>
                                         <KanbanCard id={teacher._id}>
-                                            <div className="bg-white p-3 rounded-lg shadow-sm border border-slate-200 hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing hover:border-blue-300">
+                                            <div className="bg-card p-3 rounded-lg shadow-sm border border-border hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing hover:border-primary/50">
                                                 <div className="flex items-center gap-3">
                                                     <Avatar className="h-8 w-8">
                                                         <AvatarImage src={`http://localhost:5000/uploads/${teacher._id}/profile.jpg`} />
                                                         <AvatarFallback>{teacher.firstName[0]}{teacher.lastName[0]}</AvatarFallback>
                                                     </Avatar>
                                                     <div className="flex-1 min-w-0">
-                                                        <h4 className="font-semibold text-sm text-slate-900 truncate">{teacher.firstName} {teacher.lastName}</h4>
-                                                        <p className="text-xs text-slate-500 truncate">{teacher.email}</p>
+                                                        <h4 className="font-semibold text-sm text-foreground truncate">{teacher.firstName} {teacher.lastName}</h4>
+                                                        <p className="text-xs text-muted-foreground truncate">{teacher.email}</p>
                                                     </div>
                                                 </div>
                                                 <div className="mt-3 flex items-center gap-2">
