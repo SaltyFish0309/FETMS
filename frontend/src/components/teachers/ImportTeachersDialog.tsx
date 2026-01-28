@@ -56,13 +56,13 @@ export function ImportTeachersDialog({ onSuccess }: ImportTeachersDialogProps) {
 
                 <div className="grid gap-6 py-4">
                     {/* Template Download Section */}
-                    <div className="flex items-center justify-between p-4 bg-slate-50 rounded-lg border border-slate-200">
+                    <div className="flex items-center justify-between p-4 bg-muted rounded-lg border border-border">
                         <div className="space-y-1">
-                            <h4 className="text-sm font-medium text-slate-900 flex items-center gap-2">
+                            <h4 className="text-sm font-medium text-foreground flex items-center gap-2">
                                 <FileText className="h-4 w-4 text-blue-600" />
                                 CSV Template
                             </h4>
-                            <p className="text-xs text-slate-500">
+                            <p className="text-xs text-muted-foreground">
                                 Download the required format to avoid errors.
                             </p>
                         </div>
@@ -90,7 +90,7 @@ export function ImportTeachersDialog({ onSuccess }: ImportTeachersDialogProps) {
                             <AlertDescription>
                                 {uploadResult.message}
                                 {uploadResult.details ? (
-                                    <div className="mt-2 text-xs max-h-32 overflow-y-auto bg-white/50 p-2 rounded">
+                                    <div className="mt-2 text-xs max-h-32 overflow-y-auto bg-card/50 p-2 rounded">
                                         <pre>{JSON.stringify(uploadResult.details as object, null, 2)}</pre>
                                     </div>
                                 ) : null}
