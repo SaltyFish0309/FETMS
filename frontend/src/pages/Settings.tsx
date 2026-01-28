@@ -35,16 +35,16 @@ const Settings = () => {
             description: "Customize application theme and appearance",
             icon: Settings2,
             path: "/settings/preferences",
-            iconColor: "text-slate-600",
-            bgColor: "bg-slate-100"
+            iconColor: "text-muted-foreground",
+            bgColor: "bg-muted"
         },
         {
             title: "Data Import",
             description: "Import teachers and schools from external sources",
             icon: Database,
             path: "/settings/import",
-            iconColor: "text-slate-600",
-            bgColor: "bg-slate-100"
+            iconColor: "text-muted-foreground",
+            bgColor: "bg-muted"
         }
     ];
 
@@ -52,8 +52,8 @@ const Settings = () => {
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-slate-900">Settings</h1>
-                    <p className="text-slate-500 mt-2">Manage application settings and preferences.</p>
+                    <h1 className="text-3xl font-bold tracking-tight text-foreground">Settings</h1>
+                    <p className="text-muted-foreground mt-2">Manage application settings and preferences.</p>
                 </div>
             </div>
 
@@ -71,7 +71,7 @@ const Settings = () => {
                                     <div className={`h-12 w-12 rounded-lg ${section.bgColor} flex items-center justify-center`}>
                                         <Icon className={`h-6 w-6 ${section.iconColor}`} />
                                     </div>
-                                    <ChevronRight className="h-5 w-5 text-slate-400 group-hover:text-blue-600 transition-colors" />
+                                    <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-blue-600 transition-colors" />
                                 </div>
                                 <CardTitle className="text-xl mt-4">{section.title}</CardTitle>
                                 <CardDescription>{section.description}</CardDescription>

@@ -16,7 +16,7 @@ export default function PreferencesSettings() {
                 </Button>
                 <div className="flex-1">
                     <h1 className="text-3xl font-bold">User Preferences</h1>
-                    <p className="text-slate-500 mt-1">
+                    <p className="text-muted-foreground mt-1">
                         Customize your experience
                     </p>
                 </div>
@@ -34,7 +34,7 @@ export default function PreferencesSettings() {
                         <div className="flex items-center justify-between">
                             <Label htmlFor="theme-toggle" className="flex flex-col gap-1">
                                 <span>Theme</span>
-                                <span className="font-normal text-sm text-slate-500">
+                                <span className="font-normal text-sm text-muted-foreground">
                                     Select your preferred color theme
                                 </span>
                             </Label>
