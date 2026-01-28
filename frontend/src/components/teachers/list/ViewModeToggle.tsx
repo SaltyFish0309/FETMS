@@ -10,14 +10,14 @@ interface ViewModeToggleProps {
 
 export function ViewModeToggle({ value, onChange }: ViewModeToggleProps) {
   return (
-    <div className="flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200">
+    <div className="flex items-center bg-muted p-1 rounded-lg border border-border">
       <Button
         variant="ghost"
         size="sm"
         onClick={() => onChange('list')}
         className={value === 'list'
-          ? 'bg-white text-slate-900 shadow-sm hover:bg-white'
-          : 'text-slate-500 hover:text-slate-900 hover:bg-transparent'
+          ? 'bg-card text-foreground shadow-sm hover:bg-card'
+          : 'text-muted-foreground hover:text-foreground hover:bg-transparent'
         }
         aria-label="List view"
       >
@@ -28,8 +28,8 @@ export function ViewModeToggle({ value, onChange }: ViewModeToggleProps) {
         size="sm"
         onClick={() => onChange('kanban')}
         className={value === 'kanban'
-          ? 'bg-white text-slate-900 shadow-sm hover:bg-white'
-          : 'text-slate-500 hover:text-slate-900 hover:bg-transparent'
+          ? 'bg-card text-foreground shadow-sm hover:bg-card'
+          : 'text-muted-foreground hover:text-foreground hover:bg-transparent'
         }
         aria-label="Kanban view"
       >
