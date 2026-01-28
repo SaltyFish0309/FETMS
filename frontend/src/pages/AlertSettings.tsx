@@ -100,7 +100,7 @@ export default function AlertSettings() {
         </Button>
         <div className="flex-1">
           <h1 className="text-3xl font-bold">Alert Rules</h1>
-          <p className="text-slate-500 mt-1">Configure expiry alerts for documents</p>
+          <p className="text-muted-foreground mt-1">Configure expiry alerts for documents</p>
         </div>
         <Button onClick={() => handleOpenDialog()}>
           <Plus className="mr-2 h-4 w-4" />

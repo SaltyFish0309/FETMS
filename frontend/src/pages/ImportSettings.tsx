@@ -14,7 +14,7 @@ export default function ImportSettings() {
                 </Button>
                 <div className="flex-1">
                     <h1 className="text-3xl font-bold">Data Import</h1>
-                    <p className="text-slate-500 mt-1">
+                    <p className="text-muted-foreground mt-1">
                         Import data from external sources
                     </p>
                 </div>
@@ -29,12 +29,12 @@ export default function ImportSettings() {
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <div className="p-12 text-center border-2 border-dashed rounded-lg bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800">
-                            <div className="mx-auto w-12 h-12 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 mb-4">
-                                <Upload className="h-6 w-6 text-slate-500" />
+                        <div className="p-12 text-center border-2 border-dashed rounded-lg bg-muted border-border">
+                            <div className="mx-auto w-12 h-12 flex items-center justify-center rounded-full bg-muted mb-4">
+                                <Upload className="h-6 w-6 text-muted-foreground" />
                             </div>
                             <h3 className="text-lg font-medium">Coming Soon</h3>
-                            <p className="text-slate-500 mt-2 max-w-sm mx-auto">
+                            <p className="text-muted-foreground mt-2 max-w-sm mx-auto">
                                 Bulk import functionality for Teachers and Schools will be available in a future update.
                             </p>
                         </div>

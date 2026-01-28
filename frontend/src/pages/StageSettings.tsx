@@ -111,7 +111,7 @@ export default function StageSettings() {
         </Button>
         <div className="flex-1">
           <h1 className="text-3xl font-bold">Pipeline Stages</h1>
-          <p className="text-slate-500 mt-1">Manage recruitment pipeline stages. Drag to reorder.</p>
+          <p className="text-muted-foreground mt-1">Manage recruitment pipeline stages. Drag to reorder.</p>
         </div>
         <Button onClick={() => setIsDialogOpen(true)}>
           <Plus className="mr-2 h-4 w-4" />
@@ -132,7 +132,7 @@ export default function StageSettings() {
           </DndContext>
         ) : (
           <div className="text-center p-12 border-2 border-dashed rounded-lg">
-            <p className="text-slate-500">No stages found. Click "Add Stage" to create one.</p>
+            <p className="text-muted-foreground">No stages found. Click "Add Stage" to create one.</p>
           </div>
         )}
       </div>
