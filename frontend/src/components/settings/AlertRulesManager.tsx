@@ -110,9 +110,9 @@ export function AlertRulesManager({ onUpdated }: AlertRulesManagerProps) {
     return (
         <div className="space-y-6">
             {/* Add Rule Form */}
-            <div className="flex flex-col md:flex-row gap-4 p-4 bg-slate-50 rounded-lg border">
+            <div className="flex flex-col md:flex-row gap-4 p-4 bg-muted/50 rounded-lg border">
                 <div className="flex-1 space-y-2">
-                    <label className="text-sm font-medium">Rule Name <span className="text-red-500">*</span></label>
+                    <label className="text-sm font-medium">Rule Name <span className="text-destructive">*</span></label>
                     <Input
                         placeholder="e.g. Early Warning"
                         value={newName}
@@ -207,7 +207,7 @@ export function AlertRulesManager({ onUpdated }: AlertRulesManagerProps) {
                                     <Button
                                         variant="ghost"
                                         size="sm"
-                                        className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                                        className="text-destructive hover:text-destructive hover:bg-destructive/10"
                                         onClick={() => handleDeleteRule(rule._id)}
                                     >
                                         <Trash2 className="w-4 h-4" />
@@ -217,7 +217,7 @@ export function AlertRulesManager({ onUpdated }: AlertRulesManagerProps) {
                         ))}
                         {rules.length === 0 && (
                             <TableRow>
-                                <TableCell colSpan={5} className="text-center text-slate-500 py-8">
+                                <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
                                     No alert rules defined.
                                 </TableCell>
                             </TableRow>

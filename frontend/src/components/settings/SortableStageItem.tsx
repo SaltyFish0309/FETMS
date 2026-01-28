@@ -21,20 +21,20 @@ export function SortableStageItem({ stage, onDelete }: SortableStageItemProps) {
         <div
             ref={setNodeRef}
             style={style}
-            className="flex items-center gap-3 p-4 bg-white border rounded-lg shadow-sm hover:shadow-md transition-shadow"
+            className="flex items-center gap-3 p-4 bg-card border rounded-lg shadow-sm hover:shadow-md transition-shadow"
         >
             <button className="cursor-grab active:cursor-grabbing" {...attributes} {...listeners}>
-                <GripVertical className="h-5 w-5 text-slate-400" />
+                <GripVertical className="h-5 w-5 text-muted-foreground" />
             </button>
             <div className="flex-1">
                 <p className="font-medium">{stage.title}</p>
-                <p className="text-sm text-slate-500">Order: {stage.order}</p>
+                <p className="text-sm text-muted-foreground">Order: {stage.order}</p>
             </div>
             <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => onDelete(stage._id)}
-                className="text-red-600 hover:text-red-700"
+                className="text-destructive hover:text-destructive hover:bg-destructive/10"
             >
                 <Trash2 className="h-4 w-4" />
             </Button>

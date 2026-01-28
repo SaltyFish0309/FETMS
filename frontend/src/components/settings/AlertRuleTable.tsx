@@ -18,7 +18,7 @@ interface AlertRuleTableProps {
 
 export function AlertRuleTable({ rules, onEdit, onDelete }: AlertRuleTableProps) {
     return (
-        <div className="rounded-md border bg-white">
+        <div className="rounded-md border bg-card">
             <Table>
                 <TableHeader>
                     <TableRow>
