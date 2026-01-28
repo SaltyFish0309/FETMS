@@ -11,28 +11,28 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 1 of 5 (Theme Infrastructure)
-Plan: 0 of TBD in current phase
-Status: Ready to plan
-Last activity: 2026-01-27 — Roadmap created with 5 phases covering 55 v1 requirements
+Plan: 1 of TBD in current phase
+Status: In progress
+Last activity: 2026-01-28 — Completed 01-01-PLAN.md
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [█░░░░░░░░░] ~10%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 0
-- Average duration: N/A
-- Total execution time: 0.0 hours
+- Total plans completed: 1
+- Average duration: 3m 3s
+- Total execution time: 0.05 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 01 | 1 | 3m 3s | 3m 3s |
 
 **Recent Trend:**
-- Last 5 plans: N/A
-- Trend: N/A
+- Last 5 plans: 01-01 (3m)
+- Trend: Starting execution phase
 
 *Updated after each plan completion*
 
@@ -47,6 +47,9 @@ Recent decisions affecting current work:
 - Browser language detection for default: Better UX than forcing English or Chinese
 - localStorage for preferences: Simpler than DB sync, sufficient for v1
 - Traditional Chinese (not Simplified): User specified Traditional Chinese explicitly
+- Class-based dark mode (01-01): Tailwind `darkMode: 'class'` matches next-themes implementation
+- Blocking FOUC script (01-01): Synchronous execution prevents white flash on page load
+- localStorage key 'theme' (01-01): Matches next-themes default, no config needed
 
 ### Pending Todos
 
@@ -59,6 +62,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-27 (roadmap creation)
-Stopped at: Roadmap and STATE.md files created
+Last session: 2026-01-28 (plan execution)
+Stopped at: Completed 01-01-PLAN.md
 Resume file: None
