@@ -13,16 +13,16 @@ export function SalaryChart({ data, onClick }: SalaryChartProps) {
     return (
         <Card className="col-span-1 h-full min-w-0">
             <CardHeader>
-                <CardTitle className="text-base font-semibold text-slate-800 font-heading">Salary Distribution</CardTitle>
+                <CardTitle className="text-base font-semibold text-foreground font-heading">Salary Distribution</CardTitle>
             </CardHeader>
             <CardContent>
                 <div className="h-[250px] w-full min-w-0">
                     <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                         <BarChart data={filteredData} margin={{ top: 10, right: 10, left: 10, bottom: 20 }}>
-                            <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-border)" />
                             <XAxis
                                 dataKey="name"
-                                tick={{ fontSize: 12, fill: '#64748b', fontWeight: 500 }}
+                                tick={{ fontSize: 12, fill: 'var(--color-muted-foreground)', fontWeight: 500 }}
                                 interval={0}
                                 angle={-15}
                                 textAnchor="end"
@@ -30,8 +30,15 @@ export function SalaryChart({ data, onClick }: SalaryChartProps) {
                             />
                             <YAxis hide />
                             <Tooltip
-                                cursor={{ fill: '#f1f5f9' }}
-                                contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                                cursor={{ fill: 'var(--color-muted)' }}
+                                contentStyle={{
+                                  backgroundColor: 'var(--color-popover)',
+                                  border: '1px solid var(--color-border)',
+                                  borderRadius: '8px',
+                                  color: 'var(--color-popover-foreground)',
+                                }}
+                                itemStyle={{ color: 'var(--color-popover-foreground)' }}
+                                labelStyle={{ color: 'var(--color-popover-foreground)' }}
                             />
                             <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={32} animationDuration={300}>
                                 {filteredData.map((entry, index) => (
