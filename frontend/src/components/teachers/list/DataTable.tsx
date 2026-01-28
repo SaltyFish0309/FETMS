@@ -136,10 +136,10 @@ export function DataTable<TData, TValue>({
                 onDeleteSelected={onDeleteSelected}
                 actionButtons={actionButtons}
             />
-            <div className="rounded-md border bg-white overflow-hidden">
+            <div className="rounded-md border bg-card overflow-hidden">
                 <div className="overflow-x-auto overflow-y-auto" style={{ maxHeight: 'calc(100vh - 280px)' }}>
                     <Table className="relative" style={{ tableLayout: 'fixed' }}>
-                        <TableHeader className="bg-slate-50 sticky top-0 z-30">
+                        <TableHeader className="bg-muted/50 sticky top-0 z-30">
                             {table.getHeaderGroups().map((headerGroup) => (
                                 <TableRow key={headerGroup.id}>
                                     {headerGroup.headers.map((header) => {
@@ -157,7 +157,7 @@ export function DataTable<TData, TValue>({
                                                     left: leftOffset,
                                                     zIndex: isPinned ? 40 : 30,
                                                 }}
-                                                className={isPinned ? 'bg-slate-50' : ''}
+                                                className={isPinned ? 'bg-muted/50' : ''}
                                             >
                                                 {header.isPlaceholder
                                                     ? null
@@ -177,7 +177,7 @@ export function DataTable<TData, TValue>({
                                     <TableRow
                                         key={row.id}
                                         data-state={row.getIsSelected() && "selected"}
-                                        className="hover:bg-slate-50"
+                                        className="hover:bg-muted/50"
                                     >
                                         {row.getVisibleCells().map((cell) => {
                                             const isPinned = cell.column.getIsPinned();
@@ -220,7 +220,7 @@ export function DataTable<TData, TValue>({
                                                         left: leftOffset,
                                                         zIndex: isPinned ? 20 : 10,
                                                     }}
-                                                    className={`${isPinned ? 'bg-white' : ''} ${isCopyable ? 'cursor-pointer hover:bg-slate-100' : ''}`}
+                                                    className={`${isPinned ? 'bg-card' : ''} ${isCopyable ? 'cursor-pointer hover:bg-muted' : ''}`}
                                                 >
                                                     {flexRender(
                                                         cell.column.columnDef.cell,
