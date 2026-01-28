@@ -52,14 +52,15 @@ Plans:
   4. Dashboard charts (Recharts) use dark-compatible colors
   5. All text meets WCAG AA contrast ratio (4.5:1 minimum) in dark mode
 
-**Plans**: TBD
+**Plans**: 6 plans
 
 Plans:
-- [ ] 02-01: Fix header and navigation dark mode styling
-- [ ] 02-02: Fix Dashboard page components for dark mode
-- [ ] 02-03: Fix Teachers and Schools pages for dark mode
-- [ ] 02-04: Fix forms, modals, and interactive elements for dark mode
-- [ ] 02-05: Verify WCAG contrast compliance
+- [ ] 02-01-PLAN.md — Fix header and sidebar dark mode styling
+- [ ] 02-02-PLAN.md — Update KPICard and all dashboard charts for dark mode
+- [ ] 02-03-PLAN.md — Fix CandidateList, ExpiryWidget, and Dashboard page
+- [ ] 02-04-PLAN.md — Update Teachers, Schools, Settings pages for dark mode
+- [ ] 02-05-PLAN.md — Fix ViewModeToggle, DataTable, and Kanban components
+- [ ] 02-06-PLAN.md — Add theme transitions and verify WCAG compliance
 
 ### Phase 3: i18n Infrastructure
 **Goal**: Application has full internationalization infrastructure with language toggle working between Traditional Chinese and English
@@ -138,7 +139,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Theme Infrastructure | 1/1 | ✓ Complete | 2026-01-28 |
-| 2. Component Dark Mode Coverage | 0/TBD | Not started | - |
+| 2. Component Dark Mode Coverage | 0/6 | Ready to execute | - |
 | 3. i18n Infrastructure | 0/TBD | Not started | - |
 | 4. Content Translation | 0/TBD | Not started | - |
 | 5. Preferences System | 0/TBD | Not started | - |
