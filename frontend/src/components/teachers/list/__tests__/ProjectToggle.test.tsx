@@ -57,7 +57,7 @@ describe('ProjectToggle', () => {
 
         await waitFor(() => {
             const tfetpButton = screen.getByText('TFETP 專案').closest('button');
-            expect(tfetpButton).toHaveClass('bg-white');
+            expect(tfetpButton).toHaveClass('bg-background');
         });
     });
 
