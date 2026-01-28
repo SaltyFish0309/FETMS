@@ -77,7 +77,7 @@ export function EditProjectDialog({ project, open, onOpenChange, onSuccess }: Ed
               value={formData.code}
               onChange={(e) => setFormData({ ...formData, code: e.target.value })}
               disabled
-              className="bg-slate-100"
+              className="bg-muted"
             />
           </div>
           <div>
