@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import { AlertRuleTable } from '@/components/settings/AlertRuleTable';
 import { AlertRuleDialog, type AlertRuleFormData } from '@/components/settings/AlertRuleDialog';
+import { useTranslation } from 'react-i18next';
 
 const initialFormData: AlertRuleFormData = {
   name: '',
@@ -16,6 +17,7 @@ const initialFormData: AlertRuleFormData = {
 };
 
 export default function AlertSettings() {
+  const { t } = useTranslation('settings');
   const navigate = useNavigate();
   const [rules, setRules] = useState<AlertRule[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -28,9 +30,9 @@ export default function AlertSettings() {
       setRules(data);
     } catch (error) {
       console.error('Failed to load alert rules', error);
-      toast.error('Failed to load alert rules');
+      toast.error(t('alerts.toast.loadError'));
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -65,30 +67,30 @@ export default function AlertSettings() {
 
       if (editingRule) {
         await alertService.update(editingRule._id, payload);
-        toast.success('Alert rule updated');
+        toast.success(t('alerts.toast.updateSuccess'));
       } else {
         await alertService.create(payload);
-        toast.success('Alert rule created');
+        toast.success(t('alerts.toast.createSuccess'));
       }
 
       setIsDialogOpen(false);
       await loadRules();
     } catch (error) {
       console.error('Failed to save alert rule', error);
-      toast.error('Failed to save alert rule');
+      toast.error(t('alerts.toast.saveError'));
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this alert rule?')) return;
+    if (!confirm(t('alerts.deleteConfirm.description'))) return;
 
     try {
       await alertService.delete(id);
-      toast.success('Alert rule deleted');
+      toast.success(t('alerts.toast.deleteSuccess'));
       await loadRules();
     } catch (error) {
       console.error('Failed to delete alert rule', error);
-      toast.error('Failed to delete alert rule');
+      toast.error(t('alerts.toast.deleteError'));
     }
   };
 
@@ -99,12 +101,12 @@ export default function AlertSettings() {
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div className="flex-1">
-          <h1 className="text-3xl font-bold">Alert Rules</h1>
-          <p className="text-muted-foreground mt-1">Configure expiry alerts for documents</p>
+          <h1 className="text-3xl font-bold">{t('alerts.page.title')}</h1>
+          <p className="text-muted-foreground mt-1">{t('alerts.page.subtitle')}</p>
         </div>
         <Button onClick={() => handleOpenDialog()}>
           <Plus className="mr-2 h-4 w-4" />
-          Add Rule
+          {t('alerts.page.addButton')}
         </Button>
       </div>
 
