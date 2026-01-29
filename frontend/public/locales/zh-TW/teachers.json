@@ -233,5 +233,35 @@
       "deleteSuccess": "文件已刪除",
       "deleteError": "刪除失敗"
     }
+  },
+  "importDialog": {
+    "trigger": "匯入 CSV",
+    "title": "匯入教師",
+    "description": "上傳 CSV 檔案以批次匯入多位教師",
+    "selectFile": "選擇 CSV 檔案",
+    "dragDrop": "或拖放檔案",
+    "fileInfo": "CSV 檔案最大 10MB",
+    "uploading": "上傳中...",
+    "cancel": "取消",
+    "import": "匯入",
+    "success": "成功匯入 {{count}} 位教師",
+    "error": "匯入教師失敗"
+  },
+  "columnVisibility": {
+    "trigger": "欄位",
+    "title": "顯示欄位",
+    "search": "搜尋欄位...",
+    "showAll": "全部顯示",
+    "hideAll": "全部隱藏",
+    "noResults": "找不到欄位"
+  },
+  "filterSheet": {
+    "title": "篩選",
+    "search": "搜尋篩選...",
+    "activeFilters": "{{count}} 個篩選條件",
+    "reset": "重設",
+    "apply": "套用",
+    "noFilters": "無可用篩選",
+    "clear": "清除"
   }
 }

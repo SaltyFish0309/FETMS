@@ -233,5 +233,35 @@
       "deleteSuccess": "Document deleted",
       "deleteError": "Delete failed"
     }
+  },
+  "importDialog": {
+    "trigger": "Import CSV",
+    "title": "Import Teachers",
+    "description": "Upload a CSV file to import multiple teachers at once",
+    "selectFile": "Select CSV File",
+    "dragDrop": "or drag and drop",
+    "fileInfo": "CSV file up to 10MB",
+    "uploading": "Uploading...",
+    "cancel": "Cancel",
+    "import": "Import",
+    "success": "{{count}} teachers imported successfully",
+    "error": "Failed to import teachers"
+  },
+  "columnVisibility": {
+    "trigger": "Columns",
+    "title": "Toggle Columns",
+    "search": "Search columns...",
+    "showAll": "Show All",
+    "hideAll": "Hide All",
+    "noResults": "No columns found"
+  },
+  "filterSheet": {
+    "title": "Filters",
+    "search": "Search filters...",
+    "activeFilters": "{{count}} active",
+    "reset": "Reset",
+    "apply": "Apply",
+    "noFilters": "No filters available",
+    "clear": "Clear"
   }
 }
