@@ -29,5 +29,41 @@
     "gender": "Gender",
     "hiringStatus": "Status"
   },
-  "loading": "Loading dashboard..."
+  "loading": "Loading dashboard...",
+  "actionCenter": {
+    "title": "Action Center",
+    "description": "Items requiring your attention",
+    "tabs": {
+      "expiringSoon": "Expiring Soon",
+      "alerts": "Alerts",
+      "settings": "Settings"
+    },
+    "expiryWidget": {
+      "workPermit": "Work Permit",
+      "arc": "ARC",
+      "passport": "Passport",
+      "expiresIn": "Expires in {{days}} days",
+      "expired": "Expired",
+      "viewAll": "View All",
+      "noExpiries": "No expiring documents"
+    }
+  },
+  "qualifiedCandidates": {
+    "title": "Qualified Candidates",
+    "description": "Teachers ready for hire",
+    "labels": {
+      "nationality": "Nationality",
+      "degree": "Degree",
+      "experience": "Experience",
+      "yearsExp": "{{years}} years"
+    },
+    "actions": {
+      "viewProfile": "View Profile",
+      "contactCandidate": "Contact"
+    },
+    "empty": {
+      "title": "No Candidates",
+      "description": "No qualified candidates at this time"
+    }
+  }
 }

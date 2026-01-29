@@ -29,5 +29,41 @@
     "gender": "性別",
     "hiringStatus": "狀態"
   },
-  "loading": "載入儀表板中..."
+  "loading": "載入儀表板中...",
+  "actionCenter": {
+    "title": "待處理事項",
+    "description": "需要您注意的項目",
+    "tabs": {
+      "expiringSoon": "即將到期",
+      "alerts": "提醒",
+      "settings": "設定"
+    },
+    "expiryWidget": {
+      "workPermit": "工作許可證",
+      "arc": "居留證",
+      "passport": "護照",
+      "expiresIn": "{{days}} 天後到期",
+      "expired": "已到期",
+      "viewAll": "查看全部",
+      "noExpiries": "無即將到期的文件"
+    }
+  },
+  "qualifiedCandidates": {
+    "title": "合格候選人",
+    "description": "可聘用的教師",
+    "labels": {
+      "nationality": "國籍",
+      "degree": "學位",
+      "experience": "經驗",
+      "yearsExp": "{{years}} 年"
+    },
+    "actions": {
+      "viewProfile": "查看檔案",
+      "contactCandidate": "聯絡"
+    },
+    "empty": {
+      "title": "無候選人",
+      "description": "目前沒有合格候選人"
+    }
+  }
 }

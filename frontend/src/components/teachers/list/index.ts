@@ -1,5 +1,5 @@
 export { DataTable } from './DataTable';
-export { columns } from './columns';
+export { useTeacherColumns } from './columns';
 export { DataTableToolbar } from './DataTableToolbar';
 export { DataTableColumnHeader } from './DataTableColumnHeader';
 export { DataTableFacetedFilter } from './DataTableFacetedFilter';
