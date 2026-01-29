@@ -37,7 +37,7 @@
     "noEnglishName": "無英文名稱",
     "sections": {
       "basicInfo": "基本資訊",
-      "keyPersonnel": "主要人員",
+      "keyPersonnel": "負責人",
       "employedTeachers": "任職教師"
     },
     "fields": {
@@ -64,5 +64,18 @@
     "loadError": "載入學校詳細資訊失敗",
     "updateSuccess": "學校更新成功",
     "updateError": "學校更新失敗"
+  },
+  "importDialog": {
+    "trigger": "匯入 CSV",
+    "title": "匯入學校",
+    "description": "上傳 CSV 檔案以批次匯入多所學校",
+    "selectFile": "選擇 CSV 檔案",
+    "dragDrop": "或拖放檔案",
+    "fileInfo": "CSV 檔案最大 10MB",
+    "uploading": "上傳中...",
+    "cancel": "取消",
+    "import": "匯入",
+    "success": "成功匯入 {{count}} 所學校",
+    "error": "匯入學校失敗"
   }
 }

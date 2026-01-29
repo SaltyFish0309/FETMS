@@ -64,5 +64,18 @@
     "loadError": "Failed to load school details",
     "updateSuccess": "School updated successfully",
     "updateError": "Failed to update school"
+  },
+  "importDialog": {
+    "trigger": "Import CSV",
+    "title": "Import Schools",
+    "description": "Upload a CSV file to import multiple schools at once",
+    "selectFile": "Select CSV File",
+    "dragDrop": "or drag and drop",
+    "fileInfo": "CSV file up to 10MB",
+    "uploading": "Uploading...",
+    "cancel": "Cancel",
+    "import": "Import",
+    "success": "{{count}} schools imported successfully",
+    "error": "Failed to import schools"
   }
 }
