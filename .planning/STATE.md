@@ -11,28 +11,28 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 4 of 5 (Content Translation)
-Plan: 12 of 12 in current phase
-Status: Phase complete
-Last activity: 2026-01-29 — Completed 04-12-PLAN.md
+Plan: 13 of 13 in current phase
+Status: Phase complete - All gaps closed
+Last activity: 2026-01-29 — Completed 04-13-PLAN.md
 
 Progress: [█████████████████████████] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 27
+- Total plans completed: 28
 - Average duration: ~8m
-- Total execution time: ~3.6 hours
+- Total execution time: ~3.7 hours
 
 **By Phase:**
 - Phase 01: 1 plan (3m)
 - Phase 02: 11 plans (70m)
 - Phase 03: 3 plans (35m)
-- Phase 04: 11 plans (~110m)
+- Phase 04: 13 plans (~115m)
 
 **Recent Trend:**
-- Last 3 plans: 04-09, 04-10, 04-11
-- Trend: Executing gap closure plans for Phase 4
+- Last 3 plans: 04-11, 04-12, 04-13
+- Trend: Gap closure complete for Phase 4
 
 *Updated after each plan completion*
 
@@ -43,11 +43,11 @@ Progress: [███████████████████████
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
+- **Keep Dynamic Toast Message (04-13):** Kept "Moved to {stage}" dynamic message in kanban for UX context instead of generic translation.
+- **Toast Keys Under Profile for Kanban (04-13):** Placed kanban toast keys under profile.kanban.toast.* to match JSON structure and TypeScript type safety.
 - **Window Confirm (04-11):** Kept window.confirm but translated message instead of building custom dialog.
 - **Alert Rules Manager Scope (04-11):** Fully translated AlertRulesManager (form/table) not just toasts.
 - **Teachers Page i18n (04-09):** Added template section translations to ImportDialog despite not being in original plan to ensure full coverage.
-- **Calculated Days Remaining (04-07):** Switched ExpiryWidget to "Expires in X days" to match translation key format and improve UX.
-- **Dynamic Enum Keys (04-08):** Used 'as any' casting for dynamic enum translation keys in components to bypass strict TypeScript checking.
 - **TypeScript I18n Keys (04-12):** Used 'as any' casting systematically for dynamic translation keys where TypeScript definitions were too strict.
 - **Alert Rules in Settings (04-06):** Add alert rules table translations to settings.json namespace.
 - **Enum Translation Keys (04-06):** Use lowercase enum values as translation keys.
@@ -60,7 +60,7 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-- Complete remaining Phase 4 gap closure plan (04-12)
+- None - Phase 4 complete
 
 ### Blockers/Concerns
 
@@ -75,5 +75,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 04-12-PLAN.md (Phase 4 Complete)
-Resume file: .planning/phases/04-content-translation/04-12-SUMMARY.md
+Stopped at: Completed 04-13-PLAN.md (Phase 4 Complete - All Gaps Closed)
+Resume file: .planning/phases/04-content-translation/04-13-SUMMARY.md
