@@ -116,7 +116,7 @@ Plans:
 - [x] 04-09-PLAN.md — Translate Teachers Import, Column Visibility, and Filters (Gap Closure)
 - [x] 04-10-PLAN.md — Translate Teacher and School Profiles (Gap Closure)
 - [x] 04-11-PLAN.md — Translate Alert Settings and Toast Messages (Gap Closure)
-- [ ] 04-12-PLAN.md — Translate Settings Pages Content (Gap Closure)
+- [x] 04-12-PLAN.md — Translate Settings Pages Content (Gap Closure)
 
 ### Phase 5: Preferences System
 **Goal**: Users can customize font size, display density, and reduced motion preferences with persistence across sessions
@@ -152,5 +152,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 1. Theme Infrastructure | 1/1 | ✓ Complete | 2026-01-28 |
 | 2. Component Dark Mode Coverage | 11/11 | ✓ Complete | 2026-01-29 |
 | 3. i18n Infrastructure | 3/3 | ✓ Complete | 2026-01-29 |
-| 4. Content Translation | 11/12 | In progress | - |
+| 4. Content Translation | 12/12 | ✓ Complete | 2026-01-29 |
 | 5. Preferences System | 0/TBD | Not started | - |
