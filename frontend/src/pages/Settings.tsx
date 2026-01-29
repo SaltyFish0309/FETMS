@@ -1,46 +1,48 @@
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FolderKanban, ChevronRight, Bell, Layers, Settings2, Database } from "lucide-react";
 
 const Settings = () => {
     const navigate = useNavigate();
+    const { t } = useTranslation('settings');
 
     const settingsSections = [
         {
-            title: "Project Management",
-            description: "Create, edit, and archive projects",
+            titleKey: "sections.projectManagement.title",
+            descriptionKey: "sections.projectManagement.description",
             icon: FolderKanban,
             path: "/settings/projects",
             iconColor: "text-blue-600",
             bgColor: "bg-blue-100"
         },
         {
-            title: "Alert Rules",
-            description: "Configure document expiry alerts",
+            titleKey: "sections.alertRules.title",
+            descriptionKey: "sections.alertRules.description",
             icon: Bell,
             path: "/settings/alerts",
             iconColor: "text-amber-600",
             bgColor: "bg-amber-100"
         },
         {
-            title: "Pipeline Stages",
-            description: "Manage recruitment pipeline stages",
+            titleKey: "sections.pipelineStages.title",
+            descriptionKey: "sections.pipelineStages.description",
             icon: Layers,
             path: "/settings/stages",
             iconColor: "text-purple-600",
             bgColor: "bg-purple-100"
         },
         {
-            title: "User Preferences",
-            description: "Customize application theme and appearance",
+            titleKey: "sections.userPreferences.title",
+            descriptionKey: "sections.userPreferences.description",
             icon: Settings2,
             path: "/settings/preferences",
             iconColor: "text-muted-foreground",
             bgColor: "bg-muted"
         },
         {
-            title: "Data Import",
-            description: "Import teachers and schools from external sources",
+            titleKey: "sections.dataImport.title",
+            descriptionKey: "sections.dataImport.description",
             icon: Database,
             path: "/settings/import",
             iconColor: "text-muted-foreground",
@@ -52,8 +54,8 @@ const Settings = () => {
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-foreground">Settings</h1>
-                    <p className="text-muted-foreground mt-2">Manage application settings and preferences.</p>
+                    <h1 className="text-3xl font-bold tracking-tight text-foreground">{t('title')}</h1>
+                    <p className="text-muted-foreground mt-2">{t('subtitle')}</p>
                 </div>
             </div>
 
@@ -73,12 +75,12 @@ const Settings = () => {
                                     </div>
                                     <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-blue-600 transition-colors" />
                                 </div>
-                                <CardTitle className="text-xl mt-4">{section.title}</CardTitle>
-                                <CardDescription>{section.description}</CardDescription>
+                                <CardTitle className="text-xl mt-4">{t(section.titleKey)}</CardTitle>
+                                <CardDescription>{t(section.descriptionKey)}</CardDescription>
                             </CardHeader>
                             <CardContent>
                                 <p className="text-sm text-blue-600 font-medium group-hover:underline">
-                                    Manage settings →
+                                    {t('actions.manageSettings')} →
                                 </p>
                             </CardContent>
                         </Card>
