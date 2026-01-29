@@ -123,6 +123,7 @@
       "selectSchool": "選擇學校",
       "searchSchool": "搜尋學校...",
       "noSchool": "找不到學校。",
+      "selectStatus": "選擇狀態",
       "nationalityChinese": "國籍（中文）",
       "nationalityEnglish": "國籍（英文）",
       "dob": "出生日期",
@@ -163,6 +164,17 @@
       "salaryIncreaseDate": "加薪日期",
       "estimatedPromotedSalary": "預估晉升薪資",
       "criminalRecordIssue": "發行日期"
+    },
+    "kanban": {
+      "toast": {
+        "stageReorderError": "階段重新排序失敗",
+        "teacherReorderError": "重新排序失敗",
+        "teacherMoveError": "移動教師失敗",
+        "stageCreateSuccess": "階段已建立",
+        "stageCreateError": "建立階段失敗",
+        "stageDeleteSuccess": "階段已刪除",
+        "stageDeleteError": "刪除階段失敗"
+      }
     },
     "values": {
       "newlyHired": "新聘",

@@ -45,7 +45,13 @@
       "expiresIn": "Expires in {{days}} days",
       "expired": "Expired",
       "viewAll": "View All",
-      "noExpiries": "No expiring documents"
+      "noExpiries": "No expiring documents",
+      "alert": "Alert",
+      "rule": "Rule",
+      "dialog": {
+        "title": "Alert Rules Settings",
+        "description": "Configure custom alert triggers for your documents."
+      }
     }
   },
   "qualifiedCandidates": {
@@ -64,6 +70,14 @@
     "empty": {
       "title": "No Candidates",
       "description": "No qualified candidates at this time"
+    },
+    "found": "Found",
+    "initial": {
+      "title": "Ready to Search",
+      "description": "Select segments on the charts or apply filters to see matching candidates here."
     }
+  },
+  "toast": {
+    "loadError": "Failed to load dashboard data"
   }
 }

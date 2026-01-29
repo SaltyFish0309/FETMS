@@ -45,7 +45,13 @@
       "expiresIn": "{{days}} 天後到期",
       "expired": "已到期",
       "viewAll": "查看全部",
-      "noExpiries": "無即將到期的文件"
+      "noExpiries": "無即將到期的文件",
+      "alert": "警示",
+      "rule": "規則",
+      "dialog": {
+        "title": "警示規則設定",
+        "description": "設定文件的自訂警示觸發條件。"
+      }
     }
   },
   "qualifiedCandidates": {
@@ -64,6 +70,14 @@
     "empty": {
       "title": "無候選人",
       "description": "目前沒有合格候選人"
+    },
+    "found": "找到",
+    "initial": {
+      "title": "準備搜尋",
+      "description": "在圖表上選擇區段或套用篩選條件以檢視符合的候選人。"
     }
+  },
+  "toast": {
+    "loadError": "載入儀表板資料失敗"
   }
 }

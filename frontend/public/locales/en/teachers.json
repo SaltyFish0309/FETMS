@@ -123,6 +123,7 @@
       "selectSchool": "Select school",
       "searchSchool": "Search school...",
       "noSchool": "No school found.",
+      "selectStatus": "Select status",
       "nationalityChinese": "Nationality (Chinese)",
       "nationalityEnglish": "Nationality (English)",
       "dob": "Date of Birth",
@@ -163,6 +164,17 @@
       "salaryIncreaseDate": "Salary Increase Date",
       "estimatedPromotedSalary": "Est. Promoted Salary",
       "criminalRecordIssue": "Issue Date"
+    },
+    "kanban": {
+      "toast": {
+        "stageReorderError": "Failed to reorder stages",
+        "teacherReorderError": "Failed to reorder",
+        "teacherMoveError": "Failed to move teacher",
+        "stageCreateSuccess": "Stage created",
+        "stageCreateError": "Failed to create stage",
+        "stageDeleteSuccess": "Stage deleted",
+        "stageDeleteError": "Failed to delete stage"
+      }
     },
     "values": {
       "newlyHired": "Newly Hired",

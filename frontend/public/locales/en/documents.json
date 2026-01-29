@@ -1,5 +1,20 @@
 {
   "title": "Documents",
   "subtitle": "Manage all system-wide documents.",
-  "comingSoon": "Document management features coming soon."
+  "comingSoon": "Document management features coming soon.",
+  "toast": {
+    "reorderError": "Failed to reorder boxes",
+    "refreshed": "Refreshed",
+    "moveSuccess": "Moved",
+    "moveError": "Failed to move",
+    "boxCreateSuccess": "Box created",
+    "boxCreateError": "Error creating box",
+    "boxUpdateSuccess": "Box updated",
+    "boxUpdateError": "Error updating box",
+    "boxDeleteSuccess": "Box deleted",
+    "boxDeleteError": "Error deleting box",
+    "downloadStart": "Download started",
+    "downloadError": "Download failed",
+    "noDocuments": "No documents"
+  }
 }
