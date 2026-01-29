@@ -11,18 +11,18 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 4 of 5 (Content Translation)
-Plan: 2 of 6 in current phase
+Plan: 3 of 6 in current phase
 Status: In progress
-Last activity: 2026-01-29 — Completed 04-02-PLAN.md (Translate Settings Page)
+Last activity: 2026-01-29 — Completed 04-03-PLAN.md (Translate Dashboard Page)
 
-Progress: [████████████████░░░░░░░░░] 68%
+Progress: [████████████████░░░░░░░░░] 72%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 17
+- Total plans completed: 18
 - Average duration: ~7m
-- Total execution time: ~2.0 hours
+- Total execution time: ~2.1 hours
 
 **By Phase:**
 
@@ -31,11 +31,11 @@ Progress: [████████████████░░░░░░░
 | 01 | 1 | 3m 3s | 3m 3s |
 | 02 | 11 | ~70m | ~6.4m |
 | 03 | 3 | 35m | ~12m |
-| 04 | 2 | ~11m | ~5.5m |
+| 04 | 3 | ~15m | ~5m |
 
 **Recent Trend:**
-- Last 3 plans: 03-03, 04-01, 04-02
-- Trend: Phase 4 translation progress
+- Last 3 plans: 04-01, 04-02, 04-03
+- Trend: Phase 4 translation progress steady
 
 *Updated after each plan completion*
 
@@ -46,6 +46,8 @@ Progress: [████████████████░░░░░░░
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
+- **Filter Label Translation (04-03):** Use t() with defaultValue fallback for dynamic filter keys for flexibility.
+- **Chart Namespace (04-03):** Single 'dashboard' namespace for all dashboard charts for simpler management.
 - **Settings Namespace (04-02):** Created dedicated 'settings' namespace for Settings page translations.
 - **Testing (03-03):** Used TDD and mocked UI components to implement active state logic.
 - **Font Stack (03-02):** Added `Microsoft JhengHei` and `Heiti TC` for Traditional Chinese.
@@ -66,10 +68,11 @@ None
 
 **Phase 4 (Content Translation):**
 - Traditional Chinese translation quality needs native speaker verification for translations, punctuation, and typography
+- Dashboard filter values (e.g., "Bachelor", "Male") still show in English - those come from database/backend, not UI translations
 - **Header UI:** User Menu described in plan is missing from implementation.
 
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 04-02-PLAN.md
-Resume file: .planning/phases/04-content-translation/04-02-SUMMARY.md
+Stopped at: Completed 04-03-PLAN.md
+Resume file: .planning/phases/04-content-translation/04-03-SUMMARY.md
