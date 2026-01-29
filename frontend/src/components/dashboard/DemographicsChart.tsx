@@ -164,7 +164,7 @@ export function DemographicsChart({
                   barSize={20}
                   animationDuration={300}
                 >
-                  {translatedHiringStatusData.map((entry, index) => (
+                  {translatedHiringStatusData.map((_, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={getChartColor(index + 2)}

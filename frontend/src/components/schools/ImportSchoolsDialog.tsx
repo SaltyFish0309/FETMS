@@ -88,19 +88,9 @@ export function ImportSchoolsDialog({ onSuccess }: ImportSchoolsDialogProps) {
 
                 if (missingHeaders.length > 0) {
                     reject(`Invalid CSV headers. Missing: ${missingHeaders.join(', ')}`);
-            } else {
-                setUploadResult({
-                    success: false,
-                    message: data.message || t('importDialog.error'),
-                    details: data.writeErrors || data.error
-                });
-            }
-        } catch {
-            setUploadResult({
-                success: false,
-                message: t('importDialog.error'),
-            });
-        }
+                } else {
+                    resolve();
+                }
             };
             reader.onerror = () => reject("Failed to read file.");
             reader.readAsText(file);

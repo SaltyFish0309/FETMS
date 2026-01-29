@@ -397,7 +397,7 @@ export default function TeacherProfile() {
                             <div className="flex flex-wrap gap-2 pt-1">
                                 {teacher.personalInfo?.hiringStatus && (
                                     <Badge variant="secondary" className="bg-green-50 text-green-700 border-green-100">
-                                        {t('enums.status.' + teacher.personalInfo.hiringStatus.toLowerCase().replace(/\s+/g, '_').replace(/-/g, '_'))}
+                                        {t(('enums.status.' + teacher.personalInfo.hiringStatus.toLowerCase().replace(/\s+/g, '_').replace(/-/g, '_')) as any)}
                                     </Badge>
                                 )}
                                 {teacher.personalInfo?.nationality?.english && (
@@ -436,7 +436,7 @@ export default function TeacherProfile() {
                                     } catch { toast.error(t('profile.messages.remarksError')); }
                                 }}
                             >
-                                <Save className="w-4 h-4 mr-1" /> {t('common:actions.save', { ns: 'common' })}
+                                <Save className="w-4 h-4 mr-1" /> {t('common:actions.save', { ns: 'common' } as any) as string}
                             </Button>
                         )}
                     </div>
