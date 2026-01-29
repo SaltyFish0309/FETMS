@@ -21,6 +21,7 @@ export default function SchoolProfile() {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const { t } = useTranslation(['schools', 'common']);
+    const { t: tTeachers } = useTranslation('teachers');
     const [school, setSchool] = useState<School | null>(null);
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState<Partial<School>>({});
@@ -238,7 +239,11 @@ export default function SchoolProfile() {
                                         </TableCell>
                                         <TableCell>{teacher.email}</TableCell>
                                         <TableCell>{teacher.personalInfo?.nationality?.english || '-'}</TableCell>
-                                        <TableCell>{teacher.personalInfo?.hiringStatus || '-'}</TableCell>
+                                        <TableCell>
+                                            {teacher.personalInfo?.hiringStatus
+                                                ? tTeachers(`enums.status.${teacher.personalInfo.hiringStatus.toLowerCase().replace(/\s+/g, '_').replace(/-/g, '_')}`)
+                                                : '-'}
+                                        </TableCell>
                                     </TableRow>
                                 ))
                             ) : (
