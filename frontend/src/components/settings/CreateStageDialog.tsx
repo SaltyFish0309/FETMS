@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useTranslation } from 'react-i18next';
 import {
     Dialog,
     DialogContent,
@@ -25,31 +26,33 @@ export function CreateStageDialog({
     onTitleChange,
     onCreate,
 }: CreateStageDialogProps) {
+    const { t } = useTranslation('settings');
+
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Create Pipeline Stage</DialogTitle>
-                    <DialogDescription>Add a new stage to the recruitment pipeline</DialogDescription>
+                    <DialogTitle>{t('stages.dialog.title')}</DialogTitle>
+                    <DialogDescription>{t('stages.dialog.description')}</DialogDescription>
                 </DialogHeader>
 
                 <div className="space-y-4">
                     <div>
-                        <Label htmlFor="title">Stage Title</Label>
+                        <Label htmlFor="title">{t('stages.dialog.fields.name.label')}</Label>
                         <Input
                             id="title"
                             value={title}
                             onChange={(e) => onTitleChange(e.target.value)}
-                            placeholder="e.g., Interview Scheduled"
+                            placeholder={t('stages.dialog.fields.name.placeholder')}
                         />
                     </div>
                 </div>
 
                 <DialogFooter>
                     <Button variant="outline" onClick={() => onOpenChange(false)}>
-                        Cancel
+                        {t('stages.dialog.buttons.cancel')}
                     </Button>
-                    <Button onClick={onCreate}>Create</Button>
+                    <Button onClick={onCreate}>{t('stages.dialog.buttons.create')}</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

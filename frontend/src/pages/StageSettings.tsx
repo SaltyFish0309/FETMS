@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback, startTransition } from 'react';
+import { useTranslation } from 'react-i18next';
 import { stageService, type Stage } from '@/services/stageService';
 import { Button } from '@/components/ui/button';
 import { Plus, ArrowLeft } from 'lucide-react';
@@ -23,6 +24,7 @@ import { SortableStageItem } from '@/components/settings/SortableStageItem';
 import { CreateStageDialog } from '@/components/settings/CreateStageDialog';
 
 export default function StageSettings() {
+  const { t } = useTranslation('settings');
   const navigate = useNavigate();
   const [stages, setStages] = useState<Stage[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -39,9 +41,9 @@ export default function StageSettings() {
       setStages(data);
     } catch (error) {
       console.error('Failed to load stages', error);
-      toast.error('Failed to load stages');
+      toast.error(t('stages.toast.error'));
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -61,8 +63,8 @@ export default function StageSettings() {
 
           stageService
             .reorder(updated.map((s) => ({ _id: s._id, order: s.order })))
-            .then(() => toast.success('Stages reordered'))
-            .catch(() => toast.error('Failed to reorder stages'));
+            .then(() => toast.success(t('stages.toast.reorderSuccess')))
+            .catch(() => toast.error(t('stages.toast.error')));
 
           return updated;
         });
@@ -72,34 +74,34 @@ export default function StageSettings() {
 
   const handleCreate = async () => {
     if (!newStageTitle.trim()) {
-      toast.error('Stage title is required');
+      toast.error(t('stages.toast.error'));
       return;
     }
 
     try {
       await stageService.create({ title: newStageTitle });
-      toast.success('Stage created');
+      toast.success(t('stages.toast.createSuccess'));
       setNewStageTitle('');
       setIsDialogOpen(false);
       await loadStages();
     } catch (error) {
       console.error('Failed to create stage', error);
-      toast.error('Failed to create stage');
+      toast.error(t('stages.toast.error'));
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure? All teachers in this stage will be moved to Uncategorized.')) {
+    if (!confirm(t('stages.deleteConfirm.message'))) {
       return;
     }
 
     try {
       await stageService.delete(id);
-      toast.success('Stage deleted');
+      toast.success(t('stages.toast.deleteSuccess'));
       await loadStages();
     } catch (error) {
       console.error('Failed to delete stage', error);
-      toast.error('Failed to delete stage');
+      toast.error(t('stages.toast.error'));
     }
   };
 
@@ -110,12 +112,12 @@ export default function StageSettings() {
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div className="flex-1">
-          <h1 className="text-3xl font-bold">Pipeline Stages</h1>
-          <p className="text-muted-foreground mt-1">Manage recruitment pipeline stages. Drag to reorder.</p>
+          <h1 className="text-3xl font-bold">{t('stages.page.title')}</h1>
+          <p className="text-muted-foreground mt-1">{t('stages.page.subtitle')}</p>
         </div>
         <Button onClick={() => setIsDialogOpen(true)}>
           <Plus className="mr-2 h-4 w-4" />
-          Add Stage
+          {t('stages.page.addButton')}
         </Button>
       </div>
 
@@ -132,7 +134,7 @@ export default function StageSettings() {
           </DndContext>
         ) : (
           <div className="text-center p-12 border-2 border-dashed rounded-lg">
-            <p className="text-muted-foreground">No stages found. Click "Add Stage" to create one.</p>
+            <p className="text-muted-foreground">{t('stages.page.reorderHint')}</p>
           </div>
         )}
       </div>
