@@ -1,7 +1,26 @@
 {
-  "common": {
-    "welcome": "Welcome",
-    "language": "Language",
+  "app": {
+    "name": "FETMS"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "teachers": "Teachers",
+    "schools": "Schools",
+    "documents": "Documents",
     "settings": "Settings"
+  },
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "search": "Search",
+    "filter": "Filter"
+  },
+  "user": {
+    "profile": "Profile",
+    "logout": "Logout",
+    "notifications": "Notifications"
   }
 }
