@@ -1,4 +1,4 @@
-import { Languages } from "lucide-react"
+import { Languages, Check } from "lucide-react"
 import { useTranslation } from "react-i18next"
 
 import { Button } from "@/components/ui/button"
@@ -25,11 +25,13 @@ export function LanguageToggle() {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => changeLanguage("en")}>
+                <DropdownMenuItem onClick={() => changeLanguage("en")} className="justify-between">
                     English
+                    {i18n.language === 'en' && <Check className="h-4 w-4 ml-2" />}
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => changeLanguage("zh-TW")}>
+                <DropdownMenuItem onClick={() => changeLanguage("zh-TW")} className="justify-between">
                     繁體中文
+                    {i18n.language === 'zh-TW' && <Check className="h-4 w-4 ml-2" />}
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
