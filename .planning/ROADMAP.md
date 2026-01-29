@@ -102,7 +102,7 @@ Plans:
   4. User-generated data (teacher names, school names, notes) remains in original language
   5. Missing translations fall back to English gracefully
 
-**Plans**: 12 plans (6 original + 6 gap closure)
+**Plans**: 13 plans (6 original + 7 gap closure)
 
 Plans:
 - [x] 04-01-PLAN.md — Translate Common UI and Navigation
@@ -117,6 +117,7 @@ Plans:
 - [x] 04-10-PLAN.md — Translate Teacher and School Profiles (Gap Closure)
 - [x] 04-11-PLAN.md — Translate Alert Settings and Toast Messages (Gap Closure)
 - [x] 04-12-PLAN.md — Translate Settings Pages Content (Gap Closure)
+- [ ] 04-13-PLAN.md — Translate remaining toast messages and placeholders (Gap Closure)
 
 ### Phase 5: Preferences System
 **Goal**: Users can customize font size, display density, and reduced motion preferences with persistence across sessions
@@ -152,5 +153,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 1. Theme Infrastructure | 1/1 | ✓ Complete | 2026-01-28 |
 | 2. Component Dark Mode Coverage | 11/11 | ✓ Complete | 2026-01-29 |
 | 3. i18n Infrastructure | 3/3 | ✓ Complete | 2026-01-29 |
-| 4. Content Translation | 12/12 | ✓ Complete | 2026-01-29 |
+| 4. Content Translation | 12/13 | In Progress | - |
 | 5. Preferences System | 0/TBD | Not started | - |
