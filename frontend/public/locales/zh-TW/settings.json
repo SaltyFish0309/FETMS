@@ -25,5 +25,34 @@
   },
   "actions": {
     "manageSettings": "管理設定"
+  },
+  "alertRulesTable": {
+    "headers": {
+      "name": "名稱",
+      "documentType": "文件類型",
+      "condition": "條件",
+      "value": "數值",
+      "status": "狀態",
+      "actions": "操作"
+    },
+    "documentTypes": {
+      "arcDetails": "居留證",
+      "workPermitDetails": "工作許可證",
+      "passportDetails": "護照"
+    },
+    "conditionTypes": {
+      "daysRemaining": "剩餘天數",
+      "dateThreshold": "日期門檻"
+    },
+    "status": {
+      "active": "啟用",
+      "inactive": "停用"
+    },
+    "actions": {
+      "edit": "編輯",
+      "delete": "刪除"
+    },
+    "noResults": "未找到提醒規則。點選「新增規則」以建立一個。",
+    "daysFormat": "{{value}} 天"
   }
 }

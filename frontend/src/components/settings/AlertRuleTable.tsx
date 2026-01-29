@@ -3,12 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Pencil, Trash2 } from 'lucide-react';
-
-const documentTypeLabels: Record<AlertRule['documentType'], string> = {
-    arcDetails: 'ARC',
-    workPermitDetails: 'Work Permit',
-    passportDetails: 'Passport',
-};
+import { useTranslation } from 'react-i18next';
 
 interface AlertRuleTableProps {
     rules: AlertRule[];
@@ -17,17 +12,18 @@ interface AlertRuleTableProps {
 }
 
 export function AlertRuleTable({ rules, onEdit, onDelete }: AlertRuleTableProps) {
+    const { t } = useTranslation('settings');
     return (
         <div className="rounded-md border bg-card">
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Document Type</TableHead>
-                        <TableHead>Condition</TableHead>
-                        <TableHead>Value</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead className="text-right">Actions</TableHead>
+                        <TableHead>{t('alertRulesTable.headers.name')}</TableHead>
+                        <TableHead>{t('alertRulesTable.headers.documentType')}</TableHead>
+                        <TableHead>{t('alertRulesTable.headers.condition')}</TableHead>
+                        <TableHead>{t('alertRulesTable.headers.value')}</TableHead>
+                        <TableHead>{t('alertRulesTable.headers.status')}</TableHead>
+                        <TableHead className="text-right">{t('alertRulesTable.headers.actions')}</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -35,24 +31,28 @@ export function AlertRuleTable({ rules, onEdit, onDelete }: AlertRuleTableProps)
                         rules.map((rule) => (
                             <TableRow key={rule._id}>
                                 <TableCell className="font-medium">{rule.name}</TableCell>
-                                <TableCell>{documentTypeLabels[rule.documentType]}</TableCell>
+                                <TableCell>{t(`alertRulesTable.documentTypes.${rule.documentType}`)}</TableCell>
                                 <TableCell>
-                                    {rule.conditionType === 'DAYS_REMAINING' ? 'Days Remaining' : 'Date Threshold'}
+                                    {rule.conditionType === 'DAYS_REMAINING'
+                                        ? t('alertRulesTable.conditionTypes.daysRemaining')
+                                        : t('alertRulesTable.conditionTypes.dateThreshold')}
                                 </TableCell>
                                 <TableCell>
                                     {rule.conditionType === 'DAYS_REMAINING'
-                                        ? `${rule.value} days`
+                                        ? t('alertRulesTable.daysFormat', { value: rule.value })
                                         : new Date(rule.value).toLocaleDateString()}
                                 </TableCell>
                                 <TableCell>
                                     <Badge variant={rule.isActive ? 'default' : 'secondary'}>
-                                        {rule.isActive ? 'Active' : 'Inactive'}
+                                        {rule.isActive
+                                            ? t('alertRulesTable.status.active')
+                                            : t('alertRulesTable.status.inactive')}
                                     </Badge>
                                 </TableCell>
                                 <TableCell className="text-right space-x-2">
                                     <Button variant="ghost" size="sm" onClick={() => onEdit(rule)}>
                                         <Pencil className="mr-2 h-4 w-4" />
-                                        Edit
+                                        {t('alertRulesTable.actions.edit')}
                                     </Button>
                                     <Button
                                         variant="ghost"
@@ -61,7 +61,7 @@ export function AlertRuleTable({ rules, onEdit, onDelete }: AlertRuleTableProps)
                                         className="text-red-600 hover:text-red-700"
                                     >
                                         <Trash2 className="mr-2 h-4 w-4" />
-                                        Delete
+                                        {t('alertRulesTable.actions.delete')}
                                     </Button>
                                 </TableCell>
                             </TableRow>
@@ -69,7 +69,7 @@ export function AlertRuleTable({ rules, onEdit, onDelete }: AlertRuleTableProps)
                     ) : (
                         <TableRow>
                             <TableCell colSpan={6} className="text-center h-24">
-                                No alert rules found. Click "Add Rule" to create one.
+                                {t('alertRulesTable.noResults')}
                             </TableCell>
                         </TableRow>
                     )}

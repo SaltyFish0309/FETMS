@@ -73,6 +73,27 @@
     "deleteTitle": "您確定要刪除嗎？",
     "deleteDescription": "此操作無法復原。這將永久刪除 {count} 位教師及其所有相關資料，包括已上傳的文件和個人資料。"
   },
+  "enums": {
+    "status": {
+      "newly hired": "新聘",
+      "re-hired": "續聘"
+    },
+    "gender": {
+      "male": "男性",
+      "female": "女性",
+      "others": "其他"
+    },
+    "degree": {
+      "bachelor": "學士",
+      "master": "碩士",
+      "doctor": "博士"
+    },
+    "arcPurpose": {
+      "employed": "就業",
+      "dependent": "依親",
+      "aprc": "永久居留"
+    }
+  },
   "profile": {
     "loading": "載入教師檔案中...",
     "notFound": "找不到教師",

@@ -477,8 +477,8 @@ export default function TeacherProfile() {
                                                 <SelectValue placeholder="Select status" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="Newly Hired">{t('profile.values.newlyHired')}</SelectItem>
-                                                <SelectItem value="Re-Hired">{t('profile.values.reHired')}</SelectItem>
+                                                <SelectItem value="Newly Hired">{t('enums.status.newly hired')}</SelectItem>
+                                                <SelectItem value="Re-Hired">{t('enums.status.re-hired')}</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </div>
@@ -597,9 +597,9 @@ export default function TeacherProfile() {
                                                 <SelectValue placeholder={t('profile.fields.selectGender')} />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="Male">{t('profile.values.male')}</SelectItem>
-                                                <SelectItem value="Female">{t('profile.values.female')}</SelectItem>
-                                                <SelectItem value="Others">{t('profile.values.others')}</SelectItem>
+                                                <SelectItem value="Male">{t('enums.gender.male')}</SelectItem>
+                                                <SelectItem value="Female">{t('enums.gender.female')}</SelectItem>
+                                                <SelectItem value="Others">{t('enums.gender.others')}</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </div>
@@ -754,10 +754,10 @@ export default function TeacherProfile() {
                                                     <SelectValue placeholder={t('profile.fields.selectPurpose')} />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="Employed">{t('profile.values.employed')}</SelectItem>
-                                                    <SelectItem value="Dependent">{t('profile.values.dependent')}</SelectItem>
-                                                    <SelectItem value="APRC">{t('profile.values.aprc')}</SelectItem>
-                                                    <SelectItem value="Others">{t('profile.values.others')}</SelectItem>
+                                                    <SelectItem value="Employed">{t('enums.arcPurpose.employed')}</SelectItem>
+                                                    <SelectItem value="Dependent">{t('enums.arcPurpose.dependent')}</SelectItem>
+                                                    <SelectItem value="APRC">{t('enums.arcPurpose.aprc')}</SelectItem>
+                                                    <SelectItem value="Others">{t('enums.gender.others')}</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>
@@ -787,9 +787,9 @@ export default function TeacherProfile() {
                                                     <SelectValue placeholder={t('profile.fields.selectDegree')} />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="Bachelor">{t('profile.values.bachelor')}</SelectItem>
-                                                    <SelectItem value="Master">{t('profile.values.master')}</SelectItem>
-                                                    <SelectItem value="Doctor">{t('profile.values.doctor')}</SelectItem>
+                                                    <SelectItem value="Bachelor">{t('enums.degree.bachelor')}</SelectItem>
+                                                    <SelectItem value="Master">{t('enums.degree.master')}</SelectItem>
+                                                    <SelectItem value="Doctor">{t('enums.degree.doctor')}</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>

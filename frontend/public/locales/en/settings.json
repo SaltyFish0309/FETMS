@@ -25,5 +25,34 @@
   },
   "actions": {
     "manageSettings": "Manage settings"
+  },
+  "alertRulesTable": {
+    "headers": {
+      "name": "Name",
+      "documentType": "Document Type",
+      "condition": "Condition",
+      "value": "Value",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "documentTypes": {
+      "arcDetails": "ARC",
+      "workPermitDetails": "Work Permit",
+      "passportDetails": "Passport"
+    },
+    "conditionTypes": {
+      "daysRemaining": "Days Remaining",
+      "dateThreshold": "Date Threshold"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "noResults": "No alert rules found. Click \"Add Rule\" to create one.",
+    "daysFormat": "{{value}} days"
   }
 }

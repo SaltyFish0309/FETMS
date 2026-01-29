@@ -17,11 +17,18 @@ export function DemographicsChart({
   onClick
 }: DemographicsChartProps) {
   const { t } = useTranslation('dashboard');
+  const { t: tTeachers } = useTranslation('teachers');
 
   // Sort nationality by value descending, take top 6
   const sortedNationality = [...nationalityData]
     .sort((a, b) => b.value - a.value)
     .slice(0, 6);
+
+  // Translate hiring status data
+  const translatedHiringStatusData = hiringStatusData.map(item => ({
+    ...item,
+    name: tTeachers(`enums.status.${item.name.toLowerCase()}`, item.name)
+  }));
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -90,6 +97,7 @@ export function DemographicsChart({
             {genderData.map((item) => {
               const total = genderData.reduce((sum, g) => sum + g.value, 0);
               const percentage = total > 0 ? Math.round((item.value / total) * 100) : 0;
+              const translatedGender = tTeachers(`enums.gender.${item.name.toLowerCase()}`, item.name);
 
               return (
                 <div
@@ -98,7 +106,7 @@ export function DemographicsChart({
                   onClick={() => onClick?.('gender', item.name)}
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-foreground">{item.name}</span>
+                    <span className="text-sm font-medium text-foreground">{translatedGender}</span>
                     <span className="text-sm font-semibold text-foreground">{item.value}</span>
                   </div>
                   <div className="w-full bg-muted rounded-full h-2.5">
@@ -129,7 +137,7 @@ export function DemographicsChart({
           <div className="h-[220px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
-                data={hiringStatusData}
+                data={translatedHiringStatusData}
                 layout="vertical"
                 margin={{ top: 5, right: 20, left: 80, bottom: 5 }}
               >
@@ -156,12 +164,12 @@ export function DemographicsChart({
                   barSize={20}
                   animationDuration={300}
                 >
-                  {hiringStatusData.map((entry, index) => (
+                  {translatedHiringStatusData.map((entry, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={getChartColor(index + 2)}
                       className="cursor-pointer hover:opacity-80 transition-opacity"
-                      onClick={() => onClick?.('hiringStatus', entry.name)}
+                      onClick={() => onClick?.('hiringStatus', hiringStatusData[index].name)}
                     />
                   ))}
                 </Bar>

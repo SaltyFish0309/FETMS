@@ -139,11 +139,13 @@ export const useTeacherColumns = (): ColumnDef<Teacher>[] => {
             accessorFn: (row) => row.personalInfo?.hiringStatus,
             header: ({ column }) => <DataTableColumnHeader column={column} title={t('columns.hiringStatus')} />,
             cell: ({ row }) => {
+                const { t } = useTranslation('teachers');
                 const status = row.getValue("hiringStatus") as string;
                 if (!status) return null;
+                const translatedStatus = t(`enums.status.${status.toLowerCase()}`, status);
                 return (
                     <Badge variant="outline" className="text-emerald-600 border-emerald-200 dark:text-emerald-400 dark:border-emerald-800 whitespace-nowrap">
-                        {status}
+                        {translatedStatus}
                     </Badge>
                 );
             },
@@ -183,6 +185,12 @@ export const useTeacherColumns = (): ColumnDef<Teacher>[] => {
             id: "gender",
             accessorFn: (row) => row.personalInfo?.gender,
             header: ({ column }) => <DataTableColumnHeader column={column} title={t('columns.gender')} />,
+            cell: ({ row }) => {
+                const { t } = useTranslation('teachers');
+                const gender = row.getValue("gender") as string;
+                if (!gender) return null;
+                return t(`enums.gender.${gender.toLowerCase()}`, gender);
+            },
             size: 80,
             filterFn: 'arrIncludesSome',
         },
@@ -248,6 +256,12 @@ export const useTeacherColumns = (): ColumnDef<Teacher>[] => {
             id: "degree",
             accessorFn: (row) => row.education?.degree,
             header: ({ column }) => <DataTableColumnHeader column={column} title={t('columns.degree')} />,
+            cell: ({ row }) => {
+                const { t } = useTranslation('teachers');
+                const degree = row.getValue("degree") as string;
+                if (!degree) return null;
+                return t(`enums.degree.${degree.toLowerCase()}`, degree);
+            },
             size: 100,
             filterFn: 'arrIncludesSome',
         },
@@ -318,6 +332,12 @@ export const useTeacherColumns = (): ColumnDef<Teacher>[] => {
             id: "arcPurpose",
             accessorFn: (row) => row.arcDetails?.purpose,
             header: ({ column }) => <DataTableColumnHeader column={column} title={t('columns.arcPurpose')} />,
+            cell: ({ row }) => {
+                const { t } = useTranslation('teachers');
+                const purpose = row.getValue("arcPurpose") as string;
+                if (!purpose) return null;
+                return t(`enums.arcPurpose.${purpose.toLowerCase()}`, purpose);
+            },
             size: 110,
             filterFn: 'arrIncludesSome',
         },

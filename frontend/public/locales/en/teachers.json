@@ -73,6 +73,27 @@
     "deleteTitle": "Are you absolutely sure?",
     "deleteDescription": "This action cannot be undone. This will permanently delete {count} teacher(s) and remove all associated data, including uploaded documents and profile information."
   },
+  "enums": {
+    "status": {
+      "newly hired": "Newly Hired",
+      "re-hired": "Re-Hired"
+    },
+    "gender": {
+      "male": "Male",
+      "female": "Female",
+      "others": "Others"
+    },
+    "degree": {
+      "bachelor": "Bachelor",
+      "master": "Master",
+      "doctor": "Doctor"
+    },
+    "arcPurpose": {
+      "employed": "Employed",
+      "dependent": "Dependent",
+      "aprc": "APRC"
+    }
+  },
   "profile": {
     "loading": "Loading teacher profile...",
     "notFound": "Teacher not found",
