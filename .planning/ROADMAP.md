@@ -102,15 +102,21 @@ Plans:
   4. User-generated data (teacher names, school names, notes) remains in original language
   5. Missing translations fall back to English gracefully
 
-**Plans**: 6 plans
+**Plans**: 12 plans (6 original + 6 gap closure)
 
 Plans:
-- [ ] 04-01-PLAN.md — Translate Common UI and Navigation
-- [ ] 04-02-PLAN.md — Translate Settings Page
-- [ ] 04-03-PLAN.md — Translate Dashboard Page
-- [ ] 04-04-PLAN.md — Translate Teachers Page
-- [ ] 04-05-PLAN.md — Translate Schools and Documents Pages
-- [ ] 04-06-PLAN.md — Translate Validation, Errors, and Enums
+- [x] 04-01-PLAN.md — Translate Common UI and Navigation
+- [x] 04-02-PLAN.md — Translate Settings Page
+- [x] 04-03-PLAN.md — Translate Dashboard Page
+- [x] 04-04-PLAN.md — Translate Teachers Page
+- [x] 04-05-PLAN.md — Translate Schools and Documents Pages
+- [x] 04-06-PLAN.md — Translate Validation, Errors, and Enums
+- [ ] 04-07-PLAN.md — Translate Dashboard Action Center and Qualified Candidates (Gap Closure)
+- [ ] 04-08-PLAN.md — Translate Dashboard Filter Badges and Education Chart (Gap Closure)
+- [ ] 04-09-PLAN.md — Translate Teachers Import, Column Visibility, and Filters (Gap Closure)
+- [ ] 04-10-PLAN.md — Translate Teacher and School Profiles (Gap Closure)
+- [ ] 04-11-PLAN.md — Translate Alert Settings and Toast Messages (Gap Closure)
+- [ ] 04-12-PLAN.md — Translate Settings Pages Content (Gap Closure)
 
 ### Phase 5: Preferences System
 **Goal**: Users can customize font size, display density, and reduced motion preferences with persistence across sessions
