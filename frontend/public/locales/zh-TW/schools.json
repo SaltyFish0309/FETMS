@@ -1,0 +1,68 @@
+{
+  "title": "學校",
+  "subtitle": "管理合作學校及其檔案。",
+  "buttons": {
+    "addSchool": "新增學校",
+    "importSchools": "匯入學校",
+    "selectSchools": "選擇學校",
+    "cancelSelection": "取消選擇",
+    "editProfile": "編輯檔案",
+    "saveChanges": "儲存變更",
+    "back": "返回"
+  },
+  "table": {
+    "columns": {
+      "schoolName": "學校名稱（中文）",
+      "address": "地址（中文）",
+      "principal": "校長",
+      "contactWindow": "聯絡窗口",
+      "contactEmail": "聯絡電子郵件"
+    },
+    "noResults": "未找到學校。",
+    "noTeachers": "目前沒有教師在此學校任職。"
+  },
+  "search": {
+    "placeholder": "搜尋學校..."
+  },
+  "dialog": {
+    "addTitle": "新增學校",
+    "chineseNameLabel": "學校中文名稱",
+    "chineseNamePlaceholder": "例如：臺北市立第一女子高級中學",
+    "createButton": "建立學校",
+    "deleteTitle": "確定要刪除嗎？",
+    "deleteDescription": "此動作無法復原。這將永久刪除所選的學校。",
+    "deleteButton": "刪除"
+  },
+  "profile": {
+    "noEnglishName": "無英文名稱",
+    "sections": {
+      "basicInfo": "基本資訊",
+      "keyPersonnel": "主要人員",
+      "employedTeachers": "任職教師"
+    },
+    "fields": {
+      "chineseName": "中文名稱",
+      "englishName": "英文名稱",
+      "chineseAddress": "中文地址",
+      "englishAddress": "英文地址",
+      "principalChinese": "校長（中文）",
+      "principalEnglish": "校長（英文）",
+      "contactWindow": "聯絡窗口",
+      "contactName": "姓名",
+      "contactPosition": "職位",
+      "contactEmail": "電子郵件",
+      "contactPhone": "電話"
+    },
+    "teacherTable": {
+      "name": "姓名",
+      "email": "電子郵件",
+      "nationality": "國籍",
+      "status": "狀態"
+    }
+  },
+  "toast": {
+    "loadError": "載入學校詳細資訊失敗",
+    "updateSuccess": "學校更新成功",
+    "updateError": "學校更新失敗"
+  }
+}
