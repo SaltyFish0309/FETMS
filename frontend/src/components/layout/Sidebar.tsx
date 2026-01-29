@@ -9,7 +9,7 @@ const navigation = [
     { name: "nav.schools", href: "/schools", icon: SchoolIcon },
     { name: "nav.documents", href: "/documents", icon: FileText },
     { name: "nav.settings", href: "/settings", icon: Settings },
-];
+] as const;
 
 export function Sidebar() {
     const location = useLocation();
