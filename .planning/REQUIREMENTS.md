@@ -48,17 +48,17 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### UI Translation (Traditional Chinese + English)
 
-- [ ] **I18N-09**: Translate common UI elements (buttons, labels, navigation, headings)
-- [ ] **I18N-10**: Translate Settings page strings
-- [ ] **I18N-11**: Translate Dashboard page strings (Analytics Overview, charts, KPIs)
-- [ ] **I18N-12**: Translate Teachers page strings (list, Kanban, filters, forms)
-- [ ] **I18N-13**: Translate Schools page strings (list, filters, forms)
-- [ ] **I18N-14**: Translate Documents page strings
-- [ ] **I18N-15**: Translate all form validation messages
-- [ ] **I18N-16**: Translate all error messages and toast notifications
-- [ ] **I18N-17**: Translate dropdown option values (Status, Hiring Status, Gender, etc.)
-- [ ] **I18N-18**: Implement fallback to English for missing translations
-- [ ] **I18N-19**: Verify user-generated data (teacher names, school names) remains in original language
+- [x] **I18N-09**: Translate common UI elements (buttons, labels, navigation, headings)
+- [x] **I18N-10**: Translate Settings page strings
+- [x] **I18N-11**: Translate Dashboard page strings (Analytics Overview, charts, KPIs)
+- [x] **I18N-12**: Translate Teachers page strings (list, Kanban, filters, forms)
+- [x] **I18N-13**: Translate Schools page strings (list, filters, forms)
+- [x] **I18N-14**: Translate Documents page strings
+- [x] **I18N-15**: Translate all form validation messages
+- [x] **I18N-16**: Translate all error messages and toast notifications
+- [x] **I18N-17**: Translate dropdown option values (Status, Hiring Status, Gender, etc.)
+- [x] **I18N-18**: Implement fallback to English for missing translations
+- [x] **I18N-19**: Verify user-generated data (teacher names, school names) remains in original language
 
 ### Accessibility - Font Size Control
 
@@ -168,17 +168,17 @@ Which phases cover which requirements. Updated during roadmap creation.
 | I18N-06 | Phase 3 | Complete |
 | I18N-07 | Phase 3 | Complete |
 | I18N-08 | Phase 3 | Complete |
-| I18N-09 | Phase 4 | Pending |
-| I18N-10 | Phase 4 | Pending |
-| I18N-11 | Phase 4 | Pending |
-| I18N-12 | Phase 4 | Pending |
-| I18N-13 | Phase 4 | Pending |
-| I18N-14 | Phase 4 | Pending |
-| I18N-15 | Phase 4 | Pending |
-| I18N-16 | Phase 4 | Pending |
-| I18N-17 | Phase 4 | Pending |
-| I18N-18 | Phase 4 | Pending |
-| I18N-19 | Phase 4 | Pending |
+| I18N-09 | Phase 4 | Complete |
+| I18N-10 | Phase 4 | Complete |
+| I18N-11 | Phase 4 | Complete |
+| I18N-12 | Phase 4 | Complete |
+| I18N-13 | Phase 4 | Complete |
+| I18N-14 | Phase 4 | Complete |
+| I18N-15 | Phase 4 | Complete |
+| I18N-16 | Phase 4 | Complete |
+| I18N-17 | Phase 4 | Complete |
+| I18N-18 | Phase 4 | Complete |
+| I18N-19 | Phase 4 | Complete |
 | ACC-01 | Phase 5 | Pending |
 | ACC-02 | Phase 5 | Pending |
 | ACC-03 | Phase 5 | Pending |
