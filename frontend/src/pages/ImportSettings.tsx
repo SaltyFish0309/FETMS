@@ -2,8 +2,10 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowLeft, Upload } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export default function ImportSettings() {
+    const { t } = useTranslation('settings');
     const navigate = useNavigate();
 
     return (
@@ -13,9 +15,9 @@ export default function ImportSettings() {
                     <ArrowLeft className="h-5 w-5" />
                 </Button>
                 <div className="flex-1">
-                    <h1 className="text-3xl font-bold">Data Import</h1>
+                    <h1 className="text-3xl font-bold">{t('import.page.title')}</h1>
                     <p className="text-muted-foreground mt-1">
-                        Import data from external sources
+                        {t('import.page.subtitle')}
                     </p>
                 </div>
             </div>
@@ -23,9 +25,9 @@ export default function ImportSettings() {
             <div className="grid gap-6">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Bulk Import</CardTitle>
+                        <CardTitle>{t('import.sections.bulkImport.title')}</CardTitle>
                         <CardDescription>
-                            Upload CSV or Excel files to import multiple records at once.
+                            {t('import.sections.bulkImport.description')}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -33,9 +35,9 @@ export default function ImportSettings() {
                             <div className="mx-auto w-12 h-12 flex items-center justify-center rounded-full bg-muted mb-4">
                                 <Upload className="h-6 w-6 text-muted-foreground" />
                             </div>
-                            <h3 className="text-lg font-medium">Coming Soon</h3>
+                            <h3 className="text-lg font-medium">{t('import.sections.bulkImport.comingSoon')}</h3>
                             <p className="text-muted-foreground mt-2 max-w-sm mx-auto">
-                                Bulk import functionality for Teachers and Schools will be available in a future update.
+                                {t('import.sections.bulkImport.comingSoonDesc')}
                             </p>
                         </div>
                     </CardContent>
@@ -44,3 +46,4 @@ export default function ImportSettings() {
         </div>
     );
 }
+

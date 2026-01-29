@@ -5,8 +5,10 @@ import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { LanguageToggle } from '@/components/ui/language-toggle';
 import { ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export default function PreferencesSettings() {
+    const { t } = useTranslation('settings');
     const navigate = useNavigate();
 
     return (
@@ -16,9 +18,9 @@ export default function PreferencesSettings() {
                     <ArrowLeft className="h-5 w-5" />
                 </Button>
                 <div className="flex-1">
-                    <h1 className="text-3xl font-bold">User Preferences</h1>
+                    <h1 className="text-3xl font-bold">{t('preferences.page.title')}</h1>
                     <p className="text-muted-foreground mt-1">
-                        Customize your experience
+                        {t('preferences.page.subtitle')}
                     </p>
                 </div>
             </div>
@@ -26,17 +28,17 @@ export default function PreferencesSettings() {
             <div className="grid gap-6">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Appearance</CardTitle>
+                        <CardTitle>{t('preferences.sections.appearance.title')}</CardTitle>
                         <CardDescription>
-                            Customize how the application looks properly on your device.
+                            {t('preferences.sections.appearance.description')}
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
                         <div className="flex items-center justify-between">
                             <Label htmlFor="theme-toggle" className="flex flex-col gap-1">
-                                <span>Theme</span>
+                                <span>{t('preferences.sections.appearance.theme.label')}</span>
                                 <span className="font-normal text-sm text-muted-foreground">
-                                    Select your preferred color theme
+                                    {t('preferences.sections.appearance.theme.description')}
                                 </span>
                             </Label>
                             <div id="theme-toggle">
@@ -48,17 +50,17 @@ export default function PreferencesSettings() {
 
                 <Card>
                     <CardHeader>
-                        <CardTitle>Language & Region</CardTitle>
+                        <CardTitle>{t('preferences.sections.language.title')}</CardTitle>
                         <CardDescription>
-                            Manage your language preferences and regional settings.
+                            {t('preferences.sections.language.description')}
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
                         <div className="flex items-center justify-between">
                             <Label htmlFor="language-toggle" className="flex flex-col gap-1">
-                                <span>Language</span>
+                                <span>{t('preferences.sections.language.language.label')}</span>
                                 <span className="font-normal text-sm text-muted-foreground">
-                                    Select your preferred interface language
+                                    {t('preferences.sections.language.language.description')}
                                 </span>
                             </Label>
                             <div id="language-toggle">
