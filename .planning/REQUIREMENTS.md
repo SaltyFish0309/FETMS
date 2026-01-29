@@ -145,29 +145,29 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DARK-02 | Phase 1 | Complete |
 | DARK-03 | Phase 1 | Complete |
 | DARK-04 | Phase 1 | Complete |
-| DARK-05 | Phase 2 | Pending |
-| DARK-06 | Phase 2 | Pending |
-| DARK-07 | Phase 2 | Pending |
-| DARK-08 | Phase 2 | Pending |
-| DARK-09 | Phase 2 | Pending |
-| DARK-10 | Phase 2 | Pending |
-| DARK-11 | Phase 2 | Pending |
-| DARK-12 | Phase 2 | Pending |
-| DARK-13 | Phase 2 | Pending |
-| DARK-14 | Phase 2 | Pending |
-| DARK-15 | Phase 2 | Pending |
-| DARK-16 | Phase 2 | Pending |
-| DARK-17 | Phase 2 | Pending |
-| DARK-18 | Phase 2 | Pending |
-| DARK-19 | Phase 2 | Pending |
-| I18N-01 | Phase 3 | Pending |
-| I18N-02 | Phase 3 | Pending |
-| I18N-03 | Phase 3 | Pending |
-| I18N-04 | Phase 3 | Pending |
-| I18N-05 | Phase 3 | Pending |
-| I18N-06 | Phase 3 | Pending |
-| I18N-07 | Phase 3 | Pending |
-| I18N-08 | Phase 3 | Pending |
+| DARK-05 | Phase 2 | Complete |
+| DARK-06 | Phase 2 | Complete |
+| DARK-07 | Phase 2 | Complete |
+| DARK-08 | Phase 2 | Complete |
+| DARK-09 | Phase 2 | Complete |
+| DARK-10 | Phase 2 | Complete |
+| DARK-11 | Phase 2 | Complete |
+| DARK-12 | Phase 2 | Complete |
+| DARK-13 | Phase 2 | Complete |
+| DARK-14 | Phase 2 | Complete |
+| DARK-15 | Phase 2 | Complete |
+| DARK-16 | Phase 2 | Complete |
+| DARK-17 | Phase 2 | Complete |
+| DARK-18 | Phase 2 | Complete |
+| DARK-19 | Phase 2 | Complete |
+| I18N-01 | Phase 3 | Complete |
+| I18N-02 | Phase 3 | Complete |
+| I18N-03 | Phase 3 | Complete |
+| I18N-04 | Phase 3 | Complete |
+| I18N-05 | Phase 3 | Complete |
+| I18N-06 | Phase 3 | Complete |
+| I18N-07 | Phase 3 | Complete |
+| I18N-08 | Phase 3 | Complete |
 | I18N-09 | Phase 4 | Pending |
 | I18N-10 | Phase 4 | Pending |
 | I18N-11 | Phase 4 | Pending |
@@ -205,4 +205,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-27*
-*Last updated: 2026-01-27 after roadmap creation*
+*Last updated: 2026-01-29 after Phase 3 completion*

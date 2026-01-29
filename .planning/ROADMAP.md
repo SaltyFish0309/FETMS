@@ -13,8 +13,8 @@ This roadmap transforms the FETMS User Preferences feature from a flawed basic i
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Theme Infrastructure** - Fix broken dark mode configuration and prevent FOUC
-- [ ] **Phase 2: Component Dark Mode Coverage** - Apply dark styling systematically across all components
-- [ ] **Phase 3: i18n Infrastructure** - Build internationalization foundation for bilingual support
+- [x] **Phase 2: Component Dark Mode Coverage** - Apply dark styling systematically across all components
+- [x] **Phase 3: i18n Infrastructure** - Build internationalization foundation for bilingual support
 - [ ] **Phase 4: Content Translation** - Translate all UI elements to Traditional Chinese
 - [ ] **Phase 5: Preferences System** - Implement comprehensive user preference controls
 
