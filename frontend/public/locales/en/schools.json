@@ -76,6 +76,9 @@
     "cancel": "Cancel",
     "import": "Import",
     "success": "{{count}} schools imported successfully",
-    "error": "Failed to import schools"
+    "error": "Failed to import schools",
+    "templateTitle": "CSV Template",
+    "templateDesc": "Download the required format to avoid errors.",
+    "downloadTemplate": "Download Template"
   }
 }

@@ -76,6 +76,9 @@
     "cancel": "取消",
     "import": "匯入",
     "success": "成功匯入 {{count}} 所學校",
-    "error": "匯入學校失敗"
+    "error": "匯入學校失敗",
+    "templateTitle": "CSV 範本",
+    "templateDesc": "下載所需格式以避免錯誤。",
+    "downloadTemplate": "下載範本"
   }
 }
