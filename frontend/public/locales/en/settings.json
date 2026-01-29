@@ -26,6 +26,192 @@
   "actions": {
     "manageSettings": "Manage settings"
   },
+  "projects": {
+    "page": {
+      "title": "Project Settings",
+      "subtitle": "Manage recruitment projects and templates",
+      "addButton": "Create Project"
+    },
+    "table": {
+      "columns": {
+        "name": "Project Name",
+        "description": "Description",
+        "status": "Status",
+        "createdAt": "Created",
+        "actions": "Actions",
+        "code": "Code"
+      },
+      "empty": "No projects yet"
+    },
+    "dialog": {
+      "createTitle": "Create Project",
+      "editTitle": "Edit Project",
+      "description": "Set up a new recruitment project",
+      "fields": {
+        "name": {
+          "label": "Project Name",
+          "placeholder": "Enter project name"
+        },
+        "code": {
+          "label": "Project Code",
+          "placeholder": "Enter project code"
+        },
+        "description": {
+          "label": "Description",
+          "placeholder": "Enter project description"
+        },
+        "status": {
+          "label": "Status",
+          "active": "Active",
+          "inactive": "Inactive"
+        }
+      },
+      "buttons": {
+        "cancel": "Cancel",
+        "create": "Create",
+        "save": "Save Changes"
+      }
+    },
+    "toast": {
+      "createSuccess": "Project created successfully",
+      "updateSuccess": "Project updated successfully",
+      "deleteSuccess": "Project archived successfully",
+      "restoreSuccess": "Project restored successfully",
+      "hardDeleteSuccess": "Project permanently deleted",
+      "error": "Operation failed"
+    },
+    "deleteConfirm": {
+      "title": "Archive Project",
+      "description": "Are you sure you want to archive this project? It can be restored later.",
+      "hardDeleteTitle": "Delete Project Permanently",
+      "hardDeleteDescription": "Are you sure you want to permanently delete this project? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Archive",
+      "hardDeleteConfirm": "Delete Permanently"
+    },
+    "status": {
+      "active": "Active",
+      "archived": "Archived"
+    },
+    "actions": {
+      "edit": "Edit",
+      "archive": "Archive",
+      "restore": "Restore",
+      "deletePermanently": "Delete Permanently"
+    }
+  },
+  "stages": {
+    "page": {
+      "title": "Pipeline Stages",
+      "subtitle": "Customize recruitment pipeline stages",
+      "addButton": "Add Stage",
+      "reorderHint": "Drag to reorder stages"
+    },
+    "dialog": {
+      "title": "Create Stage",
+      "description": "Add a new stage to the recruitment pipeline",
+      "fields": {
+        "name": {
+          "label": "Stage Name",
+          "placeholder": "Enter stage name"
+        },
+        "description": {
+          "label": "Description",
+          "placeholder": "Enter stage description"
+        },
+        "color": {
+          "label": "Color",
+          "placeholder": "Select color"
+        }
+      },
+      "buttons": {
+        "cancel": "Cancel",
+        "create": "Create Stage"
+      }
+    },
+    "item": {
+      "dragHandle": "Drag to reorder",
+      "edit": "Edit",
+      "delete": "Delete",
+      "order": "Order: {{order}}"
+    },
+    "toast": {
+      "createSuccess": "Stage created successfully",
+      "updateSuccess": "Stage updated successfully",
+      "deleteSuccess": "Stage deleted successfully",
+      "reorderSuccess": "Stages reordered successfully",
+      "error": "Operation failed"
+    },
+    "deleteConfirm": {
+        "message": "Are you sure? All teachers in this stage will be moved to Uncategorized."
+    }
+  },
+  "preferences": {
+    "page": {
+      "title": "Preferences",
+      "subtitle": "Customize your experience"
+    },
+    "sections": {
+      "appearance": {
+        "title": "Appearance",
+        "description": "Customize how the application looks properly on your device.",
+        "theme": {
+          "label": "Theme",
+          "description": "Select your preferred color theme",
+          "light": "Light",
+          "dark": "Dark",
+          "system": "System"
+        }
+      },
+      "language": {
+        "title": "Language & Region",
+        "description": "Manage your language preferences and regional settings.",
+        "language": {
+          "label": "Language",
+          "description": "Select your preferred interface language",
+          "en": "English",
+          "zhTW": "繁體中文"
+        }
+      }
+    }
+  },
+  "import": {
+    "page": {
+      "title": "Data Import",
+      "subtitle": "Import data from external sources"
+    },
+    "sections": {
+      "bulkImport": {
+        "title": "Bulk Import",
+        "description": "Upload CSV or Excel files to import multiple records at once.",
+        "comingSoon": "Coming Soon",
+        "comingSoonDesc": "Bulk import functionality for Teachers and Schools will be available in a future update."
+      },
+      "import": {
+        "title": "Import Data",
+        "description": "Upload CSV files to import teachers or schools",
+        "teachers": "Import Teachers",
+        "schools": "Import Schools"
+      },
+      "export": {
+        "title": "Export Data",
+        "description": "Download your data in CSV format",
+        "teachers": "Export Teachers",
+        "schools": "Export Schools",
+        "allData": "Export All Data"
+      },
+      "templates": {
+        "title": "CSV Templates",
+        "description": "Download template files for imports",
+        "teachersTemplate": "Download Teachers Template",
+        "schoolsTemplate": "Download Schools Template"
+      }
+    },
+    "toast": {
+      "exportSuccess": "Data exported successfully",
+      "exportError": "Export failed"
+    }
+  },
   "alertRulesTable": {
     "headers": {
       "name": "Name",
