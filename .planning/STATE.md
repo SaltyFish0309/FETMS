@@ -11,30 +11,27 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 4 of 5 (Content Translation)
-Plan: 10 of 12 in current phase
+Plan: 11 of 12 in current phase
 Status: In progress
-Last activity: 2026-01-29 — Completed 04-10-PLAN.md (Translate Teacher and School Profiles)
+Last activity: 2026-01-29 — Completed 04-11-PLAN.md (Translate Alert Settings and Toast Messages)
 
-Progress: [███████████████████████░░░] 83%
+Progress: [█████████████████████░░░░] 79%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 25
+- Total plans completed: 27
 - Average duration: ~8m
-- Total execution time: ~3.3 hours
+- Total execution time: ~3.6 hours
 
 **By Phase:**
-
-| Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| 01 | 1 | 3m 3s | 3m 3s |
-| 02 | 11 | ~70m | ~6.4m |
-| 03 | 3 | 35m | ~12m |
-| 04 | 10 | ~95m | ~9.5m |
+- Phase 01: 1 plan (3m)
+- Phase 02: 11 plans (70m)
+- Phase 03: 3 plans (35m)
+- Phase 04: 11 plans (~110m)
 
 **Recent Trend:**
-- Last 3 plans: 04-07, 04-08, 04-09
+- Last 3 plans: 04-09, 04-10, 04-11
 - Trend: Executing gap closure plans for Phase 4
 
 *Updated after each plan completion*
@@ -46,6 +43,8 @@ Progress: [███████████████████████
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
+- **Window Confirm (04-11):** Kept window.confirm but translated message instead of building custom dialog.
+- **Alert Rules Manager Scope (04-11):** Fully translated AlertRulesManager (form/table) not just toasts.
 - **Teachers Page i18n (04-09):** Added template section translations to ImportDialog despite not being in original plan to ensure full coverage.
 - **Calculated Days Remaining (04-07):** Switched ExpiryWidget to "Expires in X days" to match translation key format and improve UX.
 - **Dynamic Enum Keys (04-08):** Used 'as any' casting for dynamic enum translation keys in components to bypass strict TypeScript checking.
@@ -60,7 +59,7 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-- Complete remaining Phase 4 gap closure plans (04-10, 04-11, 04-12)
+- Complete remaining Phase 4 gap closure plan (04-12)
 
 ### Blockers/Concerns
 
@@ -75,5 +74,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 04-10-PLAN.md
-Resume file: .planning/phases/04-content-translation/04-10-SUMMARY.md
+Stopped at: Completed 04-11-PLAN.md
+Resume file: .planning/phases/04-content-translation/04-11-SUMMARY.md
