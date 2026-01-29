@@ -117,7 +117,7 @@ export const useTeacherKanban = (teachers: Teacher[], onRefresh: () => void) => 
 
             await teacherService.reorderStages(dbStagesToUpdate);
         } catch {
-            toast.error(t('kanban.toast.stageReorderError'));
+            toast.error(t('profile.kanban.toast.stageReorderError'));
             loadStages(); // Revert
         }
     };
@@ -153,7 +153,7 @@ export const useTeacherKanban = (teachers: Teacher[], onRefresh: () => void) => 
                     const teacherIds = newColumns[sourceStage].map(t => t._id);
                     await teacherService.reorderPipeline(sourceStage, teacherIds);
                 } catch {
-                    toast.error(t('kanban.toast.teacherReorderError'));
+                    toast.error(t('profile.kanban.toast.teacherReorderError'));
                     onRefresh();
                 }
             }
@@ -171,7 +171,7 @@ export const useTeacherKanban = (teachers: Teacher[], onRefresh: () => void) => 
                 await teacherService.reorderPipeline(destStage, teacherIds);
                 toast.success(`Moved to ${stages.find(s => s._id === destStage)?.title}`);
             } catch {
-                toast.error(t('kanban.toast.teacherMoveError'));
+                toast.error(t('profile.kanban.toast.teacherMoveError'));
                 onRefresh();
             }
         }
@@ -180,10 +180,10 @@ export const useTeacherKanban = (teachers: Teacher[], onRefresh: () => void) => 
     const createStage = async (title: string) => {
         try {
             await teacherService.createStage(title);
-            toast.success(t('kanban.toast.stageCreateSuccess'));
+            toast.success(t('profile.kanban.toast.stageCreateSuccess'));
             loadStages();
         } catch (error) {
-            toast.error(t('kanban.toast.stageCreateError'));
+            toast.error(t('profile.kanban.toast.stageCreateError'));
             throw error;
         }
     };
@@ -191,11 +191,11 @@ export const useTeacherKanban = (teachers: Teacher[], onRefresh: () => void) => 
     const deleteStage = async (stageId: string) => {
         try {
             await teacherService.deleteStage(stageId);
-            toast.success(t('kanban.toast.stageDeleteSuccess'));
+            toast.success(t('profile.kanban.toast.stageDeleteSuccess'));
             loadStages();
             onRefresh();
         } catch (error) {
-            toast.error(t('kanban.toast.stageDeleteError'));
+            toast.error(t('profile.kanban.toast.stageDeleteError'));
             throw error;
         }
     };
