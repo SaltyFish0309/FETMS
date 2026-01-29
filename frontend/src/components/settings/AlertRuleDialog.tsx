@@ -18,6 +18,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { useTranslation } from 'react-i18next';
 
 export interface AlertRuleFormData {
     name: string;
@@ -44,27 +45,29 @@ export function AlertRuleDialog({
     onSave,
     isEditing,
 }: AlertRuleDialogProps) {
+    const { t } = useTranslation('settings');
+
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>{isEditing ? 'Edit Alert Rule' : 'Create Alert Rule'}</DialogTitle>
-                    <DialogDescription>Configure document expiry alerts</DialogDescription>
+                    <DialogTitle>{isEditing ? t('alerts.dialog.editTitle') : t('alerts.dialog.createTitle')}</DialogTitle>
+                    <DialogDescription>{t('alerts.dialog.description')}</DialogDescription>
                 </DialogHeader>
 
                 <div className="space-y-4">
                     <div>
-                        <Label htmlFor="name">Rule Name</Label>
+                        <Label htmlFor="name">{t('alerts.dialog.fields.name.label')}</Label>
                         <Input
                             id="name"
                             value={formData.name}
                             onChange={(e) => onFormChange({ ...formData, name: e.target.value })}
-                            placeholder="e.g., ARC Expiring Soon"
+                            placeholder={t('alerts.dialog.fields.name.placeholder')}
                         />
                     </div>
 
                     <div>
-                        <Label htmlFor="documentType">Document Type</Label>
+                        <Label htmlFor="documentType">{t('alerts.dialog.fields.documentType.label')}</Label>
                         <Select
                             value={formData.documentType}
                             onValueChange={(value) =>
@@ -75,15 +78,15 @@ export function AlertRuleDialog({
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="arcDetails">ARC</SelectItem>
-                                <SelectItem value="workPermitDetails">Work Permit</SelectItem>
-                                <SelectItem value="passportDetails">Passport</SelectItem>
+                                <SelectItem value="arcDetails">{t('alertRulesTable.documentTypes.arcDetails')}</SelectItem>
+                                <SelectItem value="workPermitDetails">{t('alertRulesTable.documentTypes.workPermitDetails')}</SelectItem>
+                                <SelectItem value="passportDetails">{t('alertRulesTable.documentTypes.passportDetails')}</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
 
                     <div>
-                        <Label htmlFor="conditionType">Condition Type</Label>
+                        <Label htmlFor="conditionType">{t('alerts.dialog.fields.condition.label')}</Label>
                         <Select
                             value={formData.conditionType}
                             onValueChange={(value) =>
@@ -94,22 +97,24 @@ export function AlertRuleDialog({
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="DAYS_REMAINING">Days Remaining</SelectItem>
-                                <SelectItem value="DATE_THRESHOLD">Date Threshold</SelectItem>
+                                <SelectItem value="DAYS_REMAINING">{t('alertRulesTable.conditionTypes.daysRemaining')}</SelectItem>
+                                <SelectItem value="DATE_THRESHOLD">{t('alertRulesTable.conditionTypes.dateThreshold')}</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
 
                     <div>
                         <Label htmlFor="value">
-                            {formData.conditionType === 'DAYS_REMAINING' ? 'Days' : 'Date'}
+                            {formData.conditionType === 'DAYS_REMAINING' 
+                                ? t('alerts.dialog.fields.value.daysLabel') 
+                                : t('alerts.dialog.fields.value.dateLabel')}
                         </Label>
                         <Input
                             id="value"
                             type={formData.conditionType === 'DAYS_REMAINING' ? 'number' : 'date'}
                             value={formData.value}
                             onChange={(e) => onFormChange({ ...formData, value: e.target.value })}
-                            placeholder={formData.conditionType === 'DAYS_REMAINING' ? 'e.g., 30' : ''}
+                            placeholder={formData.conditionType === 'DAYS_REMAINING' ? t('alerts.dialog.fields.daysThreshold.placeholder') : ''}
                         />
                     </div>
 
@@ -119,15 +124,15 @@ export function AlertRuleDialog({
                             checked={formData.isActive}
                             onCheckedChange={(checked: boolean) => onFormChange({ ...formData, isActive: checked })}
                         />
-                        <Label htmlFor="isActive">Active</Label>
+                        <Label htmlFor="isActive">{t('alerts.dialog.statuses.active')}</Label>
                     </div>
                 </div>
 
                 <DialogFooter>
                     <Button variant="outline" onClick={() => onOpenChange(false)}>
-                        Cancel
+                        {t('alerts.dialog.buttons.cancel')}
                     </Button>
-                    <Button onClick={onSave}>{isEditing ? 'Update' : 'Create'}</Button>
+                    <Button onClick={onSave}>{isEditing ? t('alerts.dialog.buttons.save') : t('alerts.dialog.buttons.create')}</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
