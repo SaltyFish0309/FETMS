@@ -10,6 +10,13 @@ interface EducationChartProps {
 
 export function EducationChart({ data, onClick }: EducationChartProps) {
     const { t } = useTranslation('dashboard');
+    const { t: tTeachers } = useTranslation('teachers');
+
+    const translatedData = data.map(item => ({
+        ...item,
+        originalName: item.name,
+        name: tTeachers(`enums.degree.${item.name.toLowerCase().replace(/\s+/g, '_')}` as any)
+    }));
 
     return (
         <Card className="col-span-1 h-full min-w-0">
@@ -19,7 +26,7 @@ export function EducationChart({ data, onClick }: EducationChartProps) {
             <CardContent>
                 <div className="h-[250px] w-full min-w-0">
                     <ResponsiveContainer width="100%" height="100%" minWidth={0}>
-                        <BarChart data={data} layout="vertical" margin={{ top: 5, right: 30, left: 40, bottom: 5 }}>
+                        <BarChart data={translatedData} layout="vertical" margin={{ top: 5, right: 30, left: 40, bottom: 5 }}>
                             <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="var(--color-border)" />
                             <XAxis type="number" hide />
                             <YAxis
@@ -40,11 +47,11 @@ export function EducationChart({ data, onClick }: EducationChartProps) {
                                 labelStyle={{ color: 'var(--color-popover-foreground)' }}
                             />
                             <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={20} animationDuration={300}>
-                                {data.map((entry, index) => (
+                                {translatedData.map((entry, index) => (
                                     <Cell
                                         key={`cell-${index}`}
                                         fill={getChartColor(index)}
-                                        onClick={() => onClick && onClick(entry)}
+                                        onClick={() => onClick && onClick({ name: entry.originalName, value: entry.value })}
                                         className="cursor-pointer hover:opacity-80 transition-opacity"
                                     />
                                 ))}
