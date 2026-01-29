@@ -1,5 +1,6 @@
 import { List, LayoutGrid } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
 
 export type ViewMode = 'list' | 'kanban';
 
@@ -9,6 +10,8 @@ interface ViewModeToggleProps {
 }
 
 export function ViewModeToggle({ value, onChange }: ViewModeToggleProps) {
+  const { t } = useTranslation('teachers');
+
   return (
     <div className="flex items-center bg-muted p-1 rounded-lg border border-border">
       <Button
@@ -19,9 +22,9 @@ export function ViewModeToggle({ value, onChange }: ViewModeToggleProps) {
           ? 'bg-card text-foreground shadow-sm hover:bg-card'
           : 'text-muted-foreground hover:text-foreground hover:bg-transparent'
         }
-        aria-label="List view"
+        aria-label={t('viewMode.list')}
       >
-        <List className="h-4 w-4 mr-2" /> List
+        <List className="h-4 w-4 mr-2" /> {t('viewMode.list')}
       </Button>
       <Button
         variant="ghost"
@@ -31,9 +34,9 @@ export function ViewModeToggle({ value, onChange }: ViewModeToggleProps) {
           ? 'bg-card text-foreground shadow-sm hover:bg-card'
           : 'text-muted-foreground hover:text-foreground hover:bg-transparent'
         }
-        aria-label="Kanban view"
+        aria-label={t('viewMode.kanban')}
       >
-        <LayoutGrid className="h-4 w-4 mr-2" /> Kanban
+        <LayoutGrid className="h-4 w-4 mr-2" /> {t('viewMode.kanban')}
       </Button>
     </div>
   );
