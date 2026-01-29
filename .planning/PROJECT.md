@@ -97,5 +97,14 @@ Users can customize the application experience to match their preferences (theme
 | Traditional Chinese (not Simplified) | User specified Traditional Chinese explicitly | — Pending |
 | Research common settings patterns | User wants industry-standard settings, not custom invention | — Pending |
 
+## Tech Stack & Capabilities
+
+- **Frontend:** React 19, TypeScript, Vite, Tailwind CSS, Shadcn/UI
+- **Backend:** Node.js, Express, MongoDB
+- **Testing:** Vitest, React Testing Library
+- **MCP Tools:**
+  - [Context7]: When you need to search docs, use `context7` tools. Use skill: use-context-7 for more information.
+  - [gh_grep]: If you are unsure how to do something, use `gh_grep` to search code examples from GitHub. Use skill: use-gh-grep for more information.
+
 ---
-*Last updated: 2026-01-27 after initialization*
+*Last updated: 2026-01-29 after Phase 3 completion*
