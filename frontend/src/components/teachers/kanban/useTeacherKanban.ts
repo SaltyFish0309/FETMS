@@ -4,6 +4,7 @@ import { arrayMove } from '@dnd-kit/sortable';
 import { teacherService } from '../../../services/teacherService';
 import type { Teacher } from '../../../services/teacherService';
 import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
 
 export interface Stage {
     _id: string;
@@ -12,6 +13,7 @@ export interface Stage {
 }
 
 export const useTeacherKanban = (teachers: Teacher[], onRefresh: () => void) => {
+    const { t } = useTranslation('teachers');
     const [columns, setColumns] = useState<Record<string, Teacher[]>>({});
     const [stages, setStages] = useState<Stage[]>([]);
     const [activeTeacher, setActiveTeacher] = useState<Teacher | null>(null);
@@ -115,7 +117,7 @@ export const useTeacherKanban = (teachers: Teacher[], onRefresh: () => void) => 
 
             await teacherService.reorderStages(dbStagesToUpdate);
         } catch {
-            toast.error('Failed to reorder stages');
+            toast.error(t('kanban.toast.stageReorderError'));
             loadStages(); // Revert
         }
     };
@@ -151,7 +153,7 @@ export const useTeacherKanban = (teachers: Teacher[], onRefresh: () => void) => 
                     const teacherIds = newColumns[sourceStage].map(t => t._id);
                     await teacherService.reorderPipeline(sourceStage, teacherIds);
                 } catch {
-                    toast.error('Failed to reorder');
+                    toast.error(t('kanban.toast.teacherReorderError'));
                     onRefresh();
                 }
             }
@@ -169,7 +171,7 @@ export const useTeacherKanban = (teachers: Teacher[], onRefresh: () => void) => 
                 await teacherService.reorderPipeline(destStage, teacherIds);
                 toast.success(`Moved to ${stages.find(s => s._id === destStage)?.title}`);
             } catch {
-                toast.error('Failed to move teacher');
+                toast.error(t('kanban.toast.teacherMoveError'));
                 onRefresh();
             }
         }
@@ -178,10 +180,10 @@ export const useTeacherKanban = (teachers: Teacher[], onRefresh: () => void) => 
     const createStage = async (title: string) => {
         try {
             await teacherService.createStage(title);
-            toast.success('Stage created');
+            toast.success(t('kanban.toast.stageCreateSuccess'));
             loadStages();
         } catch (error) {
-            toast.error('Failed to create stage');
+            toast.error(t('kanban.toast.stageCreateError'));
             throw error;
         }
     };
@@ -189,11 +191,11 @@ export const useTeacherKanban = (teachers: Teacher[], onRefresh: () => void) => 
     const deleteStage = async (stageId: string) => {
         try {
             await teacherService.deleteStage(stageId);
-            toast.success('Stage deleted');
+            toast.success(t('kanban.toast.stageDeleteSuccess'));
             loadStages();
             onRefresh();
         } catch (error) {
-            toast.error('Failed to delete stage');
+            toast.error(t('kanban.toast.stageDeleteError'));
             throw error;
         }
     };
