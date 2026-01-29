@@ -24,6 +24,7 @@ import {
   GROUP_LABELS,
   type ColumnDef
 } from "../columnConfig";
+import { useTranslation } from 'react-i18next';
 
 interface FilterSheetProps<TData> {
   open: boolean;
@@ -38,6 +39,7 @@ export function FilterSheet<TData>({
   table,
   stageMap
 }: FilterSheetProps<TData>) {
+  const { t } = useTranslation('teachers');
   const [searchQuery, setSearchQuery] = React.useState("");
 
   // Get column visibility state for the memo dependency
@@ -134,9 +136,9 @@ export function FilterSheet<TData>({
         <SheetHeader className="space-y-4 pb-4 border-b">
           <div className="flex items-center justify-between">
             <SheetTitle className="flex items-center gap-2">
-              All Filters
+              {t('filterSheet.title')}
               {activeFilterCount > 0 && (
-                <Badge variant="secondary">{activeFilterCount} active</Badge>
+                <Badge variant="secondary">{t('filterSheet.activeFilters', { count: activeFilterCount })}</Badge>
               )}
             </SheetTitle>
           </div>
@@ -144,7 +146,7 @@ export function FilterSheet<TData>({
           <div className="relative">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search filters..."
+              placeholder={t('filterSheet.search')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-8"
@@ -155,7 +157,7 @@ export function FilterSheet<TData>({
         <div className="py-4">
           {groupedColumns.length === 0 ? (
             <p className="text-sm text-muted-foreground text-center py-8">
-              No filters available. Show more columns to see their filters.
+              {t('filterSheet.noFilters')}
             </p>
           ) : (
             <Accordion type="multiple" defaultValue={groupedColumns.map(g => g.id)}>
@@ -193,7 +195,7 @@ export function FilterSheet<TData>({
               onClick={() => table.resetColumnFilters()}
             >
               <RotateCcw className="mr-2 h-4 w-4" />
-              Reset All Filters
+              {t('filterSheet.reset')}
             </Button>
           </div>
         )}
