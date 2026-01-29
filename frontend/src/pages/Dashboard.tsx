@@ -20,10 +20,33 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function Dashboard() {
     const { t } = useTranslation('dashboard');
+    const { t: tTeachers } = useTranslation('teachers');
     const { selectedProjectId } = useProjectContext();
     const [stats, setStats] = useState<DashboardStats | null>(null);
     const [loading, setLoading] = useState(true);
     const [filters, setFilters] = useState<DashboardFilters>({});
+
+    const translateFilterValue = (filterKey: string, value: string): string => {
+        // Map filter keys to enum types
+        const enumMap: Record<string, string> = {
+            'status': 'status',
+            'hiringStatus': 'status',
+            'gender': 'gender',
+            'degree': 'degree',
+            'educationLevel': 'degree'
+        };
+
+        const enumType = enumMap[filterKey];
+
+        if (enumType) {
+            // Translate as enum value
+            const enumKey = value.toLowerCase().replace(/\s+/g, '_').replace(/-/g, '_');
+            return tTeachers(`enums.${enumType}.${enumKey}` as any);
+        }
+
+        // Return raw value for non-enum filters (nationality, etc.)
+        return value;
+    };
 
     const loadStats = useCallback(async () => {
         if (!selectedProjectId) return;
@@ -149,7 +172,7 @@ export default function Dashboard() {
                                             onClick={() => handleFilterChange(key as keyof DashboardFilters, null)}
                                         >
                                             <span className="capitalize">{filterLabel}:</span>
-                                            <span className="font-bold">{displayValue}</span>
+                                            <span className="font-bold">{translateFilterValue(key, displayValue)}</span>
                                             <X className="h-3 w-3 opacity-50 group-hover:opacity-100 ml-1" />
                                         </Badge>
                                     );
