@@ -81,11 +81,12 @@ Plans:
   4. Language switches instantly without page reload
   5. Traditional Chinese text renders with proper font stack (no Simplified Chinese fallback)
 
-**Plans**: 2 plans
+**Plans**: 3 plans
 
 Plans:
 - [x] 03-01-PLAN.md — Install and configure i18next ecosystem
-- [ ] 03-02-PLAN.md — Implement language toggle UI and Traditional Chinese fonts
+- [x] 03-02-PLAN.md — Implement language toggle UI and Traditional Chinese fonts
+- [x] 03-03-PLAN.md — Fix missing active state indication in LanguageToggle component (Gap Closure)
 
 ### Phase 4: Content Translation
 **Goal**: All user-facing content is available in both Traditional Chinese and English with proper formatting
@@ -144,6 +145,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 |-------|----------------|--------|-----------|
 | 1. Theme Infrastructure | 1/1 | ✓ Complete | 2026-01-28 |
 | 2. Component Dark Mode Coverage | 11/11 | ✓ Complete | 2026-01-29 |
-| 3. i18n Infrastructure | 1/2 | In progress | - |
+| 3. i18n Infrastructure | 3/3 | ✓ Complete | 2026-01-29 |
 | 4. Content Translation | 0/TBD | Not started | - |
 | 5. Preferences System | 0/TBD | Not started | - |
