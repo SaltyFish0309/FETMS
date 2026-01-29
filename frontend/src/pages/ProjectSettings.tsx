@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback, memo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useProjectContext } from '@/contexts/ProjectContext';
 import { projectService, type Project } from '@/services/projectService';
 import { Button } from '@/components/ui/button';
@@ -31,62 +32,67 @@ const ProjectRow = memo(({
   onArchive: (project: Project) => void;
   onRestore: (project: Project) => void;
   onHardDelete: (project: Project) => void;
-}) => (
-  <TableRow key={project._id}>
-    <TableCell className="font-medium">{project.name}</TableCell>
-    <TableCell>{project.code}</TableCell>
-    <TableCell>{project.description || '-'}</TableCell>
-    <TableCell>
-      <Badge variant={project.isActive ? 'default' : 'secondary'}>
-        {project.isActive ? 'Active' : 'Archived'}
-      </Badge>
-    </TableCell>
-    <TableCell className="text-right space-x-2">
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={() => onEdit(project)}
-      >
-        <Pencil className="mr-2 h-4 w-4" />
-        Edit
-      </Button>
-      {project.isActive ? (
+}) => {
+  const { t } = useTranslation('settings');
+
+  return (
+    <TableRow key={project._id}>
+      <TableCell className="font-medium">{project.name}</TableCell>
+      <TableCell>{project.code}</TableCell>
+      <TableCell>{project.description || '-'}</TableCell>
+      <TableCell>
+        <Badge variant={project.isActive ? 'default' : 'secondary'}>
+          {project.isActive ? t('projects.status.active') : t('projects.status.archived')}
+        </Badge>
+      </TableCell>
+      <TableCell className="text-right space-x-2">
         <Button
           variant="ghost"
           size="sm"
-          onClick={() => onArchive(project)}
+          onClick={() => onEdit(project)}
         >
-          <Archive className="mr-2 h-4 w-4" />
-          Archive
+          <Pencil className="mr-2 h-4 w-4" />
+          {t('projects.actions.edit')}
         </Button>
-      ) : (
-        <>
+        {project.isActive ? (
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => onRestore(project)}
+            onClick={() => onArchive(project)}
           >
-            <RotateCcw className="mr-2 h-4 w-4" />
-            Restore
+            <Archive className="mr-2 h-4 w-4" />
+            {t('projects.actions.archive')}
           </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => onHardDelete(project)}
-            className="text-red-600 hover:text-red-700"
-          >
-            <Trash2 className="mr-2 h-4 w-4" />
-            Delete Permanently
-          </Button>
-        </>
-      )}
-    </TableCell>
-  </TableRow>
-));
+        ) : (
+          <>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => onRestore(project)}
+            >
+              <RotateCcw className="mr-2 h-4 w-4" />
+              {t('projects.actions.restore')}
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => onHardDelete(project)}
+              className="text-red-600 hover:text-red-700"
+            >
+              <Trash2 className="mr-2 h-4 w-4" />
+              {t('projects.actions.deletePermanently')}
+            </Button>
+          </>
+        )}
+      </TableCell>
+    </TableRow>
+  );
+});
 
 ProjectRow.displayName = 'ProjectRow';
 
 export default function ProjectSettings() {
+  const { t } = useTranslation('settings');
   const { refreshProjects } = useProjectContext();
   const [projects, setProjects] = useState<Project[]>([]);
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -100,9 +106,9 @@ export default function ProjectSettings() {
       setProjects(data);
     } catch (error) {
       console.error('Failed to load projects', error);
-      toast.error('Failed to load projects');
+      toast.error(t('projects.toast.error'));
     }
-  }, []);
+  }, [t]);
 
   // Initial data loading on mount - standard React pattern
   /* eslint-disable react-hooks/set-state-in-effect */
@@ -134,18 +140,21 @@ export default function ProjectSettings() {
   const handleRestore = async (project: Project) => {
     try {
       await projectService.restore(project._id);
-      toast.success('Project restored successfully');
+      toast.success(t('projects.toast.restoreSuccess'));
       await handleSuccess();
     } catch (error) {
       console.error('Failed to restore project:', error);
-      toast.error('Failed to restore project');
+      toast.error(t('projects.toast.error'));
     }
   };
 
   return (
     <div className="container mx-auto py-8">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Project Settings</h1>
+        <div>
+          <h1 className="text-3xl font-bold">{t('projects.page.title')}</h1>
+          <p className="text-muted-foreground mt-1">{t('projects.page.subtitle')}</p>
+        </div>
         <CreateProjectDialog onSuccess={handleSuccess} />
       </div>
 
@@ -153,11 +162,11 @@ export default function ProjectSettings() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Code</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead>{t('projects.table.columns.name')}</TableHead>
+              <TableHead>{t('projects.table.columns.code')}</TableHead>
+              <TableHead>{t('projects.table.columns.description')}</TableHead>
+              <TableHead>{t('projects.table.columns.status')}</TableHead>
+              <TableHead className="text-right">{t('projects.table.columns.actions')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -175,7 +184,7 @@ export default function ProjectSettings() {
             ) : (
               <TableRow>
                 <TableCell colSpan={5} className="text-center h-24">
-                  No projects found.
+                  {t('projects.table.empty')}
                 </TableCell>
               </TableRow>
             )}

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,17 +20,19 @@ interface ConfirmDeleteDialogProps {
 }
 
 export function ConfirmDeleteDialog({ project, open, onOpenChange, onSuccess }: ConfirmDeleteDialogProps) {
+  const { t } = useTranslation('settings');
+
   const handleDelete = async () => {
     if (!project) return;
 
     try {
       await projectService.delete(project._id);
-      toast.success('Project archived successfully');
+      toast.success(t('projects.toast.deleteSuccess'));
       onOpenChange(false);
       onSuccess();
     } catch (error) {
       console.error('Failed to archive project', error);
-      toast.error('Failed to archive project');
+      toast.error(t('projects.toast.error'));
     }
   };
 
@@ -37,14 +40,14 @@ export function ConfirmDeleteDialog({ project, open, onOpenChange, onSuccess }: 
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+          <AlertDialogTitle>{t('projects.deleteConfirm.title')}</AlertDialogTitle>
           <AlertDialogDescription>
-            This will archive the project "{project?.name}". Archived projects will no longer appear in the project selector.
+            {t('projects.deleteConfirm.description')}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete}>Archive</AlertDialogAction>
+          <AlertDialogCancel>{t('projects.deleteConfirm.cancel')}</AlertDialogCancel>
+          <AlertDialogAction onClick={handleDelete}>{t('projects.deleteConfirm.confirm')}</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -25,6 +26,7 @@ export function HardDeleteDialog({
   onOpenChange,
   onSuccess,
 }: HardDeleteDialogProps) {
+  const { t } = useTranslation('settings');
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = async () => {
@@ -33,12 +35,12 @@ export function HardDeleteDialog({
     setIsDeleting(true);
     try {
       await projectService.hardDelete(project._id);
-      toast.success('Project permanently deleted');
+      toast.success(t('projects.toast.hardDeleteSuccess'));
       onSuccess();
       onOpenChange(false);
     } catch (error) {
       console.error('Failed to delete project:', error);
-      const message = (error as { response?: { data?: { message?: string } } }).response?.data?.message || 'Failed to delete project';
+      const message = (error as { response?: { data?: { message?: string } } }).response?.data?.message || t('projects.toast.error');
       toast.error(message);
     } finally {
       setIsDeleting(false);
@@ -49,26 +51,19 @@ export function HardDeleteDialog({
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Permanently Delete Project</AlertDialogTitle>
+          <AlertDialogTitle>{t('projects.deleteConfirm.hardDeleteTitle')}</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to permanently delete <strong>{project?.name}</strong>?
-            <br />
-            <br />
-            <span className="text-red-600 font-semibold">
-              This action cannot be undone.
-            </span>
-            <br />
-            This will only work if the project has no associated teachers.
+            {t('projects.deleteConfirm.hardDeleteDescription')}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+          <AlertDialogCancel disabled={isDeleting}>{t('projects.deleteConfirm.cancel')}</AlertDialogCancel>
           <AlertDialogAction
             onClick={handleDelete}
             disabled={isDeleting}
             className="bg-red-600 hover:bg-red-700"
           >
-            {isDeleting ? 'Deleting...' : 'Delete Permanently'}
+            {isDeleting ? 'Deleting...' : t('projects.deleteConfirm.hardDeleteConfirm')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
