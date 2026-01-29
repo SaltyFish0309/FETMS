@@ -1,17 +1,19 @@
 import { Link, useLocation } from "react-router-dom";
 import { LayoutDashboard, Users, FileText, Settings, School as SchoolIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 const navigation = [
-    { name: "Dashboard", href: "/", icon: LayoutDashboard },
-    { name: "Teachers", href: "/teachers", icon: Users },
-    { name: "Schools", href: "/schools", icon: SchoolIcon },
-    { name: "Documents", href: "/documents", icon: FileText },
-    { name: "Settings", href: "/settings", icon: Settings },
+    { name: "nav.dashboard", href: "/", icon: LayoutDashboard },
+    { name: "nav.teachers", href: "/teachers", icon: Users },
+    { name: "nav.schools", href: "/schools", icon: SchoolIcon },
+    { name: "nav.documents", href: "/documents", icon: FileText },
+    { name: "nav.settings", href: "/settings", icon: Settings },
 ];
 
 export function Sidebar() {
     const location = useLocation();
+    const { t } = useTranslation();
 
     return (
         <div className="flex h-full w-64 flex-col bg-sidebar text-sidebar-foreground shadow-xl">
@@ -20,7 +22,7 @@ export function Sidebar() {
                     <div className="h-8 w-8 rounded-lg bg-sidebar-primary flex items-center justify-center">
                         <span className="font-bold text-sidebar-primary-foreground">F</span>
                     </div>
-                    <span className="text-lg font-bold tracking-tight">FETMS</span>
+                    <span className="text-lg font-bold tracking-tight">{t('app.name')}</span>
                 </div>
             </div>
             <nav className="flex-1 space-y-1 px-3 py-6">
@@ -43,7 +45,7 @@ export function Sidebar() {
                                     isActive ? "text-sidebar-primary-foreground" : "text-sidebar-foreground/50 group-hover:text-sidebar-foreground"
                                 )}
                             />
-                            {item.name}
+                            {t(item.name)}
                         </Link>
                     );
                 })}
@@ -62,3 +64,4 @@ export function Sidebar() {
         </div>
     );
 }
+
