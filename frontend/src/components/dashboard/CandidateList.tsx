@@ -5,6 +5,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
 import { User, DollarSign, Clock } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface Candidate {
     _id: string;
@@ -24,19 +25,20 @@ interface CandidateListProps {
 
 export function CandidateList({ candidates, hasFilters }: CandidateListProps) {
     const navigate = useNavigate();
+    const { t } = useTranslation('dashboard');
 
     return (
         <Card className="h-[600px] xl:h-full flex flex-col border-none shadow-sm">
             <CardHeader className="pb-3 border-b">
                 <CardTitle className="text-base font-semibold text-foreground font-heading flex items-center justify-between">
-                    <span>Qualified Candidates</span>
+                    <span>{t('qualifiedCandidates.title')}</span>
                     {hasFilters && (
                         <Badge variant="secondary" className="bg-blue-50 text-blue-700">
-                            {candidates.length} Found
+                            {candidates.length} {t('qualifiedCandidates.found')}
                         </Badge>
                     )}
                 </CardTitle>
-                <p className="text-xs text-muted-foreground">Teachers matching current filters</p>
+                <p className="text-xs text-muted-foreground">{t('qualifiedCandidates.description')}</p>
             </CardHeader>
             <CardContent className="p-0 flex-1 overflow-hidden min-h-0">
                 <ScrollArea className="h-full">
@@ -46,14 +48,14 @@ export function CandidateList({ candidates, hasFilters }: CandidateListProps) {
                                 <User className="h-8 w-8 opacity-30" />
                             </div>
                             <div>
-                                <p className="font-medium text-foreground">Ready to Search</p>
-                                <p className="text-xs mt-1 max-w-[240px] mx-auto">Select segments on the charts or apply filters to see matching candidates here.</p>
+                                <p className="font-medium text-foreground">{t('qualifiedCandidates.initial.title')}</p>
+                                <p className="text-xs mt-1 max-w-[240px] mx-auto">{t('qualifiedCandidates.initial.description')}</p>
                             </div>
                         </div>
                     ) : candidates.length === 0 ? (
                         <div className="flex flex-col items-center justify-center h-full text-muted-foreground p-6 text-center">
                             <User className="h-8 w-8 mb-2 opacity-50" />
-                            <p className="text-sm">No candidates match these filters.</p>
+                            <p className="text-sm">{t('qualifiedCandidates.empty.description')}</p>
                         </div>
                     ) : (
                         <div className="py-2">
@@ -102,3 +104,4 @@ export function CandidateList({ candidates, hasFilters }: CandidateListProps) {
         </Card>
     );
 }
+
