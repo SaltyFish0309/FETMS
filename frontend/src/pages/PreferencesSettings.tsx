@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
+import { LanguageToggle } from '@/components/ui/language-toggle';
 import { ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -40,6 +41,28 @@ export default function PreferencesSettings() {
                             </Label>
                             <div id="theme-toggle">
                                 <ThemeToggle />
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Language & Region</CardTitle>
+                        <CardDescription>
+                            Manage your language preferences and regional settings.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <div className="flex items-center justify-between">
+                            <Label htmlFor="language-toggle" className="flex flex-col gap-1">
+                                <span>Language</span>
+                                <span className="font-normal text-sm text-muted-foreground">
+                                    Select your preferred interface language
+                                </span>
+                            </Label>
+                            <div id="language-toggle">
+                                <LanguageToggle />
                             </div>
                         </div>
                     </CardContent>
