@@ -1,5 +1,6 @@
 import type { Table } from "@tanstack/react-table"
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -25,6 +26,7 @@ export function DataTableToolbar<TData>({
     onDeleteSelected,
     actionButtons,
 }: DataTableToolbarProps<TData>) {
+    const { t } = useTranslation('teachers');
     const [filterSheetOpen, setFilterSheetOpen] = React.useState(false);
 
     const isFiltered = table.getState().columnFilters.length > 0
@@ -129,7 +131,7 @@ export function DataTableToolbar<TData>({
             <div className="flex items-center gap-2">
                 {/* Search input */}
                 <Input
-                    placeholder="Search by name..."
+                    placeholder={t('filters.searchPlaceholder')}
                     value={globalFilter}
                     onChange={(event) =>
                         table.getColumn("englishName")?.setFilterValue(event.target.value)
@@ -148,7 +150,7 @@ export function DataTableToolbar<TData>({
                     onClick={() => setFilterSheetOpen(true)}
                 >
                     <Filter className="mr-2 h-4 w-4" />
-                    Filters
+                    {t('filters.filters')}
                     {activeFilterCount > 0 && (
                         <Badge variant="secondary" className="ml-2 rounded-full px-1.5">
                             {activeFilterCount}
@@ -168,7 +170,7 @@ export function DataTableToolbar<TData>({
                         className="h-9"
                     >
                         <Trash2 className="mr-2 h-4 w-4" />
-                        Delete ({selectedCount})
+                        {t('actions.delete')} ({selectedCount})
                     </Button>
                 )}
 
@@ -181,7 +183,7 @@ export function DataTableToolbar<TData>({
                 {/* Export button with dropdown */}
                 <ExportButton
                     onExportCSV={handleExportCSV}
-                    label="Export"
+                    label={t('actions.export')}
                     isLoading={table.getFilteredRowModel().rows.length === 0}
                 />
             </div>
@@ -189,10 +191,10 @@ export function DataTableToolbar<TData>({
             {/* Active filters row (conditional) */}
             {(isFiltered || globalFilter) && (
                 <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-sm text-muted-foreground">Active:</span>
+                    <span className="text-sm text-muted-foreground">{t('filters.activeFilters')}</span>
                     {globalFilter && (
                         <Badge variant="secondary" className="gap-1">
-                            Name: {globalFilter}
+                            {t('columns.englishName')}: {globalFilter}
                             <X
                                 className="h-3 w-3 cursor-pointer"
                                 onClick={() => table.getColumn("englishName")?.setFilterValue("")}
@@ -225,7 +227,7 @@ export function DataTableToolbar<TData>({
                             table.getColumn("englishName")?.setFilterValue("");
                         }}
                     >
-                        Clear all
+                        {t('filters.clearAll')}
                     </Button>
                 </div>
             )}
