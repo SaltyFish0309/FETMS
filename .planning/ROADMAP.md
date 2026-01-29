@@ -102,15 +102,15 @@ Plans:
   4. User-generated data (teacher names, school names, notes) remains in original language
   5. Missing translations fall back to English gracefully
 
-**Plans**: TBD
+**Plans**: 6 plans
 
 Plans:
-- [ ] 04-01: Translate common UI elements and navigation
-- [ ] 04-02: Translate Settings page
-- [ ] 04-03: Translate Dashboard page
-- [ ] 04-04: Translate Teachers page
-- [ ] 04-05: Translate Schools and Documents pages
-- [ ] 04-06: Translate validation messages, errors, and enum values
+- [ ] 04-01-PLAN.md — Translate Common UI and Navigation
+- [ ] 04-02-PLAN.md — Translate Settings Page
+- [ ] 04-03-PLAN.md — Translate Dashboard Page
+- [ ] 04-04-PLAN.md — Translate Teachers Page
+- [ ] 04-05-PLAN.md — Translate Schools and Documents Pages
+- [ ] 04-06-PLAN.md — Translate Validation, Errors, and Enums
 
 ### Phase 5: Preferences System
 **Goal**: Users can customize font size, display density, and reduced motion preferences with persistence across sessions
@@ -146,5 +146,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 1. Theme Infrastructure | 1/1 | ✓ Complete | 2026-01-28 |
 | 2. Component Dark Mode Coverage | 11/11 | ✓ Complete | 2026-01-29 |
 | 3. i18n Infrastructure | 3/3 | ✓ Complete | 2026-01-29 |
-| 4. Content Translation | 0/TBD | Not started | - |
+| 4. Content Translation | 0/6 | Ready for execution | - |
 | 5. Preferences System | 0/TBD | Not started | - |
