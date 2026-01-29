@@ -1,0 +1,33 @@
+{
+  "title": "儀表板",
+  "subtitle": "教師、學校與招募指標總覽",
+  "analyticsOverview": "分析總覽",
+  "kpi": {
+    "totalTeachers": "教師總數",
+    "activeSchools": "合作學校",
+    "inRecruitment": "招募中",
+    "actionsNeeded": "待處理事項"
+  },
+  "charts": {
+    "recruitmentFunnel": "招募流程",
+    "demographics": "人口統計",
+    "nationality": "依國籍",
+    "gender": "依性別",
+    "hiringStatus": "依狀態",
+    "education": "教育程度",
+    "salary": "薪資範圍",
+    "seniority": "教學經驗"
+  },
+  "filters": {
+    "label": "篩選條件：",
+    "clearAll": "清除全部",
+    "pipelineStage": "階段",
+    "salaryRange": "薪資",
+    "degree": "學歷",
+    "seniority": "年資",
+    "nationality": "國籍",
+    "gender": "性別",
+    "hiringStatus": "狀態"
+  },
+  "loading": "載入儀表板中..."
+}
