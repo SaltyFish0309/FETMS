@@ -397,7 +397,7 @@ export default function TeacherProfile() {
                             <div className="flex flex-wrap gap-2 pt-1">
                                 {teacher.personalInfo?.hiringStatus && (
                                     <Badge variant="secondary" className="bg-green-50 text-green-700 border-green-100">
-                                        {teacher.personalInfo.hiringStatus}
+                                        {t('enums.status.' + teacher.personalInfo.hiringStatus.toLowerCase().replace(/\s+/g, '_').replace(/-/g, '_'))}
                                     </Badge>
                                 )}
                                 {teacher.personalInfo?.nationality?.english && (
@@ -864,7 +864,7 @@ export default function TeacherProfile() {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>Expiry Date</Label>
+                                        <Label>{t('profile.fields.expiryDate')}</Label>
                                         <DatePicker
                                             value={
                                                 formData.workPermitDetails?.expiryDate
@@ -884,7 +884,7 @@ export default function TeacherProfile() {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>Issue Date</Label>
+                                        <Label>{t('profile.fields.issueDate')}</Label>
                                         <DatePicker
                                             value={
                                                 formData.workPermitDetails?.issueDate
@@ -1110,7 +1110,7 @@ export default function TeacherProfile() {
                             <AccordionContent className="pt-2 pb-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
-                                        <Label>Issue Date</Label>
+                                        <Label>{t('profile.fields.issueDate')}</Label>
                                         <DatePicker
                                             value={
                                                 formData.criminalRecord?.issueDate
