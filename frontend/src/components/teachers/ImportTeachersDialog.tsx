@@ -14,12 +14,14 @@ import { Label } from '@/components/ui/label';
 import { Upload, FileUp, CheckCircle, AlertCircle, Loader2, Download, FileText } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useImportTeacher } from './import/useImportTeacher';
+import { useTranslation } from 'react-i18next';
 
 interface ImportTeachersDialogProps {
     onSuccess: () => void;
 }
 
 export function ImportTeachersDialog({ onSuccess }: ImportTeachersDialogProps) {
+    const { t } = useTranslation('teachers');
     const [isOpen, setIsOpen] = useState(false);
 
     const {
@@ -43,14 +45,14 @@ export function ImportTeachersDialog({ onSuccess }: ImportTeachersDialogProps) {
             <DialogTrigger asChild>
                 <Button variant="outline" size="sm" className="h-9 gap-2">
                     <Upload className="h-4 w-4" />
-                    Import CSV
+                    {t('importDialog.trigger')}
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[550px]">
                 <DialogHeader>
-                    <DialogTitle>Import Teachers</DialogTitle>
+                    <DialogTitle>{t('importDialog.title')}</DialogTitle>
                     <DialogDescription>
-                        Upload a CSV file to bulk import teacher profiles.
+                        {t('importDialog.description')}
                     </DialogDescription>
                 </DialogHeader>
 
@@ -73,7 +75,7 @@ export function ImportTeachersDialog({ onSuccess }: ImportTeachersDialogProps) {
                     </div>
 
                     <div className="grid w-full items-center gap-1.5">
-                        <Label htmlFor="csv-file">Upload CSV</Label>
+                        <Label htmlFor="csv-file">{t('importDialog.selectFile')}</Label>
                         <Input id="csv-file" type="file" accept=".csv" onChange={handleFileChange} />
                         {validationError && (
                             <p className="text-sm text-red-500 flex items-center gap-1 mt-1">
@@ -99,17 +101,17 @@ export function ImportTeachersDialog({ onSuccess }: ImportTeachersDialogProps) {
                     )}
                 </div>
                 <DialogFooter>
-                    <Button variant="outline" onClick={() => setIsOpen(false)}>Cancel</Button>
+                    <Button variant="outline" onClick={() => setIsOpen(false)}>{t('importDialog.cancel')}</Button>
                     <Button onClick={handleUpload} disabled={!file || isUploading}>
                         {isUploading ? (
                             <>
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                Importing...
+                                {t('importDialog.uploading')}
                             </>
                         ) : (
                             <>
                                 <FileUp className="mr-2 h-4 w-4" />
-                                Upload
+                                {t('importDialog.import')}
                             </>
                         )}
                     </Button>
