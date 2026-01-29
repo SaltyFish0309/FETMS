@@ -11,18 +11,18 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 3 of 5 (i18n Infrastructure)
-Plan: 1 of 2 in current phase
-Status: In progress
-Last activity: 2026-01-29 — Completed 03-01-PLAN.md (i18n Foundation)
+Plan: 2 of 2 in current phase
+Status: Phase complete (Pending next phase creation)
+Last activity: 2026-01-29 — Completed 03-02-PLAN.md (UI for Language Switching)
 
-Progress: [████████████░░░░░░░░░░░] 52%
+Progress: [█████████████░░░░░░░░░░] 56%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 13
-- Average duration: ~6m
-- Total execution time: ~1.5 hours
+- Total plans completed: 14
+- Average duration: ~7m
+- Total execution time: ~1.75 hours
 
 **By Phase:**
 
@@ -30,10 +30,10 @@ Progress: [████████████░░░░░░░░░░░
 |-------|-------|-------|----------|
 | 01 | 1 | 3m 3s | 3m 3s |
 | 02 | 11 | ~70m | ~6.4m |
-| 03 | 1 | 15m | 15m |
+| 03 | 2 | 30m | 15m |
 
 **Recent Trend:**
-- Last 3 plans: 02-11, 03-01
+- Last 3 plans: 02-11, 03-01, 03-02
 - Trend: Consistent execution velocity
 
 *Updated after each plan completion*
@@ -45,6 +45,8 @@ Progress: [████████████░░░░░░░░░░░
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
+- **Font Stack (03-02):** Added `Microsoft JhengHei` and `Heiti TC` for Traditional Chinese.
+- **Settings UI (03-02):** Used separate card for Language & Region.
 - **i18n Backend (03-01):** Used `i18next-http-backend` for lazy loading translations.
 - **Default Namespace (03-01):** Configured 'common' as default namespace for simple keys.
 - **SortableColumn Dark Mode (02-11):** Use `bg-muted/50` and `border-border` for drag placeholders.
@@ -61,7 +63,7 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-- Continue Phase 3: Language Toggle UI (03-02-PLAN.md)
+- Create 03-03-PLAN.md (Content Extraction & Translation)
 
 ### Blockers/Concerns
 
@@ -71,5 +73,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 03-01-PLAN.md
-Resume file: .planning/phases/03-i18n-infrastructure/03-01-SUMMARY.md
+Stopped at: Completed 03-02-PLAN.md
+Resume file: .planning/phases/03-i18n-infrastructure/03-02-SUMMARY.md
