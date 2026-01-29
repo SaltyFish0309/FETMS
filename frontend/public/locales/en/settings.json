@@ -1,0 +1,29 @@
+{
+  "title": "Settings",
+  "subtitle": "Manage application settings and preferences.",
+  "sections": {
+    "projectManagement": {
+      "title": "Project Management",
+      "description": "Create, edit, and archive projects"
+    },
+    "alertRules": {
+      "title": "Alert Rules",
+      "description": "Configure document expiry alerts"
+    },
+    "pipelineStages": {
+      "title": "Pipeline Stages",
+      "description": "Manage recruitment pipeline stages"
+    },
+    "userPreferences": {
+      "title": "User Preferences",
+      "description": "Customize application theme and appearance"
+    },
+    "dataImport": {
+      "title": "Data Import",
+      "description": "Import teachers and schools from external sources"
+    }
+  },
+  "actions": {
+    "manageSettings": "Manage settings"
+  }
+}

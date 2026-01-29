@@ -1,0 +1,29 @@
+{
+  "title": "設定",
+  "subtitle": "管理應用程式設定和偏好。",
+  "sections": {
+    "projectManagement": {
+      "title": "專案管理",
+      "description": "建立、編輯和封存專案"
+    },
+    "alertRules": {
+      "title": "提醒規則",
+      "description": "設定文件到期提醒"
+    },
+    "pipelineStages": {
+      "title": "招募階段",
+      "description": "管理招募流程階段"
+    },
+    "userPreferences": {
+      "title": "使用者偏好",
+      "description": "自訂應用程式主題和外觀"
+    },
+    "dataImport": {
+      "title": "資料匯入",
+      "description": "從外部來源匯入教師和學校資料"
+    }
+  },
+  "actions": {
+    "manageSettings": "管理設定"
+  }
+}
