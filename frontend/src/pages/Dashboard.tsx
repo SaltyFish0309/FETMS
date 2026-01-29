@@ -60,7 +60,7 @@ export default function Dashboard() {
             setStats(data);
         } catch (error) {
             console.error("Failed to load dashboard stats", error);
-            toast.error("Failed to load dashboard data");
+            toast.error(t('toast.loadError'));
         } finally {
             setLoading(false);
         }

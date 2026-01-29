@@ -474,7 +474,7 @@ export default function TeacherProfile() {
                                             onValueChange={(value) => handleInputChange('personalInfo', 'hiringStatus', value)}
                                         >
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Select status" />
+                                                <SelectValue placeholder={t('profile.fields.selectStatus')} />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 <SelectItem value="Newly Hired">{t('enums.status.newly hired')}</SelectItem>
