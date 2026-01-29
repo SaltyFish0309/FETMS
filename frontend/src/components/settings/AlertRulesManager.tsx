@@ -8,6 +8,7 @@ import { Trash2, Plus } from "lucide-react";
 import { format } from "date-fns";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 // Define Types
 interface AlertRule {
@@ -24,6 +25,7 @@ interface AlertRulesManagerProps {
 }
 
 export function AlertRulesManager({ onUpdated }: AlertRulesManagerProps) {
+    const { t } = useTranslation('common');
     const [rules, setRules] = useState<AlertRule[]>([]);
     const [loading, setLoading] = useState(false);
 
@@ -59,7 +61,7 @@ export function AlertRulesManager({ onUpdated }: AlertRulesManagerProps) {
 
         if (newErrors.name || newErrors.value) {
             setErrors(newErrors);
-            toast.error("Please fill in all required fields", { position: 'top-center' }); // Optional backup
+            toast.error(t('validation.required'), { position: 'top-center' });
             return;
         }
 

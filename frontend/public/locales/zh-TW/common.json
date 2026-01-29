@@ -22,5 +22,20 @@
     "profile": "個人資料",
     "logout": "登出",
     "notifications": "通知"
+  },
+  "validation": {
+    "required": "此欄位為必填",
+    "email": "請輸入有效的電子郵件地址",
+    "minLength": "長度必須至少為 {{min}} 個字元",
+    "maxLength": "長度不得超過 {{max}} 個字元",
+    "min": "必須至少為 {{min}}",
+    "max": "不得超過 {{max}}",
+    "pattern": "格式無效",
+    "phone": "請輸入有效的電話號碼",
+    "url": "請輸入有效的網址",
+    "date": "請輸入有效的日期",
+    "number": "請輸入有效的數字",
+    "positive": "必須為正數",
+    "integer": "必須為整數"
   }
 }
