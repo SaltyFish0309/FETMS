@@ -54,5 +54,70 @@
     },
     "noResults": "No alert rules found. Click \"Add Rule\" to create one.",
     "daysFormat": "{{value}} days"
+  },
+  "alerts": {
+    "page": {
+      "title": "Alert Settings",
+      "subtitle": "Manage notification rules for document expiration",
+      "addButton": "Add Alert Rule"
+    },
+    "dialog": {
+      "createTitle": "Create Alert Rule",
+      "editTitle": "Edit Alert Rule",
+      "description": "Set up automated alerts for expiring documents",
+      "fields": {
+        "name": {
+          "label": "Rule Name",
+          "placeholder": "e.g., ARC Expiring Soon"
+        },
+        "documentType": {
+          "label": "Document Type",
+          "placeholder": "Select document type"
+        },
+        "condition": {
+          "label": "Alert Condition",
+          "placeholder": "Select condition"
+        },
+        "daysThreshold": {
+          "label": "Days Threshold",
+          "placeholder": "Enter number of days"
+        },
+        "value": {
+          "daysLabel": "Days",
+          "dateLabel": "Date"
+        },
+        "status": {
+          "label": "Status",
+          "placeholder": "Select status"
+        }
+      },
+      "conditions": {
+        "expiresBefore": "Expires Before",
+        "expiresAfter": "Expires After"
+      },
+      "statuses": {
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "buttons": {
+        "cancel": "Cancel",
+        "create": "Create",
+        "save": "Save Changes"
+      }
+    },
+    "toast": {
+      "loadError": "Failed to load alert rules",
+      "createSuccess": "Alert rule created successfully",
+      "updateSuccess": "Alert rule updated successfully",
+      "saveError": "Failed to save alert rule",
+      "deleteSuccess": "Alert rule deleted successfully",
+      "deleteError": "Failed to delete alert rule"
+    },
+    "deleteConfirm": {
+      "title": "Delete Alert Rule",
+      "description": "Are you sure you want to delete this alert rule? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete"
+    }
   }
 }

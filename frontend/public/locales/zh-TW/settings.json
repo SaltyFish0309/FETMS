@@ -54,5 +54,70 @@
     },
     "noResults": "未找到提醒規則。點選「新增規則」以建立一個。",
     "daysFormat": "{{value}} 天"
+  },
+  "alerts": {
+    "page": {
+      "title": "提醒設定",
+      "subtitle": "管理文件到期通知規則",
+      "addButton": "新增提醒規則"
+    },
+    "dialog": {
+      "createTitle": "建立提醒規則",
+      "editTitle": "編輯提醒規則",
+      "description": "設定文件到期自動提醒",
+      "fields": {
+        "name": {
+          "label": "規則名稱",
+          "placeholder": "例如：居留證即將到期"
+        },
+        "documentType": {
+          "label": "文件類型",
+          "placeholder": "選擇文件類型"
+        },
+        "condition": {
+          "label": "提醒條件",
+          "placeholder": "選擇條件"
+        },
+        "daysThreshold": {
+          "label": "天數門檻",
+          "placeholder": "輸入天數"
+        },
+        "value": {
+          "daysLabel": "天數",
+          "dateLabel": "日期"
+        },
+        "status": {
+          "label": "狀態",
+          "placeholder": "選擇狀態"
+        }
+      },
+      "conditions": {
+        "expiresBefore": "到期前",
+        "expiresAfter": "到期後"
+      },
+      "statuses": {
+        "active": "啟用",
+        "inactive": "停用"
+      },
+      "buttons": {
+        "cancel": "取消",
+        "create": "建立",
+        "save": "儲存變更"
+      }
+    },
+    "toast": {
+      "loadError": "載入提醒規則失敗",
+      "createSuccess": "提醒規則建立成功",
+      "updateSuccess": "提醒規則更新成功",
+      "saveError": "儲存提醒規則失敗",
+      "deleteSuccess": "提醒規則刪除成功",
+      "deleteError": "刪除提醒規則失敗"
+    },
+    "deleteConfirm": {
+      "title": "刪除提醒規則",
+      "description": "確定要刪除此提醒規則嗎？此操作無法復原。",
+      "cancel": "取消",
+      "confirm": "刪除"
+    }
   }
 }
