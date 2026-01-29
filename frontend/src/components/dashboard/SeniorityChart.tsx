@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import { useTranslation } from "react-i18next";
 import { getChartColor } from './chartColors';
 
 interface SeniorityChartProps {
@@ -8,20 +9,21 @@ interface SeniorityChartProps {
 }
 
 export function SeniorityChart({ data, onClick }: SeniorityChartProps) {
-    // Filter out 0 values if desired, or keep them to show gaps? 
+    const { t } = useTranslation('dashboard');
+    // Filter out 0 values if desired, or keep them to show gaps?
     // Usually standard to show all buckets 0-10+ for comparison even if empty.
     // SalaryChart filters > 0. Let's do the same for cleaner look, or maybe show all for continuity.
     // User asked for "interval of 1 year", preserving order is important.
     // If we filter, we lose the "scale". Let's KEEP all data points so "0, 1, 2... 10+" shows the full distribution.
-    // Wait, SalaryChart filters. But Salary ranges are categories. 
-    // Seniority is a timeline. 
+    // Wait, SalaryChart filters. But Salary ranges are categories.
+    // Seniority is a timeline.
     // I will KEEP all data to show the distribution shape correctly.
     const chartData = data;
 
     return (
         <Card className="col-span-1 h-full min-w-0">
             <CardHeader>
-                <CardTitle className="text-base font-semibold text-foreground font-heading">Years of Experience</CardTitle>
+                <CardTitle className="text-base font-semibold text-foreground font-heading">{t('charts.seniority')}</CardTitle>
             </CardHeader>
             <CardContent>
                 <div className="h-[250px] w-full min-w-0">

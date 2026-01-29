@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { statsService } from "@/services/statsService";
 import type { DashboardFilters } from "@/services/statsService";
 import type { DashboardStats } from "@/services/statsService";
@@ -18,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function Dashboard() {
+    const { t } = useTranslation('dashboard');
     const { selectedProjectId } = useProjectContext();
     const [stats, setStats] = useState<DashboardStats | null>(null);
     const [loading, setLoading] = useState(true);
@@ -64,7 +66,7 @@ export default function Dashboard() {
     };
 
     if (loading && !stats) {
-        return <div className="p-8 text-center text-muted-foreground">Loading dashboard...</div>;
+        return <div className="p-8 text-center text-muted-foreground">{t('loading')}</div>;
     }
 
     if (!stats) return null;
@@ -73,10 +75,10 @@ export default function Dashboard() {
         <div className="space-y-8">
             <div className="space-y-1">
                 <h1 className="text-2xl font-semibold tracking-tight text-foreground font-heading">
-                    Dashboard
+                    {t('title')}
                 </h1>
                 <p className="text-sm text-muted-foreground font-body">
-                    Overview of teachers, schools, and recruitment metrics
+                    {t('subtitle')}
                 </p>
             </div>
 
@@ -85,28 +87,28 @@ export default function Dashboard() {
                 {/* Left: KPI Matrix (2x2) */}
                 <div className="grid grid-cols-2 gap-4 h-full">
                     <KPICard
-                        title="Total Teachers"
+                        title={t('kpi.totalTeachers')}
                         value={stats.kpi.totalTeachers}
                         icon={Users}
                         iconColor="text-blue-500"
                         accentColor="from-blue-500 to-blue-600"
                     />
                     <KPICard
-                        title="Partner Schools"
+                        title={t('kpi.activeSchools')}
                         value={stats.kpi.activeSchools}
                         icon={School}
                         iconColor="text-emerald-500"
                         accentColor="from-emerald-500 to-emerald-600"
                     />
                     <KPICard
-                        title="In Recruitment"
+                        title={t('kpi.inRecruitment')}
                         value={stats.kpi.inRecruitment}
                         icon={Briefcase}
                         iconColor="text-violet-500"
                         accentColor="from-violet-500 to-violet-600"
                     />
                     <KPICard
-                        title="Actions Needed"
+                        title={t('kpi.actionsNeeded')}
                         value={stats.kpi.actionsNeeded}
                         icon={AlertTriangle}
                         iconColor="text-amber-500"
@@ -129,15 +131,16 @@ export default function Dashboard() {
                 <CardHeader className="border-b bg-muted/50">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <CardTitle className="text-lg font-semibold text-foreground font-heading">
-                            Analytics Overview
+                            {t('analyticsOverview')}
                         </CardTitle>
                         {/* Active Filters */}
                         {hasFilters && (
                             <div className="flex flex-wrap gap-2 items-center">
-                                <span className="text-xs font-medium text-blue-700 uppercase tracking-wider mr-1">Filters:</span>
+                                <span className="text-xs font-medium text-blue-700 uppercase tracking-wider mr-1">{t('filters.label')}</span>
                                 {Object.entries(filters).map(([key, value]) => {
                                     if (!value) return null;
                                     const displayValue = key === 'pipelineStage' ? getPipelineStageName(value) : value;
+                                    const filterLabel = t(`filters.${key}`, { defaultValue: key });
                                     return (
                                         <Badge
                                             key={key}
@@ -145,7 +148,7 @@ export default function Dashboard() {
                                             className="bg-white text-blue-700 border border-blue-200 shadow-sm hover:bg-blue-50 cursor-pointer flex items-center gap-1 group"
                                             onClick={() => handleFilterChange(key as keyof DashboardFilters, null)}
                                         >
-                                            <span className="capitalize">{key === 'salaryRange' ? 'Salary' : key}:</span>
+                                            <span className="capitalize">{filterLabel}:</span>
                                             <span className="font-bold">{displayValue}</span>
                                             <X className="h-3 w-3 opacity-50 group-hover:opacity-100 ml-1" />
                                         </Badge>
@@ -157,7 +160,7 @@ export default function Dashboard() {
                                     onClick={clearFilters}
                                     className="text-blue-600 hover:text-blue-800 hover:bg-blue-50 ml-2"
                                 >
-                                    Clear All
+                                    {t('filters.clearAll')}
                                 </Button>
                             </div>
                         )}

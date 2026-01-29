@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import { useTranslation } from "react-i18next";
 import { getChartColor } from './chartColors';
 
 interface SalaryChartProps {
@@ -8,12 +9,13 @@ interface SalaryChartProps {
 }
 
 export function SalaryChart({ data, onClick }: SalaryChartProps) {
+    const { t } = useTranslation('dashboard');
     const filteredData = data.filter(d => d.value > 0);
 
     return (
         <Card className="col-span-1 h-full min-w-0">
             <CardHeader>
-                <CardTitle className="text-base font-semibold text-foreground font-heading">Salary Distribution</CardTitle>
+                <CardTitle className="text-base font-semibold text-foreground font-heading">{t('charts.salary')}</CardTitle>
             </CardHeader>
             <CardContent>
                 <div className="h-[250px] w-full min-w-0">

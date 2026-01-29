@@ -1,4 +1,5 @@
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Cell, CartesianGrid, LabelList } from "recharts";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getChartColor } from './chartColors';
 
@@ -8,10 +9,12 @@ interface PipelineChartProps {
 }
 
 export function PipelineChart({ data, onClick }: PipelineChartProps) {
+    const { t } = useTranslation('dashboard');
+
     return (
         <Card className="col-span-1 min-w-0 border-none shadow-none">
             <CardHeader className="px-0 pt-0">
-                <CardTitle className="text-lg font-semibold text-foreground font-heading">Recruitment Pipeline</CardTitle>
+                <CardTitle className="text-lg font-semibold text-foreground font-heading">{t('charts.recruitmentFunnel')}</CardTitle>
             </CardHeader>
             <CardContent className="px-0 pb-0">
                 <div className="h-[300px] w-full min-w-0">

@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import { useTranslation } from "react-i18next";
 import { getChartColor } from './chartColors';
 
 interface EducationChartProps {
@@ -8,10 +9,12 @@ interface EducationChartProps {
 }
 
 export function EducationChart({ data, onClick }: EducationChartProps) {
+    const { t } = useTranslation('dashboard');
+
     return (
         <Card className="col-span-1 h-full min-w-0">
             <CardHeader>
-                <CardTitle className="text-base font-semibold text-foreground font-heading">Education Level</CardTitle>
+                <CardTitle className="text-base font-semibold text-foreground font-heading">{t('charts.education')}</CardTitle>
             </CardHeader>
             <CardContent>
                 <div className="h-[250px] w-full min-w-0">

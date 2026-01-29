@@ -11,12 +11,12 @@
   "charts": {
     "recruitmentFunnel": "Recruitment Pipeline",
     "demographics": "Demographics",
-    "nationality": "By Nationality",
-    "gender": "By Gender",
-    "hiringStatus": "By Status",
+    "nationality": "Nationality",
+    "gender": "Gender Distribution",
+    "hiringStatus": "Hiring Status",
     "education": "Education Level",
-    "salary": "Salary Range",
-    "seniority": "Teaching Experience"
+    "salary": "Salary Distribution",
+    "seniority": "Years of Experience"
   },
   "filters": {
     "label": "Filters:",

@@ -1,4 +1,5 @@
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getChartColor, getGenderColor } from './chartColors';
 
@@ -15,6 +16,8 @@ export function DemographicsChart({
   hiringStatusData,
   onClick
 }: DemographicsChartProps) {
+  const { t } = useTranslation('dashboard');
+
   // Sort nationality by value descending, take top 6
   const sortedNationality = [...nationalityData]
     .sort((a, b) => b.value - a.value)
@@ -26,7 +29,7 @@ export function DemographicsChart({
       <Card className="col-span-1">
         <CardHeader className="pb-2">
           <CardTitle className="text-base font-semibold text-foreground font-heading">
-            Nationality
+            {t('charts.nationality')}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -79,7 +82,7 @@ export function DemographicsChart({
       <Card className="col-span-1">
         <CardHeader className="pb-2">
           <CardTitle className="text-base font-semibold text-foreground font-heading">
-            Gender Distribution
+            {t('charts.gender')}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -119,7 +122,7 @@ export function DemographicsChart({
       <Card className="col-span-1">
         <CardHeader className="pb-2">
           <CardTitle className="text-base font-semibold text-foreground font-heading">
-            Hiring Status
+            {t('charts.hiringStatus')}
           </CardTitle>
         </CardHeader>
         <CardContent>

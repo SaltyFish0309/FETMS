@@ -11,12 +11,12 @@
   "charts": {
     "recruitmentFunnel": "招募流程",
     "demographics": "人口統計",
-    "nationality": "依國籍",
-    "gender": "依性別",
-    "hiringStatus": "依狀態",
+    "nationality": "國籍分布",
+    "gender": "性別分布",
+    "hiringStatus": "聘用狀態",
     "education": "教育程度",
-    "salary": "薪資範圍",
-    "seniority": "教學經驗"
+    "salary": "薪資分布",
+    "seniority": "教學年資"
   },
   "filters": {
     "label": "篩選條件：",
