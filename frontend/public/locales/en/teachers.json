@@ -245,7 +245,10 @@
     "cancel": "Cancel",
     "import": "Import",
     "success": "{{count}} teachers imported successfully",
-    "error": "Failed to import teachers"
+    "error": "Failed to import teachers",
+    "templateTitle": "CSV Template",
+    "templateDescription": "Download the required format to avoid errors.",
+    "templateButton": "Download Template"
   },
   "columnVisibility": {
     "trigger": "Columns",
@@ -253,7 +256,8 @@
     "search": "Search columns...",
     "showAll": "Show All",
     "hideAll": "Hide All",
-    "noResults": "No columns found"
+    "noResults": "No columns found",
+    "default": "Default"
   },
   "filterSheet": {
     "title": "Filters",

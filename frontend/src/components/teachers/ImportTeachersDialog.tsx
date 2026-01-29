@@ -62,15 +62,15 @@ export function ImportTeachersDialog({ onSuccess }: ImportTeachersDialogProps) {
                         <div className="space-y-1">
                             <h4 className="text-sm font-medium text-foreground flex items-center gap-2">
                                 <FileText className="h-4 w-4 text-blue-600" />
-                                CSV Template
+                                {t('importDialog.templateTitle')}
                             </h4>
                             <p className="text-xs text-muted-foreground">
-                                Download the required format to avoid errors.
+                                {t('importDialog.templateDescription')}
                             </p>
                         </div>
                         <Button variant="outline" size="sm" onClick={handleDownloadTemplate} className="gap-2">
                             <Download className="h-3 w-3" />
-                            Download Template
+                            {t('importDialog.templateButton')}
                         </Button>
                     </div>
 

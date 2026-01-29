@@ -245,7 +245,10 @@
     "cancel": "取消",
     "import": "匯入",
     "success": "成功匯入 {{count}} 位教師",
-    "error": "匯入教師失敗"
+    "error": "匯入教師失敗",
+    "templateTitle": "CSV 範本",
+    "templateDescription": "下載所需格式以避免錯誤。",
+    "templateButton": "下載範本"
   },
   "columnVisibility": {
     "trigger": "欄位",
@@ -253,7 +256,8 @@
     "search": "搜尋欄位...",
     "showAll": "全部顯示",
     "hideAll": "全部隱藏",
-    "noResults": "找不到欄位"
+    "noResults": "找不到欄位",
+    "default": "預設"
   },
   "filterSheet": {
     "title": "篩選",
