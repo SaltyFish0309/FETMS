@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -38,10 +38,6 @@ export function AlertRulesManager({ onUpdated }: AlertRulesManagerProps) {
     // Errors
     const [errors, setErrors] = useState<{ name?: boolean, value?: boolean }>({});
 
-    useEffect(() => {
-        fetchRules();
-    }, [fetchRules]);
-
     const fetchRules = useCallback(async () => {
         try {
             const res = await fetch("http://localhost:5000/api/alerts");
@@ -51,6 +47,10 @@ export function AlertRulesManager({ onUpdated }: AlertRulesManagerProps) {
             toast.error(t('alerts.toast.loadError', { ns: 'settings' }));
         }
     }, [t]);
+
+    useEffect(() => {
+        fetchRules();
+    }, [fetchRules]);
 
     const handleAddRule = async () => {
         // Validation

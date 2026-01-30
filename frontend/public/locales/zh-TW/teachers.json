@@ -61,7 +61,9 @@
     "addTeacher": "新增教師",
     "importTeachers": "匯入教師",
     "delete": "刪除",
-    "export": "匯出"
+    "export": "匯出",
+    "save": "儲存",
+    "cancel": "取消"
   },
   "dialog": {
     "addTitle": "新增教師",

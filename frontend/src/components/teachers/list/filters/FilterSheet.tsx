@@ -8,7 +8,9 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
+  SheetDescription,
 } from "@/components/ui/sheet";
+
 import {
   Accordion,
   AccordionContent,
@@ -141,6 +143,9 @@ export function FilterSheet<TData>({
                 <Badge variant="secondary">{t('filterSheet.activeFilters', { count: activeFilterCount })}</Badge>
               )}
             </SheetTitle>
+            <SheetDescription>
+              {t('filterSheet.description')}
+            </SheetDescription>
           </div>
 
           <div className="relative">

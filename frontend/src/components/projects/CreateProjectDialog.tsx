@@ -5,7 +5,9 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
   DialogTrigger,
+
   DialogFooter,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -53,6 +55,9 @@ export function CreateProjectDialog({ onSuccess }: CreateProjectDialogProps) {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{t('projects.dialog.createTitle')}</DialogTitle>
+          <DialogDescription>
+            {t('projects.dialog.description')}
+          </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

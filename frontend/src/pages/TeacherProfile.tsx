@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { teacherService, type Teacher } from "@/services/teacherService";
@@ -82,14 +82,6 @@ export default function TeacherProfile() {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const [avatarHover, setAvatarHover] = useState(false);
 
-    useEffect(() => {
-        if (id) {
-            loadTeacher(id);
-            loadStages();
-            loadSchools();
-        }
-    }, [id, loadTeacher, loadStages, loadSchools]);
-
     const loadTeacher = useCallback(async (teacherId: string) => {
         try {
             const data = await teacherService.getById(teacherId);
@@ -120,6 +112,14 @@ export default function TeacherProfile() {
             console.error("Failed to load schools", error);
         }
     }, []);
+
+    useEffect(() => {
+        if (id) {
+            loadTeacher(id);
+            loadStages();
+            loadSchools();
+        }
+    }, [id, loadTeacher, loadStages, loadSchools]);
 
     const getStageName = (stageId?: string) => {
         if (!stageId) return 'Uncategorized';
@@ -397,7 +397,7 @@ export default function TeacherProfile() {
                             <div className="flex flex-wrap gap-2 pt-1">
                                     {teacher.personalInfo?.hiringStatus && (
                                     <Badge variant="secondary" className="bg-green-50 text-green-700 border-green-100">
-                                        {t(('enums.status.' + teacher.personalInfo.hiringStatus.toLowerCase().replace(/\s+/g, '_').replace(/-/g, '_')) as string)}
+                                        {t(('enums.status.' + teacher.personalInfo.hiringStatus.toLowerCase().replace(/\s+/g, '_').replace(/-/g, '_')) as any)}
                                     </Badge>
                                 )}
                                 {teacher.personalInfo?.nationality?.english && (
@@ -436,7 +436,7 @@ export default function TeacherProfile() {
                                         } catch { toast.error(t('profile.messages.remarksError')); }
                                     }}
                                 >
-                                    <Save className="w-4 h-4 mr-1" /> {t('common:actions.save', { ns: 'common' }) as string}
+                                    <Save className="w-4 h-4 mr-1" /> {t('actions.save')}
                                 </Button>
                         )}
                     </div>

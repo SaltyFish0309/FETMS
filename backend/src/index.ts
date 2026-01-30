@@ -41,10 +41,14 @@ app.get('/', (req, res) => {
 });
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/fetms')
-    .then(() => console.log('MongoDB Connected'))
-    .catch(err => console.error('MongoDB Connection Error:', err));
+if (process.env.NODE_ENV !== 'test') {
+    mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/fetms')
+        .then(() => console.log('MongoDB Connected'))
+        .catch(err => console.error('MongoDB Connection Error:', err));
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
+
+export default app;

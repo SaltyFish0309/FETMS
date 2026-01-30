@@ -5,7 +5,9 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
   DialogFooter,
+
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -61,6 +63,9 @@ export function EditProjectDialog({ project, open, onOpenChange, onSuccess }: Ed
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{t('projects.dialog.editTitle')}</DialogTitle>
+          <DialogDescription>
+            {t('projects.dialog.editDescription')}
+          </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
