@@ -107,6 +107,23 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
+/* Font Size Scaling */
+:root {
+  --font-size-scale: 1;
+}
+
+:root[data-font-size="small"] {
+  --font-size-scale: 0.875;
+}
+
+:root[data-font-size="medium"] {
+  --font-size-scale: 1;
+}
+
+:root[data-font-size="large"] {
+  --font-size-scale: 1.125;
+}
+
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
@@ -148,6 +165,7 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    font-size: calc(1rem * var(--font-size-scale));
   }
 
   /* Smooth theme transitions */
