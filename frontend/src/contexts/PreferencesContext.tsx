@@ -28,8 +28,18 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
       // Only respond to changes to our specific key
       if (event.key === 'userPreferences' && event.newValue) {
         try {
-          const parsed = JSON.parse(event.newValue) as UserPreferences;
-          setPreferences(parsed);
+          const updated = JSON.parse(event.newValue) as UserPreferences;
+          setPreferences(updated);
+
+          // Also apply to DOM immediately for CSS custom properties
+          // (The normal useEffects will also run, but this ensures immediate update)
+          document.documentElement.setAttribute('data-font-size', updated.fontSize);
+          document.documentElement.setAttribute('data-density', updated.density);
+          if (updated.reducedMotion) {
+            document.documentElement.setAttribute('data-reduced-motion', 'true');
+          } else {
+            document.documentElement.removeAttribute('data-reduced-motion');
+          }
         } catch (error) {
           console.error('Failed to parse preferences from storage event:', error);
           // Don't update state if parsing fails - keep current preferences
