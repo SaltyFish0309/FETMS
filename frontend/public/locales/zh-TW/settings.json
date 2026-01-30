@@ -168,6 +168,13 @@
           "small": "小",
           "medium": "中",
           "large": "大"
+        },
+        "density": {
+          "label": "顯示密度",
+          "description": "調整介面的間距和留白",
+          "compact": "緊湊",
+          "comfortable": "舒適",
+          "spacious": "寬鬆"
         }
       },
       "language": {

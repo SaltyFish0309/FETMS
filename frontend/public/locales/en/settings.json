@@ -168,6 +168,13 @@
           "small": "Small",
           "medium": "Medium",
           "large": "Large"
+        },
+        "density": {
+          "label": "Display Density",
+          "description": "Adjust spacing and padding across the interface",
+          "compact": "Compact",
+          "comfortable": "Comfortable",
+          "spacious": "Spacious"
         }
       },
       "language": {

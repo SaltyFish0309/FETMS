@@ -74,6 +74,29 @@ export default function PreferencesSettings() {
                                 </SelectContent>
                             </Select>
                         </div>
+                        <div className="flex items-center justify-between">
+                            <Label htmlFor="density" className="flex flex-col gap-1">
+                                <span>{t('preferences.sections.appearance.density.label')}</span>
+                                <span className="font-normal text-sm text-muted-foreground">
+                                    {t('preferences.sections.appearance.density.description')}
+                                </span>
+                            </Label>
+                            <Select
+                                value={preferences.density}
+                                onValueChange={(value: 'compact' | 'comfortable' | 'spacious') =>
+                                    updatePreferences({ density: value })
+                                }
+                            >
+                                <SelectTrigger id="density" className="w-[140px]">
+                                    <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="compact">{t('preferences.sections.appearance.density.compact')}</SelectItem>
+                                    <SelectItem value="comfortable">{t('preferences.sections.appearance.density.comfortable')}</SelectItem>
+                                    <SelectItem value="spacious">{t('preferences.sections.appearance.density.spacious')}</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
                     </CardContent>
                 </Card>
 
