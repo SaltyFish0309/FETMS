@@ -100,7 +100,7 @@ export function DataTableToolbar<TData>({
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
-    }, [table, stageMap]);
+    }, [table, stageMap, t]);
 
     const activeFilterCount = table.getState().columnFilters.length;
 
