@@ -172,6 +172,15 @@
           "en": "English",
           "zhTW": "繁體中文"
         }
+      },
+      "accessibility": {
+        "title": "Accessibility",
+        "description": "Configure accessibility options for a more comfortable experience.",
+        "reducedMotion": {
+          "label": "Reduced Motion",
+          "description": "Minimize animations and transitions throughout the interface",
+          "systemDetected": "System preference for reduced motion detected"
+        }
       }
     }
   },

@@ -1,15 +1,20 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { LanguageToggle } from '@/components/ui/language-toggle';
 import { ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { usePreferences } from '@/contexts/PreferencesContext';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 export default function PreferencesSettings() {
     const { t } = useTranslation('settings');
     const navigate = useNavigate();
+    const { preferences, updatePreferences } = usePreferences();
+    const systemPrefersReducedMotion = usePrefersReducedMotion();
 
     return (
         <div className="container mx-auto py-8">
@@ -66,6 +71,35 @@ export default function PreferencesSettings() {
                             <div id="language-toggle">
                                 <LanguageToggle />
                             </div>
+                        </div>
+                    </CardContent>
+                </Card>
+
+                <Card>
+                    <CardHeader>
+                        <CardTitle>{t('preferences.sections.accessibility.title')}</CardTitle>
+                        <CardDescription>
+                            {t('preferences.sections.accessibility.description')}
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <div className="flex items-center justify-between">
+                            <Label htmlFor="reduced-motion" className="flex flex-col gap-1">
+                                <span>{t('preferences.sections.accessibility.reducedMotion.label')}</span>
+                                <span className="font-normal text-sm text-muted-foreground">
+                                    {t('preferences.sections.accessibility.reducedMotion.description')}
+                                    {systemPrefersReducedMotion && (
+                                        <span className="block text-xs mt-1 text-amber-600 dark:text-amber-400">
+                                            {t('preferences.sections.accessibility.reducedMotion.systemDetected')}
+                                        </span>
+                                    )}
+                                </span>
+                            </Label>
+                            <Switch
+                                id="reduced-motion"
+                                checked={preferences.reducedMotion}
+                                onCheckedChange={(checked) => updatePreferences({ reducedMotion: checked })}
+                            />
                         </div>
                     </CardContent>
                 </Card>

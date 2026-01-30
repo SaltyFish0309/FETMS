@@ -44,6 +44,15 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
+  // Apply reduced motion preference to DOM
+  useEffect(() => {
+    if (preferences.reducedMotion) {
+      document.documentElement.setAttribute('data-reduced-motion', 'true');
+    } else {
+      document.documentElement.removeAttribute('data-reduced-motion');
+    }
+  }, [preferences.reducedMotion]);
+
   // Update preferences with partial updates
   const updatePreferences = useCallback((updates: Partial<UserPreferences>) => {
     setPreferences((prev) => ({

@@ -172,6 +172,15 @@
           "en": "English",
           "zhTW": "繁體中文"
         }
+      },
+      "accessibility": {
+        "title": "無障礙",
+        "description": "設定無障礙選項以獲得更舒適的使用體驗。",
+        "reducedMotion": {
+          "label": "減少動態效果",
+          "description": "減少介面中的動畫和過渡效果",
+          "systemDetected": "已偵測到系統偏好減少動態效果"
+        }
       }
     }
   },
