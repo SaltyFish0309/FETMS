@@ -124,6 +124,29 @@
   --font-size-scale: 1.125;
 }
 
+/* Display Density Scaling */
+:root {
+  --density-scale: 1;
+  --density-padding-sm: calc(0.5rem * var(--density-scale));
+  --density-padding: calc(1rem * var(--density-scale));
+  --density-padding-lg: calc(1.5rem * var(--density-scale));
+  --density-gap-sm: calc(0.5rem * var(--density-scale));
+  --density-gap: calc(1rem * var(--density-scale));
+  --density-gap-lg: calc(1.5rem * var(--density-scale));
+}
+
+:root[data-density="compact"] {
+  --density-scale: 0.75;
+}
+
+:root[data-density="comfortable"] {
+  --density-scale: 1;
+}
+
+:root[data-density="spacious"] {
+  --density-scale: 1.25;
+}
+
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
@@ -190,5 +213,32 @@
   :root[data-reduced-motion="true"] *::after {
     animation: none !important;
     transition: none !important;
+  }
+
+  /* Apply density scaling to main content area */
+  main {
+    padding: var(--density-padding-lg) !important;
+  }
+
+  /* Apply density scaling to cards */
+  .card, [class*="CardContent"], [class*="CardHeader"] {
+    padding: var(--density-padding);
+  }
+
+  /* Apply density to common gap utilities */
+  .space-y-4 > * + * {
+    margin-top: var(--density-gap);
+  }
+
+  .space-y-6 > * + * {
+    margin-top: var(--density-gap-lg);
+  }
+
+  .gap-4 {
+    gap: var(--density-gap);
+  }
+
+  .gap-6 {
+    gap: var(--density-gap-lg);
   }
 }
