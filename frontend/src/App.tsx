@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/ui/theme-provider"
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Header } from "@/components/layout/Header";
 import { ProjectProvider } from "@/contexts/ProjectContext";
+import { PreferencesProvider } from "@/contexts/PreferencesContext";
 
 import Teachers from "@/pages/Teachers";
 import Schools from "@/pages/Schools";
@@ -79,9 +80,11 @@ function App() {
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <Router>
-        <ProjectProvider>
-          <AppContent />
-        </ProjectProvider>
+        <PreferencesProvider>
+          <ProjectProvider>
+            <AppContent />
+          </ProjectProvider>
+        </PreferencesProvider>
       </Router>
     </ThemeProvider>
   );
