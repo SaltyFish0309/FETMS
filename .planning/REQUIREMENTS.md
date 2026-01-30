@@ -179,24 +179,24 @@ Which phases cover which requirements. Updated during roadmap creation.
 | I18N-17 | Phase 4 | Complete |
 | I18N-18 | Phase 4 | Complete |
 | I18N-19 | Phase 4 | Complete |
-| ACC-01 | Phase 5 | Pending |
-| ACC-02 | Phase 5 | Pending |
-| ACC-03 | Phase 5 | Pending |
-| ACC-04 | Phase 5 | Pending |
-| ACC-05 | Phase 5 | Pending |
-| ACC-06 | Phase 5 | Pending |
-| ACC-07 | Phase 5 | Pending |
-| ACC-08 | Phase 5 | Pending |
-| ACC-09 | Phase 5 | Pending |
-| ACC-10 | Phase 5 | Pending |
-| ACC-11 | Phase 5 | Pending |
-| ACC-12 | Phase 5 | Pending |
-| ACC-13 | Phase 5 | Pending |
-| ACC-14 | Phase 5 | Pending |
-| PREF-01 | Phase 5 | Pending |
-| PREF-02 | Phase 5 | Pending |
-| PREF-03 | Phase 5 | Pending |
-| PREF-04 | Phase 5 | Pending |
+| ACC-01 | Phase 5 | Complete |
+| ACC-02 | Phase 5 | Complete |
+| ACC-03 | Phase 5 | Complete |
+| ACC-04 | Phase 5 | Complete |
+| ACC-05 | Phase 5 | Complete |
+| ACC-06 | Phase 5 | Complete |
+| ACC-07 | Phase 5 | Complete |
+| ACC-08 | Phase 5 | Complete |
+| ACC-09 | Phase 5 | Complete |
+| ACC-10 | Phase 5 | Complete |
+| ACC-11 | Phase 5 | Complete |
+| ACC-12 | Phase 5 | Complete |
+| ACC-13 | Phase 5 | Complete |
+| ACC-14 | Phase 5 | Complete |
+| PREF-01 | Phase 5 | Complete |
+| PREF-02 | Phase 5 | Complete |
+| PREF-03 | Phase 5 | Complete |
+| PREF-04 | Phase 5 | Complete |
 
 **Coverage:**
 - v1 requirements: 55 total
