@@ -53,6 +53,11 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
     }
   }, [preferences.reducedMotion]);
 
+  // Apply font size preference to DOM
+  useEffect(() => {
+    document.documentElement.setAttribute('data-font-size', preferences.fontSize);
+  }, [preferences.fontSize]);
+
   // Update preferences with partial updates
   const updatePreferences = useCallback((updates: Partial<UserPreferences>) => {
     setPreferences((prev) => ({
