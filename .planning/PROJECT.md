@@ -19,34 +19,20 @@ Users can customize the application experience to match their preferences (theme
 - ✓ School management system — existing
 - ✓ Analytics dashboard with KPIs — existing
 - ✓ Settings page with basic User Preferences card — existing
-- ✓ Dark theme toggle (flawed implementation) — existing
+- ✓ Dark theme toggle (fully fixed and functional) — v1.0
+- ✓ Dark mode coverage across all components and pages — v1.0
+- ✓ Bilingual support (English / Traditional Chinese) — v1.0
+- ✓ Language toggle with persistence — v1.0
+- ✓ Font size control (Small/Medium/Large) — v1.0
+- ✓ Display density control (Compact/Comfortable/Spacious) — v1.0
+- ✓ Reduced motion preference — v1.0
+- ✓ Settings page organization (Appearance, Language, Accessibility) — v1.0
 
 ### Active
 
 <!-- Current scope - building toward these -->
 
-**Phase 1: Dark Theme Fixes (Priority 1)**
-- [ ] Fix header background to adapt to dark theme
-- [ ] Fix text contrast across all components for readability
-- [ ] Implement industry-standard dark mode design patterns
-- [ ] Apply consistent dark theme styling across entire application
-- [ ] Ensure smooth theme switching without visual glitches
-
-**Phase 2: Bilingual Support (Priority 2)**
-- [ ] Add Traditional Chinese translations for all UI elements
-- [ ] Implement language toggle in User Preferences
-- [ ] Add browser language detection for default language
-- [ ] Store language preference in localStorage
-- [ ] Translate all labels, buttons, menus, navigation, help text
-- [ ] Implement bilingual dropdown options (labels + option values)
-- [ ] Preserve user-generated data in original language
-- [ ] Support instant language switching without page reload
-
-**Phase 3: Enhanced User Preferences (Priority 3)**
-- [ ] Research and identify common user preference settings
-- [ ] Add font size control
-- [ ] Implement additional commonly-seen settings
-- [ ] Organize Settings page for better UX
+(None - v1.0 Complete)
 
 ### Out of Scope
 
@@ -60,23 +46,14 @@ Users can customize the application experience to match their preferences (theme
 
 **Current State:**
 - FETMS is a working MERN stack application for managing Foreign English Teachers
-- Settings page exists at `/src/pages/Settings.tsx` with a User Preferences card
-- Dark theme toggle exists but is flawed:
-  - Header remains white when theme is dark
-  - Text becomes barely visible in dark mode
-  - Inconsistent styling across components
-- No bilingual support currently exists
-- Tech stack: React 19, TypeScript, Vite, Tailwind CSS, Shadcn/UI components
+- Shipped v1.0 User Preferences Enhancement (Jan 2026)
+- Features robust dark mode, full i18n infrastructure (EN/ZH-TW), and accessibility preferences (font/density/motion)
+- Tech stack: React 19, TypeScript, Vite, Tailwind CSS, Shadcn/UI components, i18next
+- LOC: ~18,000 lines (Frontend + Backend)
 
 **Known Issues:**
-- Dark theme incomplete: header, text contrast, component consistency
-- No internationalization (i18n) infrastructure
-- Settings page could be more comprehensive
-
-**User Research:**
-- User wants industry-standard dark mode implementation
-- User wants comprehensive bilingual UI (Traditional Chinese primary, English secondary)
-- User wants common preference settings (font size, etc.)
+- Minor hardcoded text in low-traffic components (BoxManagementDialogs)
+- Dynamic toast messages partially hardcoded for context (intentional decision)
 
 ## Constraints
 
@@ -91,11 +68,18 @@ Users can customize the application experience to match their preferences (theme
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Dark theme fixes before language support | User prioritized fixing existing flawed feature before adding new functionality | — Pending |
-| Browser language detection for default | Better UX than forcing English or Chinese | — Pending |
-| localStorage for preferences | Simpler than DB sync, sufficient for v1 | — Pending |
-| Traditional Chinese (not Simplified) | User specified Traditional Chinese explicitly | — Pending |
-| Research common settings patterns | User wants industry-standard settings, not custom invention | — Pending |
+| Dark theme fixes before language support | User prioritized fixing existing flawed feature before adding new functionality | ✓ Good |
+| Browser language detection for default | Better UX than forcing English or Chinese | ✓ Good |
+| localStorage for preferences | Simpler than DB sync, sufficient for v1 | ✓ Good |
+| Traditional Chinese (not Simplified) | User specified Traditional Chinese explicitly | ✓ Good |
+| Research common settings patterns | User wants industry-standard settings, not custom invention | ✓ Good |
+| Class-based dark mode (`darkMode: 'class'`) | Matches next-themes implementation (adds/removes .dark on html) | ✓ Good |
+| Blocking FOUC script | Prevent flash of unstyled content on page load | ✓ Good |
+| Mocking Radix UI in tests | Avoid portal/interaction complexity when testing logic | ✓ Good |
+| Dynamic Toast Messages | Keep 'Moved to {stage}' context instead of generic translation | ✓ Good |
+| Root-based Font Scaling | Ensure all rem-based UI elements scale proportionally | ✓ Good |
+| Explicit Motion Override | Allow users to force-enable motion even if system prefers reduced | ✓ Good |
+| Targeted Density Scaling | Apply density to key elements only to avoid breaking complex layouts | ✓ Good |
 
 ## Tech Stack & Capabilities
 
@@ -107,4 +91,4 @@ Users can customize the application experience to match their preferences (theme
   - [gh_grep]: If you are unsure how to do something, use `gh_grep` to search code examples from GitHub. Use skill: use-gh-grep for more information.
 
 ---
-*Last updated: 2026-01-29 after Phase 3 completion*
+*Last updated: 2026-01-30 after v1.0 milestone completion*
