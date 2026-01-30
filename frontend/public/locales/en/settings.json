@@ -196,6 +196,17 @@
           "systemDetected": "System preference for reduced motion detected"
         }
       }
+    },
+    "reset": {
+      "title": "Reset Preferences",
+      "description": "Reset all preferences to their default values",
+      "button": "Reset All",
+      "dialog": {
+        "title": "Reset All Preferences?",
+        "description": "This will reset font size, display density, and reduced motion to their default values. Theme and language preferences are not affected.",
+        "cancel": "Cancel",
+        "confirm": "Reset All"
+      }
     }
   },
   "import": {

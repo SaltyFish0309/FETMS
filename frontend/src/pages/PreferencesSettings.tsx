@@ -3,9 +3,20 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { LanguageToggle } from '@/components/ui/language-toggle';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, RotateCcw } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { usePreferences } from '@/contexts/PreferencesContext';
@@ -14,7 +25,7 @@ import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 export default function PreferencesSettings() {
     const { t } = useTranslation('settings');
     const navigate = useNavigate();
-    const { preferences, updatePreferences } = usePreferences();
+    const { preferences, updatePreferences, resetPreferences } = usePreferences();
     const systemPrefersReducedMotion = usePrefersReducedMotion();
 
     return (
@@ -150,6 +161,39 @@ export default function PreferencesSettings() {
                         </div>
                     </CardContent>
                 </Card>
+
+                <div className="mt-8 pt-6 border-t">
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <h3 className="font-medium">{t('preferences.reset.title')}</h3>
+                            <p className="text-sm text-muted-foreground">
+                                {t('preferences.reset.description')}
+                            </p>
+                        </div>
+                        <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                                <Button variant="outline" className="gap-2">
+                                    <RotateCcw className="h-4 w-4" />
+                                    {t('preferences.reset.button')}
+                                </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>{t('preferences.reset.dialog.title')}</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        {t('preferences.reset.dialog.description')}
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel>{t('preferences.reset.dialog.cancel')}</AlertDialogCancel>
+                                    <AlertDialogAction onClick={() => resetPreferences()}>
+                                        {t('preferences.reset.dialog.confirm')}
+                                    </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
+                    </div>
+                </div>
             </div>
         </div>
     );
