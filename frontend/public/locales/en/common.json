@@ -37,5 +37,11 @@
     "number": "Please enter a valid number",
     "positive": "Must be a positive number",
     "integer": "Must be a whole number"
+  },
+  "toast": {
+    "preferences": {
+      "corrupted": "Preferences corrupted, reset to defaults",
+      "saveFailed": "Failed to save preferences"
+    }
   }
 }

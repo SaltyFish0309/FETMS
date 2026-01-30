@@ -37,5 +37,11 @@
     "number": "請輸入有效的數字",
     "positive": "必須為正數",
     "integer": "必須為整數"
+  },
+  "toast": {
+    "preferences": {
+      "corrupted": "偏好設定已損壞，已重設為預設值",
+      "saveFailed": "儲存偏好設定失敗"
+    }
   }
 }
