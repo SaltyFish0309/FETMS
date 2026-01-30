@@ -41,7 +41,7 @@ export default function Dashboard() {
         if (enumType) {
             // Translate as enum value
             const enumKey = value.toLowerCase().replace(/\s+/g, '_').replace(/-/g, '_');
-            return tTeachers(`enums.${enumType}.${enumKey}` as any);
+            return tTeachers(`enums.${enumType}.${enumKey}` as string);
         }
 
         // Return raw value for non-enum filters (nationality, etc.)
@@ -64,7 +64,7 @@ export default function Dashboard() {
         } finally {
             setLoading(false);
         }
-    }, [filters, selectedProjectId]);
+    }, [filters, selectedProjectId, t]);
 
     // Reload stats when filters change
     useEffect(() => {

@@ -22,9 +22,6 @@ export function usePrefersReducedMotion(): boolean {
       setPrefersReducedMotion(event.matches);
     };
 
-    // Set initial value (in case lazy initializer ran on server)
-    setPrefersReducedMotion(mediaQuery.matches);
-
     // Listen for changes
     mediaQuery.addEventListener('change', handleChange);
 

@@ -231,7 +231,7 @@ export default function Teachers() {
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogCancel>{t('common:actions.cancel', { ns: 'common' } as any) as string}</AlertDialogCancel>
+                        <AlertDialogCancel>{t('common:actions.cancel', { ns: 'common' }) as string}</AlertDialogCancel>
                         <AlertDialogAction onClick={handleConfirmDelete} className="bg-red-600 hover:bg-red-700">
                             {t('actions.delete')}
                         </AlertDialogAction>

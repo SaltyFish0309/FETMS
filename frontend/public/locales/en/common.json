@@ -23,6 +23,11 @@
     "logout": "Logout",
     "notifications": "Notifications"
   },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
   "validation": {
     "required": "This field is required",
     "email": "Please enter a valid email address",

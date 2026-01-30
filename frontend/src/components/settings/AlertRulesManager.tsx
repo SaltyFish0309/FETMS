@@ -40,9 +40,9 @@ export function AlertRulesManager({ onUpdated }: AlertRulesManagerProps) {
 
     useEffect(() => {
         fetchRules();
-    }, []);
+    }, [fetchRules]);
 
-    const fetchRules = async () => {
+    const fetchRules = useCallback(async () => {
         try {
             const res = await fetch("http://localhost:5000/api/alerts");
             const data = await res.json();
@@ -50,7 +50,7 @@ export function AlertRulesManager({ onUpdated }: AlertRulesManagerProps) {
         } catch {
             toast.error(t('alerts.toast.loadError', { ns: 'settings' }));
         }
-    };
+    }, [t]);
 
     const handleAddRule = async () => {
         // Validation

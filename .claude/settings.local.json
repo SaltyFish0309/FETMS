@@ -20,7 +20,8 @@
       "Skill(superpowers:executing-plans)",
       "Bash(npm test:*)",
       "Bash(npm run lint)",
-      "Bash(npx eslint:*)"
+      "Bash(npx eslint:*)",
+      "WebSearch"
     ]
   },
   "enabledPlugins": {

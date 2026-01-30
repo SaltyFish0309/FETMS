@@ -83,7 +83,7 @@ describe('ProjectSettings', () => {
     fireEvent.click(createButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/create new project/i)).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: /create project/i })).toBeInTheDocument();
     });
   });
 
