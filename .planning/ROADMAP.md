@@ -134,14 +134,14 @@ Plans:
   5. Preference changes sync across multiple tabs in real-time
   6. Settings page is organized into clear sections (Appearance, Language, Accessibility)
 
-**Plans**: TBD
+**Plans**: 5 plans
 
 Plans:
-- [ ] 05-01: Create PreferencesContext and localStorage service
-- [ ] 05-02: Implement font size control
-- [ ] 05-03: Implement display density control
-- [ ] 05-04: Implement reduced motion preference
-- [ ] 05-05: Organize Settings page UI and add multi-tab sync
+- [ ] 05-01-PLAN.md — Create PreferencesContext and localStorage service
+- [ ] 05-02-PLAN.md — Implement font size control with CSS custom properties
+- [ ] 05-03-PLAN.md — Implement display density control with CSS custom properties
+- [ ] 05-04-PLAN.md — Implement reduced motion preference with system detection
+- [ ] 05-05-PLAN.md — Finalize Settings UI organization and add reset functionality
 
 ## Progress
 
@@ -150,8 +150,8 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Theme Infrastructure | 1/1 | ✓ Complete | 2026-01-28 |
-| 2. Component Dark Mode Coverage | 11/11 | ✓ Complete | 2026-01-29 |
-| 3. i18n Infrastructure | 3/3 | ✓ Complete | 2026-01-29 |
-| 4. Content Translation | 13/13 | ✓ Complete | 2026-01-29 |
-| 5. Preferences System | 0/TBD | Not started | - |
+| 1. Theme Infrastructure | 1/1 | Complete | 2026-01-28 |
+| 2. Component Dark Mode Coverage | 11/11 | Complete | 2026-01-29 |
+| 3. i18n Infrastructure | 3/3 | Complete | 2026-01-29 |
+| 4. Content Translation | 13/13 | Complete | 2026-01-29 |
+| 5. Preferences System | 0/5 | Not started | - |
