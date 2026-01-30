@@ -3,6 +3,8 @@ import type { ReactNode } from 'react';
 import { preferencesService } from '@/services/preferencesService';
 import type { UserPreferences } from '@/services/preferencesService';
 
+import i18n from '@/i18n';
+
 interface PreferencesContextValue {
   preferences: UserPreferences;
   updatePreferences: (updates: Partial<UserPreferences>) => void;
@@ -25,6 +27,13 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
   // Cross-tab synchronization via storage events
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
+      // Handle language synchronization
+      if (event.key === 'i18nextLng' && event.newValue) {
+        if (event.newValue !== i18n.language) {
+          i18n.changeLanguage(event.newValue);
+        }
+      }
+
       // Only respond to changes to our specific key
       if (event.key === 'userPreferences' && event.newValue) {
         try {
@@ -38,7 +47,7 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
           if (updated.reducedMotion) {
             document.documentElement.setAttribute('data-reduced-motion', 'true');
           } else {
-            document.documentElement.removeAttribute('data-reduced-motion');
+            document.documentElement.setAttribute('data-reduced-motion', 'false');
           }
         } catch (error) {
           console.error('Failed to parse preferences from storage event:', error);
@@ -59,7 +68,7 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
     if (preferences.reducedMotion) {
       document.documentElement.setAttribute('data-reduced-motion', 'true');
     } else {
-      document.documentElement.removeAttribute('data-reduced-motion');
+      document.documentElement.setAttribute('data-reduced-motion', 'false');
     }
   }, [preferences.reducedMotion]);
 
