@@ -241,7 +241,7 @@ export default function SchoolProfile() {
                                         <TableCell>{teacher.personalInfo?.nationality?.english || '-'}</TableCell>
                                         <TableCell>
                                             {teacher.personalInfo?.hiringStatus
-                                                ? tTeachers(`enums.status.${teacher.personalInfo.hiringStatus.toLowerCase().replace(/\s+/g, '_').replace(/-/g, '_')}` as string)
+                                                ? tTeachers(`enums.status.${teacher.personalInfo.hiringStatus.toLowerCase().replace(/\s+/g, '_').replace(/-/g, '_')}` as never)
                                                 : '-'}
                                         </TableCell>
                                     </TableRow>

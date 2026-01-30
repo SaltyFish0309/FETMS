@@ -75,8 +75,8 @@ const Settings = () => {
                                     </div>
                                     <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-blue-600 transition-colors" />
                                 </div>
-                                <CardTitle className="text-xl mt-4">{t(section.titleKey as string)}</CardTitle>
-                                <CardDescription>{t(section.descriptionKey as string)}</CardDescription>
+                                <CardTitle className="text-xl mt-4">{t(section.titleKey as never)}</CardTitle>
+                                <CardDescription>{t(section.descriptionKey as never)}</CardDescription>
                             </CardHeader>
                             <CardContent>
                                 <p className="text-sm text-blue-600 font-medium group-hover:underline">

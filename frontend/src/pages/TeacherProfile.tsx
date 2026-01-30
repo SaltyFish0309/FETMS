@@ -397,7 +397,7 @@ export default function TeacherProfile() {
                             <div className="flex flex-wrap gap-2 pt-1">
                                 {teacher.personalInfo?.hiringStatus && (
                                     <Badge variant="secondary" className="bg-green-50 text-green-700 border-green-100">
-                                        {t(('enums.status.' + teacher.personalInfo.hiringStatus.toLowerCase().replace(/\s+/g, '_').replace(/-/g, '_')) as string)}
+                                        {t(('enums.status.' + teacher.personalInfo.hiringStatus.toLowerCase().replace(/\s+/g, '_').replace(/-/g, '_')) as never)}
                                     </Badge>
                                 )}
                                 {teacher.personalInfo?.nationality?.english && (

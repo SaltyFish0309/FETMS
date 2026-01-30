@@ -15,7 +15,7 @@ export function EducationChart({ data, onClick }: EducationChartProps) {
     const translatedData = data.map(item => ({
         ...item,
         originalName: item.name,
-        name: tTeachers(`enums.degree.${item.name.toLowerCase().replace(/\s+/g, '_')}` as string)
+        name: tTeachers(`enums.degree.${item.name.toLowerCase().replace(/\s+/g, '_')}` as never)
     }));
 
     return (
