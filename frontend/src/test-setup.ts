@@ -57,7 +57,23 @@ vi.mock('react-i18next', () => ({
     t: (k: string) => {
       // Return explicit translation if available
       if (translations[k]) return translations[k];
-      
+
+      // Handle column and group translations
+      if (k.startsWith('columns.')) {
+        const key = k.replace('columns.', '');
+        // Capitalize first letter and add spaces
+        return key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1').trim();
+      }
+      if (k.startsWith('groups.')) {
+        const groupKeys: Record<string, string> = {
+          'groups.personalInfo': 'Personal Information',
+          'groups.education': 'Education',
+          'groups.legalDocs': 'Legal Documents',
+          'groups.employment': 'Employment'
+        };
+        return groupKeys[k] || k;
+      }
+
       // Fallback: Return the key itself (or last part for readability in logs)
       return k;
     },
@@ -66,6 +82,7 @@ vi.mock('react-i18next', () => ({
       language: 'en',
     },
   }),
+  I18nextProvider: ({ children }: { children: React.ReactNode }) => children,
   initReactI18next: {
     type: '3rdParty',
     init: () => {},
