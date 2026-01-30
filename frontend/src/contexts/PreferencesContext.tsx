@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import type { ReactNode } from 'react';
-import { preferencesService, UserPreferences } from '@/services/preferencesService';
+import { preferencesService } from '@/services/preferencesService';
+import type { UserPreferences } from '@/services/preferencesService';
 
 interface PreferencesContextValue {
   preferences: UserPreferences;
