@@ -27,6 +27,11 @@ vi.mock('@/pages/Documents', () => ({ default: () => <div>Documents Page</div> }
 vi.mock('@/pages/Settings', () => ({ default: () => <div>Settings Page</div> }));
 vi.mock('@/pages/TeacherProfile', () => ({ default: () => <div>Teacher Profile Page</div> }));
 vi.mock('@/pages/SchoolProfile', () => ({ default: () => <div>School Profile Page</div> }));
+vi.mock('@/pages/AlertSettings', () => ({ default: () => <div>Alert Settings Page</div> }));
+vi.mock('@/pages/StageSettings', () => ({ default: () => <div>Stage Settings Page</div> }));
+vi.mock('@/pages/ProjectSettings', () => ({ default: () => <div>Project Settings Page</div> }));
+vi.mock('@/pages/PreferencesSettings', () => ({ default: () => <div>Preferences Settings Page</div> }));
+vi.mock('@/pages/ImportSettings', () => ({ default: () => <div>Import Settings Page</div> }));
 
 describe('App routing and header titles', () => {
   // Note: Testing route-based header titles requires integration testing

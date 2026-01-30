@@ -186,7 +186,7 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
 
         const inputClasses = cn(
             "flex items-center gap-2 relative bg-transparent transition-colors text-base rounded-md border border-input pl-3 h-9 shadow-sm md:text-sm has-[input:focus]:outline-none has-[input:focus]:ring-1 has-[input:focus]:ring-ring [interpolate-size:allow-keywords]",
-            props.disabled && "cursor-not-allowed opacity-50 bg-slate-50 text-slate-500",
+            props.disabled && "cursor-not-allowed opacity-50 bg-muted text-muted-foreground",
             inline && "rounded-l-none w-full",
             className
         );

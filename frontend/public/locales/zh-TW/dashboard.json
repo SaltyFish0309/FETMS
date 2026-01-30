@@ -1,0 +1,83 @@
+{
+  "title": "儀表板",
+  "subtitle": "教師、學校與招募指標總覽",
+  "analyticsOverview": "分析總覽",
+  "kpi": {
+    "totalTeachers": "教師總數",
+    "activeSchools": "合作學校",
+    "inRecruitment": "招募中",
+    "actionsNeeded": "待處理事項"
+  },
+  "charts": {
+    "recruitmentFunnel": "招募流程",
+    "demographics": "人口統計",
+    "nationality": "國籍分布",
+    "gender": "性別分布",
+    "hiringStatus": "聘用狀態",
+    "education": "教育程度",
+    "salary": "薪資分布",
+    "seniority": "教學年資"
+  },
+  "filters": {
+    "label": "篩選條件：",
+    "clearAll": "清除全部",
+    "pipelineStage": "階段",
+    "salaryRange": "薪資",
+    "degree": "學歷",
+    "seniority": "年資",
+    "nationality": "國籍",
+    "gender": "性別",
+    "hiringStatus": "狀態"
+  },
+  "loading": "載入儀表板中...",
+  "actionCenter": {
+    "title": "待處理事項",
+    "description": "需要您注意的項目",
+    "tabs": {
+      "expiringSoon": "即將到期",
+      "alerts": "提醒",
+      "settings": "設定"
+    },
+    "expiryWidget": {
+      "workPermit": "工作許可證",
+      "arc": "居留證",
+      "passport": "護照",
+      "expiresIn": "{{days}} 天後到期",
+      "expired": "已到期",
+      "viewAll": "查看全部",
+      "noExpiries": "無即將到期的文件",
+      "alert": "警示",
+      "rule": "規則",
+      "dialog": {
+        "title": "警示規則設定",
+        "description": "設定文件的自訂警示觸發條件。"
+      }
+    }
+  },
+  "qualifiedCandidates": {
+    "title": "合格候選人",
+    "description": "可聘用的教師",
+    "labels": {
+      "nationality": "國籍",
+      "degree": "學位",
+      "experience": "經驗",
+      "yearsExp": "{{years}} 年"
+    },
+    "actions": {
+      "viewProfile": "查看檔案",
+      "contactCandidate": "聯絡"
+    },
+    "empty": {
+      "title": "無候選人",
+      "description": "目前沒有合格候選人"
+    },
+    "found": "找到",
+    "initial": {
+      "title": "準備搜尋",
+      "description": "在圖表上選擇區段或套用篩選條件以檢視符合的候選人。"
+    }
+  },
+  "toast": {
+    "loadError": "載入儀表板資料失敗"
+  }
+}

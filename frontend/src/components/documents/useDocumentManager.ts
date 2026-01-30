@@ -4,6 +4,7 @@ import { arrayMove } from '@dnd-kit/sortable';
 import { teacherService } from '../../services/teacherService';
 import { toast } from 'sonner';
 import type { DocumentBox, AdHocDocument } from '@/types/document';
+import { useTranslation } from 'react-i18next';
 
 export const useDocumentManager = (
     teacherId: string,
@@ -11,6 +12,8 @@ export const useDocumentManager = (
     documents: AdHocDocument[],
     onRefresh: () => void
 ) => {
+    const { t } = useTranslation('documents');
+
     // Local State Mapped from Props (for Optimistic Updates)
     const [columns, setColumns] = useState<Record<string, AdHocDocument[]>>({});
     const [boxes, setBoxes] = useState<DocumentBox[]>([]);
@@ -84,7 +87,7 @@ export const useDocumentManager = (
                             .map(b => b._id);
                         await teacherService.reorderBoxes(teacherId, boxIds);
                     } catch {
-                        toast.error('Failed to reorder boxes');
+                        toast.error(t('toast.reorderError'));
                         onRefresh();
                     }
                 }
@@ -125,7 +128,7 @@ export const useDocumentManager = (
                     }));
                     await teacherService.reorderAdHocDocuments(teacherId, payload);
                 } catch {
-                    toast.error('Refreshed');
+                    toast.error(t('toast.refreshed'));
                     onRefresh();
                 }
             }
@@ -150,9 +153,9 @@ export const useDocumentManager = (
                 }));
 
                 await teacherService.reorderAdHocDocuments(teacherId, payload);
-                toast.success('Moved');
+                toast.success(t('toast.moveSuccess'));
             } catch {
-                toast.error('Failed to move');
+                toast.error(t('toast.moveError'));
                 onRefresh();
             }
         }
@@ -162,9 +165,9 @@ export const useDocumentManager = (
         try {
             await teacherService.createBox(teacherId, name);
             setIsCreatingBox(false);
-            toast.success('Box created');
+            toast.success(t('toast.boxCreateSuccess'));
             onRefresh();
-        } catch { toast.error('Error creating box'); }
+        } catch { toast.error(t('toast.boxCreateError')); }
     };
 
     const updateBox = async (name: string) => {
@@ -172,34 +175,34 @@ export const useDocumentManager = (
         try {
             await teacherService.updateBox(teacherId, editingBox.id, { name });
             setEditingBox(null);
-            toast.success('Box updated');
+            toast.success(t('toast.boxUpdateSuccess'));
             onRefresh();
-        } catch { toast.error('Error updating box'); }
+        } catch { toast.error(t('toast.boxUpdateError')); }
     };
 
     const deleteBox = async () => {
         if (!boxToDelete) return;
         try {
             await teacherService.deleteBox(teacherId, boxToDelete.id);
-            toast.success('Box deleted');
+            toast.success(t('toast.boxDeleteSuccess'));
             onRefresh();
-        } catch { toast.error('Error deleting box'); }
+        } catch { toast.error(t('toast.boxDeleteError')); }
         finally { setBoxToDelete(null); }
     };
 
     const downloadBoxZip = async (boxId: string) => {
         try {
-            toast.success('Download started');
+            toast.success(t('toast.downloadStart'));
             const blob = await teacherService.downloadBox(teacherId, boxId);
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a'); a.href = url; a.download = `box-${boxId}.zip`;
             document.body.appendChild(a); a.click(); document.body.removeChild(a);
-        } catch { toast.error('Download failed'); }
+        } catch { toast.error(t('toast.downloadError')); }
     };
 
     const downloadBoxFiles = (boxId: string) => {
         const boxDocs = columns[boxId] || [];
-        if (boxDocs.length === 0) { toast.error("No documents"); return; }
+        if (boxDocs.length === 0) { toast.error(t('toast.noDocuments')); return; }
         boxDocs.forEach(d => window.open(`http://localhost:5000/${d.filePath.replace(/\\/g, '/')}`, '_blank'));
     };
 

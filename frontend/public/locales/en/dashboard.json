@@ -1,0 +1,83 @@
+{
+  "title": "Dashboard",
+  "subtitle": "Overview of teachers, schools, and recruitment metrics",
+  "analyticsOverview": "Analytics Overview",
+  "kpi": {
+    "totalTeachers": "Total Teachers",
+    "activeSchools": "Partner Schools",
+    "inRecruitment": "In Recruitment",
+    "actionsNeeded": "Actions Needed"
+  },
+  "charts": {
+    "recruitmentFunnel": "Recruitment Pipeline",
+    "demographics": "Demographics",
+    "nationality": "Nationality",
+    "gender": "Gender Distribution",
+    "hiringStatus": "Hiring Status",
+    "education": "Education Level",
+    "salary": "Salary Distribution",
+    "seniority": "Years of Experience"
+  },
+  "filters": {
+    "label": "Filters:",
+    "clearAll": "Clear All",
+    "pipelineStage": "Stage",
+    "salaryRange": "Salary",
+    "degree": "Degree",
+    "seniority": "Seniority",
+    "nationality": "Nationality",
+    "gender": "Gender",
+    "hiringStatus": "Status"
+  },
+  "loading": "Loading dashboard...",
+  "actionCenter": {
+    "title": "Action Center",
+    "description": "Items requiring your attention",
+    "tabs": {
+      "expiringSoon": "Expiring Soon",
+      "alerts": "Alerts",
+      "settings": "Settings"
+    },
+    "expiryWidget": {
+      "workPermit": "Work Permit",
+      "arc": "ARC",
+      "passport": "Passport",
+      "expiresIn": "Expires in {{days}} days",
+      "expired": "Expired",
+      "viewAll": "View All",
+      "noExpiries": "No expiring documents",
+      "alert": "Alert",
+      "rule": "Rule",
+      "dialog": {
+        "title": "Alert Rules Settings",
+        "description": "Configure custom alert triggers for your documents."
+      }
+    }
+  },
+  "qualifiedCandidates": {
+    "title": "Qualified Candidates",
+    "description": "Teachers ready for hire",
+    "labels": {
+      "nationality": "Nationality",
+      "degree": "Degree",
+      "experience": "Experience",
+      "yearsExp": "{{years}} years"
+    },
+    "actions": {
+      "viewProfile": "View Profile",
+      "contactCandidate": "Contact"
+    },
+    "empty": {
+      "title": "No Candidates",
+      "description": "No qualified candidates at this time"
+    },
+    "found": "Found",
+    "initial": {
+      "title": "Ready to Search",
+      "description": "Select segments on the charts or apply filters to see matching candidates here."
+    }
+  },
+  "toast": {
+    "loadError": "Failed to load dashboard data"
+  }
+}

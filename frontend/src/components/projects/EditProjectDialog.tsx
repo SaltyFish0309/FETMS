@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
   DialogFooter,
+
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -20,6 +23,7 @@ interface EditProjectDialogProps {
 }
 
 export function EditProjectDialog({ project, open, onOpenChange, onSuccess }: EditProjectDialogProps) {
+  const { t } = useTranslation('settings');
   const [formData, setFormData] = useState({
     name: '',
     code: '',
@@ -45,12 +49,12 @@ export function EditProjectDialog({ project, open, onOpenChange, onSuccess }: Ed
 
     try {
       await projectService.update(project._id, formData);
-      toast.success('Project updated successfully');
+      toast.success(t('projects.toast.updateSuccess'));
       onOpenChange(false);
       onSuccess();
     } catch (error) {
       console.error('Failed to update project', error);
-      toast.error('Failed to update project');
+      toast.error(t('projects.toast.error'));
     }
   };
 
@@ -58,41 +62,47 @@ export function EditProjectDialog({ project, open, onOpenChange, onSuccess }: Ed
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit Project</DialogTitle>
+          <DialogTitle>{t('projects.dialog.editTitle')}</DialogTitle>
+          <DialogDescription>
+            {t('projects.dialog.editDescription')}
+          </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <Label htmlFor="edit-name">Project Name</Label>
+            <Label htmlFor="edit-name">{t('projects.dialog.fields.name.label')}</Label>
             <Input
               id="edit-name"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              placeholder={t('projects.dialog.fields.name.placeholder')}
               required
             />
           </div>
           <div>
-            <Label htmlFor="edit-code">Project Code</Label>
+            <Label htmlFor="edit-code">{t('projects.dialog.fields.code.label')}</Label>
             <Input
               id="edit-code"
               value={formData.code}
               onChange={(e) => setFormData({ ...formData, code: e.target.value })}
+              placeholder={t('projects.dialog.fields.code.placeholder')}
               disabled
-              className="bg-slate-100"
+              className="bg-muted"
             />
           </div>
           <div>
-            <Label htmlFor="edit-description">Description</Label>
+            <Label htmlFor="edit-description">{t('projects.dialog.fields.description.label')}</Label>
             <Input
               id="edit-description"
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              placeholder={t('projects.dialog.fields.description.placeholder')}
             />
           </div>
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-              Cancel
+              {t('projects.dialog.buttons.cancel')}
             </Button>
-            <Button type="submit">Save</Button>
+            <Button type="submit">{t('projects.dialog.buttons.save')}</Button>
           </DialogFooter>
         </form>
       </DialogContent>

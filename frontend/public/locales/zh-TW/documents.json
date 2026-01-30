@@ -1,0 +1,20 @@
+{
+  "title": "文件",
+  "subtitle": "管理所有系統文件。",
+  "comingSoon": "文件管理功能即將推出。",
+  "toast": {
+    "reorderError": "重新排序資料夾失敗",
+    "refreshed": "已重新整理",
+    "moveSuccess": "已移動",
+    "moveError": "移動失敗",
+    "boxCreateSuccess": "資料夾已建立",
+    "boxCreateError": "建立資料夾時發生錯誤",
+    "boxUpdateSuccess": "資料夾已更新",
+    "boxUpdateError": "更新資料夾時發生錯誤",
+    "boxDeleteSuccess": "資料夾已刪除",
+    "boxDeleteError": "刪除資料夾時發生錯誤",
+    "downloadStart": "下載已開始",
+    "downloadError": "下載失敗",
+    "noDocuments": "沒有文件"
+  }
+}

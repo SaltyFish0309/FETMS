@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Upload, FileUp, CheckCircle, AlertCircle, Loader2, Download, FileText } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { useTranslation } from 'react-i18next';
 
 interface ImportSchoolsDialogProps {
     onSuccess: () => void;
@@ -32,6 +33,7 @@ const REQUIRED_HEADERS = [
 ];
 
 export function ImportSchoolsDialog({ onSuccess }: ImportSchoolsDialogProps) {
+    const { t } = useTranslation('schools');
     const [isOpen, setIsOpen] = useState(false);
     const [file, setFile] = useState<File | null>(null);
     const [isUploading, setIsUploading] = useState(false);
@@ -133,15 +135,9 @@ export function ImportSchoolsDialog({ onSuccess }: ImportSchoolsDialogProps) {
             if (response.ok) {
                 setUploadResult({
                     success: true,
-                    message: `Successfully imported ${data.count} schools!`,
+                    message: t('importDialog.success', { count: data.count }),
                 });
                 onSuccess();
-            } else {
-                setUploadResult({
-                    success: false,
-                    message: data.message || 'Upload failed',
-                    details: data.writeErrors || data.error
-                });
             }
         } catch {
             setUploadResult({
@@ -158,37 +154,37 @@ export function ImportSchoolsDialog({ onSuccess }: ImportSchoolsDialogProps) {
             <DialogTrigger asChild>
                 <Button variant="outline" className="gap-2">
                     <Upload className="h-4 w-4" />
-                    Import CSV
+                    {t('importDialog.trigger')}
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[550px]">
                 <DialogHeader>
-                    <DialogTitle>Import Schools</DialogTitle>
+                    <DialogTitle>{t('importDialog.title')}</DialogTitle>
                     <DialogDescription>
-                        Upload a CSV file to bulk import schools.
+                        {t('importDialog.description')}
                     </DialogDescription>
                 </DialogHeader>
 
                 <div className="grid gap-6 py-4">
                     {/* Template Download Section */}
-                    <div className="flex items-center justify-between p-4 bg-slate-50 rounded-lg border border-slate-200">
+                    <div className="flex items-center justify-between p-4 bg-muted rounded-lg border border-border">
                         <div className="space-y-1">
-                            <h4 className="text-sm font-medium text-slate-900 flex items-center gap-2">
+                            <h4 className="text-sm font-medium text-foreground flex items-center gap-2">
                                 <FileText className="h-4 w-4 text-blue-600" />
-                                CSV Template
+                                {t('importDialog.templateTitle')}
                             </h4>
-                            <p className="text-xs text-slate-500">
-                                Download the required format to avoid errors.
+                            <p className="text-xs text-muted-foreground">
+                                {t('importDialog.templateDesc')}
                             </p>
                         </div>
                         <Button variant="outline" size="sm" onClick={handleDownloadTemplate} className="gap-2">
                             <Download className="h-3 w-3" />
-                            Download Template
+                            {t('importDialog.downloadTemplate')}
                         </Button>
                     </div>
 
                     <div className="grid w-full items-center gap-1.5">
-                        <Label htmlFor="csv-file">Upload CSV</Label>
+                        <Label htmlFor="csv-file">{t('importDialog.selectFile')}</Label>
                         <Input id="csv-file" type="file" accept=".csv" onChange={handleFileChange} />
                         {validationError && (
                             <p className="text-sm text-red-500 flex items-center gap-1 mt-1">
@@ -205,7 +201,7 @@ export function ImportSchoolsDialog({ onSuccess }: ImportSchoolsDialogProps) {
                             <AlertDescription>
                                 {uploadResult.message}
                                 {uploadResult.details ? (
-                                    <div className="mt-2 text-xs max-h-32 overflow-y-auto bg-white/50 p-2 rounded">
+                                    <div className="mt-2 text-xs max-h-32 overflow-y-auto bg-card/50 p-2 rounded">
                                         <pre>{JSON.stringify(uploadResult.details as object, null, 2)}</pre>
                                     </div>
                                 ) : null}
@@ -214,17 +210,17 @@ export function ImportSchoolsDialog({ onSuccess }: ImportSchoolsDialogProps) {
                     )}
                 </div>
                 <DialogFooter>
-                    <Button variant="outline" onClick={() => setIsOpen(false)}>Cancel</Button>
+                    <Button variant="outline" onClick={() => setIsOpen(false)}>{t('importDialog.cancel')}</Button>
                     <Button onClick={handleUpload} disabled={!file || isUploading}>
                         {isUploading ? (
                             <>
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                Importing...
+                                {t('importDialog.uploading')}
                             </>
                         ) : (
                             <>
                                 <FileUp className="mr-2 h-4 w-4" />
-                                Upload
+                                {t('importDialog.import')}
                             </>
                         )}
                     </Button>

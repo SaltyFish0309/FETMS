@@ -1,4 +1,5 @@
 import Project, { IProject } from '../models/Project.js';
+import Teacher from '../models/Teacher.js';
 
 export class ProjectService {
   static async getAllProjects(includeArchived: boolean = false): Promise<IProject[]> {
@@ -30,5 +31,29 @@ export class ProjectService {
   static async deleteProject(id: string): Promise<boolean> {
     const result = await Project.findByIdAndUpdate(id, { isActive: false });
     return result !== null;
+  }
+
+  static async restoreProject(id: string): Promise<IProject | null> {
+    return await Project.findByIdAndUpdate(id, { isActive: true }, { new: true });
+  }
+
+  static async hardDeleteProject(id: string): Promise<boolean> {
+    const project = await Project.findById(id);
+
+    if (!project) {
+      throw new Error('Project not found');
+    }
+
+    if (project.isActive) {
+      throw new Error('Cannot hard delete active project. Archive it first.');
+    }
+
+    const teacherCount = await Teacher.countDocuments({ project: id });
+    if (teacherCount > 0) {
+      throw new Error('Cannot delete project with associated teachers');
+    }
+
+    await Project.findByIdAndDelete(id);
+    return true;
   }
 }

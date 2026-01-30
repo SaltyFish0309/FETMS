@@ -1,0 +1,114 @@
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import type { ReactNode } from 'react';
+import { preferencesService } from '@/services/preferencesService';
+import type { UserPreferences } from '@/services/preferencesService';
+
+import i18n from '@/i18n';
+
+interface PreferencesContextValue {
+  preferences: UserPreferences;
+  updatePreferences: (updates: Partial<UserPreferences>) => void;
+  resetPreferences: () => void;
+}
+
+const PreferencesContext = createContext<PreferencesContextValue | undefined>(undefined);
+
+export function PreferencesProvider({ children }: { children: ReactNode }) {
+  // Initialize state with lazy initializer to avoid reading localStorage on every render
+  const [preferences, setPreferences] = useState<UserPreferences>(() => {
+    return preferencesService.load();
+  });
+
+  // Persist to localStorage whenever preferences change
+  useEffect(() => {
+    preferencesService.save(preferences);
+  }, [preferences]);
+
+  // Cross-tab synchronization via storage events
+  useEffect(() => {
+    const handleStorageChange = (event: StorageEvent) => {
+      // Handle language synchronization
+      if (event.key === 'i18nextLng' && event.newValue) {
+        if (event.newValue !== i18n.language) {
+          i18n.changeLanguage(event.newValue);
+        }
+      }
+
+      // Only respond to changes to our specific key
+      if (event.key === 'userPreferences' && event.newValue) {
+        try {
+          const updated = JSON.parse(event.newValue) as UserPreferences;
+          setPreferences(updated);
+
+          // Also apply to DOM immediately for CSS custom properties
+          // (The normal useEffects will also run, but this ensures immediate update)
+          document.documentElement.setAttribute('data-font-size', updated.fontSize);
+          document.documentElement.setAttribute('data-density', updated.density);
+          if (updated.reducedMotion) {
+            document.documentElement.setAttribute('data-reduced-motion', 'true');
+          } else {
+            document.documentElement.setAttribute('data-reduced-motion', 'false');
+          }
+        } catch (error) {
+          console.error('Failed to parse preferences from storage event:', error);
+          // Don't update state if parsing fails - keep current preferences
+        }
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+
+  // Apply reduced motion preference to DOM
+  useEffect(() => {
+    if (preferences.reducedMotion) {
+      document.documentElement.setAttribute('data-reduced-motion', 'true');
+    } else {
+      document.documentElement.setAttribute('data-reduced-motion', 'false');
+    }
+  }, [preferences.reducedMotion]);
+
+  // Apply font size preference to DOM
+  useEffect(() => {
+    document.documentElement.setAttribute('data-font-size', preferences.fontSize);
+  }, [preferences.fontSize]);
+
+  // Apply density preference to DOM for CSS custom properties
+  useEffect(() => {
+    document.documentElement.setAttribute('data-density', preferences.density);
+  }, [preferences.density]);
+
+  // Update preferences with partial updates
+  const updatePreferences = useCallback((updates: Partial<UserPreferences>) => {
+    setPreferences((prev) => ({
+      ...prev,
+      ...updates,
+    }));
+  }, []);
+
+  // Reset all preferences to defaults
+  const resetPreferences = useCallback(() => {
+    setPreferences(preferencesService.getDefaults());
+  }, []);
+
+  const value: PreferencesContextValue = {
+    preferences,
+    updatePreferences,
+    resetPreferences,
+  };
+
+  return <PreferencesContext.Provider value={value}>{children}</PreferencesContext.Provider>;
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export function usePreferences(): PreferencesContextValue {
+  const context = useContext(PreferencesContext);
+  if (context === undefined) {
+    throw new Error('usePreferences must be used within PreferencesProvider');
+  }
+  return context;
+}

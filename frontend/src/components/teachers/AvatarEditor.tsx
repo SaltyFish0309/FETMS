@@ -42,7 +42,7 @@ export function AvatarEditor({ isOpen, imageSrc, onClose, onSave }: AvatarEditor
                     <DialogTitle>Edit Profile Picture</DialogTitle>
                 </DialogHeader>
 
-                <div className="relative h-[300px] w-full bg-slate-900 rounded-md overflow-hidden">
+                <div className="relative h-[300px] w-full bg-muted rounded-md overflow-hidden">
                     {imageSrc && (
                         <Cropper
                             image={imageSrc}
@@ -59,7 +59,7 @@ export function AvatarEditor({ isOpen, imageSrc, onClose, onSave }: AvatarEditor
                 </div>
 
                 <div className="flex items-center gap-4 py-4">
-                    <ZoomOut className="w-4 h-4 text-slate-500" />
+                    <ZoomOut className="w-4 h-4 text-muted-foreground" />
                     <Slider
                         value={[zoom]}
                         min={1}
@@ -68,7 +68,7 @@ export function AvatarEditor({ isOpen, imageSrc, onClose, onSave }: AvatarEditor
                         onValueChange={(value: number[]) => setZoom(value[0])}
                         className="flex-1"
                     />
-                    <ZoomIn className="w-4 h-4 text-slate-500" />
+                    <ZoomIn className="w-4 h-4 text-muted-foreground" />
                 </div>
 
                 <DialogFooter>

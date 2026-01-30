@@ -1,37 +1,28 @@
 import { describe, it, expect } from 'vitest'
 import {
-  CHART_COLORS,
   getChartColor,
-  getGenderColor
+  getGenderColor,
+  getAxisColor,
+  getBorderColor
 } from '../chartColors'
 
 describe('chartColors', () => {
-  describe('CHART_COLORS', () => {
-    it('should have exactly 6 colors', () => {
-      expect(CHART_COLORS).toHaveLength(6)
-    })
-
-    it('should contain valid hex colors', () => {
-      const hexRegex = /^#[0-9A-Fa-f]{6}$/
-      CHART_COLORS.forEach(color => {
-        expect(color).toMatch(hexRegex)
-      })
-    })
-
-    it('should start with primary blue', () => {
-      expect(CHART_COLORS[0]).toBe('#2563EB')
-    })
-  })
-
   describe('getChartColor', () => {
-    it('should return color at index', () => {
-      expect(getChartColor(0)).toBe('#2563EB')
-      expect(getChartColor(2)).toBe('#10B981')
+    it('should return CSS variable reference at index', () => {
+      expect(getChartColor(0)).toBe('var(--color-chart-1)')
+      expect(getChartColor(2)).toBe('var(--color-chart-3)')
     })
 
     it('should wrap around when index exceeds length', () => {
-      expect(getChartColor(6)).toBe('#2563EB')
-      expect(getChartColor(7)).toBe('#3B82F6')
+      expect(getChartColor(6)).toBe('var(--color-chart-1)')
+      expect(getChartColor(7)).toBe('var(--color-chart-2)')
+    })
+
+    it('should return valid CSS variable format', () => {
+      const cssVarRegex = /^var\(--color-chart-[1-6]\)$/
+      for (let i = 0; i < 6; i++) {
+        expect(getChartColor(i)).toMatch(cssVarRegex)
+      }
     })
   })
 
@@ -49,6 +40,18 @@ describe('chartColors', () => {
     it('should return slate for unknown', () => {
       expect(getGenderColor('Other')).toBe('#64748B')
       expect(getGenderColor('')).toBe('#64748B')
+    })
+  })
+
+  describe('getAxisColor', () => {
+    it('should return CSS variable for muted foreground', () => {
+      expect(getAxisColor()).toBe('var(--color-muted-foreground)')
+    })
+  })
+
+  describe('getBorderColor', () => {
+    it('should return CSS variable for border', () => {
+      expect(getBorderColor()).toBe('var(--color-border)')
     })
   })
 })

@@ -50,8 +50,8 @@ export const DocumentManager: React.FC<DocumentManagerProps> = ({
         <div className="flex flex-col gap-6 h-full">
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-lg font-semibold text-slate-900">Document Organization</h2>
-                    <p className="text-xs text-slate-500">Drag documents to organize.</p>
+                    <h2 className="text-lg font-semibold text-foreground">Document Organization</h2>
+                    <p className="text-xs text-muted-foreground">Drag documents to organize.</p>
                 </div>
                 <Button onClick={() => setIsCreatingBox(true)} size="sm">
                     <Plus className="mr-2 h-4 w-4" /> New Box
@@ -65,7 +65,7 @@ export const DocumentManager: React.FC<DocumentManagerProps> = ({
                     dragOverlay={
                         activeItem ? (
                             activeItem.type === 'Box' ? (
-                                <div className="w-80 bg-white p-3 rounded-xl border border-blue-400 shadow-2xl cursor-grabbing flex gap-2 opacity-90">
+                                <div className="w-80 bg-card p-3 rounded-xl border border-blue-400 shadow-2xl cursor-grabbing flex gap-2 opacity-90">
                                     <FolderOpen className="text-blue-500" />
                                     <h3 className="font-semibold">{activeItem.name}</h3>
                                 </div>

@@ -27,15 +27,11 @@ export class StatsService {
 
         // 3. Fetch Data
         const [
-            allTeachers,
-            activeSchools,
             stages,
             filteredTeachers
         ] = await Promise.all([
-            Teacher.find({ isDeleted: false }).select('firstName lastName profilePicture pipelineStage email personalInfo arcDetails workPermitDetails passportDetails education contractDetails'),
-            School.countDocuments({ isDeleted: false }),
             Stage.find({}).sort({ order: 1 }),
-            Teacher.find({ ...matchQuery, isDeleted: false }).select('firstName lastName profilePicture pipelineStage email personalInfo arcDetails workPermitDetails passportDetails education contractDetails')
+            Teacher.find({ ...matchQuery, isDeleted: false }).select('firstName lastName profilePicture pipelineStage email personalInfo arcDetails workPermitDetails passportDetails education contractDetails school')
         ]);
 
         // 4. Candidates List
@@ -52,17 +48,19 @@ export class StatsService {
             };
         });
 
-        const totalTeachers = allTeachers.length;
+        // 5. KPIs - Use filteredTeachers instead of allTeachers
+        const totalTeachers = filteredTeachers.length;
+        const uniqueSchools = new Set(filteredTeachers.map(t => t.school?.toString()).filter(Boolean)).size;
 
-        // 5. "In Recruitment" Logic
+        // 6. "In Recruitment" Logic - Use filteredTeachers
         const employedStage = stages.find(s => s.title.includes('Employed'));
         const employedStageId = employedStage ? String(employedStage._id) : null;
-        const inRecruitmentCount = allTeachers.filter(t =>
+        const inRecruitmentCount = filteredTeachers.filter(t =>
             employedStageId ? String(t.pipelineStage) !== employedStageId : true
         ).length;
 
-        // 6. Expiry Alerts
-        const expiryAlerts = this.calculateExpiryAlerts(allTeachers, rules);
+        // 7. Expiry Alerts - Use filteredTeachers
+        const expiryAlerts = this.calculateExpiryAlerts(filteredTeachers, rules);
 
         const mappedAlerts: Record<string, any[]> = {
             arc: [],
@@ -78,11 +76,11 @@ export class StatsService {
             else mappedAlerts['other']!.push(alert);
         });
 
-        // 7. Charts
+        // 8. Charts
         return {
             kpi: {
                 totalTeachers,
-                activeSchools,
+                activeSchools: uniqueSchools,
                 inRecruitment: inRecruitmentCount,
                 actionsNeeded: expiryAlerts.length
             },

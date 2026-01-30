@@ -1,5 +1,6 @@
 import { Settings2, Square, CheckSquare, RotateCcw } from "lucide-react"
 import type { Table } from "@tanstack/react-table"
+import { useTranslation } from 'react-i18next';
 
 import { Button } from "@/components/ui/button"
 import {
@@ -34,6 +35,7 @@ interface DataTableViewOptionsProps<TData> {
 export function DataTableViewOptions<TData>({
     table,
 }: DataTableViewOptionsProps<TData>) {
+    const { t } = useTranslation('teachers');
 
     // Helper to get column by ID
     const getCol = (id: string) => table.getColumn(id);
@@ -117,23 +119,23 @@ export function DataTableViewOptions<TData>({
                     className="h-9"
                 >
                     <Settings2 className="mr-2 h-4 w-4" />
-                    Columns
+                    {t('columnVisibility.trigger')}
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-[220px] max-h-[80vh] overflow-y-auto">
-                <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
+                <DropdownMenuLabel>{t('columnVisibility.title')}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
 
                 {/* Select All / Deselect All / Default buttons */}
                 <div className="flex gap-1 px-2 py-1">
                     <Button variant="ghost" size="sm" className="h-7 flex-1 text-xs" onClick={selectAll}>
-                        <CheckSquare className="mr-1 h-3 w-3" /> All
+                        <CheckSquare className="mr-1 h-3 w-3" /> {t('columnVisibility.showAll')}
                     </Button>
                     <Button variant="ghost" size="sm" className="h-7 flex-1 text-xs" onClick={deselectAll}>
-                        <Square className="mr-1 h-3 w-3" /> None
+                        <Square className="mr-1 h-3 w-3" /> {t('columnVisibility.hideAll')}
                     </Button>
                     <Button variant="ghost" size="sm" className="h-7 flex-1 text-xs" onClick={resetToDefault}>
-                        <RotateCcw className="mr-1 h-3 w-3" /> Default
+                        <RotateCcw className="mr-1 h-3 w-3" /> {t('columnVisibility.default')}
                     </Button>
                 </div>
                 <DropdownMenuSeparator />

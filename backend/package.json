@@ -6,6 +6,7 @@
   "scripts": {
     "server": "tsx watch src/index.ts",
     "test": "vitest",
+    "build": "tsc",
     "migrate:projects": "tsx src/scripts/migrateProjects.ts"
   },
   "keywords": [],

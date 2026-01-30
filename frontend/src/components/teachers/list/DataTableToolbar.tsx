@@ -1,14 +1,16 @@
 import type { Table } from "@tanstack/react-table"
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DataTableViewOptions } from "./DataTableViewOptions"
 import { DataTableFacetedFilter } from "./DataTableFacetedFilter"
-import { Download, Trash2, X, Filter } from "lucide-react"
+import { Trash2, X, Filter } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { COLUMN_MAP } from "./columnConfig"
 import { FilterSheet } from "./filters/FilterSheet"
+import { ExportButton } from "@/components/common/ExportButton"
 
 interface DataTableToolbarProps<TData> {
     table: Table<TData>
@@ -24,6 +26,7 @@ export function DataTableToolbar<TData>({
     onDeleteSelected,
     actionButtons,
 }: DataTableToolbarProps<TData>) {
+    const { t } = useTranslation('teachers');
     const [filterSheetOpen, setFilterSheetOpen] = React.useState(false);
 
     const isFiltered = table.getState().columnFilters.length > 0
@@ -50,9 +53,11 @@ export function DataTableToolbar<TData>({
         });
     }, [table]);
 
-    const handleExport = () => {
+    const handleExportCSV = React.useCallback(() => {
         const rows = table.getFilteredRowModel().rows;
-        const visibleColumns = table.getVisibleLeafColumns().filter(col => col.id !== 'select' && col.id !== 'actions' && col.id !== 'avatar');
+        const visibleColumns = table.getVisibleLeafColumns().filter(
+            col => col.id !== 'select' && col.id !== 'actions' && col.id !== 'avatar'
+        );
 
         // Headers - use COLUMN_MAP for human-readable labels
         const headers = visibleColumns.map(col => {
@@ -60,7 +65,7 @@ export function DataTableToolbar<TData>({
             return colDef ? colDef.label : col.id;
         });
 
-        // Data
+        // Data rows
         const csvRows = rows.map(row => {
             return visibleColumns.map(col => {
                 let value = row.getValue(col.id);
@@ -74,7 +79,7 @@ export function DataTableToolbar<TData>({
                     value = JSON.stringify(value);
                 }
 
-                // Escape CSV
+                // Escape CSV special characters
                 const strValue = value === undefined || value === null ? '' : String(value);
                 if (strValue.includes(',') || strValue.includes('"') || strValue.includes('\n')) {
                     return `"${strValue.replace(/"/g, '""')}"`;
@@ -83,6 +88,7 @@ export function DataTableToolbar<TData>({
             }).join(',');
         });
 
+        // Generate and download CSV
         const csvContent = [headers.join(','), ...csvRows].join('\n');
         const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
@@ -94,7 +100,7 @@ export function DataTableToolbar<TData>({
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
-    };
+    }, [table, stageMap]);
 
     const activeFilterCount = table.getState().columnFilters.length;
 
@@ -125,7 +131,7 @@ export function DataTableToolbar<TData>({
             <div className="flex items-center gap-2">
                 {/* Search input */}
                 <Input
-                    placeholder="Search by name..."
+                    placeholder={t('filters.searchPlaceholder')}
                     value={globalFilter}
                     onChange={(event) =>
                         table.getColumn("englishName")?.setFilterValue(event.target.value)
@@ -144,7 +150,7 @@ export function DataTableToolbar<TData>({
                     onClick={() => setFilterSheetOpen(true)}
                 >
                     <Filter className="mr-2 h-4 w-4" />
-                    Filters
+                    {t('filters.filters')}
                     {activeFilterCount > 0 && (
                         <Badge variant="secondary" className="ml-2 rounded-full px-1.5">
                             {activeFilterCount}
@@ -164,7 +170,7 @@ export function DataTableToolbar<TData>({
                         className="h-9"
                     >
                         <Trash2 className="mr-2 h-4 w-4" />
-                        Delete ({selectedCount})
+                        {t('actions.delete')} ({selectedCount})
                     </Button>
                 )}
 
@@ -174,26 +180,21 @@ export function DataTableToolbar<TData>({
                 {/* Column visibility options */}
                 <DataTableViewOptions table={table} />
 
-                {/* Export button */}
-                <Button
-                    variant="outline"
-                    size="sm"
-                    className="h-9"
-                    onClick={handleExport}
-                    disabled={table.getFilteredRowModel().rows.length === 0}
-                >
-                    <Download className="mr-2 h-4 w-4" />
-                    Export
-                </Button>
+                {/* Export button with dropdown */}
+                <ExportButton
+                    onExportCSV={handleExportCSV}
+                    label={t('actions.export')}
+                    isLoading={table.getFilteredRowModel().rows.length === 0}
+                />
             </div>
 
             {/* Active filters row (conditional) */}
             {(isFiltered || globalFilter) && (
                 <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-sm text-muted-foreground">Active:</span>
+                    <span className="text-sm text-muted-foreground">{t('filters.activeFilters')}</span>
                     {globalFilter && (
                         <Badge variant="secondary" className="gap-1">
-                            Name: {globalFilter}
+                            {t('columns.englishName')}: {globalFilter}
                             <X
                                 className="h-3 w-3 cursor-pointer"
                                 onClick={() => table.getColumn("englishName")?.setFilterValue("")}
@@ -226,7 +227,7 @@ export function DataTableToolbar<TData>({
                             table.getColumn("englishName")?.setFilterValue("");
                         }}
                     >
-                        Clear all
+                        {t('filters.clearAll')}
                     </Button>
                 </div>
             )}

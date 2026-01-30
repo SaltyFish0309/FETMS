@@ -43,10 +43,10 @@ export function KPICard({
       <CardContent className="pt-5 pb-4 px-5">
         <div className="flex items-start justify-between">
           <div className="space-y-1">
-            <p className="text-sm font-medium text-slate-500 font-body">
+            <p className="text-sm font-medium text-muted-foreground font-body">
               {title}
             </p>
-            <p className="text-3xl font-bold text-slate-800 font-heading tracking-tight">
+            <p className="text-3xl font-bold text-foreground font-heading tracking-tight">
               {value}
             </p>
             {trend && (
@@ -59,7 +59,7 @@ export function KPICard({
             )}
           </div>
           <div className={cn(
-            "p-2.5 rounded-lg bg-slate-50",
+            "p-2.5 rounded-lg bg-muted",
             iconColor
           )}>
             <Icon className="h-5 w-5" />

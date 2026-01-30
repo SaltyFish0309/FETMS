@@ -68,4 +68,34 @@ export class ProjectController {
       res.status(500).json({ message: 'Error deleting project', error });
     }
   }
+
+  static async restoreProject(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      if (!id) {
+        return res.status(400).json({ message: 'Project ID is required' });
+      }
+      const project = await ProjectService.restoreProject(id);
+      if (!project) {
+        return res.status(404).json({ message: 'Not found' });
+      }
+      res.json(project);
+    } catch (error) {
+      res.status(500).json({ message: 'Error restoring project', error });
+    }
+  }
+
+  static async hardDeleteProject(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      if (!id) {
+        return res.status(400).json({ message: 'Project ID is required' });
+      }
+      await ProjectService.hardDeleteProject(id);
+      res.json({ message: 'Project permanently deleted' });
+    } catch (error: any) {
+      const statusCode = error.message === 'Project not found' ? 404 : 400;
+      res.status(statusCode).json({ message: error.message });
+    }
+  }
 }

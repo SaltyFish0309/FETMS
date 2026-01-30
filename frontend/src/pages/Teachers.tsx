@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { teacherService, type Teacher } from "@/services/teacherService";
 import { useProjectContext } from "@/contexts/ProjectContext";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -25,11 +26,13 @@ import { Plus, Search } from "lucide-react";
 import { TeacherKanbanBoard } from "@/components/teachers/TeacherKanbanBoard";
 import { ImportTeachersDialog } from "@/components/teachers/ImportTeachersDialog";
 import { DataTable } from "@/components/teachers/list/DataTable";
-import { columns } from "@/components/teachers/list/columns";
+import { useTeacherColumns } from "@/components/teachers/list/columns";
 import { ViewModeToggle } from "@/components/teachers/list/ViewModeToggle";
 
 export default function Teachers() {
+    const { t } = useTranslation('teachers');
     const { selectedProjectId } = useProjectContext();
+    const columns = useTeacherColumns();
     const [teachers, setTeachers] = useState<Teacher[]>([]);
     const [stages, setStages] = useState<{ _id: string; title: string }[]>([]);
     const [viewMode, setViewMode] = useState<'list' | 'kanban'>('list');
@@ -124,8 +127,8 @@ export default function Teachers() {
         <div className="space-y-8">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-slate-900">Teachers</h1>
-                    <p className="text-slate-500 mt-2">Manage your Foreign English Teachers.</p>
+                    <h1 className="text-3xl font-bold tracking-tight text-foreground">{t('pageTitle')}</h1>
+                    <p className="text-muted-foreground mt-2">{t('pageDescription')}</p>
                 </div>
                 <ViewModeToggle value={viewMode} onChange={setViewMode} />
             </div>
@@ -148,16 +151,16 @@ export default function Teachers() {
                             <Dialog open={isOpen} onOpenChange={setIsOpen}>
                                 <DialogTrigger asChild>
                                     <Button size="sm" className="h-9 bg-blue-600 hover:bg-blue-700">
-                                        <Plus className="mr-2 h-4 w-4" /> Add Teacher
+                                        <Plus className="mr-2 h-4 w-4" /> {t('actions.addTeacher')}
                                     </Button>
                                 </DialogTrigger>
                                 <DialogContent>
                                     <DialogHeader>
-                                        <DialogTitle>Add New Teacher</DialogTitle>
+                                        <DialogTitle>{t('dialog.addTitle')}</DialogTitle>
                                     </DialogHeader>
                                     <form onSubmit={handleSubmit} className="space-y-4">
                                         <div className="grid gap-2">
-                                            <Label htmlFor="firstName">First Name</Label>
+                                            <Label htmlFor="firstName">{t('dialog.firstName')}</Label>
                                             <Input
                                                 id="firstName"
                                                 value={formData.firstName}
@@ -166,7 +169,7 @@ export default function Teachers() {
                                             />
                                         </div>
                                         <div className="grid gap-2">
-                                            <Label htmlFor="middleName">Middle Name</Label>
+                                            <Label htmlFor="middleName">{t('dialog.middleName')}</Label>
                                             <Input
                                                 id="middleName"
                                                 value={formData.middleName}
@@ -174,7 +177,7 @@ export default function Teachers() {
                                             />
                                         </div>
                                         <div className="grid gap-2">
-                                            <Label htmlFor="lastName">Last Name</Label>
+                                            <Label htmlFor="lastName">{t('dialog.lastName')}</Label>
                                             <Input
                                                 id="lastName"
                                                 value={formData.lastName}
@@ -183,7 +186,7 @@ export default function Teachers() {
                                             />
                                         </div>
                                         <div className="grid gap-2">
-                                            <Label htmlFor="email">Email</Label>
+                                            <Label htmlFor="email">{t('dialog.email')}</Label>
                                             <Input
                                                 id="email"
                                                 type="email"
@@ -192,7 +195,7 @@ export default function Teachers() {
                                                 required
                                             />
                                         </div>
-                                        <Button type="submit" className="w-full">Create Teacher</Button>
+                                        <Button type="submit" className="w-full">{t('dialog.createTeacher')}</Button>
                                     </form>
                                 </DialogContent>
                             </Dialog>
@@ -203,9 +206,9 @@ export default function Teachers() {
                 <>
                     <div className="flex items-center gap-2 mb-4">
                         <div className="relative flex-1 max-w-sm">
-                            <Search className="absolute left-2 top-2.5 h-4 w-4 text-slate-500" />
+                            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                             <Input
-                                placeholder="Search by name or school..."
+                                placeholder={t('filters.searchPlaceholderKanban')}
                                 className="pl-8"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -222,15 +225,15 @@ export default function Teachers() {
             <AlertDialog open={showDeleteAlert} onOpenChange={setShowDeleteAlert}>
                 <AlertDialogContent>
                     <AlertDialogHeader>
-                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogTitle>{t('dialog.deleteTitle')}</AlertDialogTitle>
                         <AlertDialogDescription>
-                            This action cannot be undone. This will permanently delete {selectedIds.size} teacher(s) and remove all associated data, including uploaded documents and profile information.
+                            {t('dialog.deleteDescription', { count: selectedIds.size })}
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogCancel>{t('actions.cancel')}</AlertDialogCancel>
                         <AlertDialogAction onClick={handleConfirmDelete} className="bg-red-600 hover:bg-red-700">
-                            Delete
+                            {t('actions.delete')}
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>

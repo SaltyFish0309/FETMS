@@ -14,7 +14,7 @@ describe('ViewModeToggle', () => {
     render(<ViewModeToggle value="list" onChange={() => {}} />);
 
     const listButton = screen.getByRole('button', { name: /list/i });
-    expect(listButton).toHaveClass('bg-white');
+    expect(listButton).toHaveClass('bg-card');
   });
 
   it('calls onChange when mode is switched', () => {

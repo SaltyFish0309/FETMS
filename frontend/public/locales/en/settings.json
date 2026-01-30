@@ -1,0 +1,345 @@
+{
+  "title": "Settings",
+  "subtitle": "Manage application settings and preferences.",
+  "sections": {
+    "projectManagement": {
+      "title": "Project Management",
+      "description": "Create, edit, and archive projects"
+    },
+    "alertRules": {
+      "title": "Alert Rules",
+      "description": "Configure document expiry alerts"
+    },
+    "pipelineStages": {
+      "title": "Pipeline Stages",
+      "description": "Manage recruitment pipeline stages"
+    },
+    "userPreferences": {
+      "title": "User Preferences",
+      "description": "Customize application theme and appearance"
+    },
+    "dataImport": {
+      "title": "Data Import",
+      "description": "Import teachers and schools from external sources"
+    }
+  },
+  "actions": {
+    "manageSettings": "Manage settings"
+  },
+  "projects": {
+    "page": {
+      "title": "Project Settings",
+      "subtitle": "Manage recruitment projects and templates",
+      "addButton": "Create Project"
+    },
+    "table": {
+      "columns": {
+        "name": "Project Name",
+        "description": "Description",
+        "status": "Status",
+        "createdAt": "Created",
+        "actions": "Actions",
+        "code": "Code"
+      },
+      "empty": "No projects yet"
+    },
+    "dialog": {
+      "createTitle": "Create Project",
+      "editTitle": "Edit Project",
+      "description": "Set up a new recruitment project",
+      "editDescription": "Modify project details",
+      "fields": {
+
+        "name": {
+          "label": "Project Name",
+          "placeholder": "Enter project name"
+        },
+        "code": {
+          "label": "Project Code",
+          "placeholder": "Enter project code"
+        },
+        "description": {
+          "label": "Description",
+          "placeholder": "Enter project description"
+        },
+        "status": {
+          "label": "Status",
+          "active": "Active",
+          "inactive": "Inactive"
+        }
+      },
+      "buttons": {
+        "cancel": "Cancel",
+        "create": "Create",
+        "save": "Save Changes"
+      }
+    },
+    "toast": {
+      "createSuccess": "Project created successfully",
+      "updateSuccess": "Project updated successfully",
+      "deleteSuccess": "Project archived successfully",
+      "restoreSuccess": "Project restored successfully",
+      "hardDeleteSuccess": "Project permanently deleted",
+      "error": "Operation failed"
+    },
+    "deleteConfirm": {
+      "title": "Archive Project",
+      "description": "Are you sure you want to archive this project? It can be restored later.",
+      "hardDeleteTitle": "Delete Project Permanently",
+      "hardDeleteDescription": "Are you sure you want to permanently delete this project? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Archive",
+      "hardDeleteConfirm": "Delete Permanently"
+    },
+    "status": {
+      "active": "Active",
+      "archived": "Archived"
+    },
+    "actions": {
+      "edit": "Edit",
+      "archive": "Archive",
+      "restore": "Restore",
+      "deletePermanently": "Delete Permanently"
+    }
+  },
+  "stages": {
+    "page": {
+      "title": "Pipeline Stages",
+      "subtitle": "Customize recruitment pipeline stages",
+      "addButton": "Add Stage",
+      "reorderHint": "Drag to reorder stages"
+    },
+    "dialog": {
+      "title": "Create Stage",
+      "description": "Add a new stage to the recruitment pipeline",
+      "fields": {
+        "name": {
+          "label": "Stage Name",
+          "placeholder": "Enter stage name"
+        },
+        "description": {
+          "label": "Description",
+          "placeholder": "Enter stage description"
+        },
+        "color": {
+          "label": "Color",
+          "placeholder": "Select color"
+        }
+      },
+      "buttons": {
+        "cancel": "Cancel",
+        "create": "Create Stage"
+      }
+    },
+    "item": {
+      "dragHandle": "Drag to reorder",
+      "edit": "Edit",
+      "delete": "Delete",
+      "order": "Order: {{order}}"
+    },
+    "toast": {
+      "createSuccess": "Stage created successfully",
+      "updateSuccess": "Stage updated successfully",
+      "deleteSuccess": "Stage deleted successfully",
+      "reorderSuccess": "Stages reordered successfully",
+      "error": "Operation failed"
+    },
+    "deleteConfirm": {
+        "message": "Are you sure? All teachers in this stage will be moved to Uncategorized."
+    }
+  },
+  "preferences": {
+    "page": {
+      "title": "Preferences",
+      "subtitle": "Customize your experience"
+    },
+    "sections": {
+      "appearance": {
+        "title": "Appearance",
+        "description": "Customize how the application looks properly on your device.",
+        "theme": {
+          "label": "Theme",
+          "description": "Select your preferred color theme",
+          "light": "Light",
+          "dark": "Dark",
+          "system": "System"
+        },
+        "fontSize": {
+          "label": "Font Size",
+          "description": "Adjust text size across the application",
+          "small": "Small",
+          "medium": "Medium",
+          "large": "Large"
+        },
+        "density": {
+          "label": "Display Density",
+          "description": "Adjust spacing and padding across the interface",
+          "compact": "Compact",
+          "comfortable": "Comfortable",
+          "spacious": "Spacious"
+        }
+      },
+      "language": {
+        "title": "Language & Region",
+        "description": "Manage your language preferences and regional settings.",
+        "language": {
+          "label": "Language",
+          "description": "Select your preferred interface language",
+          "en": "English",
+          "zhTW": "繁體中文"
+        }
+      },
+      "accessibility": {
+        "title": "Accessibility",
+        "description": "Configure accessibility options for a more comfortable experience.",
+        "reducedMotion": {
+          "label": "Reduced Motion",
+          "description": "Minimize animations and transitions throughout the interface",
+          "systemDetected": "System preference for reduced motion detected"
+        }
+      }
+    },
+    "reset": {
+      "title": "Reset Preferences",
+      "description": "Reset all preferences to their default values",
+      "button": "Reset All",
+      "dialog": {
+        "title": "Reset All Preferences?",
+        "description": "This will reset font size, display density, and reduced motion to their default values. Theme and language preferences are not affected.",
+        "cancel": "Cancel",
+        "confirm": "Reset All"
+      }
+    }
+  },
+  "import": {
+    "page": {
+      "title": "Data Import",
+      "subtitle": "Import data from external sources"
+    },
+    "sections": {
+      "bulkImport": {
+        "title": "Bulk Import",
+        "description": "Upload CSV or Excel files to import multiple records at once.",
+        "comingSoon": "Coming Soon",
+        "comingSoonDesc": "Bulk import functionality for Teachers and Schools will be available in a future update."
+      },
+      "import": {
+        "title": "Import Data",
+        "description": "Upload CSV files to import teachers or schools",
+        "teachers": "Import Teachers",
+        "schools": "Import Schools"
+      },
+      "export": {
+        "title": "Export Data",
+        "description": "Download your data in CSV format",
+        "teachers": "Export Teachers",
+        "schools": "Export Schools",
+        "allData": "Export All Data"
+      },
+      "templates": {
+        "title": "CSV Templates",
+        "description": "Download template files for imports",
+        "teachersTemplate": "Download Teachers Template",
+        "schoolsTemplate": "Download Schools Template"
+      }
+    },
+    "toast": {
+      "exportSuccess": "Data exported successfully",
+      "exportError": "Export failed"
+    }
+  },
+  "alertRulesTable": {
+    "headers": {
+      "name": "Name",
+      "documentType": "Document Type",
+      "condition": "Condition",
+      "value": "Value",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "documentTypes": {
+      "arcDetails": "ARC",
+      "workPermitDetails": "Work Permit",
+      "passportDetails": "Passport"
+    },
+    "conditionTypes": {
+      "daysRemaining": "Days Remaining",
+      "dateThreshold": "Date Threshold"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "noResults": "No alert rules found. Click \"Add Rule\" to create one.",
+    "daysFormat": "{{value}} days"
+  },
+  "alerts": {
+    "page": {
+      "title": "Alert Settings",
+      "subtitle": "Manage notification rules for document expiration",
+      "addButton": "Add Alert Rule"
+    },
+    "dialog": {
+      "createTitle": "Create Alert Rule",
+      "editTitle": "Edit Alert Rule",
+      "description": "Set up automated alerts for expiring documents",
+      "fields": {
+        "name": {
+          "label": "Rule Name",
+          "placeholder": "e.g., ARC Expiring Soon"
+        },
+        "documentType": {
+          "label": "Document Type",
+          "placeholder": "Select document type"
+        },
+        "condition": {
+          "label": "Alert Condition",
+          "placeholder": "Select condition"
+        },
+        "daysThreshold": {
+          "label": "Days Threshold",
+          "placeholder": "Enter number of days"
+        },
+        "value": {
+          "daysLabel": "Days",
+          "dateLabel": "Date"
+        },
+        "status": {
+          "label": "Status",
+          "placeholder": "Select status"
+        }
+      },
+      "conditions": {
+        "expiresBefore": "Expires Before",
+        "expiresAfter": "Expires After"
+      },
+      "statuses": {
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "buttons": {
+        "cancel": "Cancel",
+        "create": "Create",
+        "save": "Save Changes"
+      }
+    },
+    "toast": {
+      "loadError": "Failed to load alert rules",
+      "createSuccess": "Alert rule created successfully",
+      "updateSuccess": "Alert rule updated successfully",
+      "saveError": "Failed to save alert rule",
+      "deleteSuccess": "Alert rule deleted successfully",
+      "deleteError": "Failed to delete alert rule"
+    },
+    "deleteConfirm": {
+      "title": "Delete Alert Rule",
+      "description": "Are you sure you want to delete this alert rule? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete"
+    }
+  }
+}
