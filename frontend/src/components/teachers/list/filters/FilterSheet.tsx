@@ -62,9 +62,9 @@ export function FilterSheet<TData>({
     if (!searchQuery) return visibleFilterableColumns;
     const query = searchQuery.toLowerCase();
     return visibleFilterableColumns.filter(col =>
-      col.label.toLowerCase().includes(query)
+      t(col.labelKey).toLowerCase().includes(query)
     );
-  }, [visibleFilterableColumns, searchQuery]);
+  }, [visibleFilterableColumns, searchQuery, t]);
 
   // Group filtered columns
   const groupedColumns = React.useMemo(() => {
@@ -179,7 +179,7 @@ export function FilterSheet<TData>({
                       {group.columns.map(col => (
                         <div key={col.id} className="flex flex-col gap-1">
                           <span className="text-xs text-muted-foreground">
-                            {col.label}
+                            {t(col.labelKey)}
                           </span>
                           {renderFilter(col)}
                         </div>

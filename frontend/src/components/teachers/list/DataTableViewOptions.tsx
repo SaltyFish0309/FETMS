@@ -43,7 +43,7 @@ export function DataTableViewOptions<TData>({
     // Get human-readable label for a column
     const getColumnLabel = (colId: string): string => {
         const colDef = COLUMN_MAP.get(colId);
-        if (colDef) return colDef.label;
+        if (colDef) return t(colDef.labelKey);
         return colId;
     };
 
