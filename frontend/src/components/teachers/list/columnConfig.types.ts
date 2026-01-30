@@ -23,6 +23,6 @@ export interface ColumnDef {
  */
 export interface GroupLabel {
     id: string;
-    label: string;
+    labelKey: string;
     columnIds: string[];
 }

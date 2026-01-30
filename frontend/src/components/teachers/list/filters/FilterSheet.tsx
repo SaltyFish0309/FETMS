@@ -169,7 +169,7 @@ export function FilterSheet<TData>({
               {groupedColumns.map(group => (
                 <AccordionItem key={group.id} value={group.id}>
                   <AccordionTrigger className="text-sm font-medium">
-                    {group.label}
+                    {t(group.labelKey)}
                     <Badge variant="outline" className="ml-2">
                       {group.columns.length}
                     </Badge>

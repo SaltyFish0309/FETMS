@@ -142,7 +142,7 @@ export const ALL_COLUMNS: ColumnDef[] = [
 export const GROUP_LABELS: GroupLabel[] = [
     {
         id: 'personalInfo',
-        label: '個人基本資訊',
+        labelKey: 'groups.personalInfo',
         columnIds: [
             'hiringStatus', 'chineseName', 'englishName', 'email', 'phone', 'dob', 'gender',
             'nationalityEn', 'nationalityCn', 'addressTaiwan', 'addressHome',
@@ -151,12 +151,12 @@ export const GROUP_LABELS: GroupLabel[] = [
     },
     {
         id: 'education',
-        label: 'Education',
+        labelKey: 'groups.education',
         columnIds: ['degree', 'major', 'school'],
     },
     {
         id: 'legalDocs',
-        label: 'Legal Documents',
+        labelKey: 'groups.legalDocs',
         columnIds: [
             'passportNumber', 'passportExpiry', 'passportIssueDate', 'passportCountry', 'passportAuthority',
             'arcExpiry', 'arcPurpose',
@@ -166,7 +166,7 @@ export const GROUP_LABELS: GroupLabel[] = [
     },
     {
         id: 'employment',
-        label: 'Employment',
+        labelKey: 'groups.employment',
         columnIds: [
             'serviceSchool', 'contractStart', 'contractEnd', 'payStart', 'payEnd',
             'salary', 'senioritySalary', 'seniorityLeave',

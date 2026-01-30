@@ -161,7 +161,7 @@ export function DataTableViewOptions<TData>({
                                         <Square className="h-4 w-4 text-muted-foreground" />
                                     )}
                                 </div>
-                                <span className="text-sm font-medium">{group.label}</span>
+                                <span className="text-sm font-medium">{t(group.labelKey)}</span>
                             </div>
 
                             {/* Individual columns (only hideable ones) */}

@@ -50,6 +50,12 @@
     "estimatedPromotedSalary": "Est. Promoted Salary",
     "currentStage": "Current Stage"
   },
+  "groups": {
+    "personalInfo": "Personal Information",
+    "education": "Education",
+    "legalDocs": "Legal Documents",
+    "employment": "Employment"
+  },
   "filters": {
     "searchPlaceholder": "Search by name...",
     "searchPlaceholderKanban": "Search by name or school...",
