@@ -21,7 +21,10 @@
       "Bash(npm test:*)",
       "Bash(npm run lint)",
       "Bash(npx eslint:*)",
-      "WebSearch"
+      "WebSearch",
+      "mcp__context7__query-docs",
+      "mcp__context7__resolve-library-id",
+      "Bash(npm run lint:*)"
     ]
   },
   "enabledPlugins": {
