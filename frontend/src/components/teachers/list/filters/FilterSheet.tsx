@@ -62,7 +62,7 @@ export function FilterSheet<TData>({
     if (!searchQuery) return visibleFilterableColumns;
     const query = searchQuery.toLowerCase();
     return visibleFilterableColumns.filter(col =>
-      t(col.labelKey).toLowerCase().includes(query)
+      String(t(col.labelKey as never)).toLowerCase().includes(query)
     );
   }, [visibleFilterableColumns, searchQuery, t]);
 
@@ -90,7 +90,7 @@ export function FilterSheet<TData>({
           <DataTableFacetedFilter
             key={colDef.id}
             column={column}
-            title={colDef.label}
+            title={t(colDef.labelKey as never)}
             options={colDef.filterOptions?.map(opt => ({ label: opt, value: opt }))}
             stageMap={colDef.id === 'pipelineStage' ? stageMap : undefined}
           />
@@ -100,7 +100,7 @@ export function FilterSheet<TData>({
         return (
           <DateRangeFilter
             key={colDef.id}
-            title={colDef.label}
+            title={t(colDef.labelKey as never)}
             value={column.getFilterValue() as DateRangeValue | undefined}
             onChange={(value) => column.setFilterValue(value)}
           />
@@ -110,7 +110,7 @@ export function FilterSheet<TData>({
         return (
           <NumberRangeFilter
             key={colDef.id}
-            title={colDef.label}
+            title={t(colDef.labelKey as never)}
             value={column.getFilterValue() as NumberRangeValue | undefined}
             onChange={(value) => column.setFilterValue(value)}
           />
@@ -120,7 +120,7 @@ export function FilterSheet<TData>({
         return (
           <Input
             key={colDef.id}
-            placeholder={`Filter ${colDef.label}...`}
+            placeholder={`Filter ${t(colDef.labelKey as never)}...`}
             value={(column.getFilterValue() as string) ?? ''}
             onChange={(e) => column.setFilterValue(e.target.value || undefined)}
             className="h-8 w-full"
@@ -169,7 +169,7 @@ export function FilterSheet<TData>({
               {groupedColumns.map(group => (
                 <AccordionItem key={group.id} value={group.id}>
                   <AccordionTrigger className="text-sm font-medium">
-                    {t(group.labelKey)}
+                    {t(group.labelKey as never)}
                     <Badge variant="outline" className="ml-2">
                       {group.columns.length}
                     </Badge>
@@ -179,7 +179,7 @@ export function FilterSheet<TData>({
                       {group.columns.map(col => (
                         <div key={col.id} className="flex flex-col gap-1">
                           <span className="text-xs text-muted-foreground">
-                            {t(col.labelKey)}
+                            {t(col.labelKey as never)}
                           </span>
                           {renderFilter(col)}
                         </div>

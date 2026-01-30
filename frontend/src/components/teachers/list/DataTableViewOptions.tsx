@@ -43,7 +43,7 @@ export function DataTableViewOptions<TData>({
     // Get human-readable label for a column
     const getColumnLabel = (colId: string): string => {
         const colDef = COLUMN_MAP.get(colId);
-        if (colDef) return t(colDef.labelKey);
+        if (colDef) return t(colDef.labelKey as never);
         return colId;
     };
 
@@ -161,7 +161,7 @@ export function DataTableViewOptions<TData>({
                                         <Square className="h-4 w-4 text-muted-foreground" />
                                     )}
                                 </div>
-                                <span className="text-sm font-medium">{t(group.labelKey)}</span>
+                                <span className="text-sm font-medium">{t(group.labelKey as never)}</span>
                             </div>
 
                             {/* Individual columns (only hideable ones) */}

@@ -62,7 +62,7 @@ export function DataTableToolbar<TData>({
         // Headers - use COLUMN_MAP for human-readable labels
         const headers = visibleColumns.map(col => {
             const colDef = COLUMN_MAP.get(col.id);
-            return colDef ? colDef.label : col.id;
+            return colDef ? t(colDef.labelKey as never) : col.id;
         });
 
         // Data rows
@@ -107,7 +107,7 @@ export function DataTableToolbar<TData>({
     // Helper to get filter label
     const getFilterLabel = (filterId: string): string => {
         const colDef = COLUMN_MAP.get(filterId);
-        return colDef?.label ?? filterId;
+        return colDef ? t(colDef.labelKey as never) : filterId;
     };
 
     // Helper to render quick filter
