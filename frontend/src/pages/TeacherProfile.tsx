@@ -395,9 +395,9 @@ export default function TeacherProfile() {
                             </div>
 
                             <div className="flex flex-wrap gap-2 pt-1">
-                                    {teacher.personalInfo?.hiringStatus && (
+                                {teacher.personalInfo?.hiringStatus && (
                                     <Badge variant="secondary" className="bg-green-50 text-green-700 border-green-100">
-                                        {t(('enums.status.' + teacher.personalInfo.hiringStatus.toLowerCase().replace(/\s+/g, '_').replace(/-/g, '_')) as any)}
+                                        {t(('enums.status.' + teacher.personalInfo.hiringStatus.toLowerCase().replace(/\s+/g, '_').replace(/-/g, '_')) as string)}
                                     </Badge>
                                 )}
                                 {teacher.personalInfo?.nationality?.english && (
@@ -424,20 +424,20 @@ export default function TeacherProfile() {
                         <Label className="text-lg font-semibold text-foreground">{t('profile.remarks')}</Label>
                         {/* Save Button for Remarks */}
                         {formData.remarks !== teacher.remarks && (
-                                <Button
-                                    size="sm"
-                                    onClick={async () => {
-                                        if (!id) return;
-                                        try {
-                                            const updated = await teacherService.update(id, { remarks: formData.remarks });
-                                            setTeacher(updated);
-                                            setFormData(prev => ({ ...prev, remarks: updated.remarks }));
-                                            toast.success(t('profile.messages.remarksSuccess'));
-                                        } catch { toast.error(t('profile.messages.remarksError')); }
-                                    }}
-                                >
-                                    <Save className="w-4 h-4 mr-1" /> {t('actions.save')}
-                                </Button>
+                            <Button
+                                size="sm"
+                                onClick={async () => {
+                                    if (!id) return;
+                                    try {
+                                        const updated = await teacherService.update(id, { remarks: formData.remarks });
+                                        setTeacher(updated);
+                                        setFormData(prev => ({ ...prev, remarks: updated.remarks }));
+                                        toast.success(t('profile.messages.remarksSuccess'));
+                                    } catch { toast.error(t('profile.messages.remarksError')); }
+                                }}
+                            >
+                                <Save className="w-4 h-4 mr-1" /> {t('actions.save')}
+                            </Button>
                         )}
                     </div>
                     <textarea

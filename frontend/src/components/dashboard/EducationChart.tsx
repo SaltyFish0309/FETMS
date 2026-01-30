@@ -15,7 +15,7 @@ export function EducationChart({ data, onClick }: EducationChartProps) {
     const translatedData = data.map(item => ({
         ...item,
         originalName: item.name,
-        name: tTeachers(`enums.degree.${item.name.toLowerCase().replace(/\s+/g, '_')}` as any)
+        name: tTeachers(`enums.degree.${item.name.toLowerCase().replace(/\s+/g, '_')}` as string)
     }));
 
     return (
@@ -38,10 +38,10 @@ export function EducationChart({ data, onClick }: EducationChartProps) {
                             <Tooltip
                                 cursor={{ fill: 'transparent' }}
                                 contentStyle={{
-                                  backgroundColor: 'var(--color-popover)',
-                                  border: '1px solid var(--color-border)',
-                                  borderRadius: '8px',
-                                  color: 'var(--color-popover-foreground)',
+                                    backgroundColor: 'var(--color-popover)',
+                                    border: '1px solid var(--color-border)',
+                                    borderRadius: '8px',
+                                    color: 'var(--color-popover-foreground)',
                                 }}
                                 itemStyle={{ color: 'var(--color-popover-foreground)' }}
                                 labelStyle={{ color: 'var(--color-popover-foreground)' }}
