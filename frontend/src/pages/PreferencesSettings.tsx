@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { LanguageToggle } from '@/components/ui/language-toggle';
 import { ArrowLeft } from 'lucide-react';
@@ -49,6 +50,29 @@ export default function PreferencesSettings() {
                             <div id="theme-toggle">
                                 <ThemeToggle />
                             </div>
+                        </div>
+                        <div className="flex items-center justify-between">
+                            <Label htmlFor="font-size" className="flex flex-col gap-1">
+                                <span>{t('preferences.sections.appearance.fontSize.label')}</span>
+                                <span className="font-normal text-sm text-muted-foreground">
+                                    {t('preferences.sections.appearance.fontSize.description')}
+                                </span>
+                            </Label>
+                            <Select
+                                value={preferences.fontSize}
+                                onValueChange={(value: 'small' | 'medium' | 'large') =>
+                                    updatePreferences({ fontSize: value })
+                                }
+                            >
+                                <SelectTrigger id="font-size" className="w-[140px]">
+                                    <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="small">{t('preferences.sections.appearance.fontSize.small')}</SelectItem>
+                                    <SelectItem value="medium">{t('preferences.sections.appearance.fontSize.medium')}</SelectItem>
+                                    <SelectItem value="large">{t('preferences.sections.appearance.fontSize.large')}</SelectItem>
+                                </SelectContent>
+                            </Select>
                         </div>
                     </CardContent>
                 </Card>

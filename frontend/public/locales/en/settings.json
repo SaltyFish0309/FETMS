@@ -161,6 +161,13 @@
           "light": "Light",
           "dark": "Dark",
           "system": "System"
+        },
+        "fontSize": {
+          "label": "Font Size",
+          "description": "Adjust text size across the application",
+          "small": "Small",
+          "medium": "Medium",
+          "large": "Large"
         }
       },
       "language": {

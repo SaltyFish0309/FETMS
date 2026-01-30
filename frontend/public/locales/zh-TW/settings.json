@@ -161,6 +161,13 @@
           "light": "淺色",
           "dark": "深色",
           "system": "系統"
+        },
+        "fontSize": {
+          "label": "字體大小",
+          "description": "調整應用程式的文字大小",
+          "small": "小",
+          "medium": "中",
+          "large": "大"
         }
       },
       "language": {
