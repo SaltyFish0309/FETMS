@@ -27,7 +27,7 @@ export function DemographicsChart({
   // Translate hiring status data
   const translatedHiringStatusData = hiringStatusData.map(item => ({
     ...item,
-    name: tTeachers(`enums.status.${item.name.toLowerCase()}`, item.name)
+    name: tTeachers(`enums.status.${item.name.toLowerCase().replace(/\s+/g, '_').replace(/-/g, '_')}`, item.name)
   }));
 
   return (

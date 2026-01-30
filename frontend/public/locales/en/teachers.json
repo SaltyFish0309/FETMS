@@ -83,8 +83,8 @@
   },
   "enums": {
     "status": {
-      "newly hired": "Newly Hired",
-      "re-hired": "Re-Hired"
+      "newly_hired": "Newly Hired",
+      "re_hired": "Re-Hired"
     },
     "gender": {
       "male": "Male",

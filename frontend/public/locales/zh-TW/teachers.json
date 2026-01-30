@@ -83,8 +83,8 @@
   },
   "enums": {
     "status": {
-      "newly hired": "新聘",
-      "re-hired": "續聘"
+      "newly_hired": "新聘",
+      "re_hired": "續聘"
     },
     "gender": {
       "male": "男性",
