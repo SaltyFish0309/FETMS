@@ -58,6 +58,11 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
     document.documentElement.setAttribute('data-font-size', preferences.fontSize);
   }, [preferences.fontSize]);
 
+  // Apply density preference to DOM for CSS custom properties
+  useEffect(() => {
+    document.documentElement.setAttribute('data-density', preferences.density);
+  }, [preferences.density]);
+
   // Update preferences with partial updates
   const updatePreferences = useCallback((updates: Partial<UserPreferences>) => {
     setPreferences((prev) => ({
