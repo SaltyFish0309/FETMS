@@ -219,6 +219,42 @@
     transition: none !important;
   }
 
+  /* ============================================
+     ANIMATION OVERRIDE SYSTEM
+     User preference overrides OS settings
+     ============================================ */
+
+  /* Priority 2: Respect OS preference */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Priority 3: User override (HIGHEST) */
+  [data-reduced-motion="false"] *,
+  [data-reduced-motion="false"] *::before,
+  [data-reduced-motion="false"] *::after {
+    animation-duration: revert !important;
+    animation-iteration-count: revert !important;
+    transition-duration: revert !important;
+    scroll-behavior: revert !important;
+  }
+
+  [data-reduced-motion="true"] *,
+  [data-reduced-motion="true"] *::before,
+  [data-reduced-motion="true"] *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
   /* Apply density scaling to main content area */
   main {
     padding: var(--density-padding-lg) !important;
