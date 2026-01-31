@@ -21,10 +21,8 @@
     "date-fns": "^4.1.0",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
-    "form-data": "^4.0.5",
     "mongoose": "^9.0.0",
-    "multer": "^2.0.2",
-    "node-fetch": "^3.3.2"
+    "multer": "^2.0.2"
   },
   "devDependencies": {
     "@types/archiver": "^7.0.0",
