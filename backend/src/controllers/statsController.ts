@@ -4,7 +4,7 @@ import { StatsService } from '../services/statsService.js';
 export class StatsController {
     static async getDashboardStats(req: Request, res: Response) {
         try {
-            const data = await StatsService.getDashboardStats(req.query as any);
+            const data = await StatsService.getDashboardStats(req.query as Record<string, string | undefined>);
             res.json(data);
         } catch (error) {
             console.error('Stats Error:', error);

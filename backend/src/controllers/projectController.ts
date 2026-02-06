@@ -93,9 +93,10 @@ export class ProjectController {
       }
       await ProjectService.hardDeleteProject(id);
       res.json({ message: 'Project permanently deleted' });
-    } catch (error: any) {
-      const statusCode = error.message === 'Project not found' ? 404 : 400;
-      res.status(statusCode).json({ message: error.message });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      const statusCode = message === 'Project not found' ? 404 : 400;
+      res.status(statusCode).json({ message });
     }
   }
 }

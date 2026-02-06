@@ -8,8 +8,10 @@ const router = express.Router();
 const upload = multer({ dest: 'uploads/' });
 
 // Helper to unflatten dot-notation keys
-const unflatten = (data: any) => {
-    const result: any = {};
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const unflatten = (data: Record<string, unknown>): Record<string, any> => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result: Record<string, any> = {};
     for (const i in data) {
         const keys = i.split('.');
         keys.reduce((acc, value, index) => {
@@ -29,7 +31,7 @@ router.post('/import', upload.single('file'), (req, res) => {
         return res.status(400).json({ message: 'No file uploaded' });
     }
 
-    const results: any[] = [];
+    const results: Record<string, unknown>[] = [];
 
     fs.createReadStream(req.file.path)
         .pipe(csv({
@@ -37,7 +39,7 @@ router.post('/import', upload.single('file'), (req, res) => {
         }))
         .on('data', (data) => {
             // 1. Clean raw data first
-            const cleanedRaw: any = {};
+            const cleanedRaw: Record<string, unknown> = {};
             Object.keys(data).forEach(key => {
                 let value = data[key];
 
@@ -77,24 +79,25 @@ router.post('/import', upload.single('file'), (req, res) => {
                     count: result.length,
                     total: results.length
                 });
-            } catch (error: any) {
+            } catch (error: unknown) {
                 // Clean up file
                 if (req.file && fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
 
-                if (error.name === 'MongoBulkWriteError') {
+                const err = error as { name?: string; result?: { nInserted: number }; writeErrors?: Array<{ index: number; errmsg: string }>; errors?: unknown; message?: string };
+                if (err.name === 'MongoBulkWriteError') {
                     res.status(207).json({
                         message: 'Partial import completed',
-                        insertedCount: error.result.nInserted,
-                        writeErrors: error.writeErrors.map((e: any) => ({
+                        insertedCount: err.result?.nInserted,
+                        writeErrors: err.writeErrors?.map((e) => ({
                             index: e.index,
                             message: e.errmsg
                         }))
                     });
-                } else if (error.name === 'ValidationError') {
-                    res.status(400).json({ message: 'Validation Error', details: error.errors });
+                } else if (err.name === 'ValidationError') {
+                    res.status(400).json({ message: 'Validation Error', details: err.errors });
                 } else {
                     console.error('Import error:', error);
-                    res.status(500).json({ message: 'Import failed', error: error.message });
+                    res.status(500).json({ message: 'Import failed', error: err.message });
                 }
             }
         });

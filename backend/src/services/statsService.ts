@@ -1,7 +1,7 @@
-import Teacher from '../models/Teacher.js';
+import Teacher, { ITeacher } from '../models/Teacher.js';
 import School from '../models/School.js';
-import Stage from '../models/Stage.js';
-import AlertRule from '../models/AlertRule.js';
+import Stage, { IStage } from '../models/Stage.js';
+import AlertRule, { IAlertRule } from '../models/AlertRule.js';
 import { startOfDay, addDays } from 'date-fns';
 import mongoose from 'mongoose';
 
@@ -14,6 +14,17 @@ interface StatsFilter {
     hiringStatus?: string;
     pipelineStage?: string;
     seniority?: string;
+}
+
+interface ExpiryAlert {
+    teacherId: unknown;
+    firstName: string;
+    lastName: string;
+    profilePicture: string | undefined;
+    ruleName: string;
+    documentType: string;
+    expiryDate: Date;
+    type: 'EXPIRY';
 }
 
 export class StatsService {
@@ -62,7 +73,7 @@ export class StatsService {
         // 7. Expiry Alerts - Use filteredTeachers
         const expiryAlerts = this.calculateExpiryAlerts(filteredTeachers, rules);
 
-        const mappedAlerts: Record<string, any[]> = {
+        const mappedAlerts: Record<string, ExpiryAlert[]> = {
             arc: [],
             workPermit: [],
             passport: [],
@@ -99,7 +110,7 @@ export class StatsService {
     }
 
     private static buildMatchQuery(filters: StatsFilter) {
-        const query: any = {};
+        const query: Record<string, unknown> = {};
         const { projectId, gender, nationality, degree, salaryRange, hiringStatus, pipelineStage, seniority } = filters;
 
         if (projectId) {
@@ -160,14 +171,14 @@ export class StatsService {
         return query;
     }
 
-    private static calculateExpiryAlerts(teachers: any[], rules: any[]) {
-        const alerts: any[] = [];
+    private static calculateExpiryAlerts(teachers: ITeacher[], rules: IAlertRule[]) {
+        const alerts: ExpiryAlert[] = [];
         const today = startOfDay(new Date());
 
         teachers.forEach(teacher => {
             rules.forEach(rule => {
                 let docExpiry: Date | null = null;
-                const details = (teacher as any)[rule.documentType];
+                const details = (teacher as unknown as Record<string, unknown>)[rule.documentType] as { expiryDate?: Date } | undefined;
                 if (details && details.expiryDate) {
                     docExpiry = new Date(details.expiryDate);
                 }
@@ -205,7 +216,7 @@ export class StatsService {
         return alerts;
     }
 
-    private static getPipelineDistribution(teachers: any[], stages: any[]) {
+    private static getPipelineDistribution(teachers: ITeacher[], stages: IStage[]) {
         const pipelineCounts: Record<string, number> = {};
         teachers.forEach(t => {
             const stageId = String(t.pipelineStage);
@@ -232,7 +243,7 @@ export class StatsService {
         return dist;
     }
 
-    private static getNationalityDistribution(teachers: any[]) {
+    private static getNationalityDistribution(teachers: ITeacher[]) {
         const counts: Record<string, number> = {};
         teachers.forEach(t => {
             const val = t.personalInfo?.nationality?.english || 'Unknown';
@@ -241,7 +252,7 @@ export class StatsService {
         return Object.entries(counts).map(([name, value]) => ({ name, value })).sort((a, b) => b.value - a.value);
     }
 
-    private static getGenderDistribution(teachers: any[]) {
+    private static getGenderDistribution(teachers: ITeacher[]) {
         const counts: Record<string, number> = {};
         teachers.forEach(t => {
             const val = t.personalInfo?.gender || 'Not Specified';
@@ -250,7 +261,7 @@ export class StatsService {
         return Object.entries(counts).map(([name, value]) => ({ name, value }));
     }
 
-    private static getEducationDistribution(teachers: any[]) {
+    private static getEducationDistribution(teachers: ITeacher[]) {
         const counts: Record<string, number> = {};
         teachers.forEach(t => {
             const val = t.education?.degree || 'Not Specified';
@@ -259,7 +270,7 @@ export class StatsService {
         return Object.entries(counts).map(([name, value]) => ({ name, value })).sort((a, b) => b.value - a.value);
     }
 
-    private static getSalaryDistribution(teachers: any[]) {
+    private static getSalaryDistribution(teachers: ITeacher[]) {
         const buckets = {
             '< 60k': 0, '60k - 70k': 0, '70k - 80k': 0, '80k - 90k': 0, '90k +': 0, 'Unspecified': 0
         };
@@ -275,7 +286,7 @@ export class StatsService {
         return Object.entries(buckets).map(([name, value]) => ({ name, value }));
     }
 
-    private static getHiringStatusDistribution(teachers: any[]) {
+    private static getHiringStatusDistribution(teachers: ITeacher[]) {
         const counts: Record<string, number> = {};
         teachers.forEach(t => {
             const val = t.personalInfo?.hiringStatus || 'Pending';
@@ -284,7 +295,7 @@ export class StatsService {
         return Object.entries(counts).map(([name, value]) => ({ name, value }));
     }
 
-    private static getSeniorityDistribution(teachers: any[]) {
+    private static getSeniorityDistribution(teachers: ITeacher[]) {
         const counts: Record<string, number> = {};
         for (let i = 0; i <= 10; i++) counts[i === 10 ? '10+ Years' : `${i} Year${i !== 1 ? 's' : ''}`] = 0;
 

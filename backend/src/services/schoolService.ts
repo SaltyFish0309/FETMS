@@ -2,11 +2,12 @@ import School from '../models/School.js';
 import Teacher from '../models/Teacher.js';
 import fs from 'fs';
 import csv from 'csv-parser';
+import mongoose from 'mongoose';
 
 export class SchoolService {
 
     static async getAllSchools(search?: string) {
-        let query: any = { isDeleted: false };
+        const query: Record<string, unknown> = { isDeleted: false };
 
         if (search) {
             query.$or = [
@@ -30,12 +31,12 @@ export class SchoolService {
         return { ...school.toObject(), employedTeachers: teachers };
     }
 
-    static async createSchool(data: any) {
+    static async createSchool(data: Record<string, unknown>) {
         const school = new School(data);
         return await school.save();
     }
 
-    static async updateSchool(id: string, data: any) {
+    static async updateSchool(id: string, data: Record<string, unknown>) {
         return await School.findOneAndUpdate(
             { _id: id, isDeleted: false },
             data,
@@ -54,18 +55,19 @@ export class SchoolService {
 
     // Import Logic
     static async importSchools(filePath: string): Promise<{ count: number, total: number }> {
-        const results: any[] = [];
+        const results: Record<string, unknown>[] = [];
 
         return new Promise((resolve, reject) => {
             fs.createReadStream(filePath)
                 .pipe(csv({
                     mapHeaders: ({ header }) => header.trim().replace(/^\ufeff/, '')
                 }))
-                .on('data', (data) => {
-                    const cleanedRaw: any = {};
+                .on('data', (data: Record<string, string>) => {
+                    const cleanedRaw: Record<string, string> = {};
                     Object.keys(data).forEach(key => {
-                        if (data[key] !== '') {
-                            cleanedRaw[key] = data[key];
+                        const val = data[key];
+                        if (val && val !== '') {
+                            cleanedRaw[key] = val;
                         }
                     });
                     results.push(this.unflatten(cleanedRaw));
@@ -91,8 +93,10 @@ export class SchoolService {
         });
     }
 
-    private static unflatten(data: any) {
-        const result: any = {};
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    private static unflatten(data: Record<string, string>): Record<string, any> {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const result: Record<string, any> = {};
         for (const i in data) {
             const keys = i.split('.');
             keys.reduce((acc, value, index) => {
