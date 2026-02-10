@@ -135,6 +135,7 @@ export function AlertRulesManager({ onUpdated }: AlertRulesManagerProps) {
                             <SelectItem value="arcDetails">{t('alertRulesTable.documentTypes.arcDetails', { ns: 'settings' })}</SelectItem>
                             <SelectItem value="workPermitDetails">{t('alertRulesTable.documentTypes.workPermitDetails', { ns: 'settings' })}</SelectItem>
                             <SelectItem value="passportDetails">{t('alertRulesTable.documentTypes.passportDetails', { ns: 'settings' })}</SelectItem>
+                            <SelectItem value="teachingLicense">{t('alertRulesTable.documentTypes.teachingLicense', { ns: 'settings' })}</SelectItem>
                         </SelectContent>
                     </Select>
                 </div>
@@ -201,6 +202,7 @@ export function AlertRulesManager({ onUpdated }: AlertRulesManagerProps) {
                                     {rule.documentType === 'arcDetails' && t('alertRulesTable.documentTypes.arcDetails', { ns: 'settings' })}
                                     {rule.documentType === 'workPermitDetails' && t('alertRulesTable.documentTypes.workPermitDetails', { ns: 'settings' })}
                                     {rule.documentType === 'passportDetails' && t('alertRulesTable.documentTypes.passportDetails', { ns: 'settings' })}
+                                    {rule.documentType === 'teachingLicense' && t('alertRulesTable.documentTypes.teachingLicense', { ns: 'settings' })}
                                 </TableCell>
                                 <TableCell>
                                     {rule.conditionType === 'DAYS_REMAINING' 

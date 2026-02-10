@@ -111,10 +111,11 @@ export function ExpiryWidget({ data, onRefresh, className }: ExpiryWidgetProps) 
 
             <CardContent className="pt-4">
                 <Tabs defaultValue="arc" className="w-full">
-                    <TabsList className="grid w-full grid-cols-3">
+                    <TabsList className="grid w-full grid-cols-4">
                         <TabsTrigger value="arc">{t('actionCenter.expiryWidget.arc')} ({data.arc.length})</TabsTrigger>
                         <TabsTrigger value="permit">{t('actionCenter.expiryWidget.workPermit')} ({data.workPermit.length})</TabsTrigger>
                         <TabsTrigger value="passport">{t('actionCenter.expiryWidget.passport')} ({data.passport.length})</TabsTrigger>
+                        <TabsTrigger value="certificate">{t('actionCenter.expiryWidget.teachingCertificate')} ({data.teachingLicense.length})</TabsTrigger>
                     </TabsList>
 
                     <div className="mt-4 h-[300px] overflow-y-auto pr-2">
@@ -126,6 +127,9 @@ export function ExpiryWidget({ data, onRefresh, className }: ExpiryWidgetProps) 
                         </TabsContent>
                         <TabsContent value="passport">
                             <ExpiryList items={data.passport} />
+                        </TabsContent>
+                        <TabsContent value="certificate">
+                            <ExpiryList items={data.teachingLicense} />
                         </TabsContent>
                     </div>
                 </Tabs>

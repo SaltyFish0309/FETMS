@@ -42,6 +42,7 @@
       "workPermit": "Work Permit",
       "arc": "ARC",
       "passport": "Passport",
+      "teachingCertificate": "Teaching Certificate",
       "expiresIn": "Expires in {{days}} days",
       "expired": "Expired",
       "viewAll": "View All",

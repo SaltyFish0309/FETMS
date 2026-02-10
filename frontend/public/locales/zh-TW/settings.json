@@ -258,7 +258,8 @@
     "documentTypes": {
       "arcDetails": "居留證",
       "workPermitDetails": "工作許可證",
-      "passportDetails": "護照"
+      "passportDetails": "護照",
+      "teachingLicense": "教師證"
     },
     "conditionTypes": {
       "daysRemaining": "剩餘天數",

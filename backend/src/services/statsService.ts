@@ -42,7 +42,7 @@ export class StatsService {
             filteredTeachers
         ] = await Promise.all([
             Stage.find({}).sort({ order: 1 }),
-            Teacher.find({ ...matchQuery, isDeleted: false }).select('firstName lastName profilePicture pipelineStage email personalInfo arcDetails workPermitDetails passportDetails education contractDetails school')
+            Teacher.find({ ...matchQuery, isDeleted: false }).select('firstName lastName profilePicture pipelineStage email personalInfo arcDetails workPermitDetails passportDetails teachingLicense education contractDetails school')
         ]);
 
         // 4. Candidates List
@@ -77,6 +77,7 @@ export class StatsService {
             arc: [],
             workPermit: [],
             passport: [],
+            teachingLicense: [],
             other: []
         };
 
@@ -84,6 +85,7 @@ export class StatsService {
             if (alert.documentType === 'arcDetails') mappedAlerts['arc']!.push(alert);
             else if (alert.documentType === 'workPermitDetails') mappedAlerts['workPermit']!.push(alert);
             else if (alert.documentType === 'passportDetails') mappedAlerts['passport']!.push(alert);
+            else if (alert.documentType === 'teachingLicense') mappedAlerts['teachingLicense']!.push(alert);
             else mappedAlerts['other']!.push(alert);
         });
 

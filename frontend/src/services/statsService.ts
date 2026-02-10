@@ -20,6 +20,7 @@ export interface DashboardStats {
         arc: ExpiryAlert[];
         workPermit: ExpiryAlert[];
         passport: ExpiryAlert[];
+        teachingLicense: ExpiryAlert[];
         other: ExpiryAlert[];
     };
     charts: {
