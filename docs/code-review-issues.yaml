@@ -1,0 +1,60 @@
+# Code Review Issues (Pre-existing)
+# Found during teaching certificate feature review (2026-02-10)
+# All pre-existing, not introduced by the feature.
+
+critical:
+  - id: 1
+    title: NoSQL Injection via projectId
+    files:
+      - backend/src/services/statsService.ts:119
+      - backend/src/controllers/statsController.ts:7
+    description: >
+      req.query passed directly to StatsService.getDashboardStats without validation.
+      projectId used in new mongoose.Types.ObjectId() without format check.
+      Throws BSONError (500) on invalid input.
+    fix: Validate with mongoose.Types.ObjectId.isValid() before construction.
+
+  - id: 2
+    title: Regex Injection in buildMatchQuery
+    files:
+      - backend/src/services/statsService.ts:133-150
+    description: >
+      gender, nationality, degree, hiringStatus filter values injected directly
+      into new RegExp() without escaping. Allows ReDoS or pattern injection.
+    fix: Escape regex special characters or use exact match with case-insensitive collation.
+
+high:
+  - id: 3
+    title: Negative days display in ExpiryWidget
+    files:
+      - frontend/src/components/dashboard/ExpiryWidget.tsx:45,61
+    description: >
+      differenceInDays can return negative numbers for expired documents.
+      Shows "Expires in -5 days" instead of using the existing expired translation key.
+    fix: Conditional render using expiresIn for positive days, expired for negative.
+
+  - id: 4
+    title: handleDeleteRule does not check response status
+    files:
+      - frontend/src/components/settings/AlertRulesManager.tsx:101-109
+    description: >
+      DELETE request shows success toast and removes from state without checking res.ok.
+      Rule reappears on page refresh if server returned error.
+    fix: Check res.ok before updating local state.
+
+  - id: 5
+    title: Hardcoded http://localhost:5000 URLs
+    files:
+      - frontend/src/components/settings/AlertRulesManager.tsx:43,78,103
+    description: >
+      Uses raw fetch() instead of centralized api Axios instance from services/api.ts.
+      Bypasses interceptors and breaks in non-localhost deployment.
+    fix: Replace with api.get/post/delete from @/services/api.
+
+  - id: 6
+    title: fetchRules response not validated
+    files:
+      - frontend/src/components/settings/AlertRulesManager.tsx:41-49
+    description: >
+      No res.ok check before res.json(). Error objects set into state cause .map() crash.
+    fix: Validate response status and check Array.isArray(data) before setRules(data).
