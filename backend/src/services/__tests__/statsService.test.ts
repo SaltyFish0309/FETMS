@@ -159,4 +159,88 @@ describe('StatsService', () => {
       expect(result.kpi.actionsNeeded).toBe(0); // No expiry alerts
     });
   });
+
+  describe('teaching license expiry alerts', () => {
+    it('categorizes teaching license alerts into teachingLicense bucket', async () => {
+      const futureDate = new Date();
+      futureDate.setDate(futureDate.getDate() + 15);
+
+      const mockStages = [{ _id: 'stage1', title: 'Stage 1', order: 1 }];
+      const mockRules = [
+        {
+          _id: 'rule1',
+          name: 'License expiring in 30 days',
+          documentType: 'teachingLicense',
+          conditionType: 'DAYS_REMAINING',
+          value: 30,
+          isActive: true
+        }
+      ];
+      const mockTeachers = [
+        {
+          _id: 't1',
+          firstName: 'Jane',
+          lastName: 'Smith',
+          profilePicture: undefined,
+          pipelineStage: 'stage1',
+          teachingLicense: { expiryDate: futureDate }
+        }
+      ];
+
+      vi.mocked(AlertRule.find).mockResolvedValue(mockRules as any);
+      vi.mocked(Stage.find).mockReturnValue({ sort: vi.fn().mockResolvedValue(mockStages) } as any);
+
+      const selectMock = vi.fn().mockResolvedValue(mockTeachers);
+      vi.mocked(Teacher.find).mockReturnValue({ select: selectMock } as any);
+
+      const result = await StatsService.getDashboardStats({});
+
+      expect(result.expiry.teachingLicense).toHaveLength(1);
+      expect(result.expiry.teachingLicense[0]).toMatchObject({
+        firstName: 'Jane',
+        lastName: 'Smith',
+        ruleName: 'License expiring in 30 days',
+        documentType: 'teachingLicense'
+      });
+      expect(result.expiry.arc).toHaveLength(0);
+      expect(result.expiry.workPermit).toHaveLength(0);
+      expect(result.expiry.passport).toHaveLength(0);
+    });
+
+    it('does not trigger alert when teaching license is not expiring soon', async () => {
+      const farFutureDate = new Date();
+      farFutureDate.setDate(farFutureDate.getDate() + 90);
+
+      const mockStages = [{ _id: 'stage1', title: 'Stage 1', order: 1 }];
+      const mockRules = [
+        {
+          _id: 'rule1',
+          name: 'License expiring in 30 days',
+          documentType: 'teachingLicense',
+          conditionType: 'DAYS_REMAINING',
+          value: 30,
+          isActive: true
+        }
+      ];
+      const mockTeachers = [
+        {
+          _id: 't1',
+          firstName: 'Jane',
+          lastName: 'Smith',
+          pipelineStage: 'stage1',
+          teachingLicense: { expiryDate: farFutureDate }
+        }
+      ];
+
+      vi.mocked(AlertRule.find).mockResolvedValue(mockRules as any);
+      vi.mocked(Stage.find).mockReturnValue({ sort: vi.fn().mockResolvedValue(mockStages) } as any);
+
+      const selectMock = vi.fn().mockResolvedValue(mockTeachers);
+      vi.mocked(Teacher.find).mockReturnValue({ select: selectMock } as any);
+
+      const result = await StatsService.getDashboardStats({});
+
+      expect(result.expiry.teachingLicense).toHaveLength(0);
+    });
+  });
 });
