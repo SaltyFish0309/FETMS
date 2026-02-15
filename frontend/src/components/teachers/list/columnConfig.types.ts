@@ -10,7 +10,7 @@ export type FilterType = 'select' | 'multi-select' | 'text' | 'date-range' | 'nu
  */
 export interface ColumnDef {
     id: string;
-    label: string;
+    labelKey: string;
     accessor: (teacher: Teacher) => string | number | undefined;
     frozen?: boolean; // Frozen columns are always visible and appear first
     filterable?: boolean; // Whether this column can be filtered
@@ -23,6 +23,6 @@ export interface ColumnDef {
  */
 export interface GroupLabel {
     id: string;
-    label: string;
+    labelKey: string;
     columnIds: string[];
 }

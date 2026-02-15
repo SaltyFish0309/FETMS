@@ -15,10 +15,13 @@ import {
 } from "@/components/ui/table";
 import { ArrowLeft, Save, School as SchoolIcon } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 export default function SchoolProfile() {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
+    const { t } = useTranslation(['schools', 'common']);
+    const { t: tTeachers } = useTranslation('teachers');
     const [school, setSchool] = useState<School | null>(null);
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState<Partial<School>>({});
@@ -30,9 +33,9 @@ export default function SchoolProfile() {
             setFormData(data);
         } catch (error) {
             console.error("Failed to load school", error);
-            toast.error("Failed to load school details");
+            toast.error(t('schools:toast.loadError'));
         }
-    }, []);
+    }, [t]);
 
     // Data loading when route parameter changes - standard React pattern
     /* eslint-disable react-hooks/set-state-in-effect */
@@ -59,10 +62,10 @@ export default function SchoolProfile() {
             await schoolService.update(id, formData);
             setSchool(formData as School);
             setIsEditing(false);
-            toast.success("School updated successfully");
+            toast.success(t('schools:toast.updateSuccess'));
         } catch (error) {
             console.error("Failed to update school", error);
-            toast.error("Failed to update school");
+            toast.error(t('schools:toast.updateError'));
         }
     };
 
@@ -77,23 +80,23 @@ export default function SchoolProfile() {
                         <ArrowLeft className="h-4 w-4" />
                     </Button>
                     <div>
-                        <h1 className="text-3xl font-bold tracking-tight text-slate-900 flex items-center gap-2">
+                        <h1 className="text-3xl font-bold tracking-tight text-foreground flex items-center gap-2">
                             <SchoolIcon className="h-8 w-8 text-blue-600" />
                             {school.name.chinese}
                         </h1>
-                        <p className="text-slate-500">{school.name.english || "No English Name"}</p>
+                        <p className="text-muted-foreground">{school.name.english || t('schools:profile.noEnglishName')}</p>
                     </div>
                 </div>
                 <div className="flex gap-2">
                     {isEditing ? (
                         <>
-                            <Button variant="outline" onClick={() => setIsEditing(false)}>Cancel</Button>
+                            <Button variant="outline" onClick={() => setIsEditing(false)}>{t('common:actions.cancel')}</Button>
                             <Button onClick={handleSave} className="bg-blue-600 hover:bg-blue-700">
-                                <Save className="mr-2 h-4 w-4" /> Save Changes
+                                <Save className="mr-2 h-4 w-4" /> {t('schools:buttons.saveChanges')}
                             </Button>
                         </>
                     ) : (
-                        <Button onClick={() => setIsEditing(true)}>Edit Profile</Button>
+                        <Button onClick={() => setIsEditing(true)}>{t('schools:buttons.editProfile')}</Button>
                     )}
                 </div>
             </div>
@@ -102,12 +105,12 @@ export default function SchoolProfile() {
             <div className="grid gap-6 md:grid-cols-2">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Basic Information</CardTitle>
+                        <CardTitle>{t('schools:profile.sections.basicInfo')}</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label>Chinese Name</Label>
+                                <Label>{t('schools:profile.fields.chineseName')}</Label>
                                 <Input
                                     value={formData.name?.chinese || ""}
                                     onChange={(e) => handleInputChange("name", "chinese", e.target.value)}
@@ -115,7 +118,7 @@ export default function SchoolProfile() {
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label>English Name</Label>
+                                <Label>{t('schools:profile.fields.englishName')}</Label>
                                 <Input
                                     value={formData.name?.english || ""}
                                     onChange={(e) => handleInputChange("name", "english", e.target.value)}
@@ -125,7 +128,7 @@ export default function SchoolProfile() {
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label>Chinese Address</Label>
+                                <Label>{t('schools:profile.fields.chineseAddress')}</Label>
                                 <Input
                                     value={formData.address?.chinese || ""}
                                     onChange={(e) => handleInputChange("address", "chinese", e.target.value)}
@@ -133,7 +136,7 @@ export default function SchoolProfile() {
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label>English Address</Label>
+                                <Label>{t('schools:profile.fields.englishAddress')}</Label>
                                 <Input
                                     value={formData.address?.english || ""}
                                     onChange={(e) => handleInputChange("address", "english", e.target.value)}
@@ -146,12 +149,12 @@ export default function SchoolProfile() {
 
                 <Card>
                     <CardHeader>
-                        <CardTitle>Key Personnel</CardTitle>
+                        <CardTitle>{t('schools:profile.sections.keyPersonnel')}</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label>Principal (Chinese)</Label>
+                                <Label>{t('schools:profile.fields.principalChinese')}</Label>
                                 <Input
                                     value={formData.principal?.chineseName || ""}
                                     onChange={(e) => handleInputChange("principal", "chineseName", e.target.value)}
@@ -159,7 +162,7 @@ export default function SchoolProfile() {
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label>Principal (English)</Label>
+                                <Label>{t('schools:profile.fields.principalEnglish')}</Label>
                                 <Input
                                     value={formData.principal?.englishName || ""}
                                     onChange={(e) => handleInputChange("principal", "englishName", e.target.value)}
@@ -168,10 +171,10 @@ export default function SchoolProfile() {
                             </div>
                         </div>
                         <div className="space-y-2">
-                            <Label className="font-semibold text-slate-900">Contact Window</Label>
+                            <Label className="font-semibold text-foreground">{t('schools:profile.fields.contactWindow')}</Label>
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <Label>Name</Label>
+                                    <Label>{t('schools:profile.fields.contactName')}</Label>
                                     <Input
                                         value={formData.contact?.name || ""}
                                         onChange={(e) => handleInputChange("contact", "name", e.target.value)}
@@ -179,7 +182,7 @@ export default function SchoolProfile() {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label>Position</Label>
+                                    <Label>{t('schools:profile.fields.contactPosition')}</Label>
                                     <Input
                                         value={formData.contact?.position || ""}
                                         onChange={(e) => handleInputChange("contact", "position", e.target.value)}
@@ -187,7 +190,7 @@ export default function SchoolProfile() {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label>Email</Label>
+                                    <Label>{t('schools:profile.fields.contactEmail')}</Label>
                                     <Input
                                         value={formData.contact?.email || ""}
                                         onChange={(e) => handleInputChange("contact", "email", e.target.value)}
@@ -195,7 +198,7 @@ export default function SchoolProfile() {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label>Phone</Label>
+                                    <Label>{t('schools:profile.fields.contactPhone')}</Label>
                                     <Input
                                         value={formData.contact?.phone || ""}
                                         onChange={(e) => handleInputChange("contact", "phone", e.target.value)}
@@ -211,16 +214,16 @@ export default function SchoolProfile() {
             {/* Employed Teachers */}
             <Card>
                 <CardHeader>
-                    <CardTitle>Employed Teachers</CardTitle>
+                    <CardTitle>{t('schools:profile.sections.employedTeachers')}</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead>Name</TableHead>
-                                <TableHead>Email</TableHead>
-                                <TableHead>Nationality</TableHead>
-                                <TableHead>Status</TableHead>
+                                <TableHead>{t('schools:profile.teacherTable.name')}</TableHead>
+                                <TableHead>{t('schools:profile.teacherTable.email')}</TableHead>
+                                <TableHead>{t('schools:profile.teacherTable.nationality')}</TableHead>
+                                <TableHead>{t('schools:profile.teacherTable.status')}</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -228,7 +231,7 @@ export default function SchoolProfile() {
                                 school.employedTeachers.map((teacher) => (
                                     <TableRow
                                         key={teacher._id}
-                                        className="cursor-pointer hover:bg-slate-50"
+                                        className="cursor-pointer hover:bg-muted/50"
                                         onClick={() => navigate(`/teachers/${teacher._id}`)}
                                     >
                                         <TableCell className="font-medium">
@@ -236,13 +239,17 @@ export default function SchoolProfile() {
                                         </TableCell>
                                         <TableCell>{teacher.email}</TableCell>
                                         <TableCell>{teacher.personalInfo?.nationality?.english || '-'}</TableCell>
-                                        <TableCell>{teacher.personalInfo?.hiringStatus || '-'}</TableCell>
+                                        <TableCell>
+                                            {teacher.personalInfo?.hiringStatus
+                                                ? tTeachers(`enums.status.${teacher.personalInfo.hiringStatus.toLowerCase().replace(/\s+/g, '_').replace(/-/g, '_')}` as never)
+                                                : '-'}
+                                        </TableCell>
                                     </TableRow>
                                 ))
                             ) : (
                                 <TableRow>
-                                    <TableCell colSpan={4} className="h-24 text-center text-slate-500">
-                                        No teachers currently employed at this school.
+                                    <TableCell colSpan={4} className="h-24 text-center text-muted-foreground">
+                                        {t('schools:table.noTeachers')}
                                     </TableCell>
                                 </TableRow>
                             )}

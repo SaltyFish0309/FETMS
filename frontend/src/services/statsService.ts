@@ -20,6 +20,7 @@ export interface DashboardStats {
         arc: ExpiryAlert[];
         workPermit: ExpiryAlert[];
         passport: ExpiryAlert[];
+        teachingLicense: ExpiryAlert[];
         other: ExpiryAlert[];
     };
     charts: {
@@ -43,6 +44,7 @@ export interface DashboardStats {
 }
 
 export interface DashboardFilters {
+    projectId?: string | null;
     gender?: string | null;
     nationality?: string | null;
     degree?: string | null;
@@ -55,6 +57,7 @@ export interface DashboardFilters {
 export const statsService = {
     getDashboardStats: async (filters: DashboardFilters = {}): Promise<DashboardStats> => {
         const params = new URLSearchParams();
+        if (filters.projectId) params.append('projectId', filters.projectId);
         if (filters.gender) params.append('gender', filters.gender);
         if (filters.nationality) params.append('nationality', filters.nationality);
         if (filters.degree) params.append('degree', filters.degree);

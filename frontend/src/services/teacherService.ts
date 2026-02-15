@@ -96,15 +96,18 @@ export interface Teacher {
         expiryDate?: string;
         purpose?: string;
     };
+    school?: string | { _id: string }; // School ObjectId or populated object
+    project?: string; // Project ObjectId
 }
 
 export const teacherService = {
-    getAll: async () => {
-        const response = await api.get<Teacher[]>('/teachers');
+    getAll: async (projectId?: string) => {
+        const params = projectId ? { projectId } : {};
+        const response = await api.get<Teacher[]>('/teachers', { params });
         return response.data;
     },
 
-    create: async (data: { firstName: string; lastName: string; email: string }) => {
+    create: async (data: { firstName: string; lastName: string; email: string; project?: string }) => {
         const response = await api.post<Teacher>('/teachers', data);
         return response.data;
     },

@@ -1,30 +1,40 @@
 /**
  * FETMS Dashboard Chart Colors
- * Cohesive color palette for all dashboard visualizations
+ * Theme-aware color palette using CSS variables for all dashboard visualizations
  */
 
-export const CHART_COLORS = [
-  '#2563EB', // Primary Blue
-  '#3B82F6', // Light Blue
-  '#10B981', // Emerald
-  '#F59E0B', // Amber
-  '#8B5CF6', // Violet
-  '#EC4899', // Pink
-] as const
+// Use CSS variable references that adapt to theme
+export function getChartColor(index: number): string {
+  const colors = [
+    'var(--color-chart-1)',
+    'var(--color-chart-2)',
+    'var(--color-chart-3)',
+    'var(--color-chart-4)',
+    'var(--color-chart-5)',
+    'var(--color-chart-6)',
+  ]
+  return colors[index % colors.length]
+}
 
+// Gender colors remain as hex values - they provide sufficient contrast in both modes
 export const GENDER_COLORS = {
   male: '#3B82F6',
   female: '#EC4899',
   other: '#64748B',
 } as const
 
-export function getChartColor(index: number): string {
-  return CHART_COLORS[index % CHART_COLORS.length]
-}
-
 export function getGenderColor(gender: string): string {
   const g = gender.toLowerCase()
   if (g === 'male') return GENDER_COLORS.male
   if (g === 'female') return GENDER_COLORS.female
   return GENDER_COLORS.other
+}
+
+// Helper functions for chart theming
+export function getAxisColor(): string {
+  return 'var(--color-muted-foreground)'
+}
+
+export function getBorderColor(): string {
+  return 'var(--color-border)'
 }

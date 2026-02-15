@@ -2,7 +2,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IAlertRule extends Document {
     name: string;
-    documentType: string; // 'arcDetails', 'workPermitDetails', 'passportDetails'
+    documentType: 'arcDetails' | 'workPermitDetails' | 'passportDetails' | 'teachingLicense';
     conditionType: 'DAYS_REMAINING' | 'DATE_THRESHOLD';
     value: number | Date;
     isActive: boolean;

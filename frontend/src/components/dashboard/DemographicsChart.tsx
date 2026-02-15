@@ -1,4 +1,5 @@
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getChartColor, getGenderColor } from './chartColors';
 
@@ -15,18 +16,27 @@ export function DemographicsChart({
   hiringStatusData,
   onClick
 }: DemographicsChartProps) {
+  const { t } = useTranslation('dashboard');
+  const { t: tTeachers } = useTranslation('teachers');
+
   // Sort nationality by value descending, take top 6
   const sortedNationality = [...nationalityData]
     .sort((a, b) => b.value - a.value)
     .slice(0, 6);
+
+  // Translate hiring status data
+  const translatedHiringStatusData = hiringStatusData.map(item => ({
+    ...item,
+    name: tTeachers(`enums.status.${item.name.toLowerCase().replace(/\s+/g, '_').replace(/-/g, '_')}`, item.name)
+  }));
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {/* Nationality Chart - Horizontal Bars */}
       <Card className="col-span-1">
         <CardHeader className="pb-2">
-          <CardTitle className="text-base font-semibold text-slate-800 font-heading">
-            Nationality
+          <CardTitle className="text-base font-semibold text-foreground font-heading">
+            {t('charts.nationality')}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -41,15 +51,18 @@ export function DemographicsChart({
                 <YAxis
                   type="category"
                   dataKey="name"
-                  tick={{ fontSize: 12, fill: '#64748b' }}
+                  tick={{ fontSize: 12, fill: 'var(--color-muted-foreground)' }}
                   width={55}
                 />
                 <Tooltip
                   contentStyle={{
+                    backgroundColor: 'var(--color-popover)',
+                    border: '1px solid var(--color-border)',
                     borderRadius: '8px',
-                    border: 'none',
-                    boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
+                    color: 'var(--color-popover-foreground)',
                   }}
+                  itemStyle={{ color: 'var(--color-popover-foreground)' }}
+                  labelStyle={{ color: 'var(--color-popover-foreground)' }}
                 />
                 <Bar
                   dataKey="value"
@@ -75,8 +88,8 @@ export function DemographicsChart({
       {/* Gender Chart - Simple Stats */}
       <Card className="col-span-1">
         <CardHeader className="pb-2">
-          <CardTitle className="text-base font-semibold text-slate-800 font-heading">
-            Gender Distribution
+          <CardTitle className="text-base font-semibold text-foreground font-heading">
+            {t('charts.gender')}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -84,18 +97,19 @@ export function DemographicsChart({
             {genderData.map((item) => {
               const total = genderData.reduce((sum, g) => sum + g.value, 0);
               const percentage = total > 0 ? Math.round((item.value / total) * 100) : 0;
+              const translatedGender = tTeachers(`enums.gender.${item.name.toLowerCase()}`, item.name);
 
               return (
                 <div
                   key={item.name}
-                  className="cursor-pointer hover:bg-slate-50 p-3 rounded-lg transition-colors"
+                  className="cursor-pointer hover:bg-muted/50 p-3 rounded-lg transition-colors"
                   onClick={() => onClick?.('gender', item.name)}
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-slate-700">{item.name}</span>
-                    <span className="text-sm font-semibold text-slate-800">{item.value}</span>
+                    <span className="text-sm font-medium text-foreground">{translatedGender}</span>
+                    <span className="text-sm font-semibold text-foreground">{item.value}</span>
                   </div>
-                  <div className="w-full bg-slate-100 rounded-full h-2.5">
+                  <div className="w-full bg-muted rounded-full h-2.5">
                     <div
                       className="h-2.5 rounded-full transition-all duration-300"
                       style={{
@@ -104,7 +118,7 @@ export function DemographicsChart({
                       }}
                     />
                   </div>
-                  <p className="text-xs text-slate-500 mt-1">{percentage}%</p>
+                  <p className="text-xs text-muted-foreground mt-1">{percentage}%</p>
                 </div>
               );
             })}
@@ -115,15 +129,15 @@ export function DemographicsChart({
       {/* Hiring Status Chart - Horizontal Bars */}
       <Card className="col-span-1">
         <CardHeader className="pb-2">
-          <CardTitle className="text-base font-semibold text-slate-800 font-heading">
-            Hiring Status
+          <CardTitle className="text-base font-semibold text-foreground font-heading">
+            {t('charts.hiringStatus')}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="h-[220px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
-                data={hiringStatusData}
+                data={translatedHiringStatusData}
                 layout="vertical"
                 margin={{ top: 5, right: 20, left: 80, bottom: 5 }}
               >
@@ -131,15 +145,18 @@ export function DemographicsChart({
                 <YAxis
                   type="category"
                   dataKey="name"
-                  tick={{ fontSize: 12, fill: '#64748b' }}
+                  tick={{ fontSize: 12, fill: 'var(--color-muted-foreground)' }}
                   width={75}
                 />
                 <Tooltip
                   contentStyle={{
+                    backgroundColor: 'var(--color-popover)',
+                    border: '1px solid var(--color-border)',
                     borderRadius: '8px',
-                    border: 'none',
-                    boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
+                    color: 'var(--color-popover-foreground)',
                   }}
+                  itemStyle={{ color: 'var(--color-popover-foreground)' }}
+                  labelStyle={{ color: 'var(--color-popover-foreground)' }}
                 />
                 <Bar
                   dataKey="value"
@@ -147,12 +164,12 @@ export function DemographicsChart({
                   barSize={20}
                   animationDuration={300}
                 >
-                  {hiringStatusData.map((entry, index) => (
+                  {translatedHiringStatusData.map((_, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={getChartColor(index + 2)}
                       className="cursor-pointer hover:opacity-80 transition-opacity"
-                      onClick={() => onClick?.('hiringStatus', entry.name)}
+                      onClick={() => onClick?.('hiringStatus', hiringStatusData[index].name)}
                     />
                   ))}
                 </Bar>

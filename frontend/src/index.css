@@ -107,6 +107,91 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
+/* Font Size Scaling */
+:root {
+  --font-size-scale: 1;
+}
+
+:root[data-font-size="small"] {
+  --font-size-scale: 0.875;
+}
+
+:root[data-font-size="medium"] {
+  --font-size-scale: 1;
+}
+
+:root[data-font-size="large"] {
+  --font-size-scale: 1.125;
+}
+
+/* ============================================
+   DISPLAY DENSITY SYSTEM
+   Three tiers: compact, comfortable, spacious
+   ============================================ */
+
+:root {
+  /* Spacing scale */
+  --spacing-xs: 0.25rem;    /* 4px */
+  --spacing-sm: 0.5rem;     /* 8px */
+  --spacing-md: 0.75rem;    /* 12px */
+  --spacing-lg: 1rem;       /* 16px */
+  --spacing-xl: 1.25rem;    /* 20px */
+
+  /* Typography */
+  --line-height: 1.4;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+
+  /* Components */
+  --table-row-height: 2.5rem;
+  --button-padding-y: 0.375rem;
+  --button-padding-x: 0.75rem;
+  --input-height: 2.25rem;
+  --card-padding: 0.75rem;
+  --form-gap: 0.75rem;
+  --border-radius: 0.375rem;
+}
+
+[data-density="comfortable"] {
+  /* Spacing scale */
+  --spacing-xs: 0.375rem;   /* 6px */
+  --spacing-sm: 0.75rem;    /* 12px */
+  --spacing-md: 1rem;       /* 16px */
+  --spacing-lg: 1.5rem;     /* 24px */
+  --spacing-xl: 1.75rem;    /* 28px */
+
+  /* Typography */
+  --line-height: 1.6;
+
+  /* Components */
+  --table-row-height: 3rem;
+  --button-padding-y: 0.5rem;
+  --button-padding-x: 1rem;
+  --input-height: 2.5rem;
+  --card-padding: 1rem;
+  --form-gap: 1rem;
+}
+
+[data-density="spacious"] {
+  /* Spacing scale */
+  --spacing-xs: 0.5rem;     /* 8px */
+  --spacing-sm: 1rem;       /* 16px */
+  --spacing-md: 1.5rem;     /* 24px */
+  --spacing-lg: 2rem;       /* 32px */
+  --spacing-xl: 2.5rem;     /* 40px */
+
+  /* Typography */
+  --line-height: 1.8;
+
+  /* Components */
+  --table-row-height: 3.5rem;
+  --button-padding-y: 0.75rem;
+  --button-padding-x: 1.5rem;
+  --input-height: 2.75rem;
+  --card-padding: 1.5rem;
+  --form-gap: 1.5rem;
+}
+
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
@@ -141,6 +226,10 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+:root {
+  font-size: calc(1rem * var(--font-size-scale));
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -148,5 +237,35 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    line-height: var(--line-height);
+  }
+
+  /* Smooth theme transitions */
+  *,
+  *::before,
+  *::after {
+    @apply transition-colors duration-200;
+  }
+
+  /* Respect reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    :root:not([data-reduced-motion="false"]) *,
+    :root:not([data-reduced-motion="false"]) *::before,
+    :root:not([data-reduced-motion="false"]) *::after {
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* User reduced motion preference (overrides system setting) */
+  :root[data-reduced-motion="true"] *,
+  :root[data-reduced-motion="true"] *::before,
+  :root[data-reduced-motion="true"] *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Apply density scaling to main content area */
+  main {
+    padding: var(--spacing-lg) !important;
   }
 }

@@ -1,0 +1,52 @@
+{
+  "app": {
+    "name": "FETMS"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "teachers": "Teachers",
+    "schools": "Schools",
+    "documents": "Documents",
+    "settings": "Settings"
+  },
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "search": "Search",
+    "filter": "Filter"
+  },
+  "user": {
+    "profile": "Profile",
+    "logout": "Logout",
+    "notifications": "Notifications"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "validation": {
+    "required": "This field is required",
+    "email": "Please enter a valid email address",
+    "minLength": "Must be at least {{min}} characters",
+    "maxLength": "Must be no more than {{max}} characters",
+    "min": "Must be at least {{min}}",
+    "max": "Must be no more than {{max}}",
+    "pattern": "Invalid format",
+    "phone": "Please enter a valid phone number",
+    "url": "Please enter a valid URL",
+    "date": "Please enter a valid date",
+    "number": "Please enter a valid number",
+    "positive": "Must be a positive number",
+    "integer": "Must be a whole number"
+  },
+  "toast": {
+    "preferences": {
+      "corrupted": "Preferences corrupted, reset to defaults",
+      "saveFailed": "Failed to save preferences"
+    }
+  }
+}

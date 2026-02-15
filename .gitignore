@@ -38,3 +38,10 @@ backend/uploads/*
 
 # Gemini Agent
 .gemini
+backend/.env
+
+# AI tooling - local only, freely editable, not tracked
+.claude/
+.agent/
+.planning/
+.reports/

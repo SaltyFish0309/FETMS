@@ -1,7 +1,10 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { ThemeProvider } from "@/components/ui/theme-provider"
 
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Header } from "@/components/layout/Header";
+import { ProjectProvider } from "@/contexts/ProjectContext";
+import { PreferencesProvider } from "@/contexts/PreferencesContext";
 
 import Teachers from "@/pages/Teachers";
 import Schools from "@/pages/Schools";
@@ -9,6 +12,11 @@ import TeacherProfile from "@/pages/TeacherProfile";
 import SchoolProfile from "@/pages/SchoolProfile";
 import Documents from "@/pages/Documents";
 import Settings from "@/pages/Settings";
+import ProjectSettings from "@/pages/ProjectSettings";
+import AlertSettings from "@/pages/AlertSettings";
+import StageSettings from "@/pages/StageSettings";
+import PreferencesSettings from "@/pages/PreferencesSettings";
+import ImportSettings from "@/pages/ImportSettings";
 import { Toaster } from "@/components/ui/sonner";
 
 import Dashboard from "@/pages/Dashboard";
@@ -19,6 +27,11 @@ const ROUTE_TITLES: Record<string, string> = {
   '/schools': 'Schools',
   '/documents': 'Documents',
   '/settings': 'Settings',
+  '/settings/projects': 'Project Settings',
+  '/settings/alerts': 'Alert Rules',
+  '/settings/stages': 'Pipeline Stages',
+  '/settings/preferences': 'User Preferences',
+  '/settings/import': 'Data Import',
 };
 
 function getPageTitle(pathname: string): string {
@@ -37,7 +50,7 @@ function AppContent() {
   const title = getPageTitle(location.pathname);
 
   return (
-    <div className="flex h-screen bg-slate-50">
+    <div className="flex h-screen bg-slate-50 dark:bg-slate-950 transition-colors">
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header title={title} />
@@ -50,6 +63,11 @@ function AppContent() {
             <Route path="/teachers/:id" element={<TeacherProfile />} />
             <Route path="/documents" element={<Documents />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/settings/projects" element={<ProjectSettings />} />
+            <Route path="/settings/alerts" element={<AlertSettings />} />
+            <Route path="/settings/stages" element={<StageSettings />} />
+            <Route path="/settings/preferences" element={<PreferencesSettings />} />
+            <Route path="/settings/import" element={<ImportSettings />} />
           </Routes>
         </main>
       </div>
@@ -60,9 +78,15 @@ function AppContent() {
 
 function App() {
   return (
-    <Router>
-      <AppContent />
-    </Router>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <Router>
+        <PreferencesProvider>
+          <ProjectProvider>
+            <AppContent />
+          </ProjectProvider>
+        </PreferencesProvider>
+      </Router>
+    </ThemeProvider>
   );
 }
 

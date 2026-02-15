@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { teacherService, type Teacher } from "@/services/teacherService";
 import { schoolService, type School } from "@/services/schoolService";
 
@@ -57,6 +58,7 @@ import { countries } from "country-data-list";
 import { useNavigate } from "react-router-dom";
 
 export default function TeacherProfile() {
+    const { t } = useTranslation('teachers');
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const [teacher, setTeacher] = useState<Teacher | null>(null);
@@ -80,44 +82,44 @@ export default function TeacherProfile() {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const [avatarHover, setAvatarHover] = useState(false);
 
-    useEffect(() => {
-        if (id) {
-            loadTeacher(id);
-            loadStages();
-            loadSchools();
-        }
-    }, [id]);
-
-    const loadTeacher = async (teacherId: string) => {
+    const loadTeacher = useCallback(async (teacherId: string) => {
         try {
             const data = await teacherService.getById(teacherId);
             setTeacher(data);
             setFormData(data);
         } catch (error) {
             console.error("Failed to load teacher", error);
-            toast.error("Failed to load teacher data");
+            toast.error(t('profile.messages.loadError'));
         } finally {
             setLoading(false);
         }
-    };
+    }, [t]);
 
-    const loadStages = async () => {
+    const loadStages = useCallback(async () => {
         try {
             const data = await teacherService.getStages();
             setStages(data);
         } catch (error) {
             console.error("Failed to load stages", error);
         }
-    };
+    }, []);
 
-    const loadSchools = async () => {
+    const loadSchools = useCallback(async () => {
         try {
             const data = await schoolService.getAll();
             setSchools(data);
         } catch (error) {
             console.error("Failed to load schools", error);
         }
-    };
+    }, []);
+
+    useEffect(() => {
+        if (id) {
+            loadTeacher(id);
+            loadStages();
+            loadSchools();
+        }
+    }, [id, loadTeacher, loadStages, loadSchools]);
 
     const getStageName = (stageId?: string) => {
         if (!stageId) return 'Uncategorized';
@@ -146,22 +148,22 @@ export default function TeacherProfile() {
         try {
             const updatedTeacher = await teacherService.uploadAvatar(id, file);
             setTeacher(updatedTeacher);
-            toast.success("Profile picture updated");
+            toast.success(t('profile.avatar.updateSuccess'));
         } catch {
-            toast.error("Failed to update profile picture");
+            toast.error(t('profile.avatar.updateError'));
         }
     };
 
     const handleDeleteAvatar = async (e: React.MouseEvent) => {
         e.stopPropagation();
         if (!teacher || !id) return;
-        if (confirm("Are you sure you want to delete the profile picture?")) {
+        if (confirm(t('profile.avatar.deleteConfirm'))) {
             try {
                 const updatedTeacher = await teacherService.deleteAvatar(id);
                 setTeacher(updatedTeacher);
-                toast.success("Profile picture removed");
+                toast.success(t('profile.avatar.removeSuccess'));
             } catch {
-                toast.error("Failed to remove profile picture");
+                toast.error(t('profile.avatar.removeError'));
             }
         }
     };
@@ -202,10 +204,10 @@ export default function TeacherProfile() {
             const updatedTeacher = await teacherService.update(id, formData);
             setTeacher(updatedTeacher);
             setEditingSection(null);
-            toast.success("Section updated successfully");
+            toast.success(t('profile.messages.updateSuccess'));
         } catch (error) {
             console.error("Update failed", error);
-            toast.error("Failed to update section");
+            toast.error(t('profile.messages.updateError'));
         }
     };
 
@@ -220,9 +222,9 @@ export default function TeacherProfile() {
         try {
             const updatedTeacher = await teacherService.uploadDocument(id, type, file);
             setTeacher(updatedTeacher);
-            toast.success("Document uploaded");
+            toast.success(t('profile.messages.uploadSuccess'));
         } catch {
-            toast.error("Upload failed");
+            toast.error(t('profile.messages.uploadError'));
         }
     };
 
@@ -234,9 +236,9 @@ export default function TeacherProfile() {
             const updatedTeacher = await teacherService.uploadAdHocDocument(id, formData.get("name") as string, formData.get("file") as File);
             setTeacher(updatedTeacher);
             setUploadDialogOpen(false);
-            toast.success("Document uploaded");
+            toast.success(t('profile.messages.uploadSuccess'));
         } catch {
-            toast.error("Upload failed");
+            toast.error(t('profile.messages.uploadError'));
         }
     };
 
@@ -256,9 +258,9 @@ export default function TeacherProfile() {
             }
             setTeacher(updatedTeacher);
             setDeleteConfirmOpen(false);
-            toast.success("Document deleted");
+            toast.success(t('profile.messages.deleteSuccess'));
         } catch {
-            toast.error("Delete failed");
+            toast.error(t('profile.messages.deleteError'));
         }
     };
 
@@ -276,23 +278,23 @@ export default function TeacherProfile() {
             const updatedTeacher = await teacherService.updateAdHocDocument(id, editingDoc.id, formData.get("name") as string, file.size > 0 ? file : undefined);
             setTeacher(updatedTeacher);
             setEditDialogOpen(false);
-            toast.success("Document updated");
+            toast.success(t('profile.messages.uploadSuccess'));
         } catch {
-            toast.error("Update failed");
+            toast.error(t('profile.messages.uploadError'));
         }
     };
 
     const coreDocs = [
-        { key: "passport", label: "Passport" },
-        { key: "arc", label: "ARC (Alien Resident Certificate)" },
-        { key: "contract", label: "Employment Contract" },
-        { key: "workPermit", label: "Work Permit" },
+        { key: "passport", label: t('profile.documents.passport') },
+        { key: "arc", label: t('profile.documents.arc') },
+        { key: "contract", label: t('profile.documents.contract') },
+        { key: "workPermit", label: t('profile.documents.workPermit') },
     ];
 
     const renderSectionHeader = (title: string, icon: React.ReactNode, sectionKey: string) => (
         <div className="flex items-center justify-between w-full pr-4">
-            <div className="flex items-center gap-2 text-lg font-semibold text-slate-800">
-                <div className="p-2 bg-slate-100 rounded-md text-slate-600">{icon}</div>
+            <div className="flex items-center gap-2 text-lg font-semibold text-foreground">
+                <div className="p-2 bg-muted rounded-md text-muted-foreground">{icon}</div>
                 {title}
             </div>
             {editingSection === sectionKey ? (
@@ -318,7 +320,7 @@ export default function TeacherProfile() {
                     className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "cursor-pointer")}
                     onClick={(e) => { e.stopPropagation(); setEditingSection(sectionKey); }}
                 >
-                    <Pencil className="w-4 h-4 text-slate-400 hover:text-slate-700" />
+                    <Pencil className="w-4 h-4 text-muted-foreground hover:text-foreground" />
                 </div>
             )}
         </div>
@@ -326,18 +328,18 @@ export default function TeacherProfile() {
 
     const isEditing = (section: string) => editingSection === section;
 
-    if (loading) return <div className="p-8 text-center text-slate-500">Loading teacher profile...</div>;
-    if (!teacher) return <div className="p-8 text-center text-red-500">Teacher not found</div>;
+    if (loading) return <div className="p-8 text-center text-muted-foreground">{t('profile.loading')}</div>;
+    if (!teacher) return <div className="p-8 text-center text-red-500">{t('profile.notFound')}</div>;
 
     return (
         <div className="space-y-6">
             {/* Header & Remarks Split */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
                 {/* Left: Profile Header */}
-                <div className="flex items-start justify-between bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <div className="flex items-start justify-between bg-card p-6 rounded-xl shadow-sm border border-border">
                     <div className="flex items-center gap-6">
                         <Button variant="ghost" size="icon" onClick={() => navigate(-1)} className="mr-2">
-                            <ArrowLeft className="h-6 w-6 text-slate-500" />
+                            <ArrowLeft className="h-6 w-6 text-muted-foreground" />
                         </Button>
                         <div
                             className="relative group cursor-pointer"
@@ -345,9 +347,9 @@ export default function TeacherProfile() {
                             onMouseLeave={() => setAvatarHover(false)}
                             onClick={handleAvatarClick}
                         >
-                            <Avatar className="h-24 w-24 border-4 border-slate-50 transition-opacity group-hover:opacity-75">
+                            <Avatar className="h-24 w-24 border-4 border-border transition-opacity group-hover:opacity-75">
                                 <AvatarImage src={teacher.profilePicture ? `http://localhost:5000/${teacher.profilePicture}` : undefined} />
-                                <AvatarFallback className="text-2xl bg-slate-100 text-slate-500">{teacher.firstName[0]}{teacher.lastName[0]}</AvatarFallback>
+                                <AvatarFallback className="text-2xl bg-muted text-muted-foreground">{teacher.firstName[0]}{teacher.lastName[0]}</AvatarFallback>
                             </Avatar>
 
                             {/* Hover Overlay */}
@@ -383,10 +385,10 @@ export default function TeacherProfile() {
                         />
                         <div className="space-y-2">
                             <div>
-                                <h1 className="text-3xl font-bold tracking-tight text-slate-900">
+                                <h1 className="text-3xl font-bold tracking-tight text-foreground">
                                     {teacher.firstName} {teacher.middleName ? teacher.middleName + " " : ""}{teacher.lastName}
                                 </h1>
-                                <div className="flex items-center gap-2 text-slate-500 mt-1">
+                                <div className="flex items-center gap-2 text-muted-foreground mt-1">
                                     <Mail className="h-4 w-4" />
                                     <span>{teacher.email}</span>
                                 </div>
@@ -395,7 +397,7 @@ export default function TeacherProfile() {
                             <div className="flex flex-wrap gap-2 pt-1">
                                 {teacher.personalInfo?.hiringStatus && (
                                     <Badge variant="secondary" className="bg-green-50 text-green-700 border-green-100">
-                                        {teacher.personalInfo.hiringStatus}
+                                        {t(('enums.status.' + teacher.personalInfo.hiringStatus.toLowerCase().replace(/\s+/g, '_').replace(/-/g, '_')) as never)}
                                     </Badge>
                                 )}
                                 {teacher.personalInfo?.nationality?.english && (
@@ -408,7 +410,7 @@ export default function TeacherProfile() {
                                         {teacher.personalInfo.serviceSchool}
                                     </Badge>
                                 )}
-                                <Badge variant="outline" className="border-slate-200">
+                                <Badge variant="outline" className="border-border">
                                     {getStageName(teacher.pipelineStage)}
                                 </Badge>
                             </div>
@@ -417,9 +419,9 @@ export default function TeacherProfile() {
                 </div>
 
                 {/* Right: Remarks Section */}
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col relative group">
+                <div className="bg-card p-6 rounded-xl shadow-sm border border-border flex flex-col relative group">
                     <div className="flex items-center justify-between mb-4">
-                        <Label className="text-lg font-semibold text-slate-800">Remarks</Label>
+                        <Label className="text-lg font-semibold text-foreground">{t('profile.remarks')}</Label>
                         {/* Save Button for Remarks */}
                         {formData.remarks !== teacher.remarks && (
                             <Button
@@ -430,17 +432,17 @@ export default function TeacherProfile() {
                                         const updated = await teacherService.update(id, { remarks: formData.remarks });
                                         setTeacher(updated);
                                         setFormData(prev => ({ ...prev, remarks: updated.remarks }));
-                                        toast.success("Remarks saved");
-                                    } catch { toast.error("Failed to save remarks"); }
+                                        toast.success(t('profile.messages.remarksSuccess'));
+                                    } catch { toast.error(t('profile.messages.remarksError')); }
                                 }}
                             >
-                                <Save className="w-4 h-4 mr-1" /> Save
+                                <Save className="w-4 h-4 mr-1" /> {t('actions.save')}
                             </Button>
                         )}
                     </div>
                     <textarea
-                        className="flex-1 w-full p-3 text-sm rounded-md border border-slate-200 resize-none focus:outline-none focus:ring-2 focus:ring-slate-400 min-h-[120px]"
-                        placeholder="Add notes about this teacher..."
+                        className="flex-1 w-full p-3 text-sm rounded-md border border-border resize-none focus:outline-none focus:ring-2 focus:ring-ring min-h-[120px] bg-background"
+                        placeholder={t('profile.remarksPlaceholder')}
                         value={formData.remarks || ''}
                         onChange={(e) => handleRootInputChange('remarks', e.target.value)}
                     />
@@ -449,8 +451,8 @@ export default function TeacherProfile() {
 
             <Tabs defaultValue="info" className="w-full">
                 <TabsList className="grid w-full grid-cols-2 lg:w-[400px]">
-                    <TabsTrigger value="info">Profile Information</TabsTrigger>
-                    <TabsTrigger value="documents">Documents</TabsTrigger>
+                    <TabsTrigger value="info">{t('profile.tabs.info')}</TabsTrigger>
+                    <TabsTrigger value="documents">{t('profile.tabs.documents')}</TabsTrigger>
                 </TabsList>
 
                 {/* TAB 1: PROFILE INFORMATION */}
@@ -458,50 +460,50 @@ export default function TeacherProfile() {
                     <Accordion type="multiple" className="w-full space-y-4" defaultValue={[]}>
 
                         {/* 1. Personal Info */}
-                        <AccordionItem value="personal" className="bg-white border rounded-lg px-4">
+                        <AccordionItem value="personal" className="bg-card border border-border rounded-lg px-4">
                             <AccordionTrigger className="hover:no-underline py-4">
-                                {renderSectionHeader("Personal Information", <MapPin className="w-4 h-4 text-blue-600" />, "personal")}
+                                {renderSectionHeader(t('profile.sections.personal'), <MapPin className="w-4 h-4 text-blue-600" />, "personal")}
                             </AccordionTrigger>
                             <AccordionContent className="pt-2 pb-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
-                                        <Label>Hiring Status</Label>
+                                        <Label>{t('profile.fields.hiringStatus')}</Label>
                                         <Select
                                             disabled={!isEditing('personal')}
                                             value={formData.personalInfo?.hiringStatus || ''}
                                             onValueChange={(value) => handleInputChange('personalInfo', 'hiringStatus', value)}
                                         >
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Select status" />
+                                                <SelectValue placeholder={t('profile.fields.selectStatus')} />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="Newly Hired">Newly Hired</SelectItem>
-                                                <SelectItem value="Re-Hired">Re-Hired</SelectItem>
+                                                <SelectItem value="Newly Hired">{t('enums.status.newly_hired')}</SelectItem>
+                                                <SelectItem value="Re-Hired">{t('enums.status.re_hired')}</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>Chinese Name</Label>
-                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.personalInfo?.chineseName || ''} onChange={e => handleInputChange('personalInfo', 'chineseName', e.target.value)} />
+                                        <Label>{t('profile.fields.chineseName')}</Label>
+                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.personalInfo?.chineseName || ''} onChange={e => handleInputChange('personalInfo', 'chineseName', e.target.value)} />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>First Name</Label>
-                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.firstName || ''} onChange={e => handleRootInputChange('firstName', e.target.value)} />
+                                        <Label>{t('profile.fields.firstName')}</Label>
+                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.firstName || ''} onChange={e => handleRootInputChange('firstName', e.target.value)} />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>Middle Name</Label>
-                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.middleName || ''} onChange={e => handleRootInputChange('middleName', e.target.value)} />
+                                        <Label>{t('profile.fields.middleName')}</Label>
+                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.middleName || ''} onChange={e => handleRootInputChange('middleName', e.target.value)} />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>Last Name</Label>
-                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.lastName || ''} onChange={e => handleRootInputChange('lastName', e.target.value)} />
+                                        <Label>{t('profile.fields.lastName')}</Label>
+                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.lastName || ''} onChange={e => handleRootInputChange('lastName', e.target.value)} />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>Email</Label>
-                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.email || ''} onChange={e => handleRootInputChange('email', e.target.value)} />
+                                        <Label>{t('profile.fields.email')}</Label>
+                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.email || ''} onChange={e => handleRootInputChange('email', e.target.value)} />
                                     </div>
                                     <div className="space-y-2 flex flex-col">
-                                        <Label>Service School</Label>
+                                        <Label>{t('profile.fields.serviceSchool')}</Label>
                                         <Popover>
                                             <PopoverTrigger asChild>
                                                 <Button
@@ -517,15 +519,15 @@ export default function TeacherProfile() {
                                                         ? schools.find(
                                                             (school) => school.name.chinese === formData.personalInfo?.serviceSchool
                                                         )?.name.chinese || formData.personalInfo.serviceSchool
-                                                        : "Select school"}
+                                                        : t('profile.fields.selectSchool')}
                                                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                                 </Button>
                                             </PopoverTrigger>
                                             <PopoverContent className="w-[400px] p-0">
                                                 <Command>
-                                                    <CommandInput placeholder="Search school..." />
+                                                    <CommandInput placeholder={t('profile.fields.searchSchool')} />
                                                     <CommandList>
-                                                        <CommandEmpty>No school found.</CommandEmpty>
+                                                        <CommandEmpty>{t('profile.fields.noSchool')}</CommandEmpty>
                                                         <CommandGroup>
                                                             {schools.map((school) => (
                                                                 <CommandItem
@@ -553,11 +555,11 @@ export default function TeacherProfile() {
                                         </Popover>
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>Nationality (Chinese)</Label>
-                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.personalInfo?.nationality?.chinese || ''} onChange={e => handleNestedInputChange('personalInfo', 'nationality', 'chinese', e.target.value)} />
+                                        <Label>{t('profile.fields.nationalityChinese')}</Label>
+                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.personalInfo?.nationality?.chinese || ''} onChange={e => handleNestedInputChange('personalInfo', 'nationality', 'chinese', e.target.value)} />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>Nationality (English)</Label>
+                                        <Label>{t('profile.fields.nationalityEnglish')}</Label>
                                         <CountryDropdown
                                             disabled={!isEditing('personal')}
                                             defaultValue={formData.personalInfo?.nationality?.english ? countries.all.find(c => c.name === formData.personalInfo?.nationality?.english)?.alpha3 : undefined}
@@ -565,7 +567,7 @@ export default function TeacherProfile() {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>Date of Birth</Label>
+                                        <Label>{t('profile.fields.dob')}</Label>
                                         <DatePicker
                                             value={
                                                 formData.personalInfo?.dob
@@ -585,24 +587,24 @@ export default function TeacherProfile() {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>Gender</Label>
+                                        <Label>{t('profile.fields.gender')}</Label>
                                         <Select
                                             disabled={!isEditing('personal')}
                                             value={formData.personalInfo?.gender || ''}
                                             onValueChange={(value) => handleInputChange('personalInfo', 'gender', value)}
                                         >
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Select gender" />
+                                                <SelectValue placeholder={t('profile.fields.selectGender')} />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="Male">Male</SelectItem>
-                                                <SelectItem value="Female">Female</SelectItem>
-                                                <SelectItem value="Others">Others</SelectItem>
+                                                <SelectItem value="Male">{t('enums.gender.male')}</SelectItem>
+                                                <SelectItem value="Female">{t('enums.gender.female')}</SelectItem>
+                                                <SelectItem value="Others">{t('enums.gender.others')}</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>Phone</Label>
+                                        <Label>{t('profile.fields.phone')}</Label>
                                         <PhoneInput
                                             disabled={!isEditing('personal')}
                                             value={formData.personalInfo?.phone || ''}
@@ -611,34 +613,34 @@ export default function TeacherProfile() {
                                         />
                                     </div>
                                     <div className="space-y-2 md:col-span-2">
-                                        <Label>Address (Taiwan)</Label>
-                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.personalInfo?.address?.taiwan || ''} onChange={e => handleNestedInputChange('personalInfo', 'address', 'taiwan', e.target.value)} />
+                                        <Label>{t('profile.fields.addressTaiwan')}</Label>
+                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.personalInfo?.address?.taiwan || ''} onChange={e => handleNestedInputChange('personalInfo', 'address', 'taiwan', e.target.value)} />
                                     </div>
                                     <div className="space-y-2 md:col-span-2">
-                                        <Label>Address (Home Country)</Label>
-                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.personalInfo?.address?.home || ''} onChange={e => handleNestedInputChange('personalInfo', 'address', 'home', e.target.value)} />
+                                        <Label>{t('profile.fields.addressHome')}</Label>
+                                        <Input readOnly={!isEditing('personal')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.personalInfo?.address?.home || ''} onChange={e => handleNestedInputChange('personalInfo', 'address', 'home', e.target.value)} />
                                     </div>
                                 </div>
                             </AccordionContent>
                         </AccordionItem>
 
                         {/* 2. Emergency Contact */}
-                        <AccordionItem value="emergency" className="bg-white border rounded-lg px-4">
+                        <AccordionItem value="emergency" className="bg-card border border-border rounded-lg px-4">
                             <AccordionTrigger className="hover:no-underline py-4">
-                                {renderSectionHeader("Emergency Contact", <Phone className="w-4 h-4 text-red-600" />, "emergency")}
+                                {renderSectionHeader(t('profile.sections.emergency'), <Phone className="w-4 h-4 text-red-600" />, "emergency")}
                             </AccordionTrigger>
                             <AccordionContent className="pt-2 pb-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
-                                        <Label>Name</Label>
-                                        <Input readOnly={!isEditing('emergency')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.emergencyContact?.name || ''} onChange={e => handleInputChange('emergencyContact', 'name', e.target.value)} />
+                                        <Label>{t('profile.fields.emergencyName')}</Label>
+                                        <Input readOnly={!isEditing('emergency')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.emergencyContact?.name || ''} onChange={e => handleInputChange('emergencyContact', 'name', e.target.value)} />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>Relationship</Label>
-                                        <Input readOnly={!isEditing('emergency')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.emergencyContact?.relationship || ''} onChange={e => handleInputChange('emergencyContact', 'relationship', e.target.value)} />
+                                        <Label>{t('profile.fields.emergencyRelationship')}</Label>
+                                        <Input readOnly={!isEditing('emergency')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.emergencyContact?.relationship || ''} onChange={e => handleInputChange('emergencyContact', 'relationship', e.target.value)} />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>Phone</Label>
+                                        <Label>{t('profile.fields.phone')}</Label>
                                         <PhoneInput
                                             disabled={!isEditing('emergency')}
                                             value={formData.emergencyContact?.phone || ''}
@@ -647,36 +649,36 @@ export default function TeacherProfile() {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>Email</Label>
-                                        <Input readOnly={!isEditing('emergency')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.emergencyContact?.email || ''} onChange={e => handleInputChange('emergencyContact', 'email', e.target.value)} />
+                                        <Label>{t('profile.fields.emergencyEmail')}</Label>
+                                        <Input readOnly={!isEditing('emergency')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.emergencyContact?.email || ''} onChange={e => handleInputChange('emergencyContact', 'email', e.target.value)} />
                                     </div>
                                 </div>
                             </AccordionContent>
                         </AccordionItem>
 
                         {/* 3. Passport & ARC */}
-                        <AccordionItem value="passport" className="bg-white border rounded-lg px-4">
+                        <AccordionItem value="passport" className="bg-card border border-border rounded-lg px-4">
                             <AccordionTrigger className="hover:no-underline py-4">
-                                {renderSectionHeader("Passport & ARC", <Briefcase className="w-4 h-4 text-amber-600" />, "passport")}
+                                {renderSectionHeader(t('profile.sections.passport'), <Briefcase className="w-4 h-4 text-amber-600" />, "passport")}
                             </AccordionTrigger>
                             <AccordionContent className="pt-2 pb-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="space-y-4 border p-4 rounded-md bg-slate-50/50">
-                                        <h4 className="font-medium text-slate-700">Passport</h4>
+                                    <div className="space-y-4 border border-border p-4 rounded-md bg-muted/50">
+                                        <h4 className="font-medium text-foreground">{t('profile.documents.passport')}</h4>
                                         <div className="space-y-2">
-                                            <Label>Passport Number</Label>
-                                            <Input readOnly={!isEditing('passport')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.passportDetails?.number || ''} onChange={e => handleInputChange('passportDetails', 'number', e.target.value)} />
+                                            <Label>{t('profile.fields.passportNumber')}</Label>
+                                            <Input readOnly={!isEditing('passport')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.passportDetails?.number || ''} onChange={e => handleInputChange('passportDetails', 'number', e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Issuing Country</Label>
-                                            <Input readOnly={!isEditing('passport')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.passportDetails?.issuingCountry || ''} onChange={e => handleInputChange('passportDetails', 'issuingCountry', e.target.value)} />
+                                            <Label>{t('profile.fields.passportCountry')}</Label>
+                                            <Input readOnly={!isEditing('passport')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.passportDetails?.issuingCountry || ''} onChange={e => handleInputChange('passportDetails', 'issuingCountry', e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Issuing Authority</Label>
-                                            <Input readOnly={!isEditing('passport')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.passportDetails?.issuingAuthority || ''} onChange={e => handleInputChange('passportDetails', 'issuingAuthority', e.target.value)} />
+                                            <Label>{t('profile.fields.passportAuthority')}</Label>
+                                            <Input readOnly={!isEditing('passport')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.passportDetails?.issuingAuthority || ''} onChange={e => handleInputChange('passportDetails', 'issuingAuthority', e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Issue Date</Label>
+                                            <Label>{t('profile.fields.issueDate')}</Label>
                                             <DatePicker
                                                 value={
                                                     formData.passportDetails
@@ -697,7 +699,7 @@ export default function TeacherProfile() {
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Expiry Date</Label>
+                                            <Label>{t('profile.fields.expiryDate')}</Label>
                                             <DatePicker
                                                 value={
                                                     formData.passportDetails
@@ -719,10 +721,10 @@ export default function TeacherProfile() {
                                         </div>
                                     </div>
 
-                                    <div className="space-y-4 border p-4 rounded-md bg-slate-50/50">
-                                        <h4 className="font-medium text-slate-700">ARC</h4>
+                                    <div className="space-y-4 border border-border p-4 rounded-md bg-muted/50">
+                                        <h4 className="font-medium text-foreground">{t('profile.documents.arc')}</h4>
                                         <div className="space-y-2">
-                                            <Label>Expiry Date</Label>
+                                            <Label>{t('profile.fields.expiryDate')}</Label>
                                             <DatePicker
                                                 value={
                                                     formData.arcDetails?.expiryDate
@@ -742,20 +744,20 @@ export default function TeacherProfile() {
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Purpose</Label>
+                                            <Label>{t('profile.fields.arcPurpose')}</Label>
                                             <Select
                                                 disabled={!isEditing('passport')}
                                                 value={formData.arcDetails?.purpose || ''}
                                                 onValueChange={(value) => handleInputChange('arcDetails', 'purpose', value)}
                                             >
                                                 <SelectTrigger>
-                                                    <SelectValue placeholder="Select purpose" />
+                                                    <SelectValue placeholder={t('profile.fields.selectPurpose')} />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="Employed">Employed</SelectItem>
-                                                    <SelectItem value="Dependent">Dependent</SelectItem>
-                                                    <SelectItem value="APRC">APRC</SelectItem>
-                                                    <SelectItem value="Others">Others</SelectItem>
+                                                    <SelectItem value="Employed">{t('enums.arcPurpose.employed')}</SelectItem>
+                                                    <SelectItem value="Dependent">{t('enums.arcPurpose.dependent')}</SelectItem>
+                                                    <SelectItem value="APRC">{t('enums.arcPurpose.aprc')}</SelectItem>
+                                                    <SelectItem value="Others">{t('enums.gender.others')}</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>
@@ -765,47 +767,47 @@ export default function TeacherProfile() {
                         </AccordionItem>
 
                         {/* 4. Education & Licenses */}
-                        <AccordionItem value="education" className="bg-white border rounded-lg px-4">
+                        <AccordionItem value="education" className="bg-card border border-border rounded-lg px-4">
                             <AccordionTrigger className="hover:no-underline py-4">
-                                {renderSectionHeader("Education & Licenses", <GraduationCap className="w-4 h-4 text-green-600" />, "education")}
+                                {renderSectionHeader(t('profile.sections.education'), <GraduationCap className="w-4 h-4 text-green-600" />, "education")}
                             </AccordionTrigger>
                             <AccordionContent className="pt-2 pb-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     {/* Education Block */}
-                                    <div className="space-y-4 border p-4 rounded-md bg-slate-50/50">
-                                        <h4 className="font-medium text-slate-700">Education</h4>
+                                    <div className="space-y-4 border border-border p-4 rounded-md bg-muted/50">
+                                        <h4 className="font-medium text-foreground">{t('profile.sections.education')}</h4>
                                         <div className="space-y-2">
-                                            <Label>Degree</Label>
+                                            <Label>{t('profile.fields.degree')}</Label>
                                             <Select
                                                 disabled={!isEditing('education')}
                                                 value={formData.education?.degree || ''}
                                                 onValueChange={(value) => handleInputChange('education', 'degree', value)}
                                             >
                                                 <SelectTrigger>
-                                                    <SelectValue placeholder="Select degree" />
+                                                    <SelectValue placeholder={t('profile.fields.selectDegree')} />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="Bachelor">Bachelor</SelectItem>
-                                                    <SelectItem value="Master">Master</SelectItem>
-                                                    <SelectItem value="Doctor">Doctor</SelectItem>
+                                                    <SelectItem value="Bachelor">{t('enums.degree.bachelor')}</SelectItem>
+                                                    <SelectItem value="Master">{t('enums.degree.master')}</SelectItem>
+                                                    <SelectItem value="Doctor">{t('enums.degree.doctor')}</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Major</Label>
-                                            <Input readOnly={!isEditing('education')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.education?.major || ''} onChange={e => handleInputChange('education', 'major', e.target.value)} />
+                                            <Label>{t('profile.fields.major')}</Label>
+                                            <Input readOnly={!isEditing('education')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.education?.major || ''} onChange={e => handleInputChange('education', 'major', e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>School</Label>
-                                            <Input readOnly={!isEditing('education')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.education?.school || ''} onChange={e => handleInputChange('education', 'school', e.target.value)} />
+                                            <Label>{t('profile.fields.school')}</Label>
+                                            <Input readOnly={!isEditing('education')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.education?.school || ''} onChange={e => handleInputChange('education', 'school', e.target.value)} />
                                         </div>
                                     </div>
 
                                     {/* Licenses Block */}
-                                    <div className="space-y-4 border p-4 rounded-md bg-slate-50/50">
-                                        <h4 className="font-medium text-slate-700">Teaching License</h4>
+                                    <div className="space-y-4 border border-border p-4 rounded-md bg-muted/50">
+                                        <h4 className="font-medium text-foreground">{t('profile.sections.education')}</h4>
                                         <div className="space-y-2">
-                                            <Label>Expiry Date</Label>
+                                            <Label>{t('profile.fields.expiryDate')}</Label>
                                             <DatePicker
                                                 value={
                                                     formData.teachingLicense
@@ -831,18 +833,18 @@ export default function TeacherProfile() {
                         </AccordionItem>
 
                         {/* 5. Work Permit */}
-                        <AccordionItem value="workPermit" className="bg-white border rounded-lg px-4">
+                        <AccordionItem value="workPermit" className="bg-card border border-border rounded-lg px-4">
                             <AccordionTrigger className="hover:no-underline py-4">
-                                {renderSectionHeader("Work Permit", <FileText className="w-4 h-4 text-indigo-600" />, "workPermit")}
+                                {renderSectionHeader(t('profile.sections.workPermit'), <FileText className="w-4 h-4 text-indigo-600" />, "workPermit")}
                             </AccordionTrigger>
                             <AccordionContent className="pt-2 pb-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
-                                        <Label>Permit Number</Label>
-                                        <Input readOnly={!isEditing('workPermit')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.workPermitDetails?.permitNumber || ''} onChange={e => handleInputChange('workPermitDetails', 'permitNumber', e.target.value)} />
+                                        <Label>{t('profile.fields.permitNumber')}</Label>
+                                        <Input readOnly={!isEditing('workPermit')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.workPermitDetails?.permitNumber || ''} onChange={e => handleInputChange('workPermitDetails', 'permitNumber', e.target.value)} />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>Start Date</Label>
+                                        <Label>{t('profile.fields.startDate')}</Label>
                                         <DatePicker
                                             value={
                                                 formData.workPermitDetails?.startDate
@@ -862,7 +864,7 @@ export default function TeacherProfile() {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>Expiry Date</Label>
+                                        <Label>{t('profile.fields.expiryDate')}</Label>
                                         <DatePicker
                                             value={
                                                 formData.workPermitDetails?.expiryDate
@@ -882,7 +884,7 @@ export default function TeacherProfile() {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>Issue Date</Label>
+                                        <Label>{t('profile.fields.issueDate')}</Label>
                                         <DatePicker
                                             value={
                                                 formData.workPermitDetails?.issueDate
@@ -906,14 +908,14 @@ export default function TeacherProfile() {
                         </AccordionItem>
 
                         {/* 6. Contract Details */}
-                        <AccordionItem value="contract" className="bg-white border rounded-lg px-4">
+                        <AccordionItem value="contract" className="bg-card border border-border rounded-lg px-4">
                             <AccordionTrigger className="hover:no-underline py-4">
-                                {renderSectionHeader("Contract Details", <Briefcase className="w-4 h-4 text-emerald-600" />, "contract")}
+                                {renderSectionHeader(t('profile.sections.contract'), <Briefcase className="w-4 h-4 text-emerald-600" />, "contract")}
                             </AccordionTrigger>
                             <AccordionContent className="pt-2 pb-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
-                                        <Label>Contract Start</Label>
+                                        <Label>{t('profile.fields.contractStart')}</Label>
                                         <DatePicker
                                             value={
                                                 formData.contractDetails?.contractStartDate
@@ -933,7 +935,7 @@ export default function TeacherProfile() {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>Contract End</Label>
+                                        <Label>{t('profile.fields.contractEnd')}</Label>
                                         <DatePicker
                                             value={
                                                 formData.contractDetails?.contractEndDate
@@ -953,13 +955,13 @@ export default function TeacherProfile() {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>Salary</Label>
-                                        <Input type="number" readOnly={!isEditing('contract')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.contractDetails?.salary || ''} onChange={e => handleInputChange('contractDetails', 'salary', Number(e.target.value))} />
+                                        <Label>{t('profile.fields.salary')}</Label>
+                                        <Input type="number" readOnly={!isEditing('contract')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.contractDetails?.salary || ''} onChange={e => handleInputChange('contractDetails', 'salary', Number(e.target.value))} />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>Seniority (Salary)</Label>
+                                        <Label>{t('profile.fields.senioritySalary')}</Label>
                                         {!isEditing('contract') ? (
-                                            <Input readOnly className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.contractDetails?.senioritySalary || ''} />
+                                            <Input readOnly className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.contractDetails?.senioritySalary || ''} />
                                         ) : (
                                             <div className="flex gap-2">
                                                 <div className="flex-1 flex items-center gap-1">
@@ -974,7 +976,7 @@ export default function TeacherProfile() {
                                                             handleInputChange('contractDetails', 'senioritySalary', `${y} year(s)/${m} month(s)/${d} day(s)`);
                                                         }}
                                                     />
-                                                    <span className="text-xs text-slate-500">Yr</span>
+                                                    <span className="text-xs text-muted-foreground">Yr</span>
                                                 </div>
                                                 <div className="flex-1 flex items-center gap-1">
                                                     <Input
@@ -988,7 +990,7 @@ export default function TeacherProfile() {
                                                             handleInputChange('contractDetails', 'senioritySalary', `${y} year(s)/${m} month(s)/${d} day(s)`);
                                                         }}
                                                     />
-                                                    <span className="text-xs text-slate-500">Mo</span>
+                                                    <span className="text-xs text-muted-foreground">Mo</span>
                                                 </div>
                                                 <div className="flex-1 flex items-center gap-1">
                                                     <Input
@@ -1002,7 +1004,7 @@ export default function TeacherProfile() {
                                                             handleInputChange('contractDetails', 'senioritySalary', `${y} year(s)/${m} month(s)/${d} day(s)`);
                                                         }}
                                                     />
-                                                    <span className="text-xs text-slate-500">Day</span>
+                                                    <span className="text-xs text-muted-foreground">Day</span>
                                                 </div>
                                             </div>
                                         )}
@@ -1010,11 +1012,11 @@ export default function TeacherProfile() {
 
 
                                     <div className="space-y-2">
-                                        <Label>Seniority (Leave)</Label>
-                                        <Input readOnly={!isEditing('contract')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.contractDetails?.seniorityLeave || ''} onChange={e => handleInputChange('contractDetails', 'seniorityLeave', e.target.value)} />
+                                        <Label>{t('profile.fields.seniorityLeave')}</Label>
+                                        <Input readOnly={!isEditing('contract')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.contractDetails?.seniorityLeave || ''} onChange={e => handleInputChange('contractDetails', 'seniorityLeave', e.target.value)} />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>Pay Start Date</Label>
+                                        <Label>{t('profile.fields.payStartDate')}</Label>
                                         <DatePicker
                                             value={
                                                 formData.contractDetails?.payStartDate
@@ -1034,7 +1036,7 @@ export default function TeacherProfile() {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>Pay End Date</Label>
+                                        <Label>{t('profile.fields.payEndDate')}</Label>
                                         <DatePicker
                                             value={
                                                 formData.contractDetails?.payEndDate
@@ -1063,13 +1065,13 @@ export default function TeacherProfile() {
                                                 checked={formData.contractDetails?.hasSalaryIncrease || false}
                                                 onCheckedChange={(checked) => handleInputChange('contractDetails', 'hasSalaryIncrease', checked)}
                                             />
-                                            <Label htmlFor="hasSalaryIncrease" className="cursor-pointer">Salary Increase during employment</Label>
+                                            <Label htmlFor="hasSalaryIncrease" className="cursor-pointer">{t('profile.fields.hasSalaryIncrease')}</Label>
                                         </div>
 
                                         {formData.contractDetails?.hasSalaryIncrease && (
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pl-6 border-l-2 border-slate-200">
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pl-6 border-l-2 border-border">
                                                 <div className="space-y-2">
-                                                    <Label>Salary Increase Date</Label>
+                                                    <Label>{t('profile.fields.salaryIncreaseDate')}</Label>
                                                     <DatePicker
                                                         value={
                                                             formData.contractDetails
@@ -1090,8 +1092,8 @@ export default function TeacherProfile() {
                                                     />
                                                 </div>
                                                 <div className="space-y-2">
-                                                    <Label>Est. Promoted Salary</Label>
-                                                    <Input type="number" readOnly={!isEditing('contract')} className="read-only:bg-slate-50 read-only:text-slate-500 read-only:cursor-default" value={formData.contractDetails?.estimatedPromotedSalary || ''} onChange={e => handleInputChange('contractDetails', 'estimatedPromotedSalary', Number(e.target.value))} />
+                                                    <Label>{t('profile.fields.estimatedPromotedSalary')}</Label>
+                                                    <Input type="number" readOnly={!isEditing('contract')} className="read-only:bg-muted read-only:text-muted-foreground read-only:cursor-default" value={formData.contractDetails?.estimatedPromotedSalary || ''} onChange={e => handleInputChange('contractDetails', 'estimatedPromotedSalary', Number(e.target.value))} />
                                                 </div>
                                             </div>
                                         )}
@@ -1101,14 +1103,14 @@ export default function TeacherProfile() {
                         </AccordionItem>
 
                         {/* 7. Criminal Record */}
-                        <AccordionItem value="criminal" className="bg-white border rounded-lg px-4">
+                        <AccordionItem value="criminal" className="bg-card border border-border rounded-lg px-4">
                             <AccordionTrigger className="hover:no-underline py-4">
-                                {renderSectionHeader("Criminal Record", <AlertCircle className="w-4 h-4 text-slate-600" />, "criminal")}
+                                {renderSectionHeader(t('profile.sections.criminal'), <AlertCircle className="w-4 h-4 text-muted-foreground" />, "criminal")}
                             </AccordionTrigger>
                             <AccordionContent className="pt-2 pb-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
-                                        <Label>Issue Date</Label>
+                                        <Label>{t('profile.fields.issueDate')}</Label>
                                         <DatePicker
                                             value={
                                                 formData.criminalRecord?.issueDate
@@ -1138,7 +1140,7 @@ export default function TeacherProfile() {
                 <TabsContent value="documents" className="mt-6 space-y-8">
                     {/* Core Documents Grid */}
                     <div>
-                        <h2 className="text-xl font-semibold mb-4">Core Documents</h2>
+                        <h2 className="text-xl font-semibold mb-4">{t('profile.documents.coreTitle')}</h2>
                         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                             {coreDocs.map((doc) => {
                                 const docStatus = teacher.documents[doc.key as keyof typeof teacher.documents];
@@ -1152,14 +1154,14 @@ export default function TeacherProfile() {
                                                 {isUploaded ? (
                                                     <CheckCircle className="h-4 w-4 text-green-600" />
                                                 ) : (
-                                                    <AlertCircle className="h-4 w-4 text-slate-400" />
+                                                    <AlertCircle className="h-4 w-4 text-muted-foreground/50" />
                                                 )}
                                             </CardTitle>
                                         </CardHeader>
                                         <CardContent>
                                             <div className="space-y-4">
                                                 <p className="text-xs text-muted-foreground">
-                                                    Status: <span className="font-medium capitalize">{docStatus.status}</span>
+                                                    {t('profile.documents.status')}: <span className="font-medium capitalize">{docStatus.status}</span>
                                                 </p>
                                                 <div className="flex items-center gap-2">
                                                     <Input
@@ -1176,7 +1178,7 @@ export default function TeacherProfile() {
                                                         className="flex-1 cursor-pointer inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3"
                                                     >
                                                         <Upload className="mr-2 h-4 w-4" />
-                                                        {isUploaded ? "Update" : "Upload"}
+                                                        {isUploaded ? t('profile.documents.update') : t('profile.documents.upload')}
                                                     </Label>
                                                     {isUploaded && (
                                                         <>
@@ -1202,9 +1204,9 @@ export default function TeacherProfile() {
                     {/* Document Organization */}
                     <div className="space-y-4">
                         <div className="flex items-center justify-between">
-                            <h2 className="text-xl font-semibold">Other Documents</h2>
+                            <h2 className="text-xl font-semibold">{t('profile.documents.otherTitle')}</h2>
                             <Button onClick={() => setUploadDialogOpen(true)}>
-                                <Upload className="mr-2 h-4 w-4" /> Upload Document
+                                <Upload className="mr-2 h-4 w-4" /> {t('profile.documents.uploadDocument')}
                             </Button>
                         </div>
 
@@ -1224,23 +1226,23 @@ export default function TeacherProfile() {
             <Dialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen}>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Upload New Document</DialogTitle>
+                        <DialogTitle>{t('profile.documents.uploadDialog.title')}</DialogTitle>
                         <DialogDescription>
-                            Select a file to upload.
+                            {t('profile.documents.uploadDialog.description')}
                         </DialogDescription>
                     </DialogHeader>
                     <form onSubmit={handleAdHocUpload} className="space-y-4">
                         <div className="grid gap-2">
-                            <Label htmlFor="docName">Document Name</Label>
-                            <Input id="docName" name="name" placeholder="e.g. Health Certificate" required />
+                            <Label htmlFor="docName">{t('profile.documents.uploadDialog.nameLabel')}</Label>
+                            <Input id="docName" name="name" placeholder={t('profile.documents.uploadDialog.namePlaceholder')} required />
                         </div>
                         <div className="grid gap-2">
-                            <Label htmlFor="docFile">File</Label>
+                            <Label htmlFor="docFile">{t('profile.documents.uploadDialog.fileLabel')}</Label>
                             <Input id="docFile" name="file" type="file" required />
                         </div>
                         <DialogFooter>
-                            <Button type="button" variant="outline" onClick={() => setUploadDialogOpen(false)}>Cancel</Button>
-                            <Button type="submit">Upload</Button>
+                            <Button type="button" variant="outline" onClick={() => setUploadDialogOpen(false)}>{t('profile.documents.uploadDialog.cancel')}</Button>
+                            <Button type="submit">{t('profile.documents.uploadDialog.upload')}</Button>
                         </DialogFooter>
                     </form>
                 </DialogContent>
@@ -1250,14 +1252,14 @@ export default function TeacherProfile() {
             <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Rename Document</DialogTitle>
+                        <DialogTitle>{t('profile.documents.editDialog.title')}</DialogTitle>
                         <DialogDescription>
-                            Enter a new name for the document.
+                            {t('profile.documents.editDialog.description')}
                         </DialogDescription>
                     </DialogHeader>
                     <form onSubmit={handleUpdateAdHoc} className="space-y-4">
                         <div className="grid gap-2">
-                            <Label htmlFor="editDocName">Document Name</Label>
+                            <Label htmlFor="editDocName">{t('profile.documents.editDialog.nameLabel')}</Label>
                             <Input
                                 id="editDocName"
                                 name="name"
@@ -1266,12 +1268,12 @@ export default function TeacherProfile() {
                             />
                         </div>
                         <div className="grid gap-2">
-                            <Label htmlFor="editDocFile">Update File (Optional)</Label>
+                            <Label htmlFor="editDocFile">{t('profile.documents.editDialog.fileLabel')}</Label>
                             <Input id="editDocFile" name="file" type="file" />
                         </div>
                         <DialogFooter>
-                            <Button type="button" variant="outline" onClick={() => setEditDialogOpen(false)}>Cancel</Button>
-                            <Button type="submit">Save Changes</Button>
+                            <Button type="button" variant="outline" onClick={() => setEditDialogOpen(false)}>{t('profile.documents.editDialog.cancel')}</Button>
+                            <Button type="submit">{t('profile.documents.editDialog.save')}</Button>
                         </DialogFooter>
                     </form>
                 </DialogContent>
@@ -1281,14 +1283,14 @@ export default function TeacherProfile() {
             <Dialog open={deleteConfirmOpen} onOpenChange={setDeleteConfirmOpen}>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Confirm Deletion</DialogTitle>
+                        <DialogTitle>{t('profile.documents.deleteDialog.title')}</DialogTitle>
                         <DialogDescription>
-                            Are you sure you want to delete this document? This action cannot be undone.
+                            {t('profile.documents.deleteDialog.description')}
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter>
-                        <Button variant="outline" onClick={() => setDeleteConfirmOpen(false)}>Cancel</Button>
-                        <Button variant="destructive" onClick={executeDelete}>Delete</Button>
+                        <Button variant="outline" onClick={() => setDeleteConfirmOpen(false)}>{t('profile.documents.deleteDialog.cancel')}</Button>
+                        <Button variant="destructive" onClick={executeDelete}>{t('profile.documents.deleteDialog.delete')}</Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>

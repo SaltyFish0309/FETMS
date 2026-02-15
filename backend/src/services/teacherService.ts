@@ -1,9 +1,19 @@
-import Teacher, { ITeacher, IAdHocDoc } from '../models/Teacher.js';
+import Teacher, { ITeacher, IAdHocDoc, IDocumentBox } from '../models/Teacher.js';
 import School from '../models/School.js';
 import fs from 'fs';
 import path from 'path';
 import archiver from 'archiver';
 import { Types } from 'mongoose';
+
+interface CoreDocData {
+    number?: string;
+    expiryDate?: Date;
+}
+
+interface ReorderDocInput {
+    _id: string;
+    boxId?: string;
+}
 
 // Helper for file deletion
 const deleteFile = (filePath: string) => {
@@ -24,16 +34,21 @@ export class TeacherService {
                 $or: [{ 'name.chinese': schoolName }, { 'name.english': schoolName }]
             });
             if (school) {
-                data.school = school._id as any;
+                (data as Record<string, unknown>).school = school._id;
             }
         }
         const teacher = new Teacher(data);
         return await teacher.save();
     }
 
-    static async getAllTeachers(): Promise<ITeacher[]> {
-        return await Teacher.find({ isDeleted: false })
+    static async getAllTeachers(projectId?: string): Promise<ITeacher[]> {
+        const query: Record<string, unknown> = { isDeleted: false };
+        if (projectId) {
+            query.project = projectId;
+        }
+        return await Teacher.find(query)
             .populate('school')
+            .populate('project')
             .sort({ createdAt: -1 });
     }
 
@@ -98,8 +113,8 @@ export class TeacherService {
         );
     }
 
-    static async uploadCoreDocument(id: string, type: string, file: Express.Multer.File | undefined, data: any): Promise<ITeacher | null> {
-        const updateData: any = {
+    static async uploadCoreDocument(id: string, type: string, file: Express.Multer.File | undefined, data: CoreDocData): Promise<ITeacher | null> {
+        const updateData: Record<string, unknown> = {
             [`documents.${type}.status`]: 'valid',
             [`documents.${type}.filePath`]: file ? `uploads/${file.filename}` : undefined
         };
@@ -145,7 +160,7 @@ export class TeacherService {
         const teacher = await Teacher.findOne({ _id: id, isDeleted: false });
         if (!teacher) return null;
 
-        const docIndex = teacher.otherDocuments.findIndex((d: any) => d._id.toString() === docId);
+        const docIndex = teacher.otherDocuments.findIndex((d) => d._id?.toString() === docId);
         if (docIndex === -1) return null;
 
         const doc = teacher.otherDocuments[docIndex];
@@ -157,22 +172,26 @@ export class TeacherService {
         return await teacher.save();
     }
 
-    static async reorderAdHocDocuments(id: string, documents: any[]): Promise<ITeacher | null> {
+    static async reorderAdHocDocuments(id: string, documents: ReorderDocInput[]): Promise<ITeacher | null> {
         const teacher = await Teacher.findOne({ _id: id, isDeleted: false });
         if (!teacher) return null;
 
-        const docMap = new Map(documents.map((d: any, index: number) => [d._id, { boxId: d.boxId, index }]));
+        const docMap = new Map(documents.map((d, index) => [d._id, { boxId: d.boxId, index }]));
 
-        teacher.otherDocuments.forEach((doc: any) => {
-            if (docMap.has(doc._id.toString())) {
-                const update = docMap.get(doc._id.toString());
-                doc.boxId = update?.boxId || undefined;
+        teacher.otherDocuments.forEach((doc) => {
+            if (docMap.has(doc._id!.toString())) {
+                const update = docMap.get(doc._id!.toString());
+                if (update?.boxId) {
+                    doc.boxId = update.boxId;
+                } else {
+                    delete doc.boxId;
+                }
             }
         });
 
-        teacher.otherDocuments.sort((a: any, b: any) => {
-            const indexA = docMap.get(a._id.toString())?.index ?? -1;
-            const indexB = docMap.get(b._id.toString())?.index ?? -1;
+        teacher.otherDocuments.sort((a, b) => {
+            const indexA = docMap.get(a._id!.toString())?.index ?? -1;
+            const indexB = docMap.get(b._id!.toString())?.index ?? -1;
             if (indexA !== -1 && indexB !== -1) return indexA - indexB;
             if (indexA === -1) return 1;
             if (indexB === -1) return -1;
@@ -187,7 +206,7 @@ export class TeacherService {
         const teacher = await Teacher.findOne({ _id: id, isDeleted: false });
         if (!teacher) return null;
 
-        const docIndex = teacher.otherDocuments.findIndex((d: any) => d._id.toString() === docId);
+        const docIndex = teacher.otherDocuments.findIndex((d) => d._id?.toString() === docId);
         if (docIndex === -1) return null;
 
         const doc = teacher.otherDocuments[docIndex];
@@ -207,8 +226,8 @@ export class TeacherService {
         const teacher = await Teacher.findOne({ _id: id, isDeleted: false });
         if (!teacher) return null;
 
-        const newBox = { name, order: teacher.documentBoxes.length };
-        teacher.documentBoxes.push(newBox as any);
+        const newBox: IDocumentBox = { name, order: teacher.documentBoxes.length };
+        teacher.documentBoxes.push(newBox);
         return await teacher.save();
     }
 
@@ -218,13 +237,13 @@ export class TeacherService {
 
         const orderMap = new Map(boxIds.map((id, index) => [id, index]));
 
-        teacher.documentBoxes.forEach((box: any) => {
-            if (orderMap.has(box._id.toString())) {
-                box.order = orderMap.get(box._id.toString());
+        teacher.documentBoxes.forEach((box) => {
+            if (orderMap.has(box._id!.toString())) {
+                box.order = orderMap.get(box._id!.toString())!;
             }
         });
 
-        teacher.documentBoxes.sort((a: any, b: any) => a.order - b.order);
+        teacher.documentBoxes.sort((a, b) => a.order - b.order);
         teacher.markModified('documentBoxes');
         return await teacher.save();
     }
@@ -233,7 +252,7 @@ export class TeacherService {
         const teacher = await Teacher.findOne({ _id: id, isDeleted: false });
         if (!teacher) return null;
 
-        const box = teacher.documentBoxes.find((b: any) => b._id.toString() === boxId);
+        const box = teacher.documentBoxes.find((b) => b._id?.toString() === boxId);
         if (!box) return null;
 
         if (name) box.name = name;
@@ -246,14 +265,14 @@ export class TeacherService {
         const teacher = await Teacher.findOne({ _id: id, isDeleted: false });
         if (!teacher) return null;
 
-        const boxIndex = teacher.documentBoxes.findIndex((b: any) => b._id.toString() === boxId);
+        const boxIndex = teacher.documentBoxes.findIndex((b) => b._id?.toString() === boxId);
         if (boxIndex === -1) return null;
 
         teacher.documentBoxes.splice(boxIndex, 1);
 
-        teacher.otherDocuments.forEach((doc: any) => {
+        teacher.otherDocuments.forEach((doc) => {
             if (doc.boxId === boxId) {
-                doc.boxId = undefined;
+                delete doc.boxId;
             }
         });
 
@@ -267,15 +286,15 @@ export class TeacherService {
         if (!teacher) return null;
 
         let boxName = 'Uncategorized';
-        let docsInBox: any[] = [];
+        let docsInBox: IAdHocDoc[] = [];
 
         if (boxId === 'uncategorized') {
-            docsInBox = teacher.otherDocuments.filter((d: any) => !d.boxId);
+            docsInBox = teacher.otherDocuments.filter((d) => !d.boxId);
         } else {
-            const box = teacher.documentBoxes.find((b: any) => b._id.toString() === boxId);
+            const box = teacher.documentBoxes.find((b) => b._id?.toString() === boxId);
             if (!box) return null;
             boxName = box.name;
-            docsInBox = teacher.otherDocuments.filter((d: any) => d.boxId === boxId);
+            docsInBox = teacher.otherDocuments.filter((d) => d.boxId === boxId);
         }
 
         if (docsInBox.length === 0) return null; // Or throw error to indicate empty
@@ -283,7 +302,7 @@ export class TeacherService {
         const archive = archiver('zip', { zlib: { level: 9 } });
         const filename = `${teacher.firstName}_${teacher.lastName}_${boxName}.zip`;
 
-        docsInBox.forEach((doc: any) => {
+        docsInBox.forEach((doc) => {
             if (doc.filePath) {
                 const absolutePath = path.resolve(doc.filePath);
                 if (fs.existsSync(absolutePath)) {

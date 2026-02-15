@@ -10,6 +10,7 @@ import importRoutes from './routes/importRoutes.js';
 import schoolRoutes from './routes/schoolRoutes.js';
 import statsRoutes from './routes/statsRoutes.js';
 import alertRoutes from './routes/alertRoutes.js';
+import projectRoutes from './routes/projects.js';
 
 dotenv.config();
 
@@ -25,10 +26,11 @@ app.use('/api/teachers', importRoutes);
 app.use('/api/schools', schoolRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/alerts', alertRoutes);
+app.use('/api/projects', projectRoutes);
 app.use('/uploads', express.static('uploads'));
 
 // Global Error Handler
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
     console.error(err.stack);
     res.status(500).json({ message: err.message || 'Something went wrong!' });
 });
@@ -39,10 +41,14 @@ app.get('/', (req, res) => {
 });
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/fetms')
-    .then(() => console.log('MongoDB Connected'))
-    .catch(err => console.error('MongoDB Connection Error:', err));
+if (process.env.NODE_ENV !== 'test') {
+    mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/fetms')
+        .then(() => console.log('MongoDB Connected'))
+        .catch(err => console.error('MongoDB Connection Error:', err));
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
+
+export default app;

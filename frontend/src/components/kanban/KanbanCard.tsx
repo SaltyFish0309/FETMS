@@ -30,7 +30,7 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({ id, children, className 
                 style={style}
                 {...attributes}
                 {...listeners}
-                className={`rounded-lg border-2 border-dashed border-slate-300 bg-slate-50/50 min-h-[4rem] w-full ${className}`}
+                className={`rounded-lg border-2 border-dashed border-border bg-muted/50 min-h-[4rem] w-full ${className}`}
             />
         );
     }

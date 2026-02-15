@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { schoolService, type School } from "@/services/schoolService";
+import { teacherService, type Teacher } from "@/services/teacherService";
+import { useProjectContext } from "@/contexts/ProjectContext";
 import { Button } from "@/components/ui/button";
 import {
     Table,
@@ -32,10 +34,14 @@ import { Label } from "@/components/ui/label";
 import { Plus, Trash2, Search, School as SchoolIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { ImportSchoolsDialog } from "@/components/schools/ImportSchoolsDialog";
+import { useTranslation } from "react-i18next";
 
 export default function Schools() {
     const navigate = useNavigate();
+    const { t } = useTranslation(['schools', 'common']);
+    const { selectedProjectId } = useProjectContext();
     const [schools, setSchools] = useState<School[]>([]);
+    const [teachers, setTeachers] = useState<Teacher[]>([]);
     const [isOpen, setIsOpen] = useState(false);
     const [isSelectionMode, setIsSelectionMode] = useState(false);
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
@@ -43,19 +49,40 @@ export default function Schools() {
     const [newSchoolName, setNewSchoolName] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
 
-    const loadSchools = async () => {
+    const loadData = async () => {
         try {
-            const data = await schoolService.getAll(searchQuery);
-            setSchools(data);
+            const schoolsData = await schoolService.getAll(searchQuery);
+            setSchools(schoolsData);
+
+            if (selectedProjectId) {
+                const teachersData = await teacherService.getAll(selectedProjectId);
+                setTeachers(teachersData);
+            }
         } catch (error) {
-            console.error("Failed to load schools", error);
+            console.error("Failed to load data", error);
         }
     };
 
     useEffect(() => {
-        loadSchools();
+        loadData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchQuery]);
+    }, [searchQuery, selectedProjectId]);
+
+    // Frontend filtering: show only schools with teachers in the selected project
+    const filteredSchools = useMemo(() => {
+        if (!selectedProjectId) return schools;
+
+        const schoolIdsInProject = new Set(
+            teachers
+                .map(t => {
+                    if (!t.school) return null;
+                    return typeof t.school === 'string' ? t.school : t.school._id;
+                })
+                .filter(Boolean) as string[]
+        );
+
+        return schools.filter(s => schoolIdsInProject.has(s._id));
+    }, [schools, teachers, selectedProjectId]);
 
     const handleCreate = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -63,7 +90,7 @@ export default function Schools() {
             await schoolService.create({ name: { chinese: newSchoolName } });
             setIsOpen(false);
             setNewSchoolName("");
-            loadSchools();
+            loadData();
         } catch (error) {
             console.error("Failed to create school", error);
         }
@@ -80,17 +107,17 @@ export default function Schools() {
     };
 
     const toggleSelectAll = () => {
-        if (selectedIds.size === schools.length) {
+        if (selectedIds.size === filteredSchools.length) {
             setSelectedIds(new Set());
         } else {
-            setSelectedIds(new Set(schools.map(s => s._id)));
+            setSelectedIds(new Set(filteredSchools.map(s => s._id)));
         }
     };
 
     const handleDeleteSelected = async () => {
         try {
             await Promise.all(Array.from(selectedIds).map(id => schoolService.delete(id)));
-            await loadSchools();
+            await loadData();
             setSelectedIds(new Set());
             setShowDeleteAlert(false);
             setIsSelectionMode(false);
@@ -111,34 +138,34 @@ export default function Schools() {
         <div className="space-y-8">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-slate-900">Schools</h1>
-                    <p className="text-slate-500 mt-2">Manage partner schools and their profiles.</p>
+                    <h1 className="text-3xl font-bold tracking-tight text-foreground">{t('schools:title')}</h1>
+                    <p className="text-muted-foreground mt-2">{t('schools:subtitle')}</p>
                 </div>
                 <div className="flex items-center gap-4">
-                    <ImportSchoolsDialog onSuccess={loadSchools} />
+                    <ImportSchoolsDialog onSuccess={loadData} />
                     <Dialog open={isOpen} onOpenChange={setIsOpen}>
                         <DialogTrigger asChild>
                             <Button className="bg-blue-600 hover:bg-blue-700">
-                                <Plus className="mr-2 h-4 w-4" /> Add School
+                                <Plus className="mr-2 h-4 w-4" /> {t('schools:buttons.addSchool')}
                             </Button>
                         </DialogTrigger>
                         <DialogContent>
                             <DialogHeader>
-                                <DialogTitle>Add New School</DialogTitle>
+                                <DialogTitle>{t('schools:dialog.addTitle')}</DialogTitle>
                             </DialogHeader>
                             <form onSubmit={handleCreate} className="space-y-4 mt-4">
                                 <div className="space-y-2">
-                                    <Label htmlFor="schoolName">Chinese School Name</Label>
+                                    <Label htmlFor="schoolName">{t('schools:dialog.chineseNameLabel')}</Label>
                                     <Input
                                         id="schoolName"
                                         value={newSchoolName}
                                         onChange={(e) => setNewSchoolName(e.target.value)}
-                                        placeholder="e.g. 臺北市立第一女子高級中學"
+                                        placeholder={t('schools:dialog.chineseNamePlaceholder')}
                                         required
                                     />
                                 </div>
                                 <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
-                                    Create School
+                                    {t('schools:dialog.createButton')}
                                 </Button>
                             </form>
                         </DialogContent>
@@ -147,11 +174,11 @@ export default function Schools() {
             </div>
 
             {/* Filter Bar */}
-            <div className="flex items-center gap-4 bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
+            <div className="flex items-center gap-4 bg-card p-4 rounded-lg border border-border shadow-sm">
                 <div className="relative flex-1 max-w-md">
-                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500" />
+                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                     <Input
-                        placeholder="Search schools..."
+                        placeholder={t('schools:search.placeholder')}
                         className="pl-9"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
@@ -165,7 +192,7 @@ export default function Schools() {
                             onClick={() => setShowDeleteAlert(true)}
                         >
                             <Trash2 className="mr-2 h-4 w-4" />
-                            Delete ({selectedIds.size})
+                            {t('common:actions.delete')} ({selectedIds.size})
                         </Button>
                     )}
                     <Button
@@ -175,42 +202,42 @@ export default function Schools() {
                             setSelectedIds(new Set());
                         }}
                     >
-                        {isSelectionMode ? "Cancel Selection" : "Select Schools"}
+                        {isSelectionMode ? t('schools:buttons.cancelSelection') : t('schools:buttons.selectSchools')}
                     </Button>
                 </div>
             </div>
 
-            <div className="rounded-md border bg-white shadow-sm">
+            <div className="rounded-md border bg-card shadow-sm">
                 <Table>
                     <TableHeader>
                         <TableRow>
                             <TableHead className="w-[50px]">
                                 {isSelectionMode && (
                                     <Checkbox
-                                        checked={selectedIds.size === schools.length && schools.length > 0}
+                                        checked={selectedIds.size === filteredSchools.length && filteredSchools.length > 0}
                                         onCheckedChange={toggleSelectAll}
                                     />
                                 )}
                             </TableHead>
-                            <TableHead>School Name (Chinese)</TableHead>
-                            <TableHead>Address (Chinese)</TableHead>
-                            <TableHead>Principal</TableHead>
-                            <TableHead>Contact Window</TableHead>
-                            <TableHead>Contact Email</TableHead>
+                            <TableHead>{t('schools:table.columns.schoolName')}</TableHead>
+                            <TableHead>{t('schools:table.columns.address')}</TableHead>
+                            <TableHead>{t('schools:table.columns.principal')}</TableHead>
+                            <TableHead>{t('schools:table.columns.contactWindow')}</TableHead>
+                            <TableHead>{t('schools:table.columns.contactEmail')}</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {schools.length === 0 ? (
+                        {filteredSchools.length === 0 ? (
                             <TableRow>
-                                <TableCell colSpan={6} className="h-24 text-center text-slate-500">
-                                    No schools found.
+                                <TableCell colSpan={6} className="h-24 text-center text-muted-foreground">
+                                    {t('schools:table.noResults')}
                                 </TableCell>
                             </TableRow>
                         ) : (
-                            schools.map((school) => (
+                            filteredSchools.map((school) => (
                                 <TableRow
                                     key={school._id}
-                                    className="cursor-pointer hover:bg-slate-50"
+                                    className="cursor-pointer hover:bg-muted/50"
                                     onClick={() => handleRowClick(school._id)}
                                 >
                                     <TableCell onClick={(e) => e.stopPropagation()}>
@@ -235,7 +262,7 @@ export default function Schools() {
                                         {school.contact?.name ? (
                                             <div className="flex flex-col">
                                                 <span>{school.contact.name}</span>
-                                                <span className="text-xs text-slate-500">{school.contact.position}</span>
+                                                <span className="text-xs text-muted-foreground">{school.contact.position}</span>
                                             </div>
                                         ) : '-'}
                                     </TableCell>
@@ -250,15 +277,15 @@ export default function Schools() {
             <AlertDialog open={showDeleteAlert} onOpenChange={setShowDeleteAlert}>
                 <AlertDialogContent>
                     <AlertDialogHeader>
-                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                        <AlertDialogTitle>{t('schools:dialog.deleteTitle')}</AlertDialogTitle>
                         <AlertDialogDescription>
-                            This action cannot be undone. This will permanently delete the selected schools.
+                            {t('schools:dialog.deleteDescription')}
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogCancel>{t('common:actions.cancel')}</AlertDialogCancel>
                         <AlertDialogAction onClick={handleDeleteSelected} className="bg-red-600 hover:bg-red-700">
-                            Delete
+                            {t('schools:dialog.deleteButton')}
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>

@@ -1,9 +1,7 @@
 name: CI Tests
 
 on:
-  push:
-    branches:
-      - '**'  # 所有分支 push 都觸發
+
   pull_request:
     branches:
       - master
