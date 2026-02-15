@@ -80,24 +80,25 @@ export class SchoolController {
                 message: 'Import successful',
                 ...result
             });
-        } catch (error: any) {
+        } catch (error: unknown) {
             // Clean up on error
             if (req.file && fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
 
-            if (error.name === 'MongoBulkWriteError') {
+            const err = error as { name?: string; result?: { nInserted: number }; writeErrors?: Array<{ index: number; errmsg: string }>; errors?: unknown; message?: string };
+            if (err.name === 'MongoBulkWriteError') {
                 res.status(207).json({
                     message: 'Partial import completed',
-                    insertedCount: error.result.nInserted,
-                    writeErrors: error.writeErrors.map((e: any) => ({
+                    insertedCount: err.result?.nInserted,
+                    writeErrors: err.writeErrors?.map((e) => ({
                         index: e.index,
                         message: e.errmsg
                     }))
                 });
-            } else if (error.name === 'ValidationError') {
-                res.status(400).json({ message: 'Validation Error', details: error.errors });
+            } else if (err.name === 'ValidationError') {
+                res.status(400).json({ message: 'Validation Error', details: err.errors });
             } else {
                 console.error('Import error:', error);
-                res.status(500).json({ message: 'Import failed', error: error.message });
+                res.status(500).json({ message: 'Import failed', error: err.message });
             }
         }
     }

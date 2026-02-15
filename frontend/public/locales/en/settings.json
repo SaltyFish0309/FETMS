@@ -260,7 +260,8 @@
     "documentTypes": {
       "arcDetails": "ARC",
       "workPermitDetails": "Work Permit",
-      "passportDetails": "Passport"
+      "passportDetails": "Passport",
+      "teachingLicense": "Teaching Certificate"
     },
     "conditionTypes": {
       "daysRemaining": "Days Remaining",

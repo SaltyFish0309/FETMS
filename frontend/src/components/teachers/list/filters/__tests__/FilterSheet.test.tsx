@@ -1,5 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import { I18nextProvider } from 'react-i18next';
+import i18n from '@/i18n';
 import { FilterSheet } from '../FilterSheet';
 
 // Mock table with visibility state
@@ -25,16 +27,18 @@ describe('FilterSheet', () => {
     const table = createMockTable(['gender', 'degree', 'salary']);
 
     render(
-      <FilterSheet
-        open={true}
-        onOpenChange={() => { }}
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        table={table as any}
-      />
+      <I18nextProvider i18n={i18n}>
+        <FilterSheet
+          open={true}
+          onOpenChange={() => { }}
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          table={table as any}
+        />
+      </I18nextProvider>
     );
 
-    // Check that group labels are rendered (from columnDefinitions.ts)
-    expect(screen.getByText('個人基本資訊')).toBeInTheDocument();
+    // Check that group labels are rendered (translated from columnDefinitions.ts)
+    expect(screen.getByText('Personal Information')).toBeInTheDocument();
     expect(screen.getByText('Education')).toBeInTheDocument();
     expect(screen.getByText('Employment')).toBeInTheDocument();
   });
@@ -43,12 +47,14 @@ describe('FilterSheet', () => {
     const table = createMockTable(['gender']); // Only gender visible
 
     render(
-      <FilterSheet
-        open={true}
-        onOpenChange={() => { }}
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        table={table as any}
-      />
+      <I18nextProvider i18n={i18n}>
+        <FilterSheet
+          open={true}
+          onOpenChange={() => { }}
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          table={table as any}
+        />
+      </I18nextProvider>
     );
 
     // Gender label should appear (uses getAllByText since it appears in label and button)
@@ -61,12 +67,14 @@ describe('FilterSheet', () => {
     const table = createMockTable(['gender', 'degree']);
 
     render(
-      <FilterSheet
-        open={true}
-        onOpenChange={() => { }}
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        table={table as any}
-      />
+      <I18nextProvider i18n={i18n}>
+        <FilterSheet
+          open={true}
+          onOpenChange={() => { }}
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          table={table as any}
+        />
+      </I18nextProvider>
     );
 
     expect(screen.getByPlaceholderText(/search filters/i)).toBeInTheDocument();

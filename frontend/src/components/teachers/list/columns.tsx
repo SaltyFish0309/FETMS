@@ -141,7 +141,7 @@ export const useTeacherColumns = (): ColumnDef<Teacher>[] => {
             cell: ({ row }) => {
                 const status = row.getValue("hiringStatus") as string;
                 if (!status) return null;
-                const translatedStatus = t(`enums.status.${status.toLowerCase()}`, status);
+                const translatedStatus = t(`enums.status.${status.toLowerCase().replace(/\s+/g, '_').replace(/-/g, '_')}`, status);
                 return (
                     <Badge variant="outline" className="text-emerald-600 border-emerald-200 dark:text-emerald-400 dark:border-emerald-800 whitespace-nowrap">
                         {translatedStatus}

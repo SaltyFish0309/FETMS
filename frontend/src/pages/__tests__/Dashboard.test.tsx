@@ -18,7 +18,8 @@ vi.mock('@/services/statsService', () => ({
         passport: [],
         workPermit: [],
         arc: [],
-        contract: [],
+        teachingLicense: [],
+        other: [],
       },
       charts: {
         pipeline: [],

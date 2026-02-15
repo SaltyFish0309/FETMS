@@ -124,28 +124,72 @@
   --font-size-scale: 1.125;
 }
 
-/* Display Density Scaling */
+/* ============================================
+   DISPLAY DENSITY SYSTEM
+   Three tiers: compact, comfortable, spacious
+   ============================================ */
+
 :root {
-  --density-scale: 1;
-  --density-padding-sm: calc(0.5rem * var(--density-scale));
-  --density-padding: calc(1rem * var(--density-scale));
-  --density-padding-lg: calc(1.5rem * var(--density-scale));
-  --density-gap-sm: calc(0.5rem * var(--density-scale));
-  --density-gap: calc(1rem * var(--density-scale));
-  --density-gap-lg: calc(1.5rem * var(--density-scale));
-  --density-gap-xl: calc(2rem * var(--density-scale));
+  /* Spacing scale */
+  --spacing-xs: 0.25rem;    /* 4px */
+  --spacing-sm: 0.5rem;     /* 8px */
+  --spacing-md: 0.75rem;    /* 12px */
+  --spacing-lg: 1rem;       /* 16px */
+  --spacing-xl: 1.25rem;    /* 20px */
+
+  /* Typography */
+  --line-height: 1.4;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+
+  /* Components */
+  --table-row-height: 2.5rem;
+  --button-padding-y: 0.375rem;
+  --button-padding-x: 0.75rem;
+  --input-height: 2.25rem;
+  --card-padding: 0.75rem;
+  --form-gap: 0.75rem;
+  --border-radius: 0.375rem;
 }
 
-:root[data-density="compact"] {
-  --density-scale: 0.75;
+[data-density="comfortable"] {
+  /* Spacing scale */
+  --spacing-xs: 0.375rem;   /* 6px */
+  --spacing-sm: 0.75rem;    /* 12px */
+  --spacing-md: 1rem;       /* 16px */
+  --spacing-lg: 1.5rem;     /* 24px */
+  --spacing-xl: 1.75rem;    /* 28px */
+
+  /* Typography */
+  --line-height: 1.6;
+
+  /* Components */
+  --table-row-height: 3rem;
+  --button-padding-y: 0.5rem;
+  --button-padding-x: 1rem;
+  --input-height: 2.5rem;
+  --card-padding: 1rem;
+  --form-gap: 1rem;
 }
 
-:root[data-density="comfortable"] {
-  --density-scale: 1;
-}
+[data-density="spacious"] {
+  /* Spacing scale */
+  --spacing-xs: 0.5rem;     /* 8px */
+  --spacing-sm: 1rem;       /* 16px */
+  --spacing-md: 1.5rem;     /* 24px */
+  --spacing-lg: 2rem;       /* 32px */
+  --spacing-xl: 2.5rem;     /* 40px */
 
-:root[data-density="spacious"] {
-  --density-scale: 1.25;
+  /* Typography */
+  --line-height: 1.8;
+
+  /* Components */
+  --table-row-height: 3.5rem;
+  --button-padding-y: 0.75rem;
+  --button-padding-x: 1.5rem;
+  --input-height: 2.75rem;
+  --card-padding: 1.5rem;
+  --form-gap: 1.5rem;
 }
 
 .dark {
@@ -193,6 +237,7 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    line-height: var(--line-height);
   }
 
   /* Smooth theme transitions */
@@ -217,6 +262,42 @@
   :root[data-reduced-motion="true"] *::after {
     animation: none !important;
     transition: none !important;
+  }
+
+  /* ============================================
+     ANIMATION OVERRIDE SYSTEM
+     User preference overrides OS settings
+     ============================================ */
+
+  /* Priority 2: Respect OS preference */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Priority 3: User override (HIGHEST) */
+  [data-reduced-motion="false"] *,
+  [data-reduced-motion="false"] *::before,
+  [data-reduced-motion="false"] *::after {
+    animation-duration: revert !important;
+    animation-iteration-count: revert !important;
+    transition-duration: revert !important;
+    scroll-behavior: revert !important;
+  }
+
+  [data-reduced-motion="true"] *,
+  [data-reduced-motion="true"] *::before,
+  [data-reduced-motion="true"] *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 
   /* Apply density scaling to main content area */

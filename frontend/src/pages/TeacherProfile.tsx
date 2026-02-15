@@ -477,8 +477,8 @@ export default function TeacherProfile() {
                                                 <SelectValue placeholder={t('profile.fields.selectStatus')} />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="Newly Hired">{t('enums.status.newly hired')}</SelectItem>
-                                                <SelectItem value="Re-Hired">{t('enums.status.re-hired')}</SelectItem>
+                                                <SelectItem value="Newly Hired">{t('enums.status.newly_hired')}</SelectItem>
+                                                <SelectItem value="Re-Hired">{t('enums.status.re_hired')}</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </div>

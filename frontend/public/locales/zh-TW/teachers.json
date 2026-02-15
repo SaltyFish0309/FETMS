@@ -50,6 +50,12 @@
     "estimatedPromotedSalary": "預估晉升薪資",
     "currentStage": "目前階段"
   },
+  "groups": {
+    "personalInfo": "個人基本資訊",
+    "education": "學歷與證照",
+    "legalDocs": "法律文件",
+    "employment": "聘用資訊"
+  },
   "filters": {
     "searchPlaceholder": "搜尋姓名...",
     "searchPlaceholderKanban": "搜尋姓名或學校...",
@@ -77,8 +83,8 @@
   },
   "enums": {
     "status": {
-      "newly hired": "新聘",
-      "re-hired": "續聘"
+      "newly_hired": "新聘",
+      "re_hired": "續聘"
     },
     "gender": {
       "male": "男性",

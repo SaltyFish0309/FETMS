@@ -9,6 +9,7 @@ import { format } from "date-fns";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
+import api from "@/services/api";
 
 // Define Types
 interface AlertRule {
@@ -40,9 +41,9 @@ export function AlertRulesManager({ onUpdated }: AlertRulesManagerProps) {
 
     const fetchRules = useCallback(async () => {
         try {
-            const res = await fetch("http://localhost:5000/api/alerts");
-            const data = await res.json();
-            setRules(data);
+            const res = await api.get('/alerts');
+            const data = res.data;
+            setRules(Array.isArray(data) ? data : []);
         } catch {
             toast.error(t('alerts.toast.loadError', { ns: 'settings' }));
         }
@@ -75,22 +76,13 @@ export function AlertRulesManager({ onUpdated }: AlertRulesManagerProps) {
                 isActive: true
             };
 
-            const res = await fetch("http://localhost:5000/api/alerts", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            });
-
-            if (res.ok) {
-                toast.success(t('alerts.toast.createSuccess', { ns: 'settings' }));
-                setNewName("");
-                setNewValue("");
-                setErrors({});
-                fetchRules();
-                if (onUpdated) onUpdated();
-            } else {
-                toast.error(t('alerts.toast.saveError', { ns: 'settings' }));
-            }
+            await api.post('/alerts', payload);
+            toast.success(t('alerts.toast.createSuccess', { ns: 'settings' }));
+            setNewName("");
+            setNewValue("");
+            setErrors({});
+            fetchRules();
+            if (onUpdated) onUpdated();
         } catch {
             toast.error(t('alerts.toast.saveError', { ns: 'settings' }));
         } finally {
@@ -100,7 +92,7 @@ export function AlertRulesManager({ onUpdated }: AlertRulesManagerProps) {
 
     const handleDeleteRule = async (id: string) => {
         try {
-            await fetch(`http://localhost:5000/api/alerts/${id}`, { method: "DELETE" });
+            await api.delete(`/alerts/${id}`);
             toast.success(t('alerts.toast.deleteSuccess', { ns: 'settings' }));
             setRules(rules.filter(r => r._id !== id));
             if (onUpdated) onUpdated();
@@ -135,6 +127,7 @@ export function AlertRulesManager({ onUpdated }: AlertRulesManagerProps) {
                             <SelectItem value="arcDetails">{t('alertRulesTable.documentTypes.arcDetails', { ns: 'settings' })}</SelectItem>
                             <SelectItem value="workPermitDetails">{t('alertRulesTable.documentTypes.workPermitDetails', { ns: 'settings' })}</SelectItem>
                             <SelectItem value="passportDetails">{t('alertRulesTable.documentTypes.passportDetails', { ns: 'settings' })}</SelectItem>
+                            <SelectItem value="teachingLicense">{t('alertRulesTable.documentTypes.teachingLicense', { ns: 'settings' })}</SelectItem>
                         </SelectContent>
                     </Select>
                 </div>
@@ -152,8 +145,8 @@ export function AlertRulesManager({ onUpdated }: AlertRulesManagerProps) {
                 </div>
                 <div className="flex-1 space-y-2">
                     <label className="text-sm font-medium">
-                        {newCondition === 'DAYS_REMAINING' 
-                            ? t('alerts.dialog.fields.value.daysLabel', { ns: 'settings' }) 
+                        {newCondition === 'DAYS_REMAINING'
+                            ? t('alerts.dialog.fields.value.daysLabel', { ns: 'settings' })
                             : t('alerts.dialog.fields.value.dateLabel', { ns: 'settings' })} <span className="text-red-500">*</span>
                     </label>
                     {newCondition === 'DAYS_REMAINING' ? (
@@ -198,12 +191,10 @@ export function AlertRulesManager({ onUpdated }: AlertRulesManagerProps) {
                             <TableRow key={rule._id}>
                                 <TableCell className="font-medium">{rule.name}</TableCell>
                                 <TableCell>
-                                    {rule.documentType === 'arcDetails' && t('alertRulesTable.documentTypes.arcDetails', { ns: 'settings' })}
-                                    {rule.documentType === 'workPermitDetails' && t('alertRulesTable.documentTypes.workPermitDetails', { ns: 'settings' })}
-                                    {rule.documentType === 'passportDetails' && t('alertRulesTable.documentTypes.passportDetails', { ns: 'settings' })}
+                                    {t(`alertRulesTable.documentTypes.${rule.documentType}` as 'alertRulesTable.documentTypes.arcDetails', { ns: 'settings' })}
                                 </TableCell>
                                 <TableCell>
-                                    {rule.conditionType === 'DAYS_REMAINING' 
+                                    {rule.conditionType === 'DAYS_REMAINING'
                                         ? t('alertRulesTable.conditionTypes.daysRemaining', { ns: 'settings' })
                                         : t('alertRulesTable.conditionTypes.dateThreshold', { ns: 'settings' })}
                                 </TableCell>

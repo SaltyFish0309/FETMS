@@ -1,9 +1,20 @@
-import Teacher from '../models/Teacher.js';
+import Teacher, { ITeacher } from '../models/Teacher.js';
 import School from '../models/School.js';
-import Stage from '../models/Stage.js';
-import AlertRule from '../models/AlertRule.js';
+import Stage, { IStage } from '../models/Stage.js';
+import AlertRule, { IAlertRule } from '../models/AlertRule.js';
 import { startOfDay, addDays } from 'date-fns';
 import mongoose from 'mongoose';
+
+export class InvalidInputError extends Error {
+    constructor(message: string) {
+        super(message);
+        this.name = 'InvalidInputError';
+    }
+}
+
+function escapeRegex(str: string): string {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
 
 interface StatsFilter {
     projectId?: string;
@@ -14,6 +25,17 @@ interface StatsFilter {
     hiringStatus?: string;
     pipelineStage?: string;
     seniority?: string;
+}
+
+interface ExpiryAlert {
+    teacherId: unknown;
+    firstName: string;
+    lastName: string;
+    profilePicture: string | undefined;
+    ruleName: string;
+    documentType: string;
+    expiryDate: Date;
+    type: 'EXPIRY';
 }
 
 export class StatsService {
@@ -31,7 +53,7 @@ export class StatsService {
             filteredTeachers
         ] = await Promise.all([
             Stage.find({}).sort({ order: 1 }),
-            Teacher.find({ ...matchQuery, isDeleted: false }).select('firstName lastName profilePicture pipelineStage email personalInfo arcDetails workPermitDetails passportDetails education contractDetails school')
+            Teacher.find({ ...matchQuery, isDeleted: false }).select('firstName lastName profilePicture pipelineStage email personalInfo arcDetails workPermitDetails passportDetails teachingLicense education contractDetails school')
         ]);
 
         // 4. Candidates List
@@ -62,10 +84,11 @@ export class StatsService {
         // 7. Expiry Alerts - Use filteredTeachers
         const expiryAlerts = this.calculateExpiryAlerts(filteredTeachers, rules);
 
-        const mappedAlerts: Record<string, any[]> = {
+        const mappedAlerts: Record<string, ExpiryAlert[]> = {
             arc: [],
             workPermit: [],
             passport: [],
+            teachingLicense: [],
             other: []
         };
 
@@ -73,6 +96,7 @@ export class StatsService {
             if (alert.documentType === 'arcDetails') mappedAlerts['arc']!.push(alert);
             else if (alert.documentType === 'workPermitDetails') mappedAlerts['workPermit']!.push(alert);
             else if (alert.documentType === 'passportDetails') mappedAlerts['passport']!.push(alert);
+            else if (alert.documentType === 'teachingLicense') mappedAlerts['teachingLicense']!.push(alert);
             else mappedAlerts['other']!.push(alert);
         });
 
@@ -99,10 +123,13 @@ export class StatsService {
     }
 
     private static buildMatchQuery(filters: StatsFilter) {
-        const query: any = {};
+        const query: Record<string, unknown> = {};
         const { projectId, gender, nationality, degree, salaryRange, hiringStatus, pipelineStage, seniority } = filters;
 
         if (projectId) {
+            if (!mongoose.Types.ObjectId.isValid(projectId)) {
+                throw new InvalidInputError('Invalid projectId format');
+            }
             query.project = new mongoose.Types.ObjectId(projectId);
         }
 
@@ -119,26 +146,30 @@ export class StatsService {
 
         if (gender) {
             const g = gender.trim();
-            query['personalInfo.gender'] = g === 'Not Specified' ? { $in: [null, ''] } : { $regex: new RegExp(`^${g}$`, 'i') };
+            query['personalInfo.gender'] = g === 'Not Specified' ? { $in: [null, ''] } : { $regex: new RegExp(`^${escapeRegex(g)}$`, 'i') };
         }
 
         if (nationality) {
             const n = nationality.trim();
-            query['personalInfo.nationality.english'] = n === 'Unknown' ? { $in: [null, ''] } : { $regex: new RegExp(`^${n}$`, 'i') };
+            query['personalInfo.nationality.english'] = n === 'Unknown' ? { $in: [null, ''] } : { $regex: new RegExp(`^${escapeRegex(n)}$`, 'i') };
         }
 
         if (degree) {
             const d = degree.trim();
-            query['education.degree'] = d === 'Not Specified' ? { $in: [null, ''] } : { $regex: new RegExp(`^${d}$`, 'i') };
+            query['education.degree'] = d === 'Not Specified' ? { $in: [null, ''] } : { $regex: new RegExp(`^${escapeRegex(d)}$`, 'i') };
         }
 
         if (hiringStatus) {
             const h = hiringStatus.trim();
-            query['personalInfo.hiringStatus'] = h === 'Pending' ? { $in: [null, '', 'Pending'] } : { $regex: new RegExp(`^${h}$`, 'i') };
+            query['personalInfo.hiringStatus'] = h === 'Pending' ? { $in: [null, '', 'Pending'] } : { $regex: new RegExp(`^${escapeRegex(h)}$`, 'i') };
         }
 
         if (pipelineStage) {
-            query['pipelineStage'] = pipelineStage.trim();
+            const trimmed = pipelineStage.trim();
+            if (!mongoose.Types.ObjectId.isValid(trimmed)) {
+                throw new InvalidInputError('Invalid pipelineStage format');
+            }
+            query['pipelineStage'] = new mongoose.Types.ObjectId(trimmed);
         }
 
         if (salaryRange) {
@@ -160,14 +191,14 @@ export class StatsService {
         return query;
     }
 
-    private static calculateExpiryAlerts(teachers: any[], rules: any[]) {
-        const alerts: any[] = [];
+    private static calculateExpiryAlerts(teachers: ITeacher[], rules: IAlertRule[]) {
+        const alerts: ExpiryAlert[] = [];
         const today = startOfDay(new Date());
 
         teachers.forEach(teacher => {
             rules.forEach(rule => {
                 let docExpiry: Date | null = null;
-                const details = (teacher as any)[rule.documentType];
+                const details = (teacher as unknown as Record<string, unknown>)[rule.documentType] as { expiryDate?: Date } | undefined;
                 if (details && details.expiryDate) {
                     docExpiry = new Date(details.expiryDate);
                 }
@@ -205,7 +236,7 @@ export class StatsService {
         return alerts;
     }
 
-    private static getPipelineDistribution(teachers: any[], stages: any[]) {
+    private static getPipelineDistribution(teachers: ITeacher[], stages: IStage[]) {
         const pipelineCounts: Record<string, number> = {};
         teachers.forEach(t => {
             const stageId = String(t.pipelineStage);
@@ -232,7 +263,7 @@ export class StatsService {
         return dist;
     }
 
-    private static getNationalityDistribution(teachers: any[]) {
+    private static getNationalityDistribution(teachers: ITeacher[]) {
         const counts: Record<string, number> = {};
         teachers.forEach(t => {
             const val = t.personalInfo?.nationality?.english || 'Unknown';
@@ -241,7 +272,7 @@ export class StatsService {
         return Object.entries(counts).map(([name, value]) => ({ name, value })).sort((a, b) => b.value - a.value);
     }
 
-    private static getGenderDistribution(teachers: any[]) {
+    private static getGenderDistribution(teachers: ITeacher[]) {
         const counts: Record<string, number> = {};
         teachers.forEach(t => {
             const val = t.personalInfo?.gender || 'Not Specified';
@@ -250,7 +281,7 @@ export class StatsService {
         return Object.entries(counts).map(([name, value]) => ({ name, value }));
     }
 
-    private static getEducationDistribution(teachers: any[]) {
+    private static getEducationDistribution(teachers: ITeacher[]) {
         const counts: Record<string, number> = {};
         teachers.forEach(t => {
             const val = t.education?.degree || 'Not Specified';
@@ -259,7 +290,7 @@ export class StatsService {
         return Object.entries(counts).map(([name, value]) => ({ name, value })).sort((a, b) => b.value - a.value);
     }
 
-    private static getSalaryDistribution(teachers: any[]) {
+    private static getSalaryDistribution(teachers: ITeacher[]) {
         const buckets = {
             '< 60k': 0, '60k - 70k': 0, '70k - 80k': 0, '80k - 90k': 0, '90k +': 0, 'Unspecified': 0
         };
@@ -275,7 +306,7 @@ export class StatsService {
         return Object.entries(buckets).map(([name, value]) => ({ name, value }));
     }
 
-    private static getHiringStatusDistribution(teachers: any[]) {
+    private static getHiringStatusDistribution(teachers: ITeacher[]) {
         const counts: Record<string, number> = {};
         teachers.forEach(t => {
             const val = t.personalInfo?.hiringStatus || 'Pending';
@@ -284,7 +315,7 @@ export class StatsService {
         return Object.entries(counts).map(([name, value]) => ({ name, value }));
     }
 
-    private static getSeniorityDistribution(teachers: any[]) {
+    private static getSeniorityDistribution(teachers: ITeacher[]) {
         const counts: Record<string, number> = {};
         for (let i = 0; i <= 10; i++) counts[i === 10 ? '10+ Years' : `${i} Year${i !== 1 ? 's' : ''}`] = 0;
 

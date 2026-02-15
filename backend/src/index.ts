@@ -30,7 +30,7 @@ app.use('/api/projects', projectRoutes);
 app.use('/uploads', express.static('uploads'));
 
 // Global Error Handler
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
     console.error(err.stack);
     res.status(500).json({ message: err.message || 'Something went wrong!' });
 });
