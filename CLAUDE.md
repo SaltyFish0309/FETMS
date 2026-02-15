@@ -6,6 +6,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 FETMS (Foreign English Teachers Management System) is a MERN stack application for managing the complete lifecycle of Foreign English Teachers - from recruitment through placement and renewal. It features a recruitment pipeline (Kanban), document vault, school management, and analytics dashboard.
 
+## User Input 
+Always wait for user responses when asking questions or presenting options. Do not proceed with assumptions when user input is needed. If the user has expressed a clear preference, do not present multiple-choice options for that same decision.
+
+## TDD Workflow
+Always follow strict TDD when implementing features: write tests first, verify they fail, implement code, verify tests pass. Run the full CI pipeline (`npm run typecheck && npm run lint && npm run test`) after each logical unit of work before committing.
+
+## Git Workflow
+Always create a feature branch before starting implementation work. Never commit directly to master/main. Use `git checkout -b feature/<descriptive-name>` before making any code changes.
+
+## Implementation Plans
+When executing multi-phase or multi-task plans, complete each task fully (code + tests + CI green) before moving to the next. If a session may run out of tokens, prioritize completing the current task cleanly over starting new ones. Always document progress in a way that enables seamless handoff to a new session.
+
 ## Commands
 
 ### Development
@@ -100,7 +112,8 @@ Frontend API base URL is hardcoded in `frontend/src/services/api.ts`.
 **Stage**: Kanban columns with `title` and `order` for sorting.
 
 ## Testing
-
+When writing tests, always mock `window.matchMedia`, ensure CSS modules/imports are properly handled in the test environment, and use i18n translation keys (not hardcoded strings) in test assertions. JSDOM does not support computed styles - test CSS behavior by checking stylesheet rules, not computed values.
 - Backend service tests: `backend/src/services/__tests__/`
 - Run single test file: `npx vitest run path/to/test.ts`
 - Watch mode: `npx vitest path/to/test.ts`
+
