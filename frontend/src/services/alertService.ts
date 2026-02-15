@@ -3,7 +3,7 @@ import api from './api';
 export interface AlertRule {
     _id: string;
     name: string;
-    documentType: 'arcDetails' | 'workPermitDetails' | 'passportDetails';
+    documentType: 'arcDetails' | 'workPermitDetails' | 'passportDetails' | 'teachingLicense';
     conditionType: 'DAYS_REMAINING' | 'DATE_THRESHOLD';
     value: number | Date;
     isActive: boolean;

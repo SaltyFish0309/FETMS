@@ -77,4 +77,42 @@ describe('ExpiryWidget', () => {
         // i18n key for empty state
         expect(screen.getByText(/noExpiries/i)).toBeInTheDocument();
     });
+
+    it('shows "expires in" for future expiry dates', () => {
+        const futureDate = new Date(Date.now() + 30 * 86400000).toISOString();
+        const data: DashboardStats['expiry'] = {
+            ...emptyExpiry,
+            arc: [makeAlert({ expiryDate: futureDate })]
+        };
+        renderWidget(data);
+
+        // Should show the expiresIn translation key (not expired)
+        expect(screen.getByText(/expiresIn/)).toBeInTheDocument();
+        expect(screen.queryByText(/expiredDaysAgo/)).not.toBeInTheDocument();
+    });
+
+    it('shows "expired X days ago" for past expiry dates', () => {
+        const pastDate = new Date(Date.now() - 5 * 86400000).toISOString();
+        const data: DashboardStats['expiry'] = {
+            ...emptyExpiry,
+            arc: [makeAlert({ expiryDate: pastDate })]
+        };
+        renderWidget(data);
+
+        // Should show the expiredDaysAgo key, not expiresIn with negative days
+        expect(screen.getByText(/expiredDaysAgo/)).toBeInTheDocument();
+        expect(screen.queryByText(/expiresIn/)).not.toBeInTheDocument();
+    });
+
+    it('shows "expired" for today expiry (0 days)', () => {
+        const todayDate = new Date().toISOString();
+        const data: DashboardStats['expiry'] = {
+            ...emptyExpiry,
+            arc: [makeAlert({ expiryDate: todayDate })]
+        };
+        renderWidget(data);
+
+        // 0 or negative days should show expired
+        expect(screen.getByText(/expiredDaysAgo/)).toBeInTheDocument();
+    });
 });

@@ -5,6 +5,17 @@ import AlertRule, { IAlertRule } from '../models/AlertRule.js';
 import { startOfDay, addDays } from 'date-fns';
 import mongoose from 'mongoose';
 
+export class InvalidInputError extends Error {
+    constructor(message: string) {
+        super(message);
+        this.name = 'InvalidInputError';
+    }
+}
+
+function escapeRegex(str: string): string {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 interface StatsFilter {
     projectId?: string;
     gender?: string;
@@ -116,6 +127,9 @@ export class StatsService {
         const { projectId, gender, nationality, degree, salaryRange, hiringStatus, pipelineStage, seniority } = filters;
 
         if (projectId) {
+            if (!mongoose.Types.ObjectId.isValid(projectId)) {
+                throw new InvalidInputError('Invalid projectId format');
+            }
             query.project = new mongoose.Types.ObjectId(projectId);
         }
 
@@ -132,26 +146,30 @@ export class StatsService {
 
         if (gender) {
             const g = gender.trim();
-            query['personalInfo.gender'] = g === 'Not Specified' ? { $in: [null, ''] } : { $regex: new RegExp(`^${g}$`, 'i') };
+            query['personalInfo.gender'] = g === 'Not Specified' ? { $in: [null, ''] } : { $regex: new RegExp(`^${escapeRegex(g)}$`, 'i') };
         }
 
         if (nationality) {
             const n = nationality.trim();
-            query['personalInfo.nationality.english'] = n === 'Unknown' ? { $in: [null, ''] } : { $regex: new RegExp(`^${n}$`, 'i') };
+            query['personalInfo.nationality.english'] = n === 'Unknown' ? { $in: [null, ''] } : { $regex: new RegExp(`^${escapeRegex(n)}$`, 'i') };
         }
 
         if (degree) {
             const d = degree.trim();
-            query['education.degree'] = d === 'Not Specified' ? { $in: [null, ''] } : { $regex: new RegExp(`^${d}$`, 'i') };
+            query['education.degree'] = d === 'Not Specified' ? { $in: [null, ''] } : { $regex: new RegExp(`^${escapeRegex(d)}$`, 'i') };
         }
 
         if (hiringStatus) {
             const h = hiringStatus.trim();
-            query['personalInfo.hiringStatus'] = h === 'Pending' ? { $in: [null, '', 'Pending'] } : { $regex: new RegExp(`^${h}$`, 'i') };
+            query['personalInfo.hiringStatus'] = h === 'Pending' ? { $in: [null, '', 'Pending'] } : { $regex: new RegExp(`^${escapeRegex(h)}$`, 'i') };
         }
 
         if (pipelineStage) {
-            query['pipelineStage'] = pipelineStage.trim();
+            const trimmed = pipelineStage.trim();
+            if (!mongoose.Types.ObjectId.isValid(trimmed)) {
+                throw new InvalidInputError('Invalid pipelineStage format');
+            }
+            query['pipelineStage'] = new mongoose.Types.ObjectId(trimmed);
         }
 
         if (salaryRange) {

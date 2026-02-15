@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { StatsService } from '../statsService.js';
+import { StatsService, InvalidInputError } from '../statsService.js';
 import Teacher from '../../models/Teacher.js';
 import School from '../../models/School.js';
 import Stage from '../../models/Stage.js';
@@ -157,6 +157,72 @@ describe('StatsService', () => {
       expect(result.kpi.activeSchools).toBe(2); // Should be 2 unique schools, not 5
       expect(result.kpi.inRecruitment).toBe(2); // Should be 2 recruiting, not 2
       expect(result.kpi.actionsNeeded).toBe(0); // No expiry alerts
+    });
+  });
+
+  describe('input validation and security', () => {
+    const setupMocks = () => {
+      const mockStages = [{ _id: 'stage1', title: 'Stage 1', order: 1 }];
+      vi.mocked(AlertRule.find).mockResolvedValue([] as any);
+      vi.mocked(Stage.find).mockReturnValue({ sort: vi.fn().mockResolvedValue(mockStages) } as any);
+      const selectMock = vi.fn().mockResolvedValue([]);
+      vi.mocked(Teacher.find).mockReturnValue({ select: selectMock } as any);
+      return { selectMock };
+    };
+
+    it('rejects invalid projectId with InvalidInputError', async () => {
+      setupMocks();
+      await expect(
+        StatsService.getDashboardStats({ projectId: 'not-a-valid-id' })
+      ).rejects.toThrow(InvalidInputError);
+    });
+
+    it('accepts valid projectId', async () => {
+      setupMocks();
+      const result = await StatsService.getDashboardStats({
+        projectId: '507f1f77bcf86cd799439011'
+      });
+      expect(result).toHaveProperty('kpi');
+    });
+
+    it('handles regex metacharacters in gender filter safely', async () => {
+      const { selectMock } = setupMocks();
+      // Regex metacharacters should not cause ReDoS or pattern injection
+      const result = await StatsService.getDashboardStats({
+        gender: '.*'
+      });
+      expect(result).toHaveProperty('kpi');
+
+      // Verify the query uses safe matching (not raw regex injection)
+      const findCall = vi.mocked(Teacher.find).mock.calls[0][0] as Record<string, unknown>;
+      const genderQuery = findCall['personalInfo.gender'] as Record<string, unknown>;
+
+      // Should not match anything unintended - the ".*" should be treated as literal
+      if (genderQuery.$regex) {
+        const regex = genderQuery.$regex as RegExp;
+        // The regex should escape the metacharacters
+        expect(regex.test('Male')).toBe(false);
+        expect(regex.test('.*')).toBe(true);
+      }
+    });
+
+    it('handles regex metacharacters in nationality filter safely', async () => {
+      setupMocks();
+      const result = await StatsService.getDashboardStats({
+        nationality: 'US|UK'
+      });
+      expect(result).toHaveProperty('kpi');
+
+      const findCall = vi.mocked(Teacher.find).mock.calls[0][0] as Record<string, unknown>;
+      const natQuery = findCall['personalInfo.nationality.english'] as Record<string, unknown>;
+
+      if (natQuery.$regex) {
+        const regex = natQuery.$regex as RegExp;
+        // Pipe should be escaped, not treated as OR operator
+        expect(regex.test('US')).toBe(false);
+        expect(regex.test('UK')).toBe(false);
+        expect(regex.test('US|UK')).toBe(true);
+      }
     });
   });
 

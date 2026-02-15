@@ -81,6 +81,7 @@ export function AlertRuleDialog({
                                 <SelectItem value="arcDetails">{t('alertRulesTable.documentTypes.arcDetails')}</SelectItem>
                                 <SelectItem value="workPermitDetails">{t('alertRulesTable.documentTypes.workPermitDetails')}</SelectItem>
                                 <SelectItem value="passportDetails">{t('alertRulesTable.documentTypes.passportDetails')}</SelectItem>
+                                <SelectItem value="teachingLicense">{t('alertRulesTable.documentTypes.teachingLicense')}</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>

@@ -58,7 +58,10 @@ const ExpiryList = ({ items }: ExpiryListProps) => {
                                 <p className="font-medium text-sm text-foreground">{item.firstName} {item.lastName}</p>
                                 <div className="flex flex-col">
                                     <p className="text-xs text-muted-foreground">
-                                        {t('actionCenter.expiryWidget.expiresIn', { days })}
+                                        {/* Backend filters upcoming expiries only; expired branch handles edge case where document expires between fetch and render */}
+                                        {days > 0
+                                            ? t('actionCenter.expiryWidget.expiresIn', { days })
+                                            : t('actionCenter.expiryWidget.expiredDaysAgo', { days: Math.abs(days) })}
                                     </p>
                                     <p className="text-[10px] text-blue-600 font-medium">
                                         {t('actionCenter.expiryWidget.rule')}: {item.ruleName}
