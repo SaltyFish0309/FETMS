@@ -13,6 +13,7 @@ import alertRoutes from './routes/alertRoutes.js';
 import projectRoutes from './routes/projects.js';
 import emailTemplateRoutes from './routes/emailTemplateRoutes.js';
 import emailRoutes from './routes/emailRoutes.js';
+import emailConfigRoutes from './routes/emailConfigRoutes.js';
 import schedule from 'node-schedule';
 import { AlertEmailService } from './services/AlertEmailService.js';
 
@@ -33,6 +34,7 @@ app.use('/api/alerts', alertRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/email-templates', emailTemplateRoutes);
 app.use('/api/emails', emailRoutes);
+app.use('/api/email-config', emailConfigRoutes);
 app.use('/uploads', express.static('uploads'));
 
 // Global Error Handler

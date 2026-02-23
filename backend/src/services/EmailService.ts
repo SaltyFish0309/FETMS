@@ -32,16 +32,6 @@ function escapeHtml(value: string): string {
     .replace(/'/g, '&#x27;');
 }
 
-function createTransport() {
-  return nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.GMAIL_USER,
-      pass: process.env.GMAIL_APP_PASSWORD,
-    },
-  });
-}
-
 export class EmailService {
   static renderTemplate(
     template: string,
@@ -56,9 +46,14 @@ export class EmailService {
   }
 
   static async sendBulkEmails(payload: BulkEmailPayload): Promise<BulkEmailResult> {
-    const transport = createTransport();
-    const fromName = process.env.EMAIL_FROM_NAME ?? 'FETMS System';
-    const fromEmail = process.env.GMAIL_USER ?? 'noreply@fetms.local';
+    const { EmailConfigService } = await import('./EmailConfigService.js');
+    const authConfig = await EmailConfigService.getTransportConfig();
+    const transport = nodemailer.createTransport({
+      service: 'gmail',
+      auth: authConfig,
+    });
+    const fromName = 'FETMS System';
+    const fromEmail = authConfig.user;
 
     const recipientResults: Array<{
       email: string;

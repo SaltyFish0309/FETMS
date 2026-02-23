@@ -17,6 +17,19 @@ vi.mock('../../models/EmailLog.js', () => ({
   },
 }));
 
+// Mock EmailConfigService so EmailService can get OAuth2 transport config
+vi.mock('../EmailConfigService.js', () => ({
+  EmailConfigService: {
+    getTransportConfig: vi.fn().mockResolvedValue({
+      type: 'OAuth2',
+      user: 'admin@gmail.com',
+      clientId: 'mock-client-id',
+      clientSecret: 'mock-secret',
+      refreshToken: 'mock-refresh',
+    }),
+  },
+}));
+
 import EmailLog from '../../models/EmailLog.js';
 
 describe('EmailService', () => {
