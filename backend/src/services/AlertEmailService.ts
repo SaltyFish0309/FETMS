@@ -52,8 +52,6 @@ export class AlertEmailService {
     const rules = await AlertRule.find({ isActive: true, emailEnabled: true });
 
     for (const rule of rules) {
-      if (!rule.emailEnabled) continue;
-
       if (!rule.emailTemplateId) {
         continue;
       }
@@ -73,6 +71,13 @@ export class AlertEmailService {
         );
         if (alreadySent) continue;
 
+        const docData = (teacher as Record<string, unknown>)[rule.documentType] as
+          | { expiryDate?: Date }
+          | undefined;
+        const expiryDate = docData?.expiryDate?.toISOString().split('T')[0] ?? '';
+        const daysRemaining =
+          typeof rule.value === 'number' ? String(rule.value) : '';
+
         recipients.push({
           email: teacher.email,
           name: `${teacher.firstName} ${teacher.lastName}`,
@@ -80,6 +85,9 @@ export class AlertEmailService {
           variables: {
             teacherName: `${teacher.firstName} ${teacher.lastName}`,
             ruleName: rule.name,
+            documentType: rule.documentType,
+            expiryDate,
+            daysRemaining,
           },
         });
       }

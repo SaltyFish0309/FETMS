@@ -23,7 +23,7 @@ export default function Email() {
                 <p className="text-muted-foreground mt-1">{t('page.description')}</p>
             </div>
 
-            <Tabs defaultValue={initialRecipients.length > 0 ? 'compose' : 'compose'}>
+            <Tabs defaultValue={initialRecipients.length > 0 ? 'compose' : 'history'}>
                 <TabsList>
                     <TabsTrigger value="compose">{t('tabs.compose')}</TabsTrigger>
                     <TabsTrigger value="templates">{t('tabs.templates')}</TabsTrigger>

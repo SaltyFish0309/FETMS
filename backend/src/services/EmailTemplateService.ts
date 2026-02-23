@@ -1,26 +1,8 @@
 import EmailTemplate from '../models/EmailTemplate.js';
 import AlertRule from '../models/AlertRule.js';
+import { NotFoundError, DuplicateNameError, TemplateInUseError } from '../errors.js';
 
-export class DuplicateNameError extends Error {
-  constructor(name: string) {
-    super(`Email template with name "${name}" already exists`);
-    this.name = 'DuplicateNameError';
-  }
-}
-
-export class NotFoundError extends Error {
-  constructor(id: string) {
-    super(`Email template "${id}" not found`);
-    this.name = 'NotFoundError';
-  }
-}
-
-export class TemplateInUseError extends Error {
-  constructor(id: string) {
-    super(`Email template "${id}" is in use by an alert rule and cannot be deleted`);
-    this.name = 'TemplateInUseError';
-  }
-}
+export { NotFoundError, DuplicateNameError, TemplateInUseError };
 
 export interface CreateTemplateDto {
   name: string;
@@ -52,9 +34,15 @@ export class EmailTemplateService {
   }
 
   static async update(id: string, dto: UpdateTemplateDto) {
+    if (dto.name) {
+      const conflict = await EmailTemplate.findOne({ name: dto.name, _id: { $ne: id } });
+      if (conflict) {
+        throw new DuplicateNameError(dto.name);
+      }
+    }
     const updated = await EmailTemplate.findByIdAndUpdate(id, dto, { new: true });
     if (!updated) {
-      throw new NotFoundError(id);
+      throw new NotFoundError(`Email template "${id}" not found`);
     }
     return updated;
   }
@@ -62,7 +50,7 @@ export class EmailTemplateService {
   static async delete(id: string): Promise<void> {
     const template = await EmailTemplate.findById(id);
     if (!template) {
-      throw new NotFoundError(id);
+      throw new NotFoundError(`Email template "${id}" not found`);
     }
 
     const inUse = await AlertRule.findOne({ emailTemplateId: id });

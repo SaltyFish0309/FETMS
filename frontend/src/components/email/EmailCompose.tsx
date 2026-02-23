@@ -175,7 +175,7 @@ export function EmailCompose({ initialRecipients = [] }: Props) {
             ) : (
                 <div className="space-y-2">
                     {recipients.map((r, idx) => (
-                        <div key={idx} className="flex items-center justify-between rounded border p-3">
+                        <div key={r.email} className="flex items-center justify-between rounded border p-3">
                             <div>
                                 <span className="font-medium">{r.name}</span>
                                 <span className="text-sm text-muted-foreground ml-2">{r.email}</span>

@@ -1,13 +1,9 @@
 import EmailTemplate from '../models/EmailTemplate.js';
 import EmailLog from '../models/EmailLog.js';
 import { EmailService, BulkEmailRecipient } from './EmailService.js';
+import { NotFoundError } from '../errors.js';
 
-export class NotFoundError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'NotFoundError';
-  }
-}
+export { NotFoundError };
 
 export interface PreviewResult {
   email: string;

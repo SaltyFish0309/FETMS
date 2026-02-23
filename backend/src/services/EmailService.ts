@@ -78,9 +78,10 @@ export class EmailService {
       const renderedBody = EmailService.renderTemplate(payload.body, recipient.variables);
 
       try {
+        const safeName = recipient.name.replace(/"/g, '');
         await transport.sendMail({
           from: `"${fromName}" <${fromEmail}>`,
-          to: `"${recipient.name}" <${recipient.email}>`,
+          to: `"${safeName}" <${recipient.email}>`,
           subject: renderedSubject,
           html: renderedBody,
         });
