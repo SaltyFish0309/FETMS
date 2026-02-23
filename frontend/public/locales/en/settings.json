@@ -21,6 +21,10 @@
     "dataImport": {
       "title": "Data Import",
       "description": "Import teachers and schools from external sources"
+    },
+    "emailConfig": {
+      "title": "Email Configuration",
+      "description": "Connect Gmail to enable email sending"
     }
   },
   "actions": {
@@ -246,6 +250,42 @@
     "toast": {
       "exportSuccess": "Data exported successfully",
       "exportError": "Export failed"
+    }
+  },
+  "emailConfig": {
+    "page": {
+      "title": "Email Configuration",
+      "subtitle": "Connect your Gmail account to send emails from FETMS."
+    },
+    "notConfigured": {
+      "heading": "Email Configuration",
+      "description": "Set up your Gmail account to enable email sending from FETMS.",
+      "step1": "Step 1: Enter your OAuth 2.0 app credentials from Google Cloud Console.",
+      "clientIdLabel": "Client ID",
+      "clientIdPlaceholder": "Paste your OAuth 2.0 Client ID",
+      "clientSecretLabel": "Client Secret",
+      "clientSecretPlaceholder": "Paste your OAuth 2.0 Client Secret",
+      "saveButton": "Save Credentials"
+    },
+    "notConnected": {
+      "savedBadge": "OAuth credentials saved",
+      "step2": "Step 2: Connect your Gmail account. You will be redirected to Google to authorise FETMS to send emails on your behalf.",
+      "connectButton": "Connect Gmail Account →"
+    },
+    "connected": {
+      "connectedBadge": "Gmail connected",
+      "sendingAs": "Sending as",
+      "connectedOn": "Connected on",
+      "notice": "Emails sent from FETMS will appear from this address.",
+      "disconnectButton": "Disconnect"
+    },
+    "toast": {
+      "saveSuccess": "Credentials saved successfully",
+      "saveError": "Failed to save credentials",
+      "disconnectSuccess": "Gmail account disconnected",
+      "disconnectError": "Failed to disconnect",
+      "connectionSuccess": "Gmail connected successfully",
+      "connectionError": "Failed to connect Gmail. Please try again."
     }
   },
   "alertRulesTable": {

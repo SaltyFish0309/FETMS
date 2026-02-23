@@ -21,6 +21,10 @@
     "dataImport": {
       "title": "資料匯入",
       "description": "從外部來源匯入教師和學校資料"
+    },
+    "emailConfig": {
+      "title": "電子郵件設定",
+      "description": "連接 Gmail 以啟用電子郵件發送"
     }
   },
   "actions": {
@@ -244,6 +248,42 @@
     "toast": {
       "exportSuccess": "資料匯出成功",
       "exportError": "匯出失敗"
+    }
+  },
+  "emailConfig": {
+    "page": {
+      "title": "電子郵件設定",
+      "subtitle": "連接您的 Gmail 帳號，從 FETMS 發送電子郵件。"
+    },
+    "notConfigured": {
+      "heading": "電子郵件設定",
+      "description": "設定您的 Gmail 帳號以啟用 FETMS 的電子郵件功能。",
+      "step1": "步驟 1：從 Google Cloud Console 輸入您的 OAuth 2.0 應用程式憑證。",
+      "clientIdLabel": "Client ID",
+      "clientIdPlaceholder": "貼上您的 OAuth 2.0 Client ID",
+      "clientSecretLabel": "Client Secret",
+      "clientSecretPlaceholder": "貼上您的 OAuth 2.0 Client Secret",
+      "saveButton": "儲存憑證"
+    },
+    "notConnected": {
+      "savedBadge": "OAuth 憑證已儲存",
+      "step2": "步驟 2：連接您的 Gmail 帳號。系統將引導您前往 Google 授權 FETMS 代表您發送電子郵件。",
+      "connectButton": "連接 Gmail 帳號 →"
+    },
+    "connected": {
+      "connectedBadge": "Gmail 已連接",
+      "sendingAs": "發送帳號",
+      "connectedOn": "連接日期",
+      "notice": "從 FETMS 發送的郵件將顯示為此地址。",
+      "disconnectButton": "中斷連接"
+    },
+    "toast": {
+      "saveSuccess": "憑證儲存成功",
+      "saveError": "儲存憑證失敗",
+      "disconnectSuccess": "Gmail 帳號已中斷連接",
+      "disconnectError": "中斷連接失敗",
+      "connectionSuccess": "Gmail 連接成功",
+      "connectionError": "Gmail 連接失敗，請重試。"
     }
   },
   "alertRulesTable": {
