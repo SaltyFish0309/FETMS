@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Users, FileText, Settings, School as SchoolIcon } from "lucide-react";
+import { LayoutDashboard, Users, FileText, Settings, School as SchoolIcon, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
@@ -8,6 +8,7 @@ const navigation = [
     { name: "nav.teachers", href: "/teachers", icon: Users },
     { name: "nav.schools", href: "/schools", icon: SchoolIcon },
     { name: "nav.documents", href: "/documents", icon: FileText },
+    { name: "email:nav", href: "/email", icon: Mail },
     { name: "nav.settings", href: "/settings", icon: Settings },
 ] as const;
 

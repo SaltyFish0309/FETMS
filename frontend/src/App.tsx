@@ -20,6 +20,7 @@ import ImportSettings from "@/pages/ImportSettings";
 import { Toaster } from "@/components/ui/sonner";
 
 import Dashboard from "@/pages/Dashboard";
+import Email from "@/pages/Email";
 
 const ROUTE_TITLES: Record<string, string> = {
   '/': 'Dashboard',
@@ -32,6 +33,7 @@ const ROUTE_TITLES: Record<string, string> = {
   '/settings/stages': 'Pipeline Stages',
   '/settings/preferences': 'User Preferences',
   '/settings/import': 'Data Import',
+  '/email': 'Email',
 };
 
 function getPageTitle(pathname: string): string {
@@ -68,6 +70,7 @@ function AppContent() {
             <Route path="/settings/stages" element={<StageSettings />} />
             <Route path="/settings/preferences" element={<PreferencesSettings />} />
             <Route path="/settings/import" element={<ImportSettings />} />
+            <Route path="/email" element={<Email />} />
           </Routes>
         </main>
       </div>

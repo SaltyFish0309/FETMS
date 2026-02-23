@@ -1,0 +1,37 @@
+import { useTranslation } from 'react-i18next';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { EmailTemplateManager } from '@/components/email/EmailTemplateManager';
+import { EmailHistory } from '@/components/email/EmailHistory';
+
+export default function Email() {
+    const { t } = useTranslation('email');
+
+    return (
+        <div className="container mx-auto py-8">
+            <div className="mb-6">
+                <h1 className="text-3xl font-bold">{t('page.title')}</h1>
+                <p className="text-muted-foreground mt-1">{t('page.description')}</p>
+            </div>
+
+            <Tabs defaultValue="compose">
+                <TabsList>
+                    <TabsTrigger value="compose">{t('tabs.compose')}</TabsTrigger>
+                    <TabsTrigger value="templates">{t('tabs.templates')}</TabsTrigger>
+                    <TabsTrigger value="history">{t('tabs.history')}</TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="compose" className="mt-6">
+                    <p className="text-muted-foreground">{t('compose.title')}</p>
+                </TabsContent>
+
+                <TabsContent value="templates" className="mt-6">
+                    <EmailTemplateManager />
+                </TabsContent>
+
+                <TabsContent value="history" className="mt-6">
+                    <EmailHistory />
+                </TabsContent>
+            </Tabs>
+        </div>
+    );
+}
