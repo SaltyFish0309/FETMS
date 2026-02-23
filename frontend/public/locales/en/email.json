@@ -80,7 +80,9 @@
         "steps": {
             "recipients": "Recipients",
             "template": "Template",
-            "preview": "Preview & Send"
+            "preview": "Preview & Send",
+            "next": "Next",
+            "back": "Back"
         },
         "recipients": {
             "title": "Review Recipients",
