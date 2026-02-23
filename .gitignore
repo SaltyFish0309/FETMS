@@ -45,3 +45,6 @@ backend/.env
 .agent/
 .planning/
 .reports/
+
+# Git worktrees
+.worktrees/
