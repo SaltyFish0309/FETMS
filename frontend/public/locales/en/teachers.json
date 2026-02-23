@@ -69,7 +69,8 @@
     "delete": "Delete",
     "export": "Export",
     "save": "Save",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "emailSelected": "Email selected"
   },
   "dialog": {
     "addTitle": "Add New Teacher",

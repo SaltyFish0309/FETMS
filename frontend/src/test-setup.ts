@@ -59,7 +59,13 @@ const translations: Record<string, string> = {
   'teachers:filters.activeFilters': 'Active:',
   'teachers:filters.clearAll': 'Clear All',
 
+  // Teachers namespace (email action)
+  'teachers:actions.emailSelected': 'Email selected',
+
   // Settings namespace
+  'settings:alertRulesTable.email.enabled': 'Email Notifications',
+  'settings:alertRulesTable.email.template': 'Email Template',
+  'settings:alertRulesTable.email.selectTemplate': 'Select template...',
   'settings:projects.page.addButton': 'Create Project',
   'settings:projects.actions.edit': 'Edit',
   'settings:projects.actions.archive': 'Archive',
@@ -79,7 +85,7 @@ const translations: Record<string, string> = {
   'settings:projects.deleteConfirm.cancel': 'Cancel',
 
   // Email namespace
-  'email:nav': 'Email',
+  'nav.email': 'Email',
   'email:page.title': 'Email',
   'email:tabs.compose': 'Compose',
   'email:tabs.templates': 'Templates',

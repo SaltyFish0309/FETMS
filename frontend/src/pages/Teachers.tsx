@@ -1,5 +1,7 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { teacherService, type Teacher } from "@/services/teacherService";
+import { type EmailRecipient } from "@/services/emailService";
 import { useProjectContext } from "@/contexts/ProjectContext";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
@@ -31,6 +33,7 @@ import { ViewModeToggle } from "@/components/teachers/list/ViewModeToggle";
 
 export default function Teachers() {
     const { t } = useTranslation('teachers');
+    const navigate = useNavigate();
     const { selectedProjectId } = useProjectContext();
     const columns = useTeacherColumns();
     const [teachers, setTeachers] = useState<Teacher[]>([]);
@@ -99,6 +102,16 @@ export default function Teachers() {
         }
     };
 
+    const handleEmailSelected = (selectedTeachers: Teacher[]) => {
+        const recipients: EmailRecipient[] = selectedTeachers.map((teacher) => ({
+            email: teacher.email,
+            name: `${teacher.firstName} ${teacher.lastName}`,
+            teacherId: teacher._id,
+            variables: {},
+        }));
+        navigate('/email', { state: { recipients } });
+    };
+
     const handleConfirmDelete = async () => {
         try {
             await Promise.all(Array.from(selectedIds).map(id => teacherService.delete(id)));
@@ -142,6 +155,7 @@ export default function Teachers() {
                         setSelectedIds(new Set(ids));
                         setShowDeleteAlert(true);
                     }}
+                    onEmailSelected={handleEmailSelected}
                     actionButtons={
                         <>
                             <ImportTeachersDialog onSuccess={() => {

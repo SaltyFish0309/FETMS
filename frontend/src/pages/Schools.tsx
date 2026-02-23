@@ -31,7 +31,8 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Plus, Trash2, Search, School as SchoolIcon } from "lucide-react";
+import { Plus, Trash2, Search, School as SchoolIcon, Mail } from "lucide-react";
+import { type EmailRecipient } from "@/services/emailService";
 import { useNavigate } from "react-router-dom";
 import { ImportSchoolsDialog } from "@/components/schools/ImportSchoolsDialog";
 import { useTranslation } from "react-i18next";
@@ -224,6 +225,7 @@ export default function Schools() {
                             <TableHead>{t('schools:table.columns.principal')}</TableHead>
                             <TableHead>{t('schools:table.columns.contactWindow')}</TableHead>
                             <TableHead>{t('schools:table.columns.contactEmail')}</TableHead>
+                            <TableHead />
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -267,6 +269,26 @@ export default function Schools() {
                                         ) : '-'}
                                     </TableCell>
                                     <TableCell>{school.contact?.email || '-'}</TableCell>
+                                    <TableCell onClick={(e) => e.stopPropagation()}>
+                                        {school.contact?.email && (
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={() => {
+                                                    const recipients: EmailRecipient[] = [{
+                                                        email: school.contact!.email!,
+                                                        name: school.contact!.name || school.name.chinese,
+                                                        schoolId: school._id,
+                                                        variables: {},
+                                                    }];
+                                                    navigate('/email', { state: { recipients } });
+                                                }}
+                                            >
+                                                <Mail className="h-4 w-4 mr-1" />
+                                                Email
+                                            </Button>
+                                        )}
+                                    </TableCell>
                                 </TableRow>
                             ))
                         )}

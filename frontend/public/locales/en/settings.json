@@ -276,7 +276,12 @@
       "delete": "Delete"
     },
     "noResults": "No alert rules found. Click \"Add Rule\" to create one.",
-    "daysFormat": "{{value}} days"
+    "daysFormat": "{{value}} days",
+    "email": {
+      "enabled": "Email Notifications",
+      "template": "Email Template",
+      "selectTemplate": "Select template..."
+    }
   },
   "alerts": {
     "page": {

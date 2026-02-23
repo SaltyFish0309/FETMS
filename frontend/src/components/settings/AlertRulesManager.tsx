@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Trash2, Plus } from "lucide-react";
+import { emailService, type EmailTemplate } from "@/services/emailService";
 import { format } from "date-fns";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -19,6 +20,8 @@ interface AlertRule {
     conditionType: 'DAYS_REMAINING' | 'DATE_THRESHOLD';
     value: string | number;
     isActive: boolean;
+    emailEnabled: boolean;
+    emailTemplateId?: string | null;
 }
 
 interface AlertRulesManagerProps {
@@ -29,6 +32,7 @@ export function AlertRulesManager({ onUpdated }: AlertRulesManagerProps) {
     const { t } = useTranslation(['settings', 'common']);
     const [rules, setRules] = useState<AlertRule[]>([]);
     const [loading, setLoading] = useState(false);
+    const [emailTemplates, setEmailTemplates] = useState<EmailTemplate[]>([]);
 
     // New Rule Form State
     const [newName, setNewName] = useState("");
@@ -51,7 +55,28 @@ export function AlertRulesManager({ onUpdated }: AlertRulesManagerProps) {
 
     useEffect(() => {
         fetchRules();
+        emailService.getTemplates().then(setEmailTemplates).catch(() => {});
     }, [fetchRules]);
+
+    const handleToggleEmail = async (rule: AlertRule) => {
+        const newValue = !rule.emailEnabled;
+        try {
+            await api.patch(`/alerts/${rule._id}`, { emailEnabled: newValue });
+            setRules(prev => prev.map(r => r._id === rule._id ? { ...r, emailEnabled: newValue } : r));
+            toast.success(t('alerts.toast.createSuccess', { ns: 'settings' }));
+        } catch {
+            toast.error(t('alerts.toast.saveError', { ns: 'settings' }));
+        }
+    };
+
+    const handleTemplateChange = async (rule: AlertRule, templateId: string) => {
+        try {
+            await api.patch(`/alerts/${rule._id}`, { emailTemplateId: templateId });
+            setRules(prev => prev.map(r => r._id === rule._id ? { ...r, emailTemplateId: templateId } : r));
+        } catch {
+            toast.error(t('alerts.toast.saveError', { ns: 'settings' }));
+        }
+    };
 
     const handleAddRule = async () => {
         // Validation
@@ -183,6 +208,7 @@ export function AlertRulesManager({ onUpdated }: AlertRulesManagerProps) {
                             <TableHead>{t('alertRulesTable.headers.documentType', { ns: 'settings' })}</TableHead>
                             <TableHead>{t('alertRulesTable.headers.condition', { ns: 'settings' })}</TableHead>
                             <TableHead>{t('alertRulesTable.headers.value', { ns: 'settings' })}</TableHead>
+                            <TableHead>{t('alertRulesTable.email.enabled', { ns: 'settings' })}</TableHead>
                             <TableHead className="text-right">{t('alertRulesTable.headers.actions', { ns: 'settings' })}</TableHead>
                         </TableRow>
                     </TableHeader>
@@ -204,6 +230,29 @@ export function AlertRulesManager({ onUpdated }: AlertRulesManagerProps) {
                                         : rule.value ? format(new Date(rule.value as string), 'yyyy/MM/dd') : 'N/A'
                                     }
                                 </TableCell>
+                                <TableCell>
+                                    <div className="flex items-center gap-2">
+                                        <input
+                                            type="checkbox"
+                                            aria-label={t('alertRulesTable.email.enabled', { ns: 'settings' })}
+                                            checked={rule.emailEnabled ?? false}
+                                            onChange={() => handleToggleEmail(rule)}
+                                        />
+                                        {rule.emailEnabled && (
+                                            <select
+                                                aria-label={t('alertRulesTable.email.template', { ns: 'settings' })}
+                                                value={rule.emailTemplateId ?? ''}
+                                                onChange={(e) => handleTemplateChange(rule, e.target.value)}
+                                                className="text-sm border rounded px-1 py-0.5"
+                                            >
+                                                <option value="">{t('alertRulesTable.email.selectTemplate', { ns: 'settings' })}</option>
+                                                {emailTemplates.map((tmpl) => (
+                                                    <option key={tmpl._id} value={tmpl._id}>{tmpl.name}</option>
+                                                ))}
+                                            </select>
+                                        )}
+                                    </div>
+                                </TableCell>
                                 <TableCell className="text-right">
                                     <Button
                                         variant="ghost"
@@ -218,7 +267,7 @@ export function AlertRulesManager({ onUpdated }: AlertRulesManagerProps) {
                         ))}
                         {rules.length === 0 && (
                             <TableRow>
-                                <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
+                                <TableCell colSpan={6} className="text-center text-muted-foreground py-8">
                                     {t('alertRulesTable.noResults', { ns: 'settings' })}
                                 </TableCell>
                             </TableRow>

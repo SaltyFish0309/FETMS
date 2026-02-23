@@ -75,6 +75,7 @@ interface DataTableProps<TData, TValue> {
     data: TData[]
     meta?: Record<string, unknown>
     onDeleteSelected?: (selectedIds: string[]) => void
+    onEmailSelected?: (selectedRows: TData[]) => void
     actionButtons?: React.ReactNode
 }
 
@@ -83,6 +84,7 @@ export function DataTable<TData, TValue>({
     data,
     meta,
     onDeleteSelected,
+    onEmailSelected,
     actionButtons,
 }: DataTableProps<TData, TValue>) {
     const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({})
@@ -135,6 +137,7 @@ export function DataTable<TData, TValue>({
             <DataTableToolbar
                 table={table}
                 onDeleteSelected={onDeleteSelected}
+                onEmailSelected={onEmailSelected}
                 actionButtons={actionButtons}
             />
             <div className="rounded-md border bg-card overflow-hidden">

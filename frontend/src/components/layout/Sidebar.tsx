@@ -8,7 +8,7 @@ const navigation = [
     { name: "nav.teachers", href: "/teachers", icon: Users },
     { name: "nav.schools", href: "/schools", icon: SchoolIcon },
     { name: "nav.documents", href: "/documents", icon: FileText },
-    { name: "email:nav", href: "/email", icon: Mail },
+    { name: "nav.email", href: "/email", icon: Mail },
     { name: "nav.settings", href: "/settings", icon: Settings },
 ] as const;
 

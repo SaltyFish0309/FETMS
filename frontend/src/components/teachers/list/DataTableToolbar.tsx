@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DataTableViewOptions } from "./DataTableViewOptions"
 import { DataTableFacetedFilter } from "./DataTableFacetedFilter"
-import { Trash2, X, Filter } from "lucide-react"
+import { Trash2, X, Filter, Mail } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { COLUMN_MAP } from "./columnConfig"
 import { FilterSheet } from "./filters/FilterSheet"
@@ -15,6 +15,7 @@ import { ExportButton } from "@/components/common/ExportButton"
 interface DataTableToolbarProps<TData> {
     table: Table<TData>
     onDeleteSelected?: (selectedIds: string[]) => void
+    onEmailSelected?: (selectedRows: TData[]) => void
     actionButtons?: React.ReactNode
 }
 
@@ -24,6 +25,7 @@ const QUICK_FILTER_IDS: string[] = [];
 export function DataTableToolbar<TData>({
     table,
     onDeleteSelected,
+    onEmailSelected,
     actionButtons,
 }: DataTableToolbarProps<TData>) {
     const { t } = useTranslation('teachers');
@@ -160,6 +162,20 @@ export function DataTableToolbar<TData>({
 
                 {/* Spacer */}
                 <div className="flex-1" />
+
+                {/* Email button (if selection active) */}
+                {selectedCount > 0 && onEmailSelected && (
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => onEmailSelected(table.getSelectedRowModel().rows.map(row => row.original))}
+                        className="h-9"
+                        aria-label={`${t('actions.emailSelected')} (${selectedCount})`}
+                    >
+                        <Mail className="mr-2 h-4 w-4" />
+                        {t('actions.emailSelected')} ({selectedCount})
+                    </Button>
+                )}
 
                 {/* Delete button (if selection active) */}
                 {selectedCount > 0 && onDeleteSelected && (

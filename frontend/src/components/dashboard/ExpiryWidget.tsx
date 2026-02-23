@@ -5,7 +5,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { differenceInDays } from "date-fns";
 import { useNavigate } from "react-router-dom";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Mail } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Settings } from "lucide-react";
@@ -29,6 +29,21 @@ interface ExpiryListProps {
 const ExpiryList = ({ items }: ExpiryListProps) => {
     const navigate = useNavigate();
     const { t } = useTranslation('dashboard');
+
+    const handleEmailClick = (item: ExpiryAlert, e: React.MouseEvent) => {
+        e.stopPropagation();
+        navigate('/email', {
+            state: {
+                recipients: [{
+                    email: '',
+                    name: `${item.firstName} ${item.lastName}`,
+                    teacherId: item.teacherId,
+                    variables: { teacherName: `${item.firstName} ${item.lastName}` },
+                }],
+                templateHint: 'expiry',
+            },
+        });
+    };
 
     if (!items || items.length === 0) {
         return (
@@ -69,9 +84,20 @@ const ExpiryList = ({ items }: ExpiryListProps) => {
                                 </div>
                             </div>
                         </div>
-                        <Badge variant="outline" className="text-red-600 border-red-200 bg-red-50">
-                            {t('actionCenter.expiryWidget.alert')}
-                        </Badge>
+                        <div className="flex items-center gap-2">
+                            <Badge variant="outline" className="text-red-600 border-red-200 bg-red-50">
+                                {t('actionCenter.expiryWidget.alert')}
+                            </Badge>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-7 w-7"
+                                aria-label="Email"
+                                onClick={(e) => handleEmailClick(item, e)}
+                            >
+                                <Mail className="h-4 w-4" />
+                            </Button>
+                        </div>
                     </div>
                 );
             })}
