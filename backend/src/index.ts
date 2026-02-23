@@ -13,6 +13,8 @@ import alertRoutes from './routes/alertRoutes.js';
 import projectRoutes from './routes/projects.js';
 import emailTemplateRoutes from './routes/emailTemplateRoutes.js';
 import emailRoutes from './routes/emailRoutes.js';
+import schedule from 'node-schedule';
+import { AlertEmailService } from './services/AlertEmailService.js';
 
 dotenv.config();
 
@@ -43,6 +45,13 @@ app.use((err: Error, req: express.Request, res: express.Response, next: express.
 app.get('/', (req, res) => {
     res.send('FETMS Backend Running');
 });
+
+// Scheduled alert emails (runs daily at 8:00 AM)
+if (process.env.NODE_ENV !== 'test') {
+  schedule.scheduleJob('0 8 * * *', async () => {
+    await AlertEmailService.runScheduledAlerts();
+  });
+}
 
 // MongoDB Connection
 if (process.env.NODE_ENV !== 'test') {

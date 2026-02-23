@@ -6,6 +6,9 @@ export interface IAlertRule extends Document {
     conditionType: 'DAYS_REMAINING' | 'DATE_THRESHOLD';
     value: number | Date;
     isActive: boolean;
+    emailEnabled: boolean;
+    emailTemplateId?: mongoose.Types.ObjectId;
+    lastTriggeredAt?: Date;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -16,6 +19,9 @@ const AlertRuleSchema: Schema = new Schema({
     conditionType: { type: String, enum: ['DAYS_REMAINING', 'DATE_THRESHOLD'], required: true },
     value: { type: Schema.Types.Mixed, required: true }, // number for days, Date for threshold
     isActive: { type: Boolean, default: true },
+    emailEnabled: { type: Boolean, default: false },
+    emailTemplateId: { type: Schema.Types.ObjectId, ref: 'EmailTemplate' },
+    lastTriggeredAt: { type: Date },
 }, {
     timestamps: true
 });
