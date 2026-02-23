@@ -1,0 +1,115 @@
+{
+    "nav": "Email",
+    "page": {
+        "title": "Email",
+        "description": "Send emails to teachers and schools"
+    },
+    "tabs": {
+        "compose": "Compose",
+        "templates": "Templates",
+        "history": "History"
+    },
+    "templates": {
+        "title": "Email Templates",
+        "description": "Manage reusable email templates",
+        "empty": "No templates yet. Create your first template.",
+        "create": "Create Template",
+        "edit": "Edit Template",
+        "delete": "Delete Template",
+        "deleteConfirm": {
+            "title": "Delete Template",
+            "description": "Are you sure you want to delete \"{{name}}\"? This cannot be undone.",
+            "confirm": "Delete",
+            "cancel": "Cancel"
+        },
+        "form": {
+            "name": "Template Name",
+            "namePlaceholder": "e.g. Document Expiry Reminder",
+            "subject": "Subject",
+            "subjectPlaceholder": "e.g. Your {{documentType}} expires on {{expiryDate}}",
+            "body": "Body (HTML supported)",
+            "bodyPlaceholder": "Dear {{teacherName}}, ...",
+            "variables": "Variables (comma-separated)",
+            "variablesPlaceholder": "teacherName, expiryDate",
+            "isDefault": "Set as default template"
+        },
+        "errors": {
+            "nameRequired": "Template name is required",
+            "subjectRequired": "Subject is required",
+            "bodyRequired": "Body is required",
+            "fetchFailed": "Failed to load templates",
+            "createFailed": "Failed to create template",
+            "updateFailed": "Failed to update template",
+            "deleteFailed": "Failed to delete template",
+            "inUse": "This template is in use by an alert rule and cannot be deleted"
+        },
+        "success": {
+            "created": "Template created successfully",
+            "updated": "Template updated successfully",
+            "deleted": "Template deleted successfully"
+        }
+    },
+    "history": {
+        "title": "Send History",
+        "description": "View past email send records",
+        "empty": "No emails sent yet",
+        "columns": {
+            "date": "Date",
+            "subject": "Subject",
+            "recipients": "Recipients",
+            "sent": "Sent",
+            "failed": "Failed",
+            "triggeredBy": "Triggered By"
+        },
+        "triggeredBy": {
+            "manual": "Manual",
+            "alert": "Alert"
+        },
+        "details": "View Details",
+        "hideDetails": "Hide Details",
+        "recipientStatus": {
+            "sent": "Sent",
+            "failed": "Failed"
+        },
+        "errors": {
+            "fetchFailed": "Failed to load email history"
+        }
+    },
+    "compose": {
+        "title": "Compose Email",
+        "steps": {
+            "recipients": "Recipients",
+            "template": "Template",
+            "preview": "Preview & Send"
+        },
+        "recipients": {
+            "title": "Review Recipients",
+            "description": "Confirm the list of recipients before proceeding",
+            "remove": "Remove",
+            "empty": "No recipients selected"
+        },
+        "template": {
+            "title": "Select Template",
+            "description": "Choose an email template",
+            "placeholder": "Select a template...",
+            "subject": "Subject",
+            "body": "Body Preview"
+        },
+        "preview": {
+            "title": "Preview & Send",
+            "description": "Review personalised emails before sending",
+            "prev": "Previous",
+            "next": "Next",
+            "of": "of",
+            "send": "Send",
+            "sending": "Sending..."
+        },
+        "result": {
+            "title": "Email Sent",
+            "summary": "{{sent}} sent, {{failed}} failed"
+        },
+        "errors": {
+            "sendFailed": "Failed to send emails"
+        }
+    }
+}
