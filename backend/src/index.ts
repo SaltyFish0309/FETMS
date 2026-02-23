@@ -12,6 +12,7 @@ import statsRoutes from './routes/statsRoutes.js';
 import alertRoutes from './routes/alertRoutes.js';
 import projectRoutes from './routes/projects.js';
 import emailTemplateRoutes from './routes/emailTemplateRoutes.js';
+import emailRoutes from './routes/emailRoutes.js';
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.use('/api/stats', statsRoutes);
 app.use('/api/alerts', alertRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/email-templates', emailTemplateRoutes);
+app.use('/api/emails', emailRoutes);
 app.use('/uploads', express.static('uploads'));
 
 // Global Error Handler
