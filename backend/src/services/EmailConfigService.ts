@@ -15,7 +15,7 @@ function getKey(): Buffer {
   return Buffer.from(key, 'hex');
 }
 
-export interface TransportAuthConfig {
+interface TransportAuthConfig {
   type: 'OAuth2';
   user: string;
   clientId: string;
