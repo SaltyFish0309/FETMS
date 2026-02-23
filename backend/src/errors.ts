@@ -18,3 +18,10 @@ export class TemplateInUseError extends Error {
     this.name = 'TemplateInUseError';
   }
 }
+
+export class EmailNotConfiguredError extends Error {
+  constructor() {
+    super('Email is not configured. Please connect a Gmail account in Settings.');
+    this.name = 'EmailNotConfiguredError';
+  }
+}
