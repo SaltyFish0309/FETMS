@@ -8,6 +8,7 @@ export interface IEmailConfig extends Document {
   tokenExpiry?: Date;
   connectedEmail?: string;
   connectedAt?: Date;
+  oauthState?: string;       // short-lived CSRF state, cleared after callback
 }
 
 const EmailConfigSchema: Schema = new Schema(
@@ -19,6 +20,7 @@ const EmailConfigSchema: Schema = new Schema(
     tokenExpiry: { type: Date },
     connectedEmail: { type: String },
     connectedAt: { type: Date },
+    oauthState: { type: String },
   },
   { timestamps: true }
 );

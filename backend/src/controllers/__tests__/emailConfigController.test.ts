@@ -74,19 +74,30 @@ describe('EmailConfig API — HTTP behavior', () => {
   describe('GET /api/email-config/callback — OAuth callback', () => {
     it('redirects to /settings?email=connected on successful token exchange', async () => {
       vi.mocked(EmailConfigService.handleCallback).mockResolvedValue();
-      const res = await request(app).get('/api/email-config/callback?code=auth-code');
+      const res = await request(app).get('/api/email-config/callback?code=auth-code&state=csrf-state');
       expect(res.status).toBe(302);
       expect(res.headers.location).toContain('/settings?email=connected');
     });
 
+    it('passes both code and state to the service', async () => {
+      vi.mocked(EmailConfigService.handleCallback).mockResolvedValue();
+      await request(app).get('/api/email-config/callback?code=my-code&state=my-state');
+      expect(EmailConfigService.handleCallback).toHaveBeenCalledWith('my-code', 'my-state');
+    });
+
     it('redirects to /settings?email=error when token exchange fails', async () => {
       vi.mocked(EmailConfigService.handleCallback).mockRejectedValue(new Error('token error'));
-      const res = await request(app).get('/api/email-config/callback?code=bad-code');
+      const res = await request(app).get('/api/email-config/callback?code=bad-code&state=csrf-state');
       expect(res.status).toBe(302);
       expect(res.headers.location).toContain('/settings?email=error');
     });
 
-    it('returns 400 when code query parameter is missing', async () => {
+    it('returns 400 when code or state query parameter is missing', async () => {
+      const res = await request(app).get('/api/email-config/callback?code=only-code');
+      expect(res.status).toBe(400);
+    });
+
+    it('returns 400 when both code and state are missing', async () => {
       const res = await request(app).get('/api/email-config/callback');
       expect(res.status).toBe(400);
     });

@@ -114,20 +114,31 @@ describe('EmailConfigService', () => {
         clientId: 'id',
         clientSecret: EmailConfigService.encrypt('secret'),
       } as any);
+      vi.mocked(EmailConfig.findOneAndUpdate).mockResolvedValue({} as any);
       const url = await EmailConfigService.getAuthUrl();
       expect(url).toContain('accounts.google.com');
     });
   });
 
   describe('handleCallback — tokens stored encrypted after Google code exchange', () => {
+    it('rejects with CSRF error when state does not match stored oauthState', async () => {
+      vi.mocked(EmailConfig.findOne).mockResolvedValue({
+        clientId: 'id',
+        clientSecret: EmailConfigService.encrypt('secret'),
+        oauthState: 'correct-state',
+      } as any);
+      await expect(EmailConfigService.handleCallback('auth-code', 'wrong-state')).rejects.toThrow('Invalid OAuth state');
+    });
+
     it('stores refresh token in encrypted form (never plaintext) after code exchange', async () => {
       vi.mocked(EmailConfig.findOne).mockResolvedValue({
         clientId: 'id',
         clientSecret: EmailConfigService.encrypt('secret'),
+        oauthState: 'valid-state-token',
       } as any);
       vi.mocked(EmailConfig.findOneAndUpdate).mockResolvedValue({} as any);
 
-      await EmailConfigService.handleCallback('auth-code-xyz');
+      await EmailConfigService.handleCallback('auth-code-xyz', 'valid-state-token');
 
       const [, update] = vi.mocked(EmailConfig.findOneAndUpdate).mock.calls[0] as any[];
       expect(update['$set'].connectedEmail).toBe('admin@gmail.com');
@@ -135,6 +146,8 @@ describe('EmailConfigService', () => {
       expect(update['$set'].refreshToken).not.toBe('mock-refresh-token');
       // Correctness: stored value is a string (encrypted)
       expect(typeof update['$set'].refreshToken).toBe('string');
+      // CSRF state must be cleared after successful callback
+      expect(update['$unset'].oauthState).toBe('');
     });
   });
 

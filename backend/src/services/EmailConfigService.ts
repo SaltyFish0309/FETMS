@@ -74,6 +74,10 @@ export class EmailConfigService {
   static async getAuthUrl(): Promise<string> {
     const config = await EmailConfig.findOne();
     if (!config) throw new EmailNotConfiguredError();
+
+    const state = crypto.randomBytes(16).toString('hex');
+    await EmailConfig.findOneAndUpdate({}, { $set: { oauthState: state } });
+
     const oAuth2Client = new google.auth.OAuth2(
       config.clientId,
       EmailConfigService.decrypt(config.clientSecret),
@@ -83,12 +87,17 @@ export class EmailConfigService {
       access_type: 'offline',
       scope: [GMAIL_SCOPE],
       prompt: 'consent',
+      state,
     });
   }
 
-  static async handleCallback(code: string): Promise<void> {
+  static async handleCallback(code: string, state: string): Promise<void> {
     const config = await EmailConfig.findOne();
     if (!config) throw new EmailNotConfiguredError();
+
+    if (!config.oauthState || config.oauthState !== state) {
+      throw new Error('Invalid OAuth state — possible CSRF attempt');
+    }
 
     const oAuth2Client = new google.auth.OAuth2(
       config.clientId,
@@ -99,6 +108,10 @@ export class EmailConfigService {
     const { tokens } = await oAuth2Client.getToken(code);
     oAuth2Client.setCredentials(tokens);
 
+    if (!tokens.refresh_token) {
+      throw new Error('No refresh token returned by Google. Revoke app access in your Google account and try again.');
+    }
+
     const oauth2Api = google.oauth2({ version: 'v2', auth: oAuth2Client });
     const { data } = await oauth2Api.userinfo.get();
 
@@ -106,7 +119,7 @@ export class EmailConfigService {
       {},
       {
         $set: {
-          refreshToken: EmailConfigService.encrypt(tokens.refresh_token!),
+          refreshToken: EmailConfigService.encrypt(tokens.refresh_token),
           accessToken: tokens.access_token
             ? EmailConfigService.encrypt(tokens.access_token)
             : undefined,
@@ -114,6 +127,7 @@ export class EmailConfigService {
           connectedEmail: data.email ?? '',
           connectedAt: new Date(),
         },
+        $unset: { oauthState: '' },
       }
     );
   }

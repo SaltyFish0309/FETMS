@@ -48,13 +48,14 @@ export class EmailConfigController {
   }
 
   static async handleCallback(req: Request, res: Response): Promise<void> {
-    const code = String(req.query.code ?? '');
-    if (!code) {
-      res.status(400).json({ message: 'Missing code parameter' });
+    const code = typeof req.query.code === 'string' ? req.query.code : '';
+    const state = typeof req.query.state === 'string' ? req.query.state : '';
+    if (!code || !state) {
+      res.status(400).json({ message: 'Missing code or state parameter' });
       return;
     }
     try {
-      await EmailConfigService.handleCallback(code);
+      await EmailConfigService.handleCallback(code, state);
       res.redirect(`${FRONTEND_ORIGIN}/settings?email=connected`);
     } catch {
       res.redirect(`${FRONTEND_ORIGIN}/settings?email=error`);
