@@ -17,6 +17,7 @@ import AlertSettings from "@/pages/AlertSettings";
 import StageSettings from "@/pages/StageSettings";
 import PreferencesSettings from "@/pages/PreferencesSettings";
 import ImportSettings from "@/pages/ImportSettings";
+import EmailConfigSettings from "@/pages/EmailConfigSettings";
 import { Toaster } from "@/components/ui/sonner";
 
 import Dashboard from "@/pages/Dashboard";
@@ -33,6 +34,7 @@ const ROUTE_TITLES: Record<string, string> = {
   '/settings/stages': 'Pipeline Stages',
   '/settings/preferences': 'User Preferences',
   '/settings/import': 'Data Import',
+  '/settings/email-config': 'Email Configuration',
   '/email': 'Email',
 };
 
@@ -70,6 +72,7 @@ function AppContent() {
             <Route path="/settings/stages" element={<StageSettings />} />
             <Route path="/settings/preferences" element={<PreferencesSettings />} />
             <Route path="/settings/import" element={<ImportSettings />} />
+            <Route path="/settings/email-config" element={<EmailConfigSettings />} />
             <Route path="/email" element={<Email />} />
           </Routes>
         </main>

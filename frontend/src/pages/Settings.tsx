@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FolderKanban, ChevronRight, Bell, Layers, Settings2, Database } from "lucide-react";
+import { FolderKanban, ChevronRight, Bell, Layers, Settings2, Database, Mail } from "lucide-react";
 
 const Settings = () => {
     const navigate = useNavigate();
@@ -47,6 +47,14 @@ const Settings = () => {
             path: "/settings/import",
             iconColor: "text-muted-foreground",
             bgColor: "bg-muted"
+        },
+        {
+            titleKey: "sections.emailConfig.title",
+            descriptionKey: "sections.emailConfig.description",
+            icon: Mail,
+            path: "/settings/email-config",
+            iconColor: "text-green-600",
+            bgColor: "bg-green-100"
         }
     ];
 
