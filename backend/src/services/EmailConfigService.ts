@@ -5,7 +5,11 @@ import { EmailNotConfiguredError } from '../errors.js';
 
 const ALGORITHM = 'aes-256-gcm';
 const REDIRECT_URI = process.env.OAUTH_REDIRECT_URI ?? 'http://localhost:5000/api/email-config/callback';
-const GMAIL_SCOPE = 'https://www.googleapis.com/auth/gmail.send';
+const GMAIL_SCOPES = [
+  'https://mail.google.com/',  // required for SMTP OAuth2 (AUTH XOAUTH2)
+  'openid',
+  'email',
+];
 
 function getKey(): Buffer {
   const key = process.env.EMAIL_ENCRYPTION_KEY;
@@ -85,7 +89,7 @@ export class EmailConfigService {
     );
     return oAuth2Client.generateAuthUrl({
       access_type: 'offline',
-      scope: [GMAIL_SCOPE],
+      scope: GMAIL_SCOPES,
       prompt: 'consent',
       state,
     });

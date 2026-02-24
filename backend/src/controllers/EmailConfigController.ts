@@ -56,9 +56,9 @@ export class EmailConfigController {
     }
     try {
       await EmailConfigService.handleCallback(code, state);
-      res.redirect(`${FRONTEND_ORIGIN}/settings?email=connected`);
+      res.redirect(`${FRONTEND_ORIGIN}/settings/email-config?email=connected`);
     } catch {
-      res.redirect(`${FRONTEND_ORIGIN}/settings?email=error`);
+      res.redirect(`${FRONTEND_ORIGIN}/settings/email-config?email=error`);
     }
   }
 
